@@ -37,7 +37,7 @@ Before you begin, ensure you have installed:
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/maitrongnhan99/portfolio-v2.git
    cd portfolio
    ```
 
