@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "@phosphor-icons/react";
 import { When } from "react-if";
 import { navLinks } from "./nav-links";
+import { ModeToggle } from "@/components/common/mode-toggle";
 
 interface MobileNavMenuProps {
   isOpen: boolean;
@@ -57,21 +58,31 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
               ))}
             </ol>
           </When>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.3 }}
-          >
-            <Button
-              asChild
-              variant="outline"
-              className="mt-6 font-mono border-primary text-primary hover:bg-primary/10"
+          <div className="flex flex-col space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
             >
-              <Link href="#contact" onClick={() => setIsOpen(false)}>
-                Resume
-              </Link>
-            </Button>
-          </motion.div>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full font-mono border-primary text-primary hover:bg-primary/10"
+              >
+                <Link href="#contact" onClick={() => setIsOpen(false)}>
+                  Resume
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+              className="flex justify-center"
+            >
+              <ModeToggle />
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </When>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "./nav-links";
 import { When } from "react-if";
+import { ModeToggle } from "@/components/common/mode-toggle";
 
 interface DesktopNavProps {
   isHome: boolean;
@@ -46,20 +47,29 @@ const DesktopNav: FC<DesktopNavProps> = ({ isHome }) => {
           ))}
         </ol>
       </When>
-      <motion.div
-        initial={{ opacity: 0.8, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Button
-          asChild
-          variant="outline"
-          size="sm"
-          className="ml-4 font-mono border-primary text-primary hover:bg-primary/10"
+      <div className="flex items-center space-x-2">
+        <motion.div
+          initial={{ opacity: 0.8, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          <Link href="#contact">Resume</Link>
-        </Button>
-      </motion.div>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="ml-4 font-mono border-primary text-primary hover:bg-primary/10"
+          >
+            <Link href="#contact">Resume</Link>
+          </Button>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0.8, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          <ModeToggle />
+        </motion.div>
+      </div>
     </nav>
   );
 };
