@@ -47,7 +47,7 @@ export default function Hero() {
           >
             I build things for{" "}
             <FlipWords
-              className="px-0 md:px-2"
+              className="px-0 md:px-2 text-slate-500"
               words={["the web", "mobile apps"]}
             />
           </motion.h2>

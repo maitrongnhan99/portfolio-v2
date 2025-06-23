@@ -23,6 +23,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (!isHome) {
+    return null;
+  }
+
   return (
     <header
       className={cn(
