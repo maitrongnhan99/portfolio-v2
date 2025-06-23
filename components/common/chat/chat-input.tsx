@@ -51,9 +51,9 @@ export const ChatInput = ({
     <div className="border-t border-navy-lighter bg-navy/50 backdrop-blur-sm p-4">
       <form
         onSubmit={handleSubmit}
-        className="flex gap-3 items-start max-w-4xl mx-auto"
+        className="max-w-4xl mx-auto"
       >
-        <div className="flex-1">
+        <div className="relative">
           <Textarea
             ref={textareaRef}
             value={message}
@@ -63,7 +63,7 @@ export const ChatInput = ({
             disabled={disabled}
             rows={1}
             className={cn(
-              "min-h-[50px] max-h-32 resize-none",
+              "min-h-[50px] max-h-32 resize-none pr-14",
               "bg-navy-light border-navy-lighter focus:ring-primary text-slate-lighter",
               "placeholder:text-slate/50",
               "transition-all duration-200",
@@ -73,23 +73,23 @@ export const ChatInput = ({
               "[scrollbar-width:none]"
             )}
           />
-          <div className="text-xs text-slate/50 mt-1 px-2">
-            Press Enter to send, Shift+Enter for new line
-          </div>
+          <Button
+            type="submit"
+            disabled={!message.trim() || disabled}
+            className={cn(
+              "absolute bottom-2 right-2",
+              "bg-transparent border border-primary text-primary hover:bg-primary/10",
+              "disabled:opacity-50 disabled:cursor-not-allowed",
+              "h-8 w-8 p-0",
+              "transition-all duration-200"
+            )}
+          >
+            <PaperPlaneTilt className="w-4 h-4" />
+          </Button>
         </div>
-
-        <Button
-          type="submit"
-          disabled={!message.trim() || disabled}
-          className={cn(
-            "bg-transparent border border-primary text-primary hover:bg-primary/10",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
-            "h-[50px] px-4",
-            "transition-all duration-200"
-          )}
-        >
-          <PaperPlaneTilt className="w-5 h-5" />
-        </Button>
+        <div className="text-xs text-slate/50 mt-1 px-2">
+          Press Enter to send, Shift+Enter for new line
+        </div>
       </form>
     </div>
   );

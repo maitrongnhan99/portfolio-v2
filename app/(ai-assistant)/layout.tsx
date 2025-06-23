@@ -66,18 +66,16 @@ export default function AIAssistantLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.variable, firaCode.variable)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange
-        >
-          <EnhancedGlowEffect />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem={true}
+        disableTransitionOnChange
+      >
+        <EnhancedGlowEffect />
+        {children}
+      </ThemeProvider>
+    </>
   );
 }

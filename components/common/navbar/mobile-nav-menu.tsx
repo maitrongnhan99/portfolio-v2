@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { X } from "@phosphor-icons/react";
 import { When } from "react-if";
 import { navLinks } from "./nav-links";
-import { ModeToggle } from "@/components/common/mode-toggle";
 
 interface MobileNavMenuProps {
   isOpen: boolean;
@@ -73,14 +72,6 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
                   Resume
                 </Link>
               </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.3 }}
-              className="flex justify-center"
-            >
-              <ModeToggle />
             </motion.div>
           </div>
         </div>

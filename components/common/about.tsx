@@ -7,9 +7,9 @@ import ScrollReveal from "./scroll-reveal";
 
 export default function About() {
   return (
-    <LampContainer className="py-12 lg:py-0 rounded-none md:rounded-md">
+    <LampContainer className="py-12 rounded-none md:rounded-md">
       <section id="about" className="relative overflow-hidden">
-        <div className="container pt-96 lg:pt-0 px-4 md:px-6 relative z-10">
+        <div className="container pt-96 px-4 md:px-6 relative z-10">
           <ScrollReveal>
             <div className="flex flex-col gap-4 items-center text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter text-slate-lighter">
