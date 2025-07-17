@@ -56,7 +56,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
             </span>
             <span className="code-line">
               <span className="text-gray-300">{"  "}name: </span>
-              <span className="text-green-400">'{profile.name}'</span>
+              <span className="text-green-400">&apos;{profile.name}&apos;</span>
               <span className="text-gray-300">,</span>
             </span>
           </div>
@@ -66,7 +66,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
             </span>
             <span className="code-line">
               <span className="text-gray-300">{"  "}title: </span>
-              <span className="text-green-400">'{profile.title}'</span>
+              <span className="text-green-400">&apos;{profile.title}&apos;</span>
               <span className="text-gray-300">,</span>
             </span>
           </div>
@@ -85,7 +85,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
               </span>
               <span className="code-line">
                 <span className="text-gray-300">{"    "}</span>
-                <span className="text-green-400">'{skill}'</span>
+                <span className="text-green-400">&apos;{skill}&apos;</span>
                 <span className="text-gray-300">
                   {index < profile.skills.length - 1 ? "," : ""}
                 </span>

@@ -17,15 +17,15 @@ export default function Contact() {
         <ScrollReveal>
           <div className="flex flex-col items-center text-center">
             <p className="font-mono text-primary mb-2 text-sm">
-              04. What's Next?
+              04. What&apos;s Next?
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-lighter mb-6">
               Get In Touch
             </h2>
 
             <p className="text-slate max-w-lg mb-12 text-center">
-              I'm currently looking for new opportunities. Whether you have a
-              question or just want to say hi, I'll do my best to get back to
+              I&apos;m currently looking for new opportunities. Whether you have a
+              question or just want to say hi, I&apos;ll do my best to get back to
               you!
             </p>
 
