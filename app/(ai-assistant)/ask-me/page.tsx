@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChatMessage, ChatInput, TypingIndicator, SuggestedQuestions } from "@/components/common/chat";
-import { generateAIResponse } from "@/lib/ai-assistant-data";
+import { ChatMessage, ChatInput, TypingIndicator, SuggestedQuestions, AnimatedWelcome, EnhancedSuggestions, ConversationProgress, QuickActions } from "@/components/common/chat";
+// RAG-powered AI assistant - no longer using simple pattern matching
 import { Robot, Sparkle, ArrowLeft, House } from "@phosphor-icons/react";
 import Link from "next/link";
 
@@ -14,43 +14,72 @@ interface Message {
   isUser: boolean;
   timestamp: Date;
   type?: 'message' | 'suggestions';
+  sources?: Array<{
+    content: string;
+    category: string;
+    score: number;
+  }>;
 }
 
 export default function AskMePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [showEnhancedSuggestions, setShowEnhancedSuggestions] = useState(false);
+  const [conversationStartTime, setConversationStartTime] = useState<Date | null>(null);
+  const [topicsExplored, setTopicsExplored] = useState<string[]>([]);
+  const [userMessageCount, setUserMessageCount] = useState(0);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with welcome message and suggestions
-  useEffect(() => {
-    const welcomeMessage: Message = {
-      id: "welcome",
-      text: "Hello! I'm Mai Trọng Nhân's AI assistant. I can help you learn more about Mai's background, skills, experience, and projects. What would you like to know?",
-      isUser: false,
-      timestamp: new Date(),
-      type: 'message',
-    };
-    
-    const suggestionsMessage: Message = {
-      id: "suggestions",
-      text: "",
-      isUser: false,
-      timestamp: new Date(),
-      type: 'suggestions',
-    };
-    
-    setMessages([welcomeMessage, suggestionsMessage]);
-  }, []);
+  // Handle welcome animation completion
+  const handleWelcomeComplete = () => {
+    setShowEnhancedSuggestions(true);
+  };
 
   // Scroll to bottom when new messages are added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  // Helper to detect topic from message
+  const detectTopic = (message: string): string | null => {
+    const topicKeywords = {
+      'skills': ['skill', 'technology', 'programming', 'language', 'framework', 'tech', 'code', 'development'],
+      'experience': ['experience', 'work', 'job', 'career', 'role', 'company', 'professional'],
+      'projects': ['project', 'portfolio', 'build', 'created', 'developed', 'application', 'website'],
+      'education': ['education', 'study', 'learn', 'course', 'university', 'degree', 'background'],
+      'contact': ['contact', 'reach', 'email', 'phone', 'hire', 'available', 'connect'],
+      'personal': ['personal', 'about', 'yourself', 'background', 'story', 'interests']
+    };
+    
+    const lowerMessage = message.toLowerCase();
+    for (const [topic, keywords] of Object.entries(topicKeywords)) {
+      if (keywords.some(keyword => lowerMessage.includes(keyword))) {
+        return topic;
+      }
+    }
+    return null;
+  };
+
   const handleSendMessage = async (text: string) => {
-    // Remove suggestions after first user interaction
-    setMessages(prev => prev.filter(msg => msg.type !== 'suggestions'));
+    // Hide welcome elements after first user interaction
+    setShowWelcome(false);
+    setShowEnhancedSuggestions(false);
+    
+    // Track conversation start time
+    if (!conversationStartTime) {
+      setConversationStartTime(new Date());
+    }
+    
+    // Detect and track topics
+    const detectedTopic = detectTopic(text);
+    if (detectedTopic && !topicsExplored.includes(detectedTopic)) {
+      setTopicsExplored(prev => [...prev, detectedTopic]);
+    }
+    
+    // Increment user message count
+    setUserMessageCount(prev => prev + 1);
     
     // Add user message
     const userMessage: Message = {
@@ -64,21 +93,65 @@ export default function AskMePage() {
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
 
-    // Simulate AI thinking time
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+    try {
+      // Get conversation history for context
+      const conversationHistory = messages
+        .slice(-6) // Last 6 messages for context
+        .map(msg => ({
+          role: msg.isUser ? 'user' as const : 'assistant' as const,
+          content: msg.text
+        }));
 
-    // Generate AI response
-    const aiResponse = generateAIResponse(text);
-    const aiMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      text: aiResponse,
-      isUser: false,
-      timestamp: new Date(),
-      type: 'message',
-    };
+      // Call the new RAG-powered API
+      const response = await fetch('/api/ai-assistant/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: text,
+          conversationHistory
+        }),
+      });
 
-    setIsTyping(false);
-    setMessages(prev => [...prev, aiMessage]);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Create AI message with RAG response
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: data.response || "I apologize, but I couldn't generate a proper response. Please try rephrasing your question.",
+        isUser: false,
+        timestamp: new Date(),
+        type: 'message',
+        sources: data.sources || []
+      };
+
+      setIsTyping(false);
+      setMessages(prev => [...prev, aiMessage]);
+
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Fallback error message
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "I apologize, but I'm experiencing some technical difficulties. Please try again in a moment. In the meantime, you can browse Mai's portfolio or contact information directly.",
+        isUser: false,
+        timestamp: new Date(),
+        type: 'message',
+      };
+
+      setIsTyping(false);
+      setMessages(prev => [...prev, errorMessage]);
+    }
   };
 
   return (
@@ -123,26 +196,44 @@ export default function AskMePage() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <ScrollArea className="flex-1">
           <div className="container mx-auto px-4 py-6 max-w-4xl">
-            {messages.map((message) => {
-              if (message.type === 'suggestions') {
-                return (
-                  <SuggestedQuestions
-                    key={message.id}
-                    onSendMessage={handleSendMessage}
-                    timestamp={message.timestamp}
-                  />
-                );
-              }
-              
-              return (
-                <ChatMessage
-                  key={message.id}
-                  message={message.text}
-                  isUser={message.isUser}
-                  timestamp={message.timestamp}
+            {/* Show welcome animation and enhanced suggestions when no conversation started */}
+            {showWelcome && (
+              <AnimatedWelcome onComplete={handleWelcomeComplete} />
+            )}
+            
+            {showEnhancedSuggestions && (
+              <>
+                <EnhancedSuggestions
+                  onSendMessage={handleSendMessage}
+                  timestamp={new Date()}
                 />
-              );
-            })}
+                <QuickActions
+                  onSendMessage={handleSendMessage}
+                  isVisible={true}
+                />
+              </>
+            )}
+            
+            {/* Show conversation progress after first message */}
+            {conversationStartTime && userMessageCount > 0 && (
+              <ConversationProgress
+                messageCount={userMessageCount}
+                conversationStartTime={conversationStartTime}
+                topicsExplored={topicsExplored}
+                isVisible={true}
+              />
+            )}
+            
+            {/* Show conversation messages */}
+            {messages.map((message) => (
+              <ChatMessage
+                key={message.id}
+                message={message.text}
+                isUser={message.isUser}
+                timestamp={message.timestamp}
+              />
+            ))}
+            
             {isTyping && <TypingIndicator />}
             <div ref={messagesEndRef} />
           </div>
