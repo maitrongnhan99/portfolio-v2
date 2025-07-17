@@ -31,15 +31,15 @@ export default function About() {
                 Who I Am
               </h3>
               <p className="text-muted-foreground mb-6">
-                I'm a passionate FullStack Developer with expertise in modern
+                I&apos;m a passionate FullStack Developer with expertise in modern
                 web technologies. With a strong foundation in both frontend and
                 backend development, I create seamless, responsive, and
                 user-friendly applications.
               </p>
               <p className="text-muted-foreground">
                 My journey in web development started 5 years ago, and since
-                then, I've worked on various projects ranging from small
-                business websites to complex enterprise applications. I'm
+                then, I&apos;ve worked on various projects ranging from small
+                business websites to complex enterprise applications. I&apos;m
                 constantly learning and adapting to new technologies to deliver
                 the best solutions.
               </p>

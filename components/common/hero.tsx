@@ -57,8 +57,8 @@ export default function Hero() {
             transition={{ duration: 0.3, delay: 0.3 }}
             className="text-slate max-w-lg mb-12 text-lg text-left leading-8"
           >
-            I'm a FullStack developer specializing in building exceptional
-            digital experiences. Currently, I'm focused on building accessible,
+            I&apos;m a FullStack developer specializing in building exceptional
+            digital experiences. Currently, I&apos;m focused on building accessible,
             human-centered products using React, Next.js, NestJS, MongoDB and
             PostgreSQL.
           </motion.p>

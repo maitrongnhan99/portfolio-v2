@@ -135,7 +135,7 @@ const Skills: FC = () => {
           <div className="flex flex-col items-center text-center mb-16">
             <p className="font-mono text-primary mb-2 text-sm">02. My Skills</p>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-lighter mb-6">
-              Technologies I've Used
+              Technologies I&apos;ve Used
             </h2>
           </div>
         </ScrollReveal>

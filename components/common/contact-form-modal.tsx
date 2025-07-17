@@ -86,7 +86,7 @@ export default function ContactFormModal({
             Get In Touch
           </DialogTitle>
           <DialogDescription className="text-slate">
-            Fill out the form below and I'll get back to you as soon as
+            Fill out the form below and I&apos;ll get back to you as soon as
             possible.
           </DialogDescription>
         </DialogHeader>
