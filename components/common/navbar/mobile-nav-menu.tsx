@@ -80,7 +80,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
                 variant="outline"
                 className="w-full font-mono border-primary text-primary hover:bg-primary/10"
               >
-                <Link href="#contact" onClick={() => setIsOpen(false)}>
+                <Link href="/resume" onClick={() => setIsOpen(false)}>
                   Resume
                 </Link>
               </Button>
