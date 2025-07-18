@@ -10,6 +10,7 @@ const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 interface ChatRequest {
   message: string;
   conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  stream?: boolean;
 }
 
 interface ChatResponse {
@@ -22,10 +23,21 @@ interface ChatResponse {
   error?: string;
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse<ChatResponse>> {
+interface StreamData {
+  type: 'chunk' | 'sources' | 'done' | 'error';
+  content?: string;
+  sources?: Array<{
+    content: string;
+    category: string;
+    score: number;
+  }>;
+  error?: string;
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse<ChatResponse> | Response> {
   try {
     const body = await request.json() as ChatRequest;
-    const { message, conversationHistory = [] } = body;
+    const { message, conversationHistory = [], stream = false } = body;
 
     if (!message || message.trim().length === 0) {
       return NextResponse.json(
@@ -34,26 +46,58 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       );
     }
 
-    console.log(`Processing chat message: "${message}"`);
+    // Route to streaming or non-streaming handler
+    if (stream) {
+      return handleStreamingChat(message, conversationHistory);
+    } else {
+      return handleNonStreamingChat(message, conversationHistory);
+    }
 
-    // Step 1: Retrieve relevant knowledge using RAG
-    const retriever = new SmartRetriever();
-    const relevantChunks = await retriever.retrieve(message, {
-      k: 3,
-      threshold: 0.6,
-      useIntent: true,
-      rerankResults: true
-    });
+  } catch (error) {
+    console.error('Error in chat API:', error);
+    
+    return NextResponse.json(
+      { 
+        response: '',
+        error: 'I apologize, but I encountered an issue processing your request. Please try again or ask a different question.'
+      },
+      { status: 500 }
+    );
+  }
+}
 
-    console.log(`Retrieved ${relevantChunks.length} relevant knowledge chunks`);
+/**
+ * Handle streaming chat responses using Server-Sent Events
+ */
+async function handleStreamingChat(
+  message: string,
+  conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }>
+): Promise<Response> {
+  const encoder = new TextEncoder();
+  
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        console.log(`Processing streaming chat message: "${message}"`);
 
-    // Step 2: Build context from retrieved knowledge
-    const contextParts = relevantChunks.map((chunk, index) => 
-      `[${index + 1}] ${chunk.content}`
-    ).join('\n\n');
+        // Step 1: Retrieve relevant knowledge using RAG
+        const retriever = new SmartRetriever();
+        const relevantChunks = await retriever.retrieve(message, {
+          k: 3,
+          threshold: 0.6,
+          useIntent: true,
+          rerankResults: true
+        });
 
-    // Step 3: Create system prompt with context
-    const systemPrompt = `You are Mai Trọng Nhân's AI assistant. Your role is to provide helpful and accurate information about Mai based on the knowledge provided below.
+        console.log(`Retrieved ${relevantChunks.length} relevant knowledge chunks`);
+
+        // Step 2: Build context from retrieved knowledge
+        const contextParts = relevantChunks.map((chunk, index) => 
+          `[${index + 1}] ${chunk.content}`
+        ).join('\n\n');
+
+        // Step 3: Create system prompt with context
+        const systemPrompt = `You are Mai Trọng Nhân's AI assistant. Your role is to provide helpful and accurate information about Mai based on the knowledge provided below.
 
 KNOWLEDGE BASE:
 ${contextParts}
@@ -72,53 +116,171 @@ ${conversationHistory.slice(-4).map(msg => `${msg.role}: ${msg.content}`).join('
 
 Please respond to the user's question about Mai Trọng Nhân.`;
 
-    // Step 4: Generate response using Gemini
-    let response: string;
+        // Step 4: Generate streaming response using Gemini
+        if (!genAI) {
+          // Fallback response when API key is not available
+          const fallbackResponse = generateFallbackResponse(message, relevantChunks);
+          
+          // Stream the fallback response word by word
+          const words = fallbackResponse.split(' ');
+          for (const word of words) {
+            const data: StreamData = { type: 'chunk', content: word + ' ' };
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+            await new Promise(resolve => setTimeout(resolve, 50)); // Small delay for streaming effect
+          }
+        } else {
+          try {
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    if (!genAI) {
-      // Fallback response when API key is not available
-      response = generateFallbackResponse(message, relevantChunks);
-    } else {
-      try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const result = await model.generateContentStream([
+              { text: systemPrompt },
+              { text: `User question: ${message}` }
+            ]);
 
-        const result = await model.generateContent([
-          { text: systemPrompt },
-          { text: `User question: ${message}` }
-        ]);
+            // Stream the response chunks
+            for await (const chunk of result.stream) {
+              const chunkText = chunk.text();
+              if (chunkText) {
+                const data: StreamData = { type: 'chunk', content: chunkText };
+                controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+              }
+            }
+          } catch (error) {
+            console.error('Error generating streaming response with Gemini:', error);
+            
+            // Stream fallback response on error
+            const fallbackResponse = generateFallbackResponse(message, relevantChunks);
+            const words = fallbackResponse.split(' ');
+            for (const word of words) {
+              const data: StreamData = { type: 'chunk', content: word + ' ' };
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+              await new Promise(resolve => setTimeout(resolve, 50));
+            }
+          }
+        }
 
-        response = result.response.text();
+        // Send sources information
+        const sources = relevantChunks.map(chunk => ({
+          content: chunk.content.substring(0, 200) + (chunk.content.length > 200 ? '...' : ''),
+          category: chunk.metadata.category,
+          score: Math.round(chunk.score * 100) / 100
+        }));
+
+        const sourcesData: StreamData = { type: 'sources', sources };
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(sourcesData)}\n\n`));
+
+        // Send completion signal
+        const doneData: StreamData = { type: 'done' };
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(doneData)}\n\n`));
+
+        console.log(`Streaming response completed successfully`);
+
       } catch (error) {
-        console.error('Error generating response with Gemini:', error);
-        response = generateFallbackResponse(message, relevantChunks);
+        console.error('Error in streaming chat:', error);
+        
+        const errorData: StreamData = { 
+          type: 'error', 
+          error: 'I apologize, but I encountered an issue processing your request. Please try again or ask a different question.'
+        };
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(errorData)}\n\n`));
+      } finally {
+        controller.close();
       }
     }
+  });
 
-    // Step 5: Prepare sources for transparency
-    const sources = relevantChunks.map(chunk => ({
-      content: chunk.content.substring(0, 200) + (chunk.content.length > 200 ? '...' : ''),
-      category: chunk.metadata.category,
-      score: Math.round(chunk.score * 100) / 100
-    }));
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
 
-    console.log(`Generated response successfully`);
+/**
+ * Handle non-streaming chat responses (original implementation)
+ */
+async function handleNonStreamingChat(
+  message: string,
+  conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }>
+): Promise<NextResponse<ChatResponse>> {
+  console.log(`Processing non-streaming chat message: "${message}"`);
 
-    return NextResponse.json({
-      response: response.trim(),
-      sources
-    });
+  // Step 1: Retrieve relevant knowledge using RAG
+  const retriever = new SmartRetriever();
+  const relevantChunks = await retriever.retrieve(message, {
+    k: 3,
+    threshold: 0.6,
+    useIntent: true,
+    rerankResults: true
+  });
 
-  } catch (error) {
-    console.error('Error in chat API:', error);
-    
-    return NextResponse.json(
-      { 
-        response: '',
-        error: 'I apologize, but I encountered an issue processing your request. Please try again or ask a different question.'
-      },
-      { status: 500 }
-    );
+  console.log(`Retrieved ${relevantChunks.length} relevant knowledge chunks`);
+
+  // Step 2: Build context from retrieved knowledge
+  const contextParts = relevantChunks.map((chunk, index) => 
+    `[${index + 1}] ${chunk.content}`
+  ).join('\n\n');
+
+  // Step 3: Create system prompt with context
+  const systemPrompt = `You are Mai Trọng Nhân's AI assistant. Your role is to provide helpful and accurate information about Mai based on the knowledge provided below.
+
+KNOWLEDGE BASE:
+${contextParts}
+
+INSTRUCTIONS:
+- Answer questions about Mai's background, skills, experience, projects, and contact information
+- Use only the information provided in the knowledge base above
+- Be conversational and friendly, but professional
+- If you don't have specific information to answer a question, suggest asking about topics you do know about
+- Keep responses concise but informative
+- Use markdown formatting for better readability when appropriate
+- Always refer to Mai in third person (e.g., "Mai has experience in..." not "I have experience in...")
+
+CONVERSATION CONTEXT:
+${conversationHistory.slice(-4).map(msg => `${msg.role}: ${msg.content}`).join('\n')}
+
+Please respond to the user's question about Mai Trọng Nhân.`;
+
+  // Step 4: Generate response using Gemini
+  let response: string;
+
+  if (!genAI) {
+    // Fallback response when API key is not available
+    response = generateFallbackResponse(message, relevantChunks);
+  } else {
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const result = await model.generateContent([
+        { text: systemPrompt },
+        { text: `User question: ${message}` }
+      ]);
+
+      response = result.response.text();
+    } catch (error) {
+      console.error('Error generating response with Gemini:', error);
+      response = generateFallbackResponse(message, relevantChunks);
+    }
   }
+
+  // Step 5: Prepare sources for transparency
+  const sources = relevantChunks.map(chunk => ({
+    content: chunk.content.substring(0, 200) + (chunk.content.length > 200 ? '...' : ''),
+    category: chunk.metadata.category,
+    score: Math.round(chunk.score * 100) / 100
+  }));
+
+  console.log(`Generated non-streaming response successfully`);
+
+  return NextResponse.json({
+    response: response.trim(),
+    sources
+  });
 }
 
 /**
