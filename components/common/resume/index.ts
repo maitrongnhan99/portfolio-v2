@@ -1,0 +1,11 @@
+export { ResumeView } from "./resume-view";
+export { ResumeHeader } from "./resume-header";
+export { ResumeSummary } from "./resume-summary";
+export { ResumeTechStack } from "./resume-tech-stack";
+export { ResumeExperience } from "./resume-experience";
+export { ResumeProjects } from "./resume-projects";
+export { ResumeEducation } from "./resume-education";
+export { ResumeCertifications } from "./resume-certifications";
+export { ResumeLanguages } from "./resume-languages";
+export { ResumeSection } from "./resume-section";
+export { ResumeDownload } from "./resume-download";
