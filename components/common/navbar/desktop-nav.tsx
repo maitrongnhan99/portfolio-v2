@@ -58,7 +58,7 @@ const DesktopNav: FC<DesktopNavProps> = ({ isHome }) => {
             size="sm"
             className="ml-4 font-mono border-primary text-primary hover:bg-primary/10"
           >
-            <Link href="#contact">Resume</Link>
+            <Link href="/resume">Resume</Link>
           </Button>
         </motion.div>
       </div>
