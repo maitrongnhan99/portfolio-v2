@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Robot } from "@phosphor-icons/react";
+import { RobotIcon } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 
 interface SuggestedQuestionsProps {
   onSendMessage: (message: string) => void;
@@ -25,7 +26,7 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
       className="flex gap-3 mb-6"
     >
       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <Robot className="w-4 h-4 text-primary" />
+        <RobotIcon className="w-4 h-4 text-primary" />
       </div>
       
       <div className="max-w-[70%] rounded-lg px-4 py-3 bg-navy-light border border-navy-lighter text-slate-lighter">
@@ -51,7 +52,9 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
         </div>
         
         <div className="text-xs mt-3 opacity-60 text-slate">
-          {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          <NoSSR>
+            {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </NoSSR>
         </div>
       </div>
     </motion.div>

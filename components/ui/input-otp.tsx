@@ -1,6 +1,6 @@
 "use client";
 
-import { Dot } from "@phosphor-icons/react";
+import { DotIcon } from "@phosphor-icons/react";
 import { OTPInput, OTPInputContext } from "input-otp";
 import * as React from "react";
 
@@ -63,7 +63,7 @@ const InputOTPSeparator = React.forwardRef<
   React.ComponentPropsWithoutRef<"div">
 >(({ ...props }, ref) => (
   <div ref={ref} role="separator" {...props}>
-    <Dot />
+    <DotIcon />
   </div>
 ));
 InputOTPSeparator.displayName = "InputOTPSeparator";

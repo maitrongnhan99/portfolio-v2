@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRight, Star } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, StarIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,13 +55,13 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
                 className="flex items-center gap-2"
               >
                 {project.title}
-                <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowUpRightIcon className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
             </h3>
 
             {project.stars && (
               <div className="flex items-center text-slate text-sm">
-                <Star className="h-3.5 w-3.5 mr-1 fill-slate text-slate" />
+                <StarIcon className="h-3.5 w-3.5 mr-1 fill-slate text-slate" />
                 {project.stars.toLocaleString()}
               </div>
             )}

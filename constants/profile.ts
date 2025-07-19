@@ -1,20 +1,20 @@
-import { GithubLogo, InstagramLogo, LinkedinLogo } from "@phosphor-icons/react";
+import { GithubLogoIcon, InstagramLogoIcon, LinkedinLogoIcon } from "@phosphor-icons/react";
 
 const PROFILE = {
   github: {
     url: "https://github.com/yourusername",
     name: "GitHub",
-    icon: GithubLogo,
+    icon: GithubLogoIcon,
   },
   linkedin: {
     url: "https://linkedin.com/in/yourusername",
     name: "LinkedIn",
-    icon: LinkedinLogo,
+    icon: LinkedinLogoIcon,
   },
   instagram: {
     url: "https://instagram.com/yourusername",
     name: "Instagram",
-    icon: InstagramLogo,
+    icon: InstagramLogoIcon,
   },
 };
 

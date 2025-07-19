@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { House } from "@phosphor-icons/react";
+import { HouseIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function NotFound() {
           </p>
           <Button asChild>
             <Link href="/" className="flex items-center gap-2">
-              <House className="h-4 w-4" />
+              <HouseIcon className="h-4 w-4" />
               Back to Home
             </Link>
           </Button>

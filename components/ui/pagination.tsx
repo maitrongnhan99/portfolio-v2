@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, DotsThree } from "@phosphor-icons/react";
+import { ArrowLeftIcon, ArrowRightIcon, DotsThreeIcon } from "@phosphor-icons/react";
 import * as React from "react";
 
 import { ButtonProps, buttonVariants } from "@/components/ui/button";
@@ -69,7 +69,7 @@ const PaginationPrevious = ({
     className={cn("gap-1 pl-2.5", className)}
     {...props}
   >
-    <ArrowLeft className="h-4 w-4" />
+    <ArrowLeftIcon className="h-4 w-4" />
     <span>Previous</span>
   </PaginationLink>
 );
@@ -86,7 +86,7 @@ const PaginationNext = ({
     {...props}
   >
     <span>Next</span>
-    <ArrowRight className="h-4 w-4" />
+    <ArrowRightIcon className="h-4 w-4" />
   </PaginationLink>
 );
 PaginationNext.displayName = "PaginationNext";
@@ -100,7 +100,7 @@ const PaginationEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <DotsThree className="h-4 w-4" />
+    <DotsThreeIcon className="h-4 w-4" />
     <span className="sr-only">More pages</span>
   </span>
 );

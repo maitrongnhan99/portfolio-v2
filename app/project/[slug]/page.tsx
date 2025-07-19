@@ -6,11 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { projectsData } from "@/lib/projects-data";
 import {
-  ArrowLeft,
-  Calendar,
-  GithubLogo as Github,
-  Link as LinkIcon,
-  Tag,
+  ArrowLeftIcon,
+  CalendarIcon,
+  GithubLogoIcon as Github,
+  LinkIcon as LinkIcon,
+  TagIcon,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -60,7 +60,7 @@ export default function ProjectPage() {
             className="mb-6 rounded-full"
           >
             <Link href="/#projects" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeftIcon className="h-4 w-4" />
               Back to Projects
             </Link>
           </Button>
@@ -180,14 +180,14 @@ export default function ProjectPage() {
                   <div className="space-y-4">
                     {project.date && (
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm">{project.date}</span>
                       </div>
                     )}
 
                     {project.category && (
                       <div className="flex items-center gap-2">
-                        <Tag className="h-4 w-4 text-muted-foreground" />
+                        <TagIcon className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm">{project.category}</span>
                       </div>
                     )}

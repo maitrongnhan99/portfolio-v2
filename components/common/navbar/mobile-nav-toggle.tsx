@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { Button } from "@/components/ui/button";
-import { List, X } from "@phosphor-icons/react";
+import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { Else, If, Then } from "react-if";
 
 interface MobileNavToggleProps {
@@ -22,10 +22,10 @@ const MobileNavToggle: FC<MobileNavToggleProps> = ({ isOpen, setIsOpen }) => {
       >
         <If condition={isOpen}>
           <Then>
-            <X className="h-5 w-5" />
+            <XIcon className="h-5 w-5" />
           </Then>
           <Else>
-            <List className="h-5 w-5" />
+            <ListIcon className="h-5 w-5" />
           </Else>
         </If>
       </Button>

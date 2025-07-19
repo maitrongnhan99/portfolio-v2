@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Download, GithubLogo, Link } from "@phosphor-icons/react";
+import { DownloadIcon, GithubLogoIcon, LinkIcon } from "@phosphor-icons/react";
 import NextLink from "next/link";
 import { FC } from "react";
 
@@ -26,7 +26,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           className="text-slate-light hover:text-primary p-0"
         >
           <NextLink href={liveUrl} target="_blank">
-            <Link className="h-4 w-4 mr-2" />
+            <LinkIcon className="h-4 w-4 mr-2" />
             Demo
           </NextLink>
         </Button>
@@ -40,7 +40,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           className="text-slate-light hover:text-primary p-0"
         >
           <NextLink href={githubUrl} target="_blank">
-            <GithubLogo className="h-4 w-4 mr-2" />
+            <GithubLogoIcon className="h-4 w-4 mr-2" />
             Code
           </NextLink>
         </Button>
@@ -54,7 +54,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           className="text-slate-light hover:text-primary p-0"
         >
           <NextLink href={liveUrl || "#"} target="_blank">
-            <Download className="h-4 w-4 mr-2" />
+            <DownloadIcon className="h-4 w-4 mr-2" />
             {downloads.toLocaleString()} Installs
           </NextLink>
         </Button>

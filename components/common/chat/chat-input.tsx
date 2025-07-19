@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { PaperPlaneTilt } from "@phosphor-icons/react";
+import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
 interface ChatInputProps {
@@ -84,7 +84,7 @@ export const ChatInput = ({
               "transition-all duration-200"
             )}
           >
-            <PaperPlaneTilt className="w-4 h-4" />
+            <PaperPlaneTiltIcon className="w-4 h-4" />
           </Button>
         </div>
         <div className="text-xs text-slate/50 mt-1 px-2">

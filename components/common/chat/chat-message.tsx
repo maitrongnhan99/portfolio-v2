@@ -1,21 +1,40 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
-import { User, Robot } from "@phosphor-icons/react";
+import { UserIcon, RobotIcon, CircleIcon } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 import { cn } from "@/lib/utils";
 
 interface ChatMessageProps {
   message: string;
   isUser: boolean;
   timestamp: Date;
+  isStreaming?: boolean;
+  streamingComplete?: boolean;
+  sources?: Array<{
+    content: string;
+    category: string;
+    score: number;
+  }>;
 }
 
-export const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) => {
+const ChatMessageComponent = ({ 
+  message, 
+  isUser, 
+  timestamp, 
+  isStreaming = false, 
+  streamingComplete = false, 
+  sources = [] 
+}: ChatMessageProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ 
+        duration: 0.2,
+        ease: "easeOut"
+      }}
       className={cn(
         "flex gap-3 mb-6",
         isUser ? "justify-end" : "justify-start"
@@ -23,7 +42,10 @@ export const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) =>
     >
       {!isUser && (
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-          <Robot className="w-4 h-4 text-primary" />
+          <RobotIcon className={cn(
+            "w-4 h-4 text-primary",
+            isStreaming && "animate-pulse"
+          )} />
         </div>
       )}
       
@@ -31,7 +53,8 @@ export const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) =>
         "max-w-[70%] rounded-lg px-4 py-3",
         isUser 
           ? "bg-primary/10 border border-primary/20 text-slate-lighter" 
-          : "bg-navy-light border border-navy-lighter text-slate-lighter"
+          : "bg-navy-light border border-navy-lighter text-slate-lighter",
+        isStreaming && "border-primary/40"
       )}>
         <div className="prose prose-sm max-w-none">
           {message.split('\n').map((line, index) => {
@@ -71,21 +94,69 @@ export const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) =>
               </p>
             );
           })}
+          
+          {/* Streaming cursor effect */}
+          {isStreaming && (
+            <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse ml-1"></span>
+          )}
+          
+          {/* Empty message placeholder for streaming */}
+          {!isUser && message.trim() === '' && isStreaming && (
+            <div className="flex items-center gap-2 text-slate/50">
+              <CircleIcon className="w-2 h-2 animate-bounce" />
+              <CircleIcon className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.1s' }} />
+              <CircleIcon className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.2s' }} />
+            </div>
+          )}
         </div>
         
+        {/* Sources display */}
+        {sources.length > 0 && streamingComplete && (
+          <div className="mt-3 pt-3 border-t border-navy-lighter/50">
+            <p className="text-xs text-slate/60 mb-2">Sources:</p>
+            <div className="space-y-1">
+              {sources.map((source, index) => (
+                <div key={index} className="text-xs text-slate/50 bg-navy/30 rounded px-2 py-1">
+                  <span className="font-mono text-primary">{source.category}</span>
+                  <span className="ml-2 text-slate/40">({(source.score * 100).toFixed(0)}%)</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
         <div className={cn(
-          "text-xs mt-2 opacity-60",
+          "text-xs mt-2 opacity-60 flex items-center gap-2",
           isUser ? "text-slate" : "text-slate-light"
         )}>
-          {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          <NoSSR>
+            <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          </NoSSR>
+          {!isUser && isStreaming && (
+            <span className="text-primary/60">• Streaming...</span>
+          )}
+          {!isUser && streamingComplete && (
+            <span className="text-green-400/60">• Complete</span>
+          )}
         </div>
       </div>
       
       {isUser && (
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate/10 border border-slate/20 flex items-center justify-center">
-          <User className="w-4 h-4 text-slate-light" />
+          <UserIcon className="w-4 h-4 text-slate-light" />
         </div>
       )}
     </motion.div>
   );
 };
+
+export const ChatMessage = React.memo(ChatMessageComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.message === nextProps.message &&
+    prevProps.isUser === nextProps.isUser &&
+    prevProps.timestamp.getTime() === nextProps.timestamp.getTime() &&
+    prevProps.isStreaming === nextProps.isStreaming &&
+    prevProps.streamingComplete === nextProps.streamingComplete &&
+    JSON.stringify(prevProps.sources) === JSON.stringify(nextProps.sources)
+  );
+});

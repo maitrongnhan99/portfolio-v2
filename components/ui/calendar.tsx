@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react";
 import * as React from "react";
 import { DayPicker } from "react-day-picker";
 
@@ -54,8 +54,8 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ArrowLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ArrowRight className="h-4 w-4" />,
+        IconLeft: ({ ...props }) => <ArrowLeftIcon className="h-4 w-4" />,
+        IconRight: ({ ...props }) => <ArrowRightIcon className="h-4 w-4" />,
       }}
       {...props}
     />

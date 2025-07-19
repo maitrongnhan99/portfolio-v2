@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { PaperPlaneTilt } from "@phosphor-icons/react";
+import { useToast } from "@/hooks/use-toast";
+import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 
 interface ContactFormModalProps {
@@ -185,7 +185,7 @@ export default function ContactFormModal({
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <PaperPlaneTilt className="h-4 w-4" />
+                  <PaperPlaneTiltIcon className="h-4 w-4" />
                   Send Message
                 </span>
               )}
