@@ -1,30 +1,49 @@
 "use client";
 
-import { ChatInput, ChatMessage, TypingIndicator } from "@/components/common/chat";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion } from "framer-motion";
-import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
-import { ConnectionStatus } from "@/components/common/chat/connection-status";
-import { ChatHeader } from "@/components/common/chat/chat-header";
-import { ChatControlsToggle } from "@/components/common/chat/chat-controls-toggle";
-import { ChatControlsSidebar } from "@/components/common/chat/chat-controls-sidebar";
-import { ChatSettings } from "@/components/common/chat/chat-settings";
 import {
-  WelcomeLoadingSkeleton,
-  SuggestionsLoadingSkeleton,
+  ChatInput,
+  ChatMessage,
+  TypingIndicator,
+} from "@/components/common/chat";
+import { ChatControlsSidebar } from "@/components/common/chat/chat-controls-sidebar";
+import { ChatControlsToggle } from "@/components/common/chat/chat-controls-toggle";
+import { ChatHeader } from "@/components/common/chat/chat-header";
+import { ConnectionStatus } from "@/components/common/chat/connection-status";
+import {
   ProgressLoadingSkeleton,
+  SuggestionsLoadingSkeleton,
+  WelcomeLoadingSkeleton,
 } from "@/components/common/chat/loading-skeletons";
-import { useConversationHistory, type Conversation } from "@/hooks/use-conversation-history";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ChatProvider, useChatContext } from "@/contexts/chat-context";
 import { useChatMessages } from "@/hooks/use-chat-messages";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
 import { useConnectionStatus } from "@/hooks/use-connection-status";
-import { ChatProvider, useChatContext } from "@/contexts/chat-context";
 import {
-  getConversationHistory,
+  useConversationHistory,
+  type Conversation,
+} from "@/hooks/use-conversation-history";
+import {
   createUpdatedConversation,
-  shouldAutoSave,
+  getConversationHistory,
 } from "@/lib/chat-utils";
-import { ArrowDown } from "@phosphor-icons/react";
+import { ArrowDown, ArrowLeft } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 // Lazy load heavy components
 const AnimatedWelcome = lazy(() =>
@@ -47,7 +66,11 @@ const QuickActions = lazy(() =>
     default: module.QuickActions,
   }))
 );
-
+const DeleteConfirmModal = lazy(() =>
+  import("@/components/common/chat/delete-confirm-modal").then((module) => ({
+    default: module.DeleteConfirmModal,
+  }))
+);
 
 export default function AskMePage() {
   return (
@@ -98,41 +121,6 @@ function AskMePageContent() {
 
   const { status: connectionStatus } = useConnectionStatus();
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Cmd/Ctrl + K - Search
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setShowSearchDialog(true);
-      }
-      // Cmd/Ctrl + S - Save
-      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
-        e.preventDefault();
-        if (messages.length > 0) {
-          handleSaveConversation();
-        }
-      }
-      // Cmd/Ctrl + N - New conversation
-      if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
-        e.preventDefault();
-        handleNewConversation();
-      }
-      // Cmd/Ctrl + / - Toggle sidebar
-      if ((e.metaKey || e.ctrlKey) && e.key === '/') {
-        e.preventDefault();
-        setShowControlsSidebar(!showControlsSidebar);
-      }
-      // Escape - Close sidebar
-      if (e.key === 'Escape' && showControlsSidebar) {
-        setShowControlsSidebar(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [messages.length, showControlsSidebar, setShowSearchDialog, setShowControlsSidebar, handleSaveConversation, handleNewConversation]);
-
   // Conversation history integration
   const {
     conversations,
@@ -150,6 +138,12 @@ function AskMePageContent() {
   // Track loaded conversation to prevent duplicate loads
   const loadedConversationRef = useRef<string | null>(null);
 
+  // State for delete confirmation modal
+  const [deleteConversationId, setDeleteConversationId] = useState<
+    string | null
+  >(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // Handle welcome animation completion
   const handleWelcomeComplete = () => {
     setShowEnhancedSuggestions(true);
@@ -165,9 +159,12 @@ function AskMePageContent() {
 
   // Load conversation messages into the current state
   useEffect(() => {
-    if (currentConversation && loadedConversationRef.current !== currentConversation.id) {
+    if (
+      currentConversation &&
+      loadedConversationRef.current !== currentConversation.id
+    ) {
       loadedConversationRef.current = currentConversation.id;
-      
+
       const conversationMessages = currentConversation.messages.map((msg) => ({
         ...msg,
         timestamp: new Date(msg.timestamp),
@@ -175,7 +172,8 @@ function AskMePageContent() {
       loadMessages(conversationMessages);
       setConversationMetadata({
         topicsExplored: currentConversation.topicsExplored || [],
-        userMessageCount: conversationMessages.filter((msg) => msg.isUser).length,
+        userMessageCount: conversationMessages.filter((msg) => msg.isUser)
+          .length,
         conversationStartTime: currentConversation.createdAt,
       });
 
@@ -188,7 +186,13 @@ function AskMePageContent() {
         setShowEnhancedSuggestions(false);
       }
     }
-  }, [currentConversation, loadMessages, setConversationMetadata, setShowWelcome, setShowEnhancedSuggestions]);
+  }, [
+    currentConversation,
+    loadMessages,
+    setConversationMetadata,
+    setShowWelcome,
+    setShowEnhancedSuggestions,
+  ]);
 
   // Removed auto-save useEffect to prevent circular dependency
 
@@ -207,7 +211,12 @@ function AskMePageContent() {
         console.error("Failed to save conversation:", error);
       }
     }
-  }, [currentConversation, saveConversation, messages, conversationMetadata.topicsExplored]);
+  }, [
+    currentConversation,
+    saveConversation,
+    messages,
+    conversationMetadata.topicsExplored,
+  ]);
 
   // Clear current conversation
   const handleClearConversation = async () => {
@@ -221,7 +230,7 @@ function AskMePageContent() {
       });
       setShowWelcome(true);
       setShowEnhancedSuggestions(false);
-      
+
       // Only delete from history if conversation system is available
       if (currentConversation && deleteConversation) {
         await deleteConversation(currentConversation.id);
@@ -258,7 +267,16 @@ function AskMePageContent() {
     } catch (error) {
       console.error("Failed to start new conversation:", error);
     }
-  }, [currentConversation, messages.length, handleSaveConversation, createConversation, clearMessages, setConversationMetadata, setShowWelcome, setShowEnhancedSuggestions]);
+  }, [
+    currentConversation,
+    messages.length,
+    handleSaveConversation,
+    createConversation,
+    clearMessages,
+    setConversationMetadata,
+    setShowWelcome,
+    setShowEnhancedSuggestions,
+  ]);
 
   // Handle conversation selection from search
   const handleSelectConversation = async (conversation: Conversation) => {
@@ -278,6 +296,83 @@ function AskMePageContent() {
     }
   };
 
+  // Handle loading a conversation from the sidebar
+  const handleLoadConversation = async (conversationId: string) => {
+    try {
+      // Save current conversation if it has messages
+      if (
+        currentConversation &&
+        messages.length > 0 &&
+        currentConversation.id !== conversationId
+      ) {
+        await handleSaveConversation();
+      }
+
+      // Load the selected conversation
+      const loadedConversation = await loadConversation(conversationId);
+
+      if (loadedConversation) {
+        // Clear current messages and load new ones
+        clearMessages();
+
+        // Load messages from the conversation
+        if (
+          loadedConversation.messages &&
+          loadedConversation.messages.length > 0
+        ) {
+          loadMessages(
+            loadedConversation.messages.map((msg) => ({
+              id: msg.id,
+              text: msg.text,
+              isUser: msg.isUser,
+              timestamp: new Date(msg.timestamp),
+              sources: msg.sources,
+            }))
+          );
+        }
+
+        // Update conversation metadata
+        setConversationMetadata({
+          conversationStartTime: new Date(loadedConversation.createdAt),
+          topicsExplored: loadedConversation.topicsExplored || [],
+          userMessageCount: loadedConversation.messageCount || 0,
+        });
+
+        // Hide welcome screens
+        setShowWelcome(false);
+        setShowEnhancedSuggestions(false);
+      }
+    } catch (error) {
+      console.error("Failed to load conversation:", error);
+    }
+  };
+
+  // Handle deleting a conversation - opens modal
+  const handleDeleteConversation = async (conversationId: string) => {
+    setDeleteConversationId(conversationId);
+  };
+
+  // Confirm and execute deletion
+  const confirmDelete = async () => {
+    if (!deleteConversationId) return;
+
+    setIsDeleting(true);
+    try {
+      // Delete the conversation
+      await deleteConversation(deleteConversationId);
+
+      // If deleted conversation was current, clear messages
+      if (currentConversation?.id === deleteConversationId) {
+        handleClearConversation();
+      }
+
+      setDeleteConversationId(null);
+    } catch (error) {
+      console.error("Failed to delete conversation:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const handleSendMessage = async (text: string) => {
     // Hide welcome elements after first user interaction
@@ -318,6 +413,47 @@ function AskMePageContent() {
     }
   };
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + K - Search
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setShowSearchDialog(true);
+      }
+      // Cmd/Ctrl + S - Save
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        if (messages.length > 0) {
+          handleSaveConversation();
+        }
+      }
+      // Cmd/Ctrl + N - New conversation
+      if ((e.metaKey || e.ctrlKey) && e.key === "n") {
+        e.preventDefault();
+        handleNewConversation();
+      }
+      // Cmd/Ctrl + / - Toggle sidebar
+      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
+        e.preventDefault();
+        setShowControlsSidebar(!showControlsSidebar);
+      }
+      // Escape - Close sidebar
+      if (e.key === "Escape" && showControlsSidebar) {
+        setShowControlsSidebar(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [
+    messages.length,
+    showControlsSidebar,
+    setShowSearchDialog,
+    setShowControlsSidebar,
+    handleSaveConversation,
+    handleNewConversation,
+  ]);
 
   return (
     <main
@@ -331,10 +467,19 @@ function AskMePageContent() {
       <div className="border-b border-navy-lighter bg-navy-light/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <ChatHeader currentConversation={currentConversation} />
-          <ChatControlsToggle
-            isOpen={showControlsSidebar}
-            onClick={() => setShowControlsSidebar(!showControlsSidebar)}
-          />
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-3 py-2 bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 rounded-lg font-mono text-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back to Portfolio</span>
+            </Link>
+            <ChatControlsToggle
+              isOpen={showControlsSidebar}
+              onClick={() => setShowControlsSidebar(!showControlsSidebar)}
+            />
+          </div>
         </div>
       </div>
 
@@ -350,6 +495,8 @@ function AskMePageContent() {
         onSaveConversation={handleSaveConversation}
         onNewConversation={handleNewConversation}
         onClearMessages={handleClearConversation}
+        onLoadConversation={handleLoadConversation}
+        onDeleteConversation={handleDeleteConversation}
         chatSettings={chatSettings}
         isOnline={connectionStatus.isOnline}
       />
@@ -379,16 +526,19 @@ function AskMePageContent() {
             )}
 
             {/* Show conversation progress after first message */}
-            {conversationMetadata.conversationStartTime && conversationMetadata.userMessageCount > 0 && (
-              <Suspense fallback={<ProgressLoadingSkeleton />}>
-                <ConversationProgress
-                  messageCount={conversationMetadata.userMessageCount}
-                  conversationStartTime={conversationMetadata.conversationStartTime}
-                  topicsExplored={conversationMetadata.topicsExplored}
-                  isVisible={true}
-                />
-              </Suspense>
-            )}
+            {conversationMetadata.conversationStartTime &&
+              conversationMetadata.userMessageCount > 0 && (
+                <Suspense fallback={<ProgressLoadingSkeleton />}>
+                  <ConversationProgress
+                    messageCount={conversationMetadata.userMessageCount}
+                    conversationStartTime={
+                      conversationMetadata.conversationStartTime
+                    }
+                    topicsExplored={conversationMetadata.topicsExplored}
+                    isVisible={true}
+                  />
+                </Suspense>
+              )}
 
             {/* Show conversation messages */}
             {messages.map((message) => (
@@ -433,43 +583,59 @@ function AskMePageContent() {
           <div className="max-w-4xl mx-auto">
             {/* Controls */}
             <div className="flex items-end justify-between mb-3">
-              <div className="flex items-center gap-4">
-                {/* Streaming toggle */}
-                <div className="flex flex-col items-center gap-2">
-                  <button
-                    onClick={toggleStreaming}
-                    className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                      chatSettings.useStreaming
-                        ? "bg-primary/20 text-primary border border-primary/30"
-                        : "bg-slate/10 text-slate border border-slate/20"
-                    }`}
-                  >
-                    {chatSettings.useStreaming ? "Streaming ON" : "Streaming OFF"}
-                  </button>
-                  <span className="text-xs text-slate/50">
-                    {chatSettings.useStreaming
-                      ? "Real-time responses"
-                      : "Complete responses"}
-                  </span>
-                </div>
+              <TooltipProvider>
+                <div className="flex items-center gap-4">
+                  {/* Streaming toggle */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={toggleStreaming}
+                        className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                          chatSettings.useStreaming
+                            ? "bg-primary/20 text-primary border border-primary/30"
+                            : "bg-slate/10 text-slate border border-slate/20"
+                        }`}
+                      >
+                        {chatSettings.useStreaming
+                          ? "Streaming ON"
+                          : "Streaming OFF"}
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-navy-light border-navy-lighter">
+                      <p className="text-xs text-slate-light">
+                        {chatSettings.useStreaming
+                          ? "Real-time responses"
+                          : "Complete responses"}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
 
-                {/* Auto-save toggle */}
-                <div className="flex flex-col items-center gap-2">
-                  <button
-                    onClick={toggleAutoSave}
-                    className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                      chatSettings.autoSave
-                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                        : "bg-slate/10 text-slate border border-slate/20"
-                    }`}
-                  >
-                    {chatSettings.autoSave ? "Auto-save ON" : "Auto-save OFF"}
-                  </button>
-                  <span className="text-xs text-slate/50">
-                    {chatSettings.autoSave ? "Saves automatically" : "Manual save only"}
-                  </span>
+                  {/* Auto-save toggle */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={toggleAutoSave}
+                        className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                          chatSettings.autoSave
+                            ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                            : "bg-slate/10 text-slate border border-slate/20"
+                        }`}
+                      >
+                        {chatSettings.autoSave
+                          ? "Auto-save ON"
+                          : "Auto-save OFF"}
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-navy-light border-navy-lighter">
+                      <p className="text-xs text-slate-light">
+                        {chatSettings.autoSave
+                          ? "Saves automatically"
+                          : "Manual save only"}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
-              </div>
+              </TooltipProvider>
 
               <div className="flex flex-col items-center gap-2">
                 <ConnectionStatus showDetails={true} />
@@ -484,6 +650,22 @@ function AskMePageContent() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteConversationId && (
+        <Suspense fallback={null}>
+          <DeleteConfirmModal
+            open={!!deleteConversationId}
+            onOpenChange={(open) => !open && setDeleteConversationId(null)}
+            conversationTitle={
+              conversations.find((c) => c.id === deleteConversationId)?.title
+            }
+            onConfirm={confirmDelete}
+            onCancel={() => setDeleteConversationId(null)}
+            isDeleting={isDeleting}
+          />
+        </Suspense>
+      )}
     </main>
   );
 }

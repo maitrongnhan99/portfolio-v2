@@ -9,6 +9,8 @@ export { QuickActions } from './quick-actions';
 export { ChatHeader } from './chat-header';
 export { ChatControls } from './chat-controls';
 export { ChatSettings } from './chat-settings';
+export { SidebarSearch } from './sidebar-search';
+export { DeleteConfirmModal } from './delete-confirm-modal';
 export {
   WelcomeLoadingSkeleton,
   SuggestionsLoadingSkeleton,

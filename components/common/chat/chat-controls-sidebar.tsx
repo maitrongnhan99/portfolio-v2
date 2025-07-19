@@ -1,8 +1,7 @@
 "use client";
 
-import React, { lazy, Suspense } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import React, { lazy, Suspense, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sheet,
   SheetContent,
@@ -15,11 +14,14 @@ import {
   MagnifyingGlass,
   Trash,
   Plus,
-  ArrowLeft,
   Command,
+  ChatsCircle,
+  ChatText,
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Message, ChatSettings } from "@/types/chat";
+import type { Conversation } from "@/hooks/use-conversation-history";
+import { SidebarSearch } from "./sidebar-search";
 
 const ExportDialog = lazy(() =>
   import("@/components/common/chat/export/export-dialog").then((module) => ({
@@ -27,13 +29,25 @@ const ExportDialog = lazy(() =>
   }))
 );
 
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  timestamp: Date;
-  topics?: string[];
-}
+// Utility function to format relative time
+const formatRelativeTime = (date: Date): string => {
+  const now = new Date();
+  const diffInMs = now.getTime() - date.getTime();
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInMinutes < 1) return "just now";
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+  if (diffInDays < 7) return `${diffInDays}d ago`;
+  
+  return date.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+  });
+};
 
 interface ChatControlsSidebarProps {
   isOpen: boolean;
@@ -46,6 +60,8 @@ interface ChatControlsSidebarProps {
   onSaveConversation: () => void;
   onNewConversation: () => void;
   onClearMessages: () => void;
+  onLoadConversation: (id: string) => void;
+  onDeleteConversation: (id: string) => void;
   chatSettings: ChatSettings;
   isOnline: boolean;
 }
@@ -116,6 +132,79 @@ const SectionDivider = ({ title }: { title: string }) => (
   </div>
 );
 
+// Conversation History Item Component
+interface ConversationHistoryItemProps {
+  conversation: Conversation;
+  isActive: boolean;
+  onClick: () => void;
+  onDelete: () => void;
+}
+
+const ConversationHistoryItem = ({ 
+  conversation, 
+  isActive, 
+  onClick, 
+  onDelete 
+}: ConversationHistoryItemProps) => {
+  const [showDelete, setShowDelete] = useState(false);
+  
+  return (
+    <motion.div
+      onHoverStart={() => setShowDelete(true)}
+      onHoverEnd={() => setShowDelete(false)}
+      className={cn(
+        "group relative px-3 py-2 rounded-md cursor-pointer transition-all",
+        isActive ? "bg-primary/10 border border-primary/30" : "hover:bg-slate/5"
+      )}
+      onClick={onClick}
+      whileHover={!isActive ? { x: 4 } : {}}
+      whileTap={{ scale: 0.98 }}
+    >
+      <div className="flex items-start gap-2">
+        <ChatText className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-mono text-slate-light truncate">
+            {conversation.title}
+          </p>
+          <div className="flex items-center gap-2 text-xs text-slate/50">
+            <span>{conversation.messages.length} messages</span>
+            <span>•</span>
+            <span>{formatRelativeTime(conversation.updatedAt)}</span>
+          </div>
+          {conversation.topicsExplored && conversation.topicsExplored.length > 0 && (
+            <div className="flex gap-1 mt-1 flex-wrap">
+              {conversation.topicsExplored.slice(0, 3).map((topic, index) => (
+                <span 
+                  key={index} 
+                  className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded text-slate/70"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        <AnimatePresence>
+          {showDelete && !isActive && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              className="absolute right-2 top-2 p-1 rounded hover:bg-red-500/10 transition-colors"
+            >
+              <Trash className="w-3.5 h-3.5 text-red-500" />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+};
+
 export const ChatControlsSidebar = ({
   isOpen,
   onOpenChange,
@@ -127,10 +216,35 @@ export const ChatControlsSidebar = ({
   onSaveConversation,
   onNewConversation,
   onClearMessages,
+  onLoadConversation,
+  onDeleteConversation,
   chatSettings,
   isOnline,
 }: ChatControlsSidebarProps) => {
   const [showExportDialog, setShowExportDialog] = React.useState(false);
+  const [isSearchMode, setIsSearchMode] = useState(false);
+
+  // Keyboard shortcut for Cmd+K
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+      
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchMode(true);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
+  // Reset search mode when sidebar closes
+  useEffect(() => {
+    if (!isOpen) {
+      setIsSearchMode(false);
+    }
+  }, [isOpen]);
 
   const handleAction = (action: () => void) => {
     action();
@@ -145,22 +259,30 @@ export const ChatControlsSidebar = ({
           side="right" 
           className="w-full sm:w-[380px] bg-navy-light border-navy-lighter"
         >
-          <SheetHeader>
-            <SheetTitle className="text-slate-light font-mono">
-              Chat Controls
-            </SheetTitle>
-          </SheetHeader>
+          {isSearchMode ? (
+            <SidebarSearch
+              conversations={conversations}
+              currentConversation={currentConversation}
+              onLoadConversation={onLoadConversation}
+              onDeleteConversation={onDeleteConversation}
+              onBack={() => setIsSearchMode(false)}
+              onClose={() => onOpenChange(false)}
+            />
+          ) : (
+            <>
+              <SheetHeader>
+                <SheetTitle className="text-slate-light font-mono">
+                  Chat Controls
+                </SheetTitle>
+              </SheetHeader>
 
-          <div className="mt-6 space-y-6">
+              <div className="mt-6 space-y-6">
             {/* Actions Section */}
             <div>
               <SectionDivider title="Actions" />
               <div className="space-y-2">
                 <SidebarButton
-                  onClick={() => {
-                    setShowSearchDialog(true);
-                    onOpenChange(false);
-                  }}
+                  onClick={() => setIsSearchMode(true)}
                   icon={<MagnifyingGlass className="w-5 h-5" />}
                   label="Search Conversations"
                   description="Find messages across all conversations"
@@ -212,18 +334,41 @@ export const ChatControlsSidebar = ({
               </div>
             </div>
 
-            {/* Navigation Section */}
+            {/* History Section */}
             <div>
-              <SectionDivider title="Navigation" />
-              <Link href="/" onClick={() => onOpenChange(false)}>
-                <SidebarButton
-                  onClick={() => {}}
-                  icon={<ArrowLeft className="w-5 h-5" />}
-                  label="Back to Portfolio"
-                  description="Return to main site"
-                  variant="primary"
-                />
-              </Link>
+              <SectionDivider title="History" />
+              <div className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar">
+                {conversations.length === 0 ? (
+                  <div className="px-4 py-8 text-center">
+                    <ChatsCircle className="w-12 h-12 mx-auto mb-2 text-slate/30" />
+                    <p className="text-sm text-slate/60">No conversations yet</p>
+                    <p className="text-xs text-slate/40 mt-1">Start chatting to build your history</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    {conversations.slice(0, 10).map((conv) => (
+                      <ConversationHistoryItem
+                        key={conv.id}
+                        conversation={conv}
+                        isActive={currentConversation?.id === conv.id}
+                        onClick={() => {
+                          onLoadConversation(conv.id);
+                          onOpenChange(false);
+                        }}
+                        onDelete={() => onDeleteConversation(conv.id)}
+                      />
+                    ))}
+                    {conversations.length > 10 && (
+                      <button 
+                        onClick={() => setIsSearchMode(true)}
+                        className="w-full px-4 py-2 text-xs text-slate/60 hover:text-slate-light transition-colors"
+                      >
+                        View all {conversations.length} conversations
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Status Section */}
@@ -248,6 +393,8 @@ export const ChatControlsSidebar = ({
               )}
             </div>
           </div>
+            </>
+          )}
         </SheetContent>
       </Sheet>
 

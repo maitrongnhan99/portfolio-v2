@@ -10,7 +10,8 @@ import {
   LinkedinLogo,
   ArrowRight,
   Sparkle,
-  User
+  User,
+  Robot
 } from "@phosphor-icons/react";
 
 interface QuickActionsProps {
@@ -107,77 +108,85 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="mb-6"
+      className="mb-6 flex gap-3"
     >
-      <div className="mb-4">
-        <div className="flex items-center gap-2 mb-2">
-          <ArrowRight className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-medium text-slate-lighter">Quick Actions</h3>
-        </div>
-        <p className="text-xs text-slate/70">
-          Get instant answers to common questions
-        </p>
+      {/* Robot Avatar - matching ChatMessage style */}
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+        <Robot className="w-4 h-4 text-primary" />
       </div>
-
-      {categories.map((category) => {
-        const categoryActions = quickActions.filter(action => action.category === category.id);
-        
-        if (categoryActions.length === 0) return null;
-
-        return (
-          <div key={category.id} className="mb-4">
-            <div className="flex items-center gap-2 mb-3">
-              {(() => {
-                const IconComponent = category.icon;
-                return <IconComponent className="w-4 h-4 text-slate/70" />;
-              })()}
-              <h4 className="text-xs font-medium text-slate/70 uppercase tracking-wide">
-                {category.title}
-              </h4>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {categoryActions.map((action, index) => (
-                <motion.button
-                  key={action.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2, delay: index * 0.1 }}
-                  onClick={() => onSendMessage(action.message)}
-                  className={`p-3 rounded-lg border text-left transition-all duration-200 group ${action.bgColor}`}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-navy/50 flex items-center justify-center">
-                      {(() => {
-                        const IconComponent = action.icon;
-                        return <IconComponent className={`w-4 h-4 ${action.color}`} />;
-                      })()}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h5 className="text-sm font-medium text-slate-lighter mb-1 group-hover:text-white transition-colors">
-                        {action.title}
-                      </h5>
-                      <p className="text-xs text-slate/70 group-hover:text-slate/90 transition-colors">
-                        {action.description}
-                      </p>
-                    </div>
-                    <ArrowRight className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
-                  </div>
-                </motion.button>
-              ))}
-            </div>
+      
+      {/* Content Container */}
+      <div className="flex-1">
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <ArrowRight className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-medium text-slate-lighter">Quick Actions</h3>
           </div>
-        );
-      })}
-
-      <div className="mt-4 p-3 bg-navy/20 border border-navy-lighter/50 rounded-lg">
-        <div className="flex items-center gap-2 mb-1">
-          <Sparkle className="w-3 h-3 text-primary" />
-          <span className="text-xs font-medium text-slate-lighter">Pro Tip</span>
+          <p className="text-xs text-slate/70">
+            Get instant answers to common questions
+          </p>
         </div>
-        <p className="text-xs text-slate/70">
-          You can also ask me anything specific about Mai&apos;s background, skills, or experience in your own words.
-        </p>
+
+        {categories.map((category) => {
+          const categoryActions = quickActions.filter(action => action.category === category.id);
+          
+          if (categoryActions.length === 0) return null;
+
+          return (
+            <div key={category.id} className="mb-4">
+              <div className="flex items-center gap-2 mb-3">
+                {(() => {
+                  const IconComponent = category.icon;
+                  return <IconComponent className="w-4 h-4 text-slate/70" />;
+                })()}
+                <h4 className="text-xs font-medium text-slate/70 uppercase tracking-wide">
+                  {category.title}
+                </h4>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {categoryActions.map((action, index) => (
+                  <motion.button
+                    key={action.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2, delay: index * 0.1 }}
+                    onClick={() => onSendMessage(action.message)}
+                    className={`p-3 rounded-lg border text-left transition-all duration-200 group ${action.bgColor}`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-navy/50 flex items-center justify-center">
+                        {(() => {
+                          const IconComponent = action.icon;
+                          return <IconComponent className={`w-4 h-4 ${action.color}`} />;
+                        })()}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h5 className="text-sm font-medium text-slate-lighter mb-1 group-hover:text-white transition-colors">
+                          {action.title}
+                        </h5>
+                        <p className="text-xs text-slate/70 group-hover:text-slate/90 transition-colors">
+                          {action.description}
+                        </p>
+                      </div>
+                      <ArrowRight className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        <div className="mt-4 p-3 bg-navy/20 border border-navy-lighter/50 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkle className="w-3 h-3 text-primary" />
+            <span className="text-xs font-medium text-slate-lighter">Pro Tip</span>
+          </div>
+          <p className="text-xs text-slate/70">
+            You can also ask me anything specific about Mai&apos;s background, skills, or experience in your own words.
+          </p>
+        </div>
       </div>
     </motion.div>
   );
