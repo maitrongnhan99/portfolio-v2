@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  Briefcase,
-  ChatCircle,
-  Code,
-  FolderOpen,
-  Robot,
-  Sparkle,
+  BriefcaseIcon,
+  ChatCircleIcon,
+  CodeIcon,
+  FolderOpenIcon,
+  RobotIcon,
+  SparkleIcon,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -24,12 +24,12 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
     () => [
       {
         text: "Hello! I'm Mai Trọng Nhân's AI Assistant",
-        icon: Robot,
+        icon: RobotIcon,
         delay: 0,
       },
       {
         text: "I can help you learn about...",
-        icon: Sparkle,
+        icon: SparkleIcon,
         delay: 1500,
       },
     ],
@@ -39,22 +39,22 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
   const topics = [
     {
       text: "Technical Skills & Expertise",
-      icon: Code,
+      icon: CodeIcon,
       color: "text-blue-400",
     },
     {
       text: "Professional Experience",
-      icon: Briefcase,
+      icon: BriefcaseIcon,
       color: "text-green-400",
     },
     {
       text: "Projects & Portfolio",
-      icon: FolderOpen,
+      icon: FolderOpenIcon,
       color: "text-purple-400",
     },
     {
       text: "Background & Interests",
-      icon: ChatCircle,
+      icon: ChatCircleIcon,
       color: "text-pink-400",
     },
   ];
@@ -140,7 +140,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                 animate={{ scale: 1 }}
                 className="relative"
               >
-                <Robot className="w-8 h-8 text-primary" />
+                <RobotIcon className="w-8 h-8 text-primary" />
                 <motion.div
                   animate={{
                     scale: [1, 1.2, 1],
@@ -244,7 +244,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                       ease: "linear",
                     }}
                   >
-                    <Sparkle className="w-3 h-3 text-primary" />
+                    <SparkleIcon className="w-3 h-3 text-primary" />
                   </motion.div>
                 )}
               </motion.div>

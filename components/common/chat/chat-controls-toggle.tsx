@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { List, X } from "@phosphor-icons/react";
+import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 interface ChatControlsToggleProps {
@@ -37,14 +37,14 @@ export const ChatControlsToggle = ({
           animate={isOpen ? "open" : "closed"}
           className="absolute inset-0"
         >
-          <List 
+          <ListIcon 
             className={cn(
               "w-5 h-5 text-slate-light absolute",
               "transition-opacity duration-200",
               isOpen ? "opacity-0" : "opacity-100"
             )}
           />
-          <X 
+          <XIcon 
             className={cn(
               "w-5 h-5 text-slate-light absolute",
               "transition-opacity duration-200",

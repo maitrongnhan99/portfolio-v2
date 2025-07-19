@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChatCircle, Clock, Lightbulb, Trophy } from "@phosphor-icons/react";
+import { ChatCircleIcon, ClockIcon, LightbulbIcon, TrophyIcon } from "@phosphor-icons/react";
 import { NoSSR } from "@/components/ui/no-ssr";
 
 interface ConversationProgressProps {
@@ -55,7 +55,7 @@ export const ConversationProgress = ({
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Trophy className="w-4 h-4 text-primary" />
+          <TrophyIcon className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium text-slate-lighter">
             Conversation Progress
           </span>
@@ -69,7 +69,7 @@ export const ConversationProgress = ({
         {/* Messages Count */}
         <div className="flex items-center gap-3 p-3 bg-navy/30 rounded-lg">
           <div className="w-8 h-8 rounded-full bg-blue-400/10 flex items-center justify-center">
-            <ChatCircle className="w-4 h-4 text-blue-400" />
+            <ChatCircleIcon className="w-4 h-4 text-blue-400" />
           </div>
           <div>
             <div className="text-lg font-bold text-slate-lighter">{messageCount}</div>
@@ -80,7 +80,7 @@ export const ConversationProgress = ({
         {/* Duration */}
         <div className="flex items-center gap-3 p-3 bg-navy/30 rounded-lg">
           <div className="w-8 h-8 rounded-full bg-green-400/10 flex items-center justify-center">
-            <Clock className="w-4 h-4 text-green-400" />
+            <ClockIcon className="w-4 h-4 text-green-400" />
           </div>
           <div>
             <div className="text-lg font-bold text-slate-lighter">
@@ -95,7 +95,7 @@ export const ConversationProgress = ({
         {/* Topics Explored */}
         <div className="flex items-center gap-3 p-3 bg-navy/30 rounded-lg">
           <div className="w-8 h-8 rounded-full bg-purple-400/10 flex items-center justify-center">
-            <Lightbulb className="w-4 h-4 text-purple-400" />
+            <LightbulbIcon className="w-4 h-4 text-purple-400" />
           </div>
           <div>
             <div className="text-lg font-bold text-slate-lighter">{topicsExplored.length}</div>

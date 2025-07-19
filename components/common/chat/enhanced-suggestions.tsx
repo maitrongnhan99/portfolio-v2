@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Robot, Code, Briefcase, FolderOpen, GraduationCap, Phone, Sparkle, ArrowRight } from "@phosphor-icons/react";
+import { RobotIcon, CodeIcon, BriefcaseIcon, FolderOpenIcon, GraduationCapIcon, PhoneIcon, SparkleIcon, ArrowRightIcon } from "@phosphor-icons/react";
 import { NoSSR } from "@/components/ui/no-ssr";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
     {
       id: "skills",
       title: "Technical Skills",
-      icon: Code,
+      icon: CodeIcon,
       color: "text-blue-400",
       bgColor: "bg-blue-400/10 border-blue-400/20 hover:bg-blue-400/20",
       description: "Explore my technical expertise and programming skills",
@@ -43,7 +43,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
     {
       id: "experience",
       title: "Work Experience",
-      icon: Briefcase,
+      icon: BriefcaseIcon,
       color: "text-green-400",
       bgColor: "bg-green-400/10 border-green-400/20 hover:bg-green-400/20",
       description: "Learn about my professional journey and achievements",
@@ -58,7 +58,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
     {
       id: "projects",
       title: "Projects & Portfolio",
-      icon: FolderOpen,
+      icon: FolderOpenIcon,
       color: "text-purple-400",
       bgColor: "bg-purple-400/10 border-purple-400/20 hover:bg-purple-400/20",
       description: "Discover the projects I've built and technologies used",
@@ -73,7 +73,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
     {
       id: "education",
       title: "Background & Learning",
-      icon: GraduationCap,
+      icon: GraduationCapIcon,
       color: "text-orange-400",
       bgColor: "bg-orange-400/10 border-orange-400/20 hover:bg-orange-400/20",
       description: "My educational background and continuous learning journey",
@@ -88,7 +88,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
     {
       id: "contact",
       title: "Contact & Opportunities",
-      icon: Phone,
+      icon: PhoneIcon,
       color: "text-pink-400",
       bgColor: "bg-pink-400/10 border-pink-400/20 hover:bg-pink-400/20",
       description: "Get in touch and explore collaboration opportunities",
@@ -122,7 +122,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       className="flex gap-3 mb-6"
     >
       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <Robot className="w-4 h-4 text-primary" />
+        <RobotIcon className="w-4 h-4 text-primary" />
       </div>
       
       <div className="max-w-full flex-1 rounded-lg px-4 py-3 bg-navy-light border border-navy-lighter text-slate-lighter">
@@ -137,7 +137,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
             >
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkle className="w-4 h-4 text-primary" />
+                  <SparkleIcon className="w-4 h-4 text-primary" />
                   <p className="text-sm text-slate-light font-medium">
                     What would you like to know about?
                   </p>
@@ -172,7 +172,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                           {category.description}
                         </p>
                       </div>
-                      <ArrowRight className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter transition-all transform group-hover:translate-x-1" />
+                      <ArrowRightIcon className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter transition-all transform group-hover:translate-x-1" />
                     </div>
                   </motion.button>
                 ))}
@@ -215,7 +215,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                     onClick={handleBackClick}
                     className="text-slate/70 hover:text-slate-lighter transition-colors text-xs flex items-center gap-1"
                   >
-                    <ArrowRight className="w-3 h-3 rotate-180" />
+                    <ArrowRightIcon className="w-3 h-3 rotate-180" />
                     Back to categories
                   </button>
                 </div>
@@ -245,7 +245,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                   >
                     <div className="flex items-center gap-2">
                       <span className="flex-1">{question}</span>
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
+                      <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
                     </div>
                   </motion.button>
                 ))}
@@ -268,7 +268,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
             <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </NoSSR>
           <span className="flex items-center gap-1">
-            <Sparkle className="w-3 h-3" />
+            <SparkleIcon className="w-3 h-3" />
             AI-Powered
           </span>
         </div>

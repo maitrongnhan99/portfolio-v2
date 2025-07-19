@@ -4,7 +4,7 @@ import { FC } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { X } from "@phosphor-icons/react";
+import { XIcon } from "@phosphor-icons/react";
 import { When } from "react-if";
 import { navLinks } from "./nav-links";
 
@@ -32,7 +32,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
             aria-label="Close menu"
             className="text-slate-lighter hover:text-primary"
           >
-            <X className="h-5 w-5" />
+            <XIcon className="h-5 w-5" />
           </Button>
         </div>
         <div className="flex flex-col h-[80%] space-y-6 px-4">

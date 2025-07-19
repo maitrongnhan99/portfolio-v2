@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MagnifyingGlass, X, Calendar, Tag, User, Robot, SortAscending, SortDescending } from "@phosphor-icons/react";
+import { MagnifyingGlassIcon, XIcon, CalendarIcon, TagIcon, UserIcon, RobotIcon, SortAscendingIcon, SortDescendingIcon } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -170,7 +170,7 @@ export function ConversationSearch({
 
         {/* Search Input */}
         <div className="relative mb-3">
-          <MagnifyingGlass className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate/50" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate/50" />
           <Input
             placeholder="Search conversations..."
             value={searchQuery}
@@ -182,7 +182,7 @@ export function ConversationSearch({
               onClick={() => setSearchQuery("")}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate/50 hover:text-slate-lighter"
             >
-              <X className="w-4 h-4" />
+              <XIcon className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -260,7 +260,7 @@ export function ConversationSearch({
                   onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                   className="text-slate-lighter hover:bg-navy"
                 >
-                  {sortOrder === 'asc' ? <SortAscending className="w-4 h-4" /> : <SortDescending className="w-4 h-4" />}
+                  {sortOrder === 'asc' ? <SortAscendingIcon className="w-4 h-4" /> : <SortDescendingIcon className="w-4 h-4" />}
                 </Button>
                 
                 {activeFilterCount > 0 && (
@@ -283,7 +283,7 @@ export function ConversationSearch({
       <div className="max-h-96 overflow-y-auto">
         {filteredConversations.length === 0 ? (
           <div className="p-6 text-center text-slate/50">
-            <MagnifyingGlass className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <MagnifyingGlassIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
             <p>No conversations found</p>
             {activeFilterCount > 0 && (
               <Button

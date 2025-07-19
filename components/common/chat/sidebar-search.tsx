@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, X, MagnifyingGlass, ChatText, Trash } from "@phosphor-icons/react";
+import { ArrowLeftIcon, XIcon, MagnifyingGlassIcon, ChatTextIcon, TrashIcon } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { Conversation } from "@/hooks/use-conversation-history";
@@ -67,7 +67,7 @@ export const SidebarSearch: React.FC<SidebarSearchProps> = ({
           className="p-1 hover:bg-slate/10 rounded transition-colors"
           aria-label="Back to controls"
         >
-          <ArrowLeft className="w-5 h-5 text-slate-light" />
+          <ArrowLeftIcon className="w-5 h-5 text-slate-light" />
         </button>
         <h2 className="text-slate-light font-mono text-lg">
           Search Conversations
@@ -104,7 +104,7 @@ const SearchInput: React.FC<{
   onClear: () => void;
 }> = ({ value, onChange, onClear }) => (
   <div className="relative mb-4">
-    <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate/50" />
+    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate/50" />
     <Input
       placeholder="Search messages, titles, or topics..."
       value={value}
@@ -118,7 +118,7 @@ const SearchInput: React.FC<{
         className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate/10 rounded transition-colors"
         aria-label="Clear search"
       >
-        <X className="w-4 h-4 text-slate/50" />
+        <XIcon className="w-4 h-4 text-slate/50" />
       </button>
     )}
   </div>
@@ -136,7 +136,7 @@ const SearchResults: React.FC<{
   if (!query) {
     return (
       <div className="text-center py-8">
-        <MagnifyingGlass className="w-12 h-12 mx-auto mb-3 text-slate/30" />
+        <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-3 text-slate/30" />
         <p className="text-sm text-slate/60">Start typing to search</p>
         <p className="text-xs text-slate/40 mt-2">
           Search in titles, messages, and topics
@@ -227,7 +227,7 @@ const SearchResultItem: React.FC<{
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatText className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-mono text-slate-light">
             {highlightText(result.conversation.title)}
@@ -275,7 +275,7 @@ const SearchResultItem: React.FC<{
               className="absolute right-2 top-2 p-1 rounded hover:bg-red-500/10 transition-colors"
               aria-label="Delete conversation"
             >
-              <Trash className="w-3.5 h-3.5 text-red-500" />
+              <TrashIcon className="w-3.5 h-3.5 text-red-500" />
             </motion.button>
           )}
         </AnimatePresence>

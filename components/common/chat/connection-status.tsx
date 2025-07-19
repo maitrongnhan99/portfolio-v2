@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { WifiHigh, WifiMedium, WifiLow, WifiSlash, ArrowClockwise, Warning, CheckCircle } from "@phosphor-icons/react";
+import { WifiHighIcon, WifiMediumIcon, WifiLowIcon, WifiSlashIcon, ArrowClockwiseIcon, WarningIcon, CheckCircleIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NoSSR } from "@/components/ui/no-ssr";
@@ -25,18 +25,18 @@ export const ConnectionStatus = ({ className = "", showDetails = false }: Connec
   }, [status.isOnline, status.isConnected, status.connectionQuality]);
 
   const getStatusIcon = () => {
-    if (!status.isOnline) return <WifiSlash className="w-4 h-4" />;
-    if (!status.isConnected) return <WifiSlash className="w-4 h-4" />;
+    if (!status.isOnline) return <WifiSlashIcon className="w-4 h-4" />;
+    if (!status.isConnected) return <WifiSlashIcon className="w-4 h-4" />;
     
     switch (status.connectionQuality) {
       case 'excellent':
-        return <WifiHigh className="w-4 h-4" />;
+        return <WifiHighIcon className="w-4 h-4" />;
       case 'good':
-        return <WifiMedium className="w-4 h-4" />;
+        return <WifiMediumIcon className="w-4 h-4" />;
       case 'poor':
-        return <WifiLow className="w-4 h-4" />;
+        return <WifiLowIcon className="w-4 h-4" />;
       default:
-        return <WifiSlash className="w-4 h-4" />;
+        return <WifiSlashIcon className="w-4 h-4" />;
     }
   };
 
@@ -99,7 +99,7 @@ export const ConnectionStatus = ({ className = "", showDetails = false }: Connec
               <span className="text-sm font-medium">{getStatusText()}</span>
               {status.error && (
                 <div className="flex items-center gap-1">
-                  <Warning className="w-3 h-3" />
+                  <WarningIcon className="w-3 h-3" />
                   <span className="text-xs opacity-80">{status.error}</span>
                 </div>
               )}
@@ -118,7 +118,7 @@ export const ConnectionStatus = ({ className = "", showDetails = false }: Connec
                 disabled={isRetrying}
                 className="h-auto p-1 text-current hover:bg-current/10"
               >
-                <ArrowClockwise 
+                <ArrowClockwiseIcon 
                   className={cn("w-4 h-4", isRetrying && "animate-spin")} 
                 />
               </Button>

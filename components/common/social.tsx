@@ -3,10 +3,10 @@
 import { DEFAULT_DURATION } from "@/constants/animation-configs";
 import { cn } from "@/lib/utils";
 import {
-  FacebookLogo,
-  GithubLogo,
-  InstagramLogo,
-  LinkedinLogo,
+  FacebookLogoIcon,
+  GithubLogoIcon,
+  InstagramLogoIcon,
+  LinkedinLogoIcon,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -18,22 +18,22 @@ interface SocialProps {
 
 const socialLinks = [
   {
-    icon: <GithubLogo className="w-5 h-5" />,
+    icon: <GithubLogoIcon className="w-5 h-5" />,
     href: "https://github.com/maitrongnhan99",
     label: "GitHub",
   },
   {
-    icon: <LinkedinLogo className="w-5 h-5" />,
+    icon: <LinkedinLogoIcon className="w-5 h-5" />,
     href: "https://www.linkedin.com/in/maitrongnhan/",
     label: "LinkedIn",
   },
   {
-    icon: <InstagramLogo className="w-5 h-5" />,
+    icon: <InstagramLogoIcon className="w-5 h-5" />,
     href: "https://instagram.com/maitrongnhan.007",
     label: "Instagram",
   },
   {
-    icon: <FacebookLogo className="w-5 h-5" />,
+    icon: <FacebookLogoIcon className="w-5 h-5" />,
     href: "https://www.facebook.com/maitrongnhan07",
     label: "Facebook",
   },

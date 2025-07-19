@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, FileArrowDown } from "@phosphor-icons/react";
+import { DownloadIcon, FileArrowDownIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { ConversationExporter, type ExportFormat } from "@/lib/export-utils";
@@ -56,7 +56,7 @@ export function ExportButton({
           disabled={disabled || !conversation || conversation.messages.length === 0}
           className="flex items-center gap-2"
         >
-          <FileArrowDown className="w-4 h-4" />
+          <FileArrowDownIcon className="w-4 h-4" />
           <span className="hidden sm:inline">Export</span>
         </Button>
       </DropdownMenuTrigger>
@@ -68,7 +68,7 @@ export function ExportButton({
           className="text-slate-lighter hover:bg-navy cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <Download className="w-4 h-4" />
+            <DownloadIcon className="w-4 h-4" />
             <span>Markdown (.md)</span>
           </div>
         </DropdownMenuItem>
@@ -79,7 +79,7 @@ export function ExportButton({
           className="text-slate-lighter hover:bg-navy cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <Download className="w-4 h-4" />
+            <DownloadIcon className="w-4 h-4" />
             <span>Plain Text (.txt)</span>
           </div>
         </DropdownMenuItem>
@@ -90,7 +90,7 @@ export function ExportButton({
           className="text-slate-lighter hover:bg-navy cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <Download className="w-4 h-4" />
+            <DownloadIcon className="w-4 h-4" />
             <span>JSON (.json)</span>
           </div>
         </DropdownMenuItem>
@@ -101,7 +101,7 @@ export function ExportButton({
           className="text-slate-lighter hover:bg-navy cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <Download className="w-4 h-4" />
+            <DownloadIcon className="w-4 h-4" />
             <span>CSV (.csv)</span>
           </div>
         </DropdownMenuItem>
@@ -114,7 +114,7 @@ export function ExportButton({
             className="text-slate-lighter hover:bg-navy cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <Download className="w-4 h-4" />
+              <DownloadIcon className="w-4 h-4" />
               <span>Advanced Export...</span>
             </div>
           </DropdownMenuItem>

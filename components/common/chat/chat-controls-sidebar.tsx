@@ -9,14 +9,14 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import {
-  FloppyDisk,
-  Download,
-  MagnifyingGlass,
-  Trash,
-  Plus,
-  Command,
-  ChatsCircle,
-  ChatText,
+  FloppyDiskIcon,
+  DownloadIcon,
+  MagnifyingGlassIcon,
+  TrashIcon,
+  PlusIcon,
+  CommandIcon,
+  ChatsCircleIcon,
+  ChatTextIcon,
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Message, ChatSettings } from "@/types/chat";
@@ -111,7 +111,7 @@ const SidebarButton = ({
           <span className="font-mono text-sm font-medium">{label}</span>
           {shortcut && (
             <span className="text-xs font-mono opacity-50 flex items-center gap-1">
-              <Command className="w-3 h-3" />
+              <CommandIcon className="w-3 h-3" />
               {shortcut}
             </span>
           )}
@@ -161,7 +161,7 @@ const ConversationHistoryItem = ({
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatText className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-mono text-slate-light truncate">
             {conversation.title}
@@ -196,7 +196,7 @@ const ConversationHistoryItem = ({
               }}
               className="absolute right-2 top-2 p-1 rounded hover:bg-red-500/10 transition-colors"
             >
-              <Trash className="w-3.5 h-3.5 text-red-500" />
+              <TrashIcon className="w-3.5 h-3.5 text-red-500" />
             </motion.button>
           )}
         </AnimatePresence>
@@ -283,7 +283,7 @@ export const ChatControlsSidebar = ({
               <div className="space-y-2">
                 <SidebarButton
                   onClick={() => setIsSearchMode(true)}
-                  icon={<MagnifyingGlass className="w-5 h-5" />}
+                  icon={<MagnifyingGlassIcon className="w-5 h-5" />}
                   label="Search Conversations"
                   description="Find messages across all conversations"
                   shortcut="K"
@@ -292,7 +292,7 @@ export const ChatControlsSidebar = ({
                 <SidebarButton
                   onClick={() => handleAction(onSaveConversation)}
                   disabled={messages.length === 0}
-                  icon={<FloppyDisk className="w-5 h-5" />}
+                  icon={<FloppyDiskIcon className="w-5 h-5" />}
                   label="Save Conversation"
                   description="Save current chat to history"
                   shortcut="S"
@@ -303,7 +303,7 @@ export const ChatControlsSidebar = ({
                     onOpenChange(false);
                   }}
                   disabled={conversations.length === 0}
-                  icon={<Download className="w-5 h-5" />}
+                  icon={<DownloadIcon className="w-5 h-5" />}
                   label="Export Conversations"
                   description="Download chat history as JSON"
                   shortcut="E"
@@ -317,7 +317,7 @@ export const ChatControlsSidebar = ({
               <div className="space-y-2">
                 <SidebarButton
                   onClick={() => handleAction(onNewConversation)}
-                  icon={<Plus className="w-5 h-5" />}
+                  icon={<PlusIcon className="w-5 h-5" />}
                   label="New Conversation"
                   description="Start a fresh chat"
                   shortcut="N"
@@ -326,7 +326,7 @@ export const ChatControlsSidebar = ({
                 <SidebarButton
                   onClick={() => handleAction(onClearMessages)}
                   disabled={messages.length === 0}
-                  icon={<Trash className="w-5 h-5" />}
+                  icon={<TrashIcon className="w-5 h-5" />}
                   label="Clear Current Chat"
                   description="Remove all messages"
                   variant="danger"
@@ -340,7 +340,7 @@ export const ChatControlsSidebar = ({
               <div className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar">
                 {conversations.length === 0 ? (
                   <div className="px-4 py-8 text-center">
-                    <ChatsCircle className="w-12 h-12 mx-auto mb-2 text-slate/30" />
+                    <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-slate/30" />
                     <p className="text-sm text-slate/60">No conversations yet</p>
                     <p className="text-xs text-slate/40 mt-1">Start chatting to build your history</p>
                   </div>

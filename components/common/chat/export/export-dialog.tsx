@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { X, Download, FileText, FileCode, FileArrowDown, FileCsv } from "@phosphor-icons/react";
+import { XIcon, DownloadIcon, FileTextIcon, FileCodeIcon, FileArrowDownIcon, FileCsvIcon } from "@phosphor-icons/react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,10 +22,10 @@ interface ExportDialogProps {
 }
 
 const formatOptions = [
-  { value: 'json', label: 'JSON', icon: FileCode, description: 'Machine-readable format' },
-  { value: 'markdown', label: 'Markdown', icon: FileText, description: 'Formatted text with styling' },
-  { value: 'txt', label: 'Plain Text', icon: FileText, description: 'Simple text format' },
-  { value: 'csv', label: 'CSV', icon: FileCsv, description: 'Spreadsheet format' },
+  { value: 'json', label: 'JSON', icon: FileCodeIcon, description: 'Machine-readable format' },
+  { value: 'markdown', label: 'Markdown', icon: FileTextIcon, description: 'Formatted text with styling' },
+  { value: 'txt', label: 'Plain Text', icon: FileTextIcon, description: 'Simple text format' },
+  { value: 'csv', label: 'CSV', icon: FileCsvIcon, description: 'Spreadsheet format' },
 ] as const;
 
 export function ExportDialog({ 
@@ -123,7 +123,7 @@ export function ExportDialog({
         <DialogContent className="sm:max-w-[500px] bg-navy-light border-navy-lighter">
           <DialogHeader>
             <DialogTitle className="text-slate-lighter flex items-center gap-2">
-              <Download className="w-5 h-5 text-primary" />
+              <DownloadIcon className="w-5 h-5 text-primary" />
               Export Conversation
             </DialogTitle>
           </DialogHeader>
@@ -249,7 +249,7 @@ export function ExportDialog({
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4 mr-2" />
+                    <DownloadIcon className="w-4 h-4 mr-2" />
                     Export
                   </>
                 )}

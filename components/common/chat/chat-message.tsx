@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { User, Robot, Circle } from "@phosphor-icons/react";
+import { UserIcon, RobotIcon, CircleIcon } from "@phosphor-icons/react";
 import { NoSSR } from "@/components/ui/no-ssr";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +42,7 @@ const ChatMessageComponent = ({
     >
       {!isUser && (
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-          <Robot className={cn(
+          <RobotIcon className={cn(
             "w-4 h-4 text-primary",
             isStreaming && "animate-pulse"
           )} />
@@ -103,9 +103,9 @@ const ChatMessageComponent = ({
           {/* Empty message placeholder for streaming */}
           {!isUser && message.trim() === '' && isStreaming && (
             <div className="flex items-center gap-2 text-slate/50">
-              <Circle className="w-2 h-2 animate-bounce" />
-              <Circle className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.1s' }} />
-              <Circle className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.2s' }} />
+              <CircleIcon className="w-2 h-2 animate-bounce" />
+              <CircleIcon className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.1s' }} />
+              <CircleIcon className="w-2 h-2 animate-bounce" style={{ animationDelay: '0.2s' }} />
             </div>
           )}
         </div>
@@ -143,7 +143,7 @@ const ChatMessageComponent = ({
       
       {isUser && (
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate/10 border border-slate/20 flex items-center justify-center">
-          <User className="w-4 h-4 text-slate-light" />
+          <UserIcon className="w-4 h-4 text-slate-light" />
         </div>
       )}
     </motion.div>

@@ -33,7 +33,7 @@ import {
   createUpdatedConversation,
   getConversationHistory,
 } from "@/lib/chat-utils";
-import { ArrowDown, ArrowLeft } from "@phosphor-icons/react";
+import { ArrowDownIcon, ArrowLeftIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -472,7 +472,7 @@ function AskMePageContent() {
               href="/"
               className="flex items-center gap-2 px-3 py-2 bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 rounded-lg font-mono text-sm"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeftIcon className="w-4 h-4" />
               <span className="hidden sm:inline">Back to Portfolio</span>
             </Link>
             <ChatControlsToggle
@@ -574,7 +574,7 @@ function AskMePageContent() {
             className="absolute bottom-4 right-4 w-10 h-10 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg"
             title="Scroll to bottom"
           >
-            <ArrowDown className="w-5 h-5 text-primary" />
+            <ArrowDownIcon className="w-5 h-5 text-primary" />
           </motion.button>
         )}
 
