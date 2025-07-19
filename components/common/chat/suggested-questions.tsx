@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Robot } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 
 interface SuggestedQuestionsProps {
   onSendMessage: (message: string) => void;
@@ -51,7 +52,9 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
         </div>
         
         <div className="text-xs mt-3 opacity-60 text-slate">
-          {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          <NoSSR>
+            {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </NoSSR>
         </div>
       </div>
     </motion.div>

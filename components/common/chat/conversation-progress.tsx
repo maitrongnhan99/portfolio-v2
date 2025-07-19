@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChatCircle, Clock, Lightbulb, Trophy } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 
 interface ConversationProgressProps {
   messageCount: number;
@@ -82,7 +83,11 @@ export const ConversationProgress = ({
             <Clock className="w-4 h-4 text-green-400" />
           </div>
           <div>
-            <div className="text-lg font-bold text-slate-lighter">{getDuration()}</div>
+            <div className="text-lg font-bold text-slate-lighter">
+              <NoSSR fallback="Calculating...">  
+                {getDuration()}
+              </NoSSR>
+            </div>
             <div className="text-xs text-slate/70">Time Exploring</div>
           </div>
         </div>

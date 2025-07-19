@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Robot, Code, Briefcase, FolderOpen, GraduationCap, Phone, Sparkle, ArrowRight } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 import { useState } from "react";
 
 interface EnhancedSuggestionsProps {
@@ -263,7 +264,9 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
         </AnimatePresence>
         
         <div className="text-xs mt-3 opacity-60 text-slate flex items-center justify-between">
-          <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          <NoSSR>
+            <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          </NoSSR>
           <span className="flex items-center gap-1">
             <Sparkle className="w-3 h-3" />
             AI-Powered

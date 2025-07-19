@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -14,6 +12,8 @@ if (!cached) {
 }
 
 async function connectToDatabase() {
+  const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
+  
   if (!MONGODB_CONNECTION_STRING) {
     throw new Error('Please define the MONGODB_CONNECTION_STRING environment variable inside .env.local');
   }
@@ -25,9 +25,21 @@ async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      // MongoDB Atlas connection options
+      retryWrites: true,
+      w: 'majority',
+      // Timeouts
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+      // Connection pool
+      maxPoolSize: 10,
+      minPoolSize: 5,
     };
 
     cached.promise = mongoose.connect(MONGODB_CONNECTION_STRING, opts).then((mongoose) => {
+      console.log('✅ MongoDB connected successfully');
+      console.log(`📍 Database: ${mongoose.connection.db?.databaseName}`);
       return mongoose;
     });
   }

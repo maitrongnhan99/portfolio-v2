@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Social } from "./social";
+import { NoSSR } from "@/components/ui/no-ssr";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-navy border-t border-navy-lighter py-6">
@@ -21,7 +21,7 @@ export default function Footer() {
                 @maitrongnhan99
               </Link>
             </p>
-            <p className="mt-1">© {currentYear} All Rights Reserved</p>
+            <p className="mt-1">© <NoSSR>{new Date().getFullYear()}</NoSSR> All Rights Reserved</p>
           </div>
         </div>
       </div>

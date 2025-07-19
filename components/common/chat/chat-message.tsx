@@ -1,7 +1,9 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { User, Robot, Circle } from "@phosphor-icons/react";
+import { NoSSR } from "@/components/ui/no-ssr";
 import { cn } from "@/lib/utils";
 
 interface ChatMessageProps {
@@ -17,7 +19,7 @@ interface ChatMessageProps {
   }>;
 }
 
-export const ChatMessage = ({ 
+const ChatMessageComponent = ({ 
   message, 
   isUser, 
   timestamp, 
@@ -27,9 +29,12 @@ export const ChatMessage = ({
 }: ChatMessageProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ 
+        duration: 0.2,
+        ease: "easeOut"
+      }}
       className={cn(
         "flex gap-3 mb-6",
         isUser ? "justify-end" : "justify-start"
@@ -124,7 +129,9 @@ export const ChatMessage = ({
           "text-xs mt-2 opacity-60 flex items-center gap-2",
           isUser ? "text-slate" : "text-slate-light"
         )}>
-          <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          <NoSSR>
+            <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          </NoSSR>
           {!isUser && isStreaming && (
             <span className="text-primary/60">• Streaming...</span>
           )}
@@ -142,3 +149,14 @@ export const ChatMessage = ({
     </motion.div>
   );
 };
+
+export const ChatMessage = React.memo(ChatMessageComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.message === nextProps.message &&
+    prevProps.isUser === nextProps.isUser &&
+    prevProps.timestamp.getTime() === nextProps.timestamp.getTime() &&
+    prevProps.isStreaming === nextProps.isStreaming &&
+    prevProps.streamingComplete === nextProps.streamingComplete &&
+    JSON.stringify(prevProps.sources) === JSON.stringify(nextProps.sources)
+  );
+});

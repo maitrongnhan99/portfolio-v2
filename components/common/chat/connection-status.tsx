@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { WifiHigh, WifiMedium, WifiLow, WifiSlash, ArrowClockwise, Warning, CheckCircle } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { NoSSR } from "@/components/ui/no-ssr";
 import { useConnectionStatus } from "@/hooks/use-connection-status";
 import { cn } from "@/lib/utils";
 
@@ -135,9 +136,11 @@ export const ConnectionStatus = ({ className = "", showDetails = false }: Connec
           </div>
           
           {status.lastConnectionTime && (
-            <span className="text-slate/50">
-              • Last connected: {status.lastConnectionTime.toLocaleTimeString()}
-            </span>
+            <NoSSR>
+              <span className="text-slate/50">
+                • Last connected: {status.lastConnectionTime.toLocaleTimeString()}
+              </span>
+            </NoSSR>
           )}
           
           {status.retryCount > 0 && (

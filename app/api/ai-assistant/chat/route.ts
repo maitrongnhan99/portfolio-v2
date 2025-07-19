@@ -81,15 +81,56 @@ async function handleStreamingChat(
         console.log(`Processing streaming chat message: "${message}"`);
 
         // Step 1: Retrieve relevant knowledge using RAG
-        const retriever = new SmartRetriever();
-        const relevantChunks = await retriever.retrieve(message, {
-          k: 3,
-          threshold: 0.6,
-          useIntent: true,
-          rerankResults: true
-        });
-
-        console.log(`Retrieved ${relevantChunks.length} relevant knowledge chunks`);
+        let relevantChunks: any[] = [];
+        let usingFallback = false;
+        let retrievalMethod = 'vector_search';
+        
+        try {
+          const retriever = new SmartRetriever();
+          relevantChunks = await retriever.retrieve(message, {
+            k: 3,
+            threshold: 0.6,
+            useIntent: true,
+            rerankResults: true
+          });
+          
+          if (relevantChunks.length > 0) {
+            console.log(`✅ Retrieved ${relevantChunks.length} relevant knowledge chunks from vector database`);
+            console.log(`   Categories: ${[...new Set(relevantChunks.map(c => c.metadata.category))].join(', ')}`);
+            console.log(`   Average score: ${(relevantChunks.reduce((sum, c) => sum + c.score, 0) / relevantChunks.length).toFixed(3)}`);
+          } else {
+            console.log('⚠️  Vector search returned no results, falling back to knowledge base');
+            usingFallback = true;
+            retrievalMethod = 'fallback_empty_results';
+            relevantChunks = getFallbackKnowledge(message);
+          }
+        } catch (error) {
+          console.error('❌ RAG retrieval failed, using fallback knowledge:', error);
+          usingFallback = true;
+          
+          // Log specific error type for debugging
+          if (error instanceof Error) {
+            if (error.message.includes('whitelist')) {
+              console.error('🔒 MongoDB IP whitelisting issue detected');
+              retrievalMethod = 'fallback_ip_whitelist';
+            } else if (error.message.includes('$vectorSearch')) {
+              console.error('🔍 Vector search index not available');
+              retrievalMethod = 'fallback_no_index';
+            } else if (error.message.includes('ECONNREFUSED')) {
+              console.error('🔌 MongoDB connection refused');
+              retrievalMethod = 'fallback_connection_refused';
+            } else if (error.message.includes('needs to be indexed')) {
+              console.error('📑 Metadata fields need to be indexed');
+              retrievalMethod = 'fallback_metadata_not_indexed';
+            } else {
+              retrievalMethod = 'fallback_unknown_error';
+            }
+          }
+          
+          // Fallback to hardcoded knowledge when database is unavailable
+          relevantChunks = getFallbackKnowledge(message);
+          console.log(`⚠️  Using fallback knowledge (${relevantChunks.length} chunks) - Method: ${retrievalMethod}`);
+        }
 
         // Step 2: Build context from retrieved knowledge
         const contextParts = relevantChunks.map((chunk, index) => 
@@ -211,15 +252,56 @@ async function handleNonStreamingChat(
   console.log(`Processing non-streaming chat message: "${message}"`);
 
   // Step 1: Retrieve relevant knowledge using RAG
-  const retriever = new SmartRetriever();
-  const relevantChunks = await retriever.retrieve(message, {
-    k: 3,
-    threshold: 0.6,
-    useIntent: true,
-    rerankResults: true
-  });
-
-  console.log(`Retrieved ${relevantChunks.length} relevant knowledge chunks`);
+  let relevantChunks: any[] = [];
+  let usingFallback = false;
+  let retrievalMethod = 'vector_search';
+  
+  try {
+    const retriever = new SmartRetriever();
+    relevantChunks = await retriever.retrieve(message, {
+      k: 3,
+      threshold: 0.6,
+      useIntent: true,
+      rerankResults: true
+    });
+    
+    if (relevantChunks.length > 0) {
+      console.log(`✅ Retrieved ${relevantChunks.length} relevant knowledge chunks from vector database`);
+      console.log(`   Categories: ${[...new Set(relevantChunks.map(c => c.metadata.category))].join(', ')}`);
+      console.log(`   Average score: ${(relevantChunks.reduce((sum, c) => sum + c.score, 0) / relevantChunks.length).toFixed(3)}`);
+    } else {
+      console.log('⚠️  Vector search returned no results, falling back to knowledge base');
+      usingFallback = true;
+      retrievalMethod = 'fallback_empty_results';
+      relevantChunks = getFallbackKnowledge(message);
+    }
+  } catch (error) {
+    console.error('❌ RAG retrieval failed, using fallback knowledge:', error);
+    usingFallback = true;
+    
+    // Log specific error type for debugging
+    if (error instanceof Error) {
+      if (error.message.includes('whitelist')) {
+        console.error('🔒 MongoDB IP whitelisting issue detected');
+        retrievalMethod = 'fallback_ip_whitelist';
+      } else if (error.message.includes('$vectorSearch')) {
+        console.error('🔍 Vector search index not available');
+        retrievalMethod = 'fallback_no_index';
+      } else if (error.message.includes('ECONNREFUSED')) {
+        console.error('🔌 MongoDB connection refused');
+        retrievalMethod = 'fallback_connection_refused';
+      } else if (error.message.includes('needs to be indexed')) {
+        console.error('📑 Metadata fields need to be indexed');
+        retrievalMethod = 'fallback_metadata_not_indexed';
+      } else {
+        retrievalMethod = 'fallback_unknown_error';
+      }
+    }
+    
+    // Fallback to hardcoded knowledge when database is unavailable
+    relevantChunks = getFallbackKnowledge(message);
+    console.log(`⚠️  Using fallback knowledge (${relevantChunks.length} chunks) - Method: ${retrievalMethod}`);
+  }
 
   // Step 2: Build context from retrieved knowledge
   const contextParts = relevantChunks.map((chunk, index) => 
@@ -281,6 +363,117 @@ Please respond to the user's question about Mai Trọng Nhân.`;
     response: response.trim(),
     sources
   });
+}
+
+/**
+ * Get fallback knowledge when database is unavailable
+ */
+function getFallbackKnowledge(message: string): any[] {
+  const messageLower = message.toLowerCase();
+  
+  const fallbackData = [
+    // Personal/Introduction
+    {
+      content: "Mai Trọng Nhân is a Full Stack Developer based in Vietnam, specializing in building exceptional digital experiences. Focused on creating accessible, human-centered products that solve real-world problems.",
+      metadata: { category: 'personal', priority: 1, tags: ['introduction', 'developer', 'vietnam'] },
+      score: 0.9
+    },
+    // Skills - Frontend
+    {
+      content: "Mai has extensive frontend development expertise including React, Next.js, TypeScript, Tailwind CSS, and modern CSS frameworks. Experienced in building responsive, performant user interfaces with attention to UX/UI design principles.",
+      metadata: { category: 'skills', priority: 1, tags: ['react', 'nextjs', 'typescript', 'frontend'] },
+      score: 0.9
+    },
+    // Skills - Backend
+    {
+      content: "Mai has strong backend development skills with Node.js, NestJS, Express, and Python. Experienced in building RESTful APIs, GraphQL services, microservices architecture, and real-time applications with WebSockets.",
+      metadata: { category: 'skills', priority: 1, tags: ['nodejs', 'backend', 'api', 'microservices'] },
+      score: 0.9
+    },
+    // Skills - Full Stack
+    {
+      content: "Skills include: Frontend (React, Next.js, TypeScript, Tailwind CSS), Backend (Node.js, Express, NestJS), Databases (MongoDB, PostgreSQL), DevOps (Docker, AWS, CI/CD), and AI/ML integration with tools like LangChain and RAG systems.",
+      metadata: { category: 'skills', priority: 1, tags: ['frontend', 'backend', 'fullstack', 'devops'] },
+      score: 0.9
+    },
+    // Experience
+    {
+      content: "Mai currently works as a FullStack Developer (2023 - Present), building scalable web applications and leading development of key features. Previously worked as a Frontend Developer (2022 - 2023), specializing in React and modern web technologies.",
+      metadata: { category: 'experience', priority: 1, tags: ['professional', 'fullstack', 'current'] },
+      score: 0.8
+    },
+    // Projects - Portfolio
+    {
+      content: "Mai built a modern portfolio website using Next.js 15, React 19, TypeScript, and Tailwind CSS. Features include dark/light theme switching, animated UI elements with Framer Motion, contact form with Telegram integration, and an AI assistant powered by RAG.",
+      metadata: { category: 'projects', priority: 1, tags: ['portfolio', 'nextjs', 'ai'] },
+      score: 0.8
+    },
+    // Projects - AI
+    {
+      content: "Mai developed an AI Assistant feature with RAG (Retrieval-Augmented Generation) system using Google Gemini API, MongoDB Atlas Vector Search, and semantic embeddings. The system provides intelligent responses about Mai's background and expertise.",
+      metadata: { category: 'projects', priority: 1, tags: ['ai', 'rag', 'gemini', 'mongodb'] },
+      score: 0.8
+    },
+    // Contact
+    {
+      content: "Mai can be reached through the portfolio website at maitrongnhan.dev, GitHub at github.com/maitrongnhan99, email at maitrongnhan.work@gmail.com, or LinkedIn. Always interested in discussing exciting opportunities and collaborations.",
+      metadata: { category: 'contact', priority: 1, tags: ['email', 'linkedin', 'github', 'website'] },
+      score: 0.9
+    },
+    // Education/Learning
+    {
+      content: "Mai is primarily self-taught and has built expertise through hands-on projects, online courses, and continuous learning. Actively follows modern web development trends, best practices, and contributes to open-source projects.",
+      metadata: { category: 'education', priority: 2, tags: ['self-taught', 'learning', 'opensource'] },
+      score: 0.7
+    }
+  ];
+  
+  // Enhanced keyword matching with scoring
+  const scores = new Map<any, number>();
+  
+  fallbackData.forEach(chunk => {
+    let score = 0;
+    const content = chunk.content.toLowerCase();
+    const tags = chunk.metadata.tags.join(' ').toLowerCase();
+    
+    // Direct category match
+    if (messageLower.includes(chunk.metadata.category)) {
+      score += 3;
+    }
+    
+    // Content relevance
+    const words = messageLower.split(/\s+/);
+    words.forEach(word => {
+      if (word.length > 2) {
+        if (content.includes(word)) score += 2;
+        if (tags.includes(word)) score += 1;
+      }
+    });
+    
+    // Specific keyword boosts
+    if (messageLower.includes('skill') && chunk.metadata.category === 'skills') score += 2;
+    if (messageLower.includes('experience') && chunk.metadata.category === 'experience') score += 2;
+    if (messageLower.includes('project') && chunk.metadata.category === 'projects') score += 2;
+    if (messageLower.includes('contact') && chunk.metadata.category === 'contact') score += 2;
+    if ((messageLower.includes('who') || messageLower.includes('about')) && chunk.metadata.category === 'personal') score += 2;
+    
+    scores.set(chunk, score);
+  });
+  
+  // Sort by score and return top results
+  const sorted = fallbackData.sort((a, b) => (scores.get(b) || 0) - (scores.get(a) || 0));
+  const topChunks = sorted.slice(0, 3);
+  
+  // If no good matches, return diverse set
+  if (topChunks.every(chunk => (scores.get(chunk) || 0) === 0)) {
+    return [
+      fallbackData.find(c => c.metadata.category === 'personal'),
+      fallbackData.find(c => c.metadata.category === 'skills'),
+      fallbackData.find(c => c.metadata.category === 'contact')
+    ].filter(Boolean);
+  }
+  
+  return topChunks;
 }
 
 /**
