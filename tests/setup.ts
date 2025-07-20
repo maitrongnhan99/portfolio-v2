@@ -1,4 +1,5 @@
-import { jest } from '@jest/globals';
+import { vi, beforeAll, afterAll, expect } from 'vitest';
+import '@testing-library/jest-dom';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -10,9 +11,6 @@ process.env.NODE_ENV = 'test';
 process.env.GEMINI_API_KEY = 'test-gemini-api-key';
 process.env.MONGODB_CONNECTION_STRING = 'mongodb://test-connection';
 
-// Global test timeout
-jest.setTimeout(30000);
-
 // Mock console methods to reduce test output noise
 const originalConsoleLog = console.log;
 const originalConsoleError = console.error;
@@ -21,10 +19,10 @@ const originalConsoleWarn = console.warn;
 beforeAll(() => {
   // Only show console output if VERBOSE_TESTS is set
   if (!process.env.VERBOSE_TESTS) {
-    console.log = jest.fn();
-    console.warn = jest.fn();
+    console.log = vi.fn();
+    console.warn = vi.fn();
     // Keep error logs for debugging
-    console.error = jest.fn();
+    console.error = vi.fn();
   }
 });
 
@@ -40,7 +38,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// Extend Jest matchers
+// Extend Vitest matchers
 expect.extend({
   toBeWithinRange(received: number, floor: number, ceiling: number) {
     const pass = received >= floor && received <= ceiling;
@@ -94,11 +92,16 @@ expect.extend({
 
 // TypeScript declaration for custom matchers
 declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeWithinRange(floor: number, ceiling: number): R;
-      toBeValidEmbedding(): R;
-      toHaveValidScore(): R;
+  namespace vi {
+    interface Assertion<T = any> {
+      toBeWithinRange(floor: number, ceiling: number): void;
+      toBeValidEmbedding(): void;
+      toHaveValidScore(): void;
+    }
+    interface AsymmetricMatchersContaining {
+      toBeWithinRange(floor: number, ceiling: number): any;
+      toBeValidEmbedding(): any;
+      toHaveValidScore(): any;
     }
   }
 }
