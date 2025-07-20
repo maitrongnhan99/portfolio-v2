@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import { generateMockEmbedding, createMockEmbeddingResponse, createMockGeminiResponse } from './testUtils';
 
 /**
@@ -84,8 +84,8 @@ export class MockEmbeddingService {
  * Mock Google Generative AI for testing
  */
 export function createMockGeminiAI() {
-  const mockEmbedContent = jest.fn();
-  const mockGenerateContent = jest.fn();
+  const mockEmbedContent = vi.fn();
+  const mockGenerateContent = vi.fn();
 
   const mockModel = {
     embedContent: mockEmbedContent,
@@ -93,7 +93,7 @@ export function createMockGeminiAI() {
   };
 
   const mockGenAI = {
-    getGenerativeModel: jest.fn().mockReturnValue(mockModel)
+    getGenerativeModel: vi.fn().mockReturnValue(mockModel)
   };
 
   // Setup default responses
@@ -122,7 +122,7 @@ export function createMockGeminiAI() {
 export function createMockMongoOperations() {
   const mockDocuments: any[] = [];
   
-  const mockAggregate = jest.fn().mockImplementation((pipeline: any[]) => {
+  const mockAggregate = vi.fn().mockImplementation((pipeline: any[]) => {
     // Simulate vector search aggregation
     const vectorSearchStage = pipeline.find(stage => stage.$vectorSearch);
     if (vectorSearchStage) {
@@ -136,12 +136,12 @@ export function createMockMongoOperations() {
     return Promise.resolve([]);
   });
 
-  const mockFind = jest.fn().mockImplementation((filter: any) => {
+  const mockFind = vi.fn().mockImplementation((filter: any) => {
     // Simulate filtering by category
     if (filter['metadata.category']) {
       return {
-        sort: jest.fn().mockReturnThis(),
-        limit: jest.fn().mockResolvedValue([
+        sort: vi.fn().mockReturnThis(),
+        limit: vi.fn().mockResolvedValue([
           { 
             content: `Mock ${filter['metadata.category']} content`,
             metadata: { 
@@ -155,27 +155,27 @@ export function createMockMongoOperations() {
       };
     }
     return {
-      sort: jest.fn().mockReturnThis(),
-      limit: jest.fn().mockResolvedValue(mockDocuments)
+      sort: vi.fn().mockReturnThis(),
+      limit: vi.fn().mockResolvedValue(mockDocuments)
     };
   });
 
-  const mockCreate = jest.fn().mockImplementation((doc: any) => {
+  const mockCreate = vi.fn().mockImplementation((doc: any) => {
     mockDocuments.push({ ...doc, _id: `mock_id_${mockDocuments.length}` });
     return Promise.resolve(doc);
   });
 
-  const mockDeleteMany = jest.fn().mockImplementation(() => {
+  const mockDeleteMany = vi.fn().mockImplementation(() => {
     const deletedCount = mockDocuments.length;
     mockDocuments.length = 0;
     return Promise.resolve({ deletedCount });
   });
 
-  const mockCountDocuments = jest.fn().mockImplementation(() => {
+  const mockCountDocuments = vi.fn().mockImplementation(() => {
     return Promise.resolve(mockDocuments.length);
   });
 
-  const mockSave = jest.fn().mockImplementation(function(this: any) {
+  const mockSave = vi.fn().mockImplementation(function(this: any) {
     if (!this._id) {
       this._id = `mock_id_${mockDocuments.length}`;
       mockDocuments.push(this);
@@ -200,7 +200,7 @@ export function createMockMongoOperations() {
  */
 export function createMockHttpRequest(body: any = {}, headers: any = {}) {
   return {
-    json: jest.fn().mockResolvedValue(body),
+    json: vi.fn().mockResolvedValue(body),
     headers: {
       'content-type': 'application/json',
       ...headers
@@ -212,8 +212,8 @@ export function createMockHttpRequest(body: any = {}, headers: any = {}) {
  * Mock HTTP response for API testing
  */
 export function createMockHttpResponse() {
-  const mockJson = jest.fn();
-  const mockStatus = jest.fn().mockReturnValue({ json: mockJson });
+  const mockJson = vi.fn();
+  const mockStatus = vi.fn().mockReturnValue({ json: mockJson });
   
   return {
     json: mockJson,
