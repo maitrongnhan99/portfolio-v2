@@ -17,13 +17,25 @@ interface MobileNavMenuProps {
 const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) => {
   return (
     <When condition={isOpen}>
-      <motion.div
-        className="md:hidden bg-navy-light fixed right-0 top-0 bottom-0 w-3/4 shadow-xl"
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ duration: 0.3 }}
-      >
+      <>
+        {/* Backdrop overlay */}
+        <motion.div
+          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          onClick={() => setIsOpen(false)}
+        />
+        
+        {/* Mobile menu panel */}
+        <motion.div
+          className="md:hidden bg-navy-light fixed right-0 top-0 bottom-0 w-3/4 shadow-xl z-50"
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ duration: 0.3 }}
+        >
         <div className="flex justify-end p-4">
           <Button
             variant="ghost"
@@ -76,6 +88,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
           </div>
         </div>
       </motion.div>
+      </>
     </When>
   );
 };

@@ -4,6 +4,7 @@ import {
   ChatInput,
   ChatMessage,
   TypingIndicator,
+  type ChatInputRef,
 } from "@/components/common/chat";
 import { ChatControlsSidebar } from "@/components/common/chat/chat-controls-sidebar";
 import { ChatControlsToggle } from "@/components/common/chat/chat-controls-toggle";
@@ -81,6 +82,8 @@ export default function AskMePage() {
 }
 
 function AskMePageContent() {
+  const chatInputRef = useRef<ChatInputRef>(null);
+  
   const {
     showWelcome,
     setShowWelcome,
@@ -375,6 +378,9 @@ function AskMePageContent() {
   };
 
   const handleSendMessage = async (text: string) => {
+    // Focus the input when a suggestion is clicked
+    chatInputRef.current?.focus();
+    
     // Hide welcome elements after first user interaction
     setShowWelcome(false);
     setShowEnhancedSuggestions(false);
@@ -465,15 +471,15 @@ function AskMePageContent() {
 
       {/* Header with ChatHeader and Controls Toggle */}
       <div className="border-b border-navy-lighter bg-navy-light/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
           <ChatHeader currentConversation={currentConversation} />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Link
               href="/"
-              className="flex items-center gap-2 px-3 py-2 bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 rounded-lg font-mono text-sm"
+              className="relative p-2.5 rounded-lg bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              aria-label="Back to Portfolio"
             >
-              <ArrowLeftIcon className="w-4 h-4" />
-              <span className="hidden sm:inline">Back to Portfolio</span>
+              <ArrowLeftIcon className="w-5 h-5" />
             </Link>
             <ChatControlsToggle
               isOpen={showControlsSidebar}
@@ -504,7 +510,7 @@ function AskMePageContent() {
       {/* Chat Messages */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <ScrollArea ref={scrollViewportRef} className="flex-1">
-          <div className="container mx-auto px-4 py-6 max-w-4xl">
+          <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-4xl">
             {/* Show welcome animation and enhanced suggestions when no conversation started */}
             {showWelcome && (
               <Suspense fallback={<WelcomeLoadingSkeleton />}>
@@ -579,26 +585,31 @@ function AskMePageContent() {
         )}
 
         {/* Chat Input */}
-        <div className="border-t border-navy-lighter bg-navy/50 backdrop-blur-sm p-4">
+        <div className="border-t border-navy-lighter bg-navy/50 backdrop-blur-sm p-3 sm:p-4">
           <div className="max-w-4xl mx-auto">
             {/* Controls */}
-            <div className="flex items-end justify-between mb-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 mb-3">
               <TooltipProvider>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
                   {/* Streaming toggle */}
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
                         onClick={toggleStreaming}
-                        className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                        className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
                           chatSettings.useStreaming
                             ? "bg-primary/20 text-primary border border-primary/30"
                             : "bg-slate/10 text-slate border border-slate/20"
                         }`}
                       >
-                        {chatSettings.useStreaming
-                          ? "Streaming ON"
-                          : "Streaming OFF"}
+                        <span className="sm:hidden">
+                          {chatSettings.useStreaming ? "Stream" : "No Stream"}
+                        </span>
+                        <span className="hidden sm:inline">
+                          {chatSettings.useStreaming
+                            ? "Streaming ON"
+                            : "Streaming OFF"}
+                        </span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent className="bg-navy-light border-navy-lighter">
@@ -615,15 +626,20 @@ function AskMePageContent() {
                     <TooltipTrigger asChild>
                       <button
                         onClick={toggleAutoSave}
-                        className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                        className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
                           chatSettings.autoSave
                             ? "bg-green-500/20 text-green-400 border border-green-500/30"
                             : "bg-slate/10 text-slate border border-slate/20"
                         }`}
                       >
-                        {chatSettings.autoSave
-                          ? "Auto-save ON"
-                          : "Auto-save OFF"}
+                        <span className="sm:hidden">
+                          {chatSettings.autoSave ? "Auto" : "Manual"}
+                        </span>
+                        <span className="hidden sm:inline">
+                          {chatSettings.autoSave
+                            ? "Auto-save ON"
+                            : "Auto-save OFF"}
+                        </span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent className="bg-navy-light border-navy-lighter">
@@ -646,6 +662,7 @@ function AskMePageContent() {
             </div>
 
             <ChatInput
+              ref={chatInputRef}
               onSendMessage={handleSendMessage}
               disabled={isTyping || streamingState.isStreaming}
               placeholder="Ask me about Mai's skills, experience, projects, or anything else..."

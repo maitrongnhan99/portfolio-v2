@@ -28,11 +28,11 @@ export default function AnimatedShapes({
         const type = Math.floor(Math.random() * 3);
         const delay = Math.random() * 5;
         const duration = Math.random() * 15 + 20;
-        const opacity = Math.random() * 0.07 + 0.5;
+        const opacity = Math.random() * 0.3 + 0.3;
 
         const color = isDark
-          ? `rgba(255, 255, 255, ${opacity})`
-          : `rgba(0, 0, 150, ${opacity})`;
+          ? `rgba(35, 53, 84, ${opacity})`
+          : `rgba(35, 53, 84, ${opacity})`;
 
         const xPos = Math.random() * 100;
         const yPos = Math.random() * 100;

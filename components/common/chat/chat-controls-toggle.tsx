@@ -21,8 +21,8 @@ export const ChatControlsToggle = ({
       onClick={onClick}
       className={cn(
         "relative p-2.5 rounded-lg",
-        "bg-transparent border border-slate/30",
-        "hover:bg-slate/10 hover:border-slate/50",
+        "bg-transparent border border-primary/30 text-primary",
+        "hover:bg-primary/10 hover:border-primary/50",
         "transition-all duration-200",
         "focus:outline-none focus:ring-2 focus:ring-primary/50",
         className
@@ -39,14 +39,14 @@ export const ChatControlsToggle = ({
         >
           <ListIcon 
             className={cn(
-              "w-5 h-5 text-slate-light absolute",
+              "w-5 h-5 text-primary absolute",
               "transition-opacity duration-200",
               isOpen ? "opacity-0" : "opacity-100"
             )}
           />
           <XIcon 
             className={cn(
-              "w-5 h-5 text-slate-light absolute",
+              "w-5 h-5 text-primary absolute",
               "transition-opacity duration-200",
               isOpen ? "opacity-100" : "opacity-0"
             )}

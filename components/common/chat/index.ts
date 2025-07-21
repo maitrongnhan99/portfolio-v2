@@ -1,5 +1,5 @@
 export { ChatMessage } from './chat-message';
-export { ChatInput } from './chat-input';
+export { ChatInput, type ChatInputRef } from './chat-input';
 export { TypingIndicator } from './typing-indicator';
 export { SuggestedQuestions } from './suggested-questions';
 export { AnimatedWelcome } from './animated-welcome';
