@@ -638,7 +638,10 @@ function AskMePageContent() {
               </TooltipProvider>
 
               <div className="flex flex-col items-center gap-2">
-                <ConnectionStatus showDetails={true} />
+                <ConnectionStatus
+                  showDetails={true}
+                  defaultShowStatusBar={false}
+                />
               </div>
             </div>
 

@@ -19,11 +19,13 @@ import { useState } from "react";
 interface ContactFormModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
 export default function ContactFormModal({
   isOpen,
   onClose,
+  onSuccess,
 }: ContactFormModalProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,12 +58,11 @@ export default function ContactFormModal({
       });
 
       if (response.ok) {
-        toast({
-          title: "Message sent!",
-          description: "Thank you for your message. I'll get back to you soon.",
-        });
         setFormData({ name: "", email: "", subject: "", message: "" });
         onClose();
+        if (onSuccess) {
+          onSuccess();
+        }
       } else {
         throw new Error("Failed to send message");
       }

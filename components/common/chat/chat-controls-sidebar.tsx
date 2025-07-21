@@ -1,26 +1,26 @@
 "use client";
 
-import React, { lazy, Suspense, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import type { Conversation } from "@/hooks/use-conversation-history";
+import { cn } from "@/lib/utils";
+import { ChatSettings, Message } from "@/types/chat";
 import {
-  FloppyDiskIcon,
-  DownloadIcon,
-  MagnifyingGlassIcon,
-  TrashIcon,
-  PlusIcon,
-  CommandIcon,
   ChatsCircleIcon,
   ChatTextIcon,
+  CommandIcon,
+  DownloadIcon,
+  FloppyDiskIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  TrashIcon,
 } from "@phosphor-icons/react";
-import { cn } from "@/lib/utils";
-import { Message, ChatSettings } from "@/types/chat";
-import type { Conversation } from "@/hooks/use-conversation-history";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { SidebarSearch } from "./sidebar-search";
 
 const ExportDialog = lazy(() =>
@@ -41,11 +41,11 @@ const formatRelativeTime = (date: Date): string => {
   if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
   if (diffInHours < 24) return `${diffInHours}h ago`;
   if (diffInDays < 7) return `${diffInDays}d ago`;
-  
-  return date.toLocaleDateString('en-US', { 
-    month: 'short', 
-    day: 'numeric',
-    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
   });
 };
 
@@ -86,10 +86,14 @@ const SidebarButton = ({
   shortcut,
 }: SidebarButtonProps) => {
   const variantStyles = {
-    default: "border-slate/30 text-slate-light hover:bg-slate/10 hover:border-slate/50",
-    danger: "border-red-500/30 text-red-500 hover:bg-red-500/10 hover:border-red-500/50",
-    success: "border-green-500/30 text-green-500 hover:bg-green-500/10 hover:border-green-500/50",
-    primary: "border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50",
+    default:
+      "border-slate/30 text-slate-light hover:bg-slate/10 hover:border-slate/50",
+    danger:
+      "border-red-500/30 text-red-500 hover:bg-red-500/10 hover:border-red-500/50",
+    success:
+      "border-green-500/30 text-green-500 hover:bg-green-500/10 hover:border-green-500/50",
+    primary:
+      "border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50",
   };
 
   return (
@@ -140,14 +144,14 @@ interface ConversationHistoryItemProps {
   onDelete: () => void;
 }
 
-const ConversationHistoryItem = ({ 
-  conversation, 
-  isActive, 
-  onClick, 
-  onDelete 
+const ConversationHistoryItem = ({
+  conversation,
+  isActive,
+  onClick,
+  onDelete,
 }: ConversationHistoryItemProps) => {
   const [showDelete, setShowDelete] = useState(false);
-  
+
   return (
     <motion.div
       onHoverStart={() => setShowDelete(true)}
@@ -171,18 +175,19 @@ const ConversationHistoryItem = ({
             <span>•</span>
             <span>{formatRelativeTime(conversation.updatedAt)}</span>
           </div>
-          {conversation.topicsExplored && conversation.topicsExplored.length > 0 && (
-            <div className="flex gap-1 mt-1 flex-wrap">
-              {conversation.topicsExplored.slice(0, 3).map((topic, index) => (
-                <span 
-                  key={index} 
-                  className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded text-slate/70"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          )}
+          {conversation.topicsExplored &&
+            conversation.topicsExplored.length > 0 && (
+              <div className="flex gap-1 mt-1 flex-wrap">
+                {conversation.topicsExplored.slice(0, 3).map((topic, index) => (
+                  <span
+                    key={index}
+                    className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded text-slate/70"
+                  >
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            )}
         </div>
         <AnimatePresence>
           {showDelete && !isActive && (
@@ -228,15 +233,15 @@ export const ChatControlsSidebar = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
-      
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsSearchMode(true);
       }
     };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
   // Reset search mode when sidebar closes
@@ -255,144 +260,152 @@ export const ChatControlsSidebar = ({
   return (
     <>
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
-        <SheetContent 
-          side="right" 
-          className="w-full sm:w-[380px] bg-navy-light border-navy-lighter"
+        <SheetContent
+          side="right"
+          className="w-full sm:w-[380px] bg-navy-light border-navy-lighter flex flex-col p-0"
         >
           {isSearchMode ? (
-            <SidebarSearch
-              conversations={conversations}
-              currentConversation={currentConversation}
-              onLoadConversation={onLoadConversation}
-              onDeleteConversation={onDeleteConversation}
-              onBack={() => setIsSearchMode(false)}
-              onClose={() => onOpenChange(false)}
-            />
+            <div className="flex flex-col h-full">
+              <SidebarSearch
+                conversations={conversations}
+                currentConversation={currentConversation}
+                onLoadConversation={onLoadConversation}
+                onDeleteConversation={onDeleteConversation}
+                onBack={() => setIsSearchMode(false)}
+                onClose={() => onOpenChange(false)}
+              />
+            </div>
           ) : (
             <>
-              <SheetHeader>
+              <SheetHeader className="flex-shrink-0 p-6 pb-0">
                 <SheetTitle className="text-slate-light font-mono">
                   Chat Controls
                 </SheetTitle>
               </SheetHeader>
 
-              <div className="mt-6 space-y-6">
-            {/* Actions Section */}
-            <div>
-              <SectionDivider title="Actions" />
-              <div className="space-y-2">
-                <SidebarButton
-                  onClick={() => setIsSearchMode(true)}
-                  icon={<MagnifyingGlassIcon className="w-5 h-5" />}
-                  label="Search Conversations"
-                  description="Find messages across all conversations"
-                  shortcut="K"
-                  variant="primary"
-                />
-                <SidebarButton
-                  onClick={() => handleAction(onSaveConversation)}
-                  disabled={messages.length === 0}
-                  icon={<FloppyDiskIcon className="w-5 h-5" />}
-                  label="Save Conversation"
-                  description="Save current chat to history"
-                  shortcut="S"
-                />
-                <SidebarButton
-                  onClick={() => {
-                    setShowExportDialog(true);
-                    onOpenChange(false);
-                  }}
-                  disabled={conversations.length === 0}
-                  icon={<DownloadIcon className="w-5 h-5" />}
-                  label="Export Conversations"
-                  description="Download chat history as JSON"
-                  shortcut="E"
-                />
-              </div>
-            </div>
-
-            {/* Conversation Section */}
-            <div>
-              <SectionDivider title="Conversation" />
-              <div className="space-y-2">
-                <SidebarButton
-                  onClick={() => handleAction(onNewConversation)}
-                  icon={<PlusIcon className="w-5 h-5" />}
-                  label="New Conversation"
-                  description="Start a fresh chat"
-                  shortcut="N"
-                  variant="success"
-                />
-                <SidebarButton
-                  onClick={() => handleAction(onClearMessages)}
-                  disabled={messages.length === 0}
-                  icon={<TrashIcon className="w-5 h-5" />}
-                  label="Clear Current Chat"
-                  description="Remove all messages"
-                  variant="danger"
-                />
-              </div>
-            </div>
-
-            {/* History Section */}
-            <div>
-              <SectionDivider title="History" />
-              <div className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar">
-                {conversations.length === 0 ? (
-                  <div className="px-4 py-8 text-center">
-                    <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-slate/30" />
-                    <p className="text-sm text-slate/60">No conversations yet</p>
-                    <p className="text-xs text-slate/40 mt-1">Start chatting to build your history</p>
+              <div className="flex-1 overflow-y-auto px-6 mt-6 space-y-6">
+                {/* Actions Section */}
+                <div>
+                  <SectionDivider title="Actions" />
+                  <div className="space-y-2">
+                    <SidebarButton
+                      onClick={() => setIsSearchMode(true)}
+                      icon={<MagnifyingGlassIcon className="w-5 h-5" />}
+                      label="Search Conversations"
+                      description="Find messages across all conversations"
+                      shortcut="K"
+                      variant="primary"
+                    />
+                    <SidebarButton
+                      onClick={() => handleAction(onSaveConversation)}
+                      disabled={messages.length === 0}
+                      icon={<FloppyDiskIcon className="w-5 h-5" />}
+                      label="Save Conversation"
+                      description="Save current chat to history"
+                      shortcut="S"
+                    />
+                    <SidebarButton
+                      onClick={() => {
+                        setShowExportDialog(true);
+                        onOpenChange(false);
+                      }}
+                      disabled={conversations.length === 0}
+                      icon={<DownloadIcon className="w-5 h-5" />}
+                      label="Export Conversations"
+                      description="Download chat history as JSON"
+                      shortcut="E"
+                    />
                   </div>
-                ) : (
-                  <div className="space-y-1">
-                    {conversations.slice(0, 10).map((conv) => (
-                      <ConversationHistoryItem
-                        key={conv.id}
-                        conversation={conv}
-                        isActive={currentConversation?.id === conv.id}
-                        onClick={() => {
-                          onLoadConversation(conv.id);
-                          onOpenChange(false);
-                        }}
-                        onDelete={() => onDeleteConversation(conv.id)}
-                      />
-                    ))}
-                    {conversations.length > 10 && (
-                      <button 
-                        onClick={() => setIsSearchMode(true)}
-                        className="w-full px-4 py-2 text-xs text-slate/60 hover:text-slate-light transition-colors"
-                      >
-                        View all {conversations.length} conversations
-                      </button>
+                </div>
+
+                {/* Conversation Section */}
+                <div>
+                  <SectionDivider title="Conversation" />
+                  <div className="space-y-2">
+                    <SidebarButton
+                      onClick={() => handleAction(onNewConversation)}
+                      icon={<PlusIcon className="w-5 h-5" />}
+                      label="New Conversation"
+                      description="Start a fresh chat"
+                      shortcut="N"
+                      variant="success"
+                    />
+                    <SidebarButton
+                      onClick={() => handleAction(onClearMessages)}
+                      disabled={messages.length === 0}
+                      icon={<TrashIcon className="w-5 h-5" />}
+                      label="Clear Current Chat"
+                      description="Remove all messages"
+                      variant="danger"
+                    />
+                  </div>
+                </div>
+
+                {/* History Section */}
+                <div className="pb-4 flex-1">
+                  <SectionDivider title="History" />
+                  <div className="space-y-2 overflow-y-auto custom-scrollbar">
+                    {conversations.length === 0 ? (
+                      <div className="px-4 py-8 text-center">
+                        <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-slate/30" />
+                        <p className="text-sm text-slate/60">
+                          No conversations yet
+                        </p>
+                        <p className="text-xs text-slate/40 mt-1">
+                          Start chatting to build your history
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {conversations.slice(0, 10).map((conv) => (
+                          <ConversationHistoryItem
+                            key={conv.id}
+                            conversation={conv}
+                            isActive={currentConversation?.id === conv.id}
+                            onClick={() => {
+                              onLoadConversation(conv.id);
+                              onOpenChange(false);
+                            }}
+                            onDelete={() => onDeleteConversation(conv.id)}
+                          />
+                        ))}
+                        {conversations.length > 10 && (
+                          <button
+                            onClick={() => setIsSearchMode(true)}
+                            className="w-full px-4 py-2 text-xs text-slate/60 hover:text-slate-light transition-colors"
+                          >
+                            View all {conversations.length} conversations
+                          </button>
+                        )}
+                      </div>
                     )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Status Section - Fixed at bottom */}
+              <div className="flex-shrink-0 mt-auto py-4 px-6 border-t border-navy-lighter bg-navy/50">
+                <div className="flex items-center justify-between text-xs text-slate/60">
+                  <span>Connection Status</span>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={cn(
+                        "w-2 h-2 rounded-full",
+                        isOnline ? "bg-green-500" : "bg-red-500"
+                      )}
+                    />
+                    <span>{isOnline ? "Online" : "Offline"}</span>
+                  </div>
+                </div>
+                {chatSettings && (
+                  <div className="mt-2 flex items-center justify-between text-xs text-slate/60">
+                    <span>Streaming</span>
+                    <span>
+                      {chatSettings.useStreaming ? "Enabled" : "Disabled"}
+                    </span>
                   </div>
                 )}
               </div>
-            </div>
-
-            {/* Status Section */}
-            <div className="mt-auto pt-6 px-4 border-t border-navy-lighter">
-              <div className="flex items-center justify-between text-xs text-slate/60">
-                <span>Connection Status</span>
-                <div className="flex items-center gap-2">
-                  <div
-                    className={cn(
-                      "w-2 h-2 rounded-full",
-                      isOnline ? "bg-green-500" : "bg-red-500"
-                    )}
-                  />
-                  <span>{isOnline ? "Online" : "Offline"}</span>
-                </div>
-              </div>
-              {chatSettings && (
-                <div className="mt-2 flex items-center justify-between text-xs text-slate/60">
-                  <span>Streaming</span>
-                  <span>{chatSettings.useStreaming ? "Enabled" : "Disabled"}</span>
-                </div>
-              )}
-            </div>
-          </div>
             </>
           )}
         </SheetContent>

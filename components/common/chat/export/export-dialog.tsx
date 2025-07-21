@@ -25,7 +25,6 @@ import {
 } from "@/lib/export-utils";
 import {
   DownloadIcon,
-  DownloadSimpleIcon,
   FileCodeIcon,
   FileCsvIcon,
   FileTextIcon,
@@ -215,9 +214,9 @@ export function ExportDialog({
                       value={format.value}
                       className="text-slate-lighter hover:bg-navy"
                     >
-                      <div className="flex items-center gap-2">
-                        <format.icon className="w-4 h-4" />
-                        <div>
+                      <div className="flex items-center gap-3">
+                        <format.icon className="w-6 h-6" />
+                        <div className="text-left">
                           <div className="font-medium">{format.label}</div>
                           <div className="text-xs text-slate/60">
                             {format.description}
@@ -404,7 +403,7 @@ export function ExportDialog({
       <DialogContent className="sm:max-w-[500px] bg-navy-light border-navy-lighter">
         <DialogHeader>
           <DialogTitle className="text-slate-lighter flex items-center gap-2">
-            <DownloadSimpleIcon className="w-5 h-5 text-primary" />
+            <DownloadIcon className="w-5 h-5 text-primary" />
             Export Conversation
           </DialogTitle>
         </DialogHeader>
@@ -585,13 +584,13 @@ export function ExportDialog({
                       repeat: Infinity,
                       ease: "linear",
                     }}
-                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
+                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                   />
                   Exporting...
                 </>
               ) : (
                 <>
-                  <DownloadSimpleIcon className="w-4 h-4 mr-2" />
+                  <DownloadIcon className="w-4 h-4" />
                   Export
                 </>
               )}
