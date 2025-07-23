@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
@@ -194,7 +194,11 @@ describe('AskMePage', () => {
   });
 
   afterEach(() => {
+    // Clean up the DOM after each test
+    cleanup();
     vi.restoreAllMocks();
+    // Clear any timers that might still be running
+    vi.clearAllTimers();
     // Restore original console.error
     console.error = originalConsoleError;
   });
@@ -220,7 +224,14 @@ describe('AskMePage', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByTestId('animated-welcome')).toBeInTheDocument();
+        // Use queryAllByTestId to handle potential multiple elements
+        const welcomeElements = screen.queryAllByTestId('animated-welcome');
+        // Debug output for CI
+        if (welcomeElements.length > 1) {
+          console.log(`Found ${welcomeElements.length} animated-welcome elements`);
+        }
+        expect(welcomeElements).toHaveLength(1);
+        expect(welcomeElements[0]).toBeInTheDocument();
       });
     });
 
@@ -230,8 +241,13 @@ describe('AskMePage', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByTestId('enhanced-suggestions')).toBeInTheDocument();
-        expect(screen.getByTestId('quick-actions')).toBeInTheDocument();
+        const suggestionsElements = screen.queryAllByTestId('enhanced-suggestions');
+        const quickActionsElements = screen.queryAllByTestId('quick-actions');
+        
+        expect(suggestionsElements).toHaveLength(1);
+        expect(suggestionsElements[0]).toBeInTheDocument();
+        expect(quickActionsElements).toHaveLength(1);
+        expect(quickActionsElements[0]).toBeInTheDocument();
       });
     });
   });
@@ -260,7 +276,9 @@ describe('AskMePage', () => {
 
       // Wait for welcome to appear
       await waitFor(() => {
-        expect(screen.getByTestId('animated-welcome')).toBeInTheDocument();
+        const welcomeElements = screen.queryAllByTestId('animated-welcome');
+        expect(welcomeElements).toHaveLength(1);
+        expect(welcomeElements[0]).toBeInTheDocument();
       });
 
       // Send a message
