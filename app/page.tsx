@@ -5,11 +5,13 @@ import Contact from "@/components/common/contact";
 import Footer from "@/components/common/footer";
 import Hero from "@/components/common/hero";
 import { Projects } from "@/components/common/projects";
+import { HomeStructuredData } from "@/components/common/seo/home-structured-data";
 import { Skills } from "@/components/common/skills";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-navy relative">
+    <main data-testid="home-page" className="min-h-screen bg-navy relative">
+      <HomeStructuredData />
       <Hero />
       <About />
       <Skills />
