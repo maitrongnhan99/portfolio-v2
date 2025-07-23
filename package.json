@@ -19,6 +19,7 @@
     "test:performance": "vitest tests/performance",
     "test:e2e": "vitest tests/e2e",
     "test:ci": "vitest run --coverage",
+    "test:ci:coverage": "vitest run --coverage --config vitest.config.ci.mjs",
     "test:verbose": "VERBOSE_TESTS=1 vitest --reporter=verbose",
     "test:ui": "vitest --ui"
   },
