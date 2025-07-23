@@ -22,7 +22,7 @@ const testCases: ProductExtractionRequest[] = [
 
 async function runTests() {
   console.log('🧪 Testing Product Extraction with Multi-Value Support\n');
-  console.log('=' * 80);
+  console.log('='.repeat(80));
 
   for (let i = 0; i < testCases.length; i++) {
     const testCase = testCases[i];
@@ -69,7 +69,7 @@ async function runTests() {
 
   // Test batch extraction
   console.log('\n\n🧪 Testing Batch Extraction\n');
-  console.log('=' * 80);
+  console.log('='.repeat(80));
   
   const { extractProducts } = await import('../services/productExtractor');
   const batchDescriptions = testCases.map(tc => tc.description);

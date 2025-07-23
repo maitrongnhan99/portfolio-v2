@@ -63,7 +63,7 @@ const Fireflies: React.FC<FirefliesProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [fireflies, setFireflies] = useState<Firefly[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;

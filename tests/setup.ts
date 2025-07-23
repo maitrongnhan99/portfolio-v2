@@ -7,7 +7,13 @@ import path from 'path';
 dotenv.config({ path: path.join(process.cwd(), '.env.test') });
 
 // Set test environment variables
-process.env.NODE_ENV = 'test';
+// Use Object.defineProperty to set NODE_ENV
+Object.defineProperty(process.env, 'NODE_ENV', {
+  value: 'test',
+  writable: true,
+  enumerable: true,
+  configurable: true
+});
 process.env.GEMINI_API_KEY = 'test-gemini-api-key';
 process.env.MONGODB_CONNECTION_STRING = 'mongodb://test-connection';
 
