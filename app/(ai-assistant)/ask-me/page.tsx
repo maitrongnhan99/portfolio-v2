@@ -15,6 +15,7 @@ import {
   SuggestionsLoadingSkeleton,
   WelcomeLoadingSkeleton,
 } from "@/components/common/chat/loading-skeletons";
+import { AskMeStructuredData } from "@/components/common/seo/ask-me-structured-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
@@ -75,9 +76,12 @@ const DeleteConfirmModal = lazy(() =>
 
 export default function AskMePage() {
   return (
-    <ChatProvider>
-      <AskMePageContent />
-    </ChatProvider>
+    <>
+      <AskMeStructuredData />
+      <ChatProvider>
+        <AskMePageContent />
+      </ChatProvider>
+    </>
   );
 }
 

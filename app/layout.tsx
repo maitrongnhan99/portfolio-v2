@@ -3,6 +3,7 @@ import { Navbar } from "@/components/common/navbar/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { cn } from "@/lib/utils";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
+import OgImage from "@/public/images/og_image.webp";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
 import type React from "react";
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
     "Node.js",
+    "PostgreSQL",
+    "MongoDB",
+    "Tailwind CSS",
+    "Shadcn UI",
+    "Framer Motion",
+    "React Native",
+    "Expo",
   ],
   authors: [{ name: "Mai Trọng Nhân" }],
   creator: "Mai Trọng Nhân",
@@ -48,6 +56,14 @@ export const metadata: Metadata = {
     description:
       "Portfolio website showcasing my skills and projects as a FullStack developer",
     siteName: "Mai Trọng Nhân Portfolio",
+    images: [
+      {
+        url: OgImage.src,
+        width: 1200,
+        height: 630,
+        alt: "Mai Trọng Nhân Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

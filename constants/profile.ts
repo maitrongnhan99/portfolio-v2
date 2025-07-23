@@ -2,7 +2,7 @@ import { GithubLogoIcon, InstagramLogoIcon, LinkedinLogoIcon } from "@phosphor-i
 
 const PROFILE = {
   github: {
-    url: "https://github.com/yourusername",
+    url: "https://github.com/maitrongnhan99",
     name: "GitHub",
     icon: GithubLogoIcon,
   },
