@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
@@ -103,14 +103,11 @@ vi.mock('@/components/common/chat/chat-controls-sidebar', () => ({
   ),
 }));
 
-vi.mock('@/components/ui/scroll-area', () => {
-  const React = require('react');
-  return {
-    ScrollArea: React.forwardRef(({ children }: any, ref: any) => 
-      React.createElement('div', { ref, 'data-testid': 'scroll-area' }, children)
-    ),
-  };
-});
+vi.mock('@/components/ui/scroll-area', () => ({
+  ScrollArea: React.forwardRef(({ children }: any, ref: any) => 
+    React.createElement('div', { ref, 'data-testid': 'scroll-area' }, children)
+  ),
+}));
 
 vi.mock('@/components/ui/tooltip', () => ({
   Tooltip: ({ children }: any) => <>{children}</>,
@@ -124,8 +121,8 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('@phosphor-icons/react', () => ({
-  ArrowDownIcon: () => <span>ArrowDown</span>,
-  ArrowLeftIcon: () => <span>ArrowLeft</span>,
+  ArrowDownIcon: (props: any) => <span {...props}>ArrowDown</span>,
+  ArrowLeftIcon: (props: any) => <span {...props}>ArrowLeft</span>,
 }));
 
 vi.mock('framer-motion', () => ({
@@ -197,7 +194,11 @@ describe('AskMePage', () => {
   });
 
   afterEach(() => {
+    // Clean up the DOM after each test
+    cleanup();
     vi.restoreAllMocks();
+    // Clear any timers that might still be running
+    vi.clearAllTimers();
     // Restore original console.error
     console.error = originalConsoleError;
   });
@@ -223,7 +224,14 @@ describe('AskMePage', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByTestId('animated-welcome')).toBeInTheDocument();
+        // Use queryAllByTestId to handle potential multiple elements
+        const welcomeElements = screen.queryAllByTestId('animated-welcome');
+        // Debug output for CI
+        if (welcomeElements.length > 1) {
+          console.log(`Found ${welcomeElements.length} animated-welcome elements`);
+        }
+        expect(welcomeElements).toHaveLength(1);
+        expect(welcomeElements[0]).toBeInTheDocument();
       });
     });
 
@@ -233,8 +241,13 @@ describe('AskMePage', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByTestId('enhanced-suggestions')).toBeInTheDocument();
-        expect(screen.getByTestId('quick-actions')).toBeInTheDocument();
+        const suggestionsElements = screen.queryAllByTestId('enhanced-suggestions');
+        const quickActionsElements = screen.queryAllByTestId('quick-actions');
+        
+        expect(suggestionsElements).toHaveLength(1);
+        expect(suggestionsElements[0]).toBeInTheDocument();
+        expect(quickActionsElements).toHaveLength(1);
+        expect(quickActionsElements[0]).toBeInTheDocument();
       });
     });
   });
@@ -263,7 +276,9 @@ describe('AskMePage', () => {
 
       // Wait for welcome to appear
       await waitFor(() => {
-        expect(screen.getByTestId('animated-welcome')).toBeInTheDocument();
+        const welcomeElements = screen.queryAllByTestId('animated-welcome');
+        expect(welcomeElements).toHaveLength(1);
+        expect(welcomeElements[0]).toBeInTheDocument();
       });
 
       // Send a message
@@ -394,9 +409,17 @@ describe('AskMePage', () => {
     it('should have back to portfolio link', () => {
       render(<AskMePage />);
 
-      const backLink = screen.getByText('Back to Portfolio');
+      // Find all links and then find the one with href="/"
+      const links = screen.getAllByRole('link');
+      const backLink = links.find(link => link.getAttribute('href') === '/');
+      
+      expect(backLink).toBeDefined();
       expect(backLink).toBeInTheDocument();
-      expect(backLink.closest('a')).toHaveAttribute('href', '/');
+      
+      // Check that the ArrowLeft icon is rendered inside the link
+      const arrowIcon = screen.getByText('ArrowLeft');
+      expect(arrowIcon).toBeInTheDocument();
+      expect(backLink).toContainElement(arrowIcon);
     });
   });
 });

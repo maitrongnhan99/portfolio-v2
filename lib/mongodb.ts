@@ -5,13 +5,13 @@ import mongoose from 'mongoose';
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = global.mongoose;
+let cached = global.mongoose as { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null };
 
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-async function connectToDatabase() {
+async function connectToDatabase(): Promise<typeof mongoose> {
   const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
   
   if (!MONGODB_CONNECTION_STRING) {
@@ -27,7 +27,7 @@ async function connectToDatabase() {
       bufferCommands: false,
       // MongoDB Atlas connection options
       retryWrites: true,
-      w: 'majority',
+      w: 'majority' as const,
       // Timeouts
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 10000,

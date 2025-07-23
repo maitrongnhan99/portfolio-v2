@@ -1,18 +1,22 @@
 /// <reference types="vitest/config" />
-import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import { fileURLToPath } from 'url';
 
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
+// Simplified config without React plugin for better ESM compatibility
 export default defineConfig({
-  plugins: [react()],
   test: {
     environment: "jsdom",
     globals: true,
     setupFiles: "./tests/setup.ts",
     include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
+    reporters: ["default", "junit"],
+    outputFile: "./coverage/junit.xml",
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "json", "html", "lcov"],
       include: [
         "services/**/*.{ts,tsx}",
         "lib/**/*.{ts,tsx}",
@@ -46,5 +50,10 @@ export default defineConfig({
     alias: {
       "@": resolve(__dirname, "./"),
     },
+  },
+  esbuild: {
+    jsx: 'automatic',
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
   },
 });
