@@ -1,5 +1,6 @@
 "use client";
 import About from "@/components/common/about";
+import { AIChatbotWidget } from "@/components/common/ai-chatbot-widget";
 import Contact from "@/components/common/contact";
 import Footer from "@/components/common/footer";
 import Hero from "@/components/common/hero";
@@ -15,6 +16,9 @@ export default function Home() {
       <Projects />
       <Contact />
       <Footer />
+
+      {/* AI Chatbot Widget */}
+      <AIChatbotWidget autoShow={true} showDelay={3000} />
     </main>
   );
 }
