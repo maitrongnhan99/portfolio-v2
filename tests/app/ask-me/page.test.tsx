@@ -124,8 +124,8 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('@phosphor-icons/react', () => ({
-  ArrowDownIcon: () => <span>ArrowDown</span>,
-  ArrowLeftIcon: () => <span>ArrowLeft</span>,
+  ArrowDownIcon: (props: any) => <span {...props}>ArrowDown</span>,
+  ArrowLeftIcon: (props: any) => <span {...props}>ArrowLeft</span>,
 }));
 
 vi.mock('framer-motion', () => ({
@@ -394,9 +394,17 @@ describe('AskMePage', () => {
     it('should have back to portfolio link', () => {
       render(<AskMePage />);
 
-      const backLink = screen.getByText('Back to Portfolio');
+      // Find all links and then find the one with href="/"
+      const links = screen.getAllByRole('link');
+      const backLink = links.find(link => link.getAttribute('href') === '/');
+      
+      expect(backLink).toBeDefined();
       expect(backLink).toBeInTheDocument();
-      expect(backLink.closest('a')).toHaveAttribute('href', '/');
+      
+      // Check that the ArrowLeft icon is rendered inside the link
+      const arrowIcon = screen.getByText('ArrowLeft');
+      expect(arrowIcon).toBeInTheDocument();
+      expect(backLink).toContainElement(arrowIcon);
     });
   });
 });
