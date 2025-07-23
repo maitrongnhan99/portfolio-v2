@@ -1,9 +1,9 @@
-import TelegramBot from "node-telegram-bot-api";
+import { Telegraf } from "telegraf";
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
 const CHAT_ID = "1779446679";
 
-const bot = new TelegramBot(TELEGRAM_BOT_TOKEN);
+const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 
 export const sendTelegramNotification = async (
   name: string,
@@ -21,7 +21,7 @@ export const sendTelegramNotification = async (
 <b>Message:</b> ${message}
 `;
 
-    const result = await bot.sendMessage(CHAT_ID, telegramMessage, {
+    const result = await bot.telegram.sendMessage(CHAT_ID, telegramMessage, {
       parse_mode: "HTML",
     });
     console.log("@telegram_success", result);
