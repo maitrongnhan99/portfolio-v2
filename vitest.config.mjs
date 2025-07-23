@@ -12,9 +12,11 @@ export default defineConfig({
     globals: true,
     setupFiles: "./tests/setup.ts",
     include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
+    reporters: ["default", "junit"],
+    outputFile: "./coverage/junit.xml",
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "json", "html", "lcov"],
       include: [
         "services/**/*.{ts,tsx}",
         "lib/**/*.{ts,tsx}",
