@@ -103,14 +103,11 @@ vi.mock('@/components/common/chat/chat-controls-sidebar', () => ({
   ),
 }));
 
-vi.mock('@/components/ui/scroll-area', () => {
-  const React = require('react');
-  return {
-    ScrollArea: React.forwardRef(({ children }: any, ref: any) => 
-      React.createElement('div', { ref, 'data-testid': 'scroll-area' }, children)
-    ),
-  };
-});
+vi.mock('@/components/ui/scroll-area', () => ({
+  ScrollArea: React.forwardRef(({ children }: any, ref: any) => 
+    React.createElement('div', { ref, 'data-testid': 'scroll-area' }, children)
+  ),
+}));
 
 vi.mock('@/components/ui/tooltip', () => ({
   Tooltip: ({ children }: any) => <>{children}</>,

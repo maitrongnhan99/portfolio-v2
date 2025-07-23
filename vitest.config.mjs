@@ -1,6 +1,9 @@
 /// <reference types="vitest/config" />
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 // Simplified config without React plugin for better ESM compatibility
 export default defineConfig({
