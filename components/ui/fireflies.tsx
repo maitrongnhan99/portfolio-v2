@@ -37,7 +37,7 @@ const generateFirefly = (
   const size = Math.random() * (maxSize - minSize) + minSize;
   const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
   const angle = Math.random() * Math.PI * 2;
-  
+
   return {
     id: Date.now() + Math.random(),
     x: Math.random() * width,
@@ -73,7 +73,7 @@ const Fireflies: React.FC<FirefliesProps> = ({
       const { width, height } = canvas.getBoundingClientRect();
       canvas.width = width;
       canvas.height = height;
-      
+
       setFireflies(
         Array.from({ length: count }, () =>
           generateFirefly(width, height, minSize, maxSize, minSpeed, maxSpeed)
@@ -141,7 +141,13 @@ const Fireflies: React.FC<FirefliesProps> = ({
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(newX, newY, firefly.size * 4 * firefly.glowIntensity, 0, Math.PI * 2);
+        ctx.arc(
+          newX,
+          newY,
+          firefly.size * 4 * firefly.glowIntensity,
+          0,
+          Math.PI * 2
+        );
         ctx.fill();
 
         ctx.fillStyle = color;
@@ -170,7 +176,7 @@ const Fireflies: React.FC<FirefliesProps> = ({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [color, glowColor, minSpeed, maxSpeed]);
+  }, [color, glowColor, minSpeed, maxSpeed, fireflies]);
 
   return (
     <canvas
