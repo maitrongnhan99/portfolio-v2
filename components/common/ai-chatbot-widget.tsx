@@ -10,9 +10,9 @@ interface AIChatbotWidgetProps {
   showDelay?: number;
 }
 
-export const AIChatbotWidget = ({ 
-  autoShow = true, 
-  showDelay = 2000 
+export const AIChatbotWidget = ({
+  autoShow = true,
+  showDelay = 2000,
 }: AIChatbotWidgetProps) => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
@@ -22,11 +22,11 @@ export const AIChatbotWidget = ({
 
   const tips = [
     "Ask me about Mai's technical skills and expertise",
-    "Learn about recent projects and achievements", 
+    "Learn about recent projects and achievements",
     "Get information about professional experience",
     "Discover background and interests",
     "Find out about education and certifications",
-    "Explore development tools and technologies"
+    "Explore development tools and technologies",
   ];
 
   // Auto-show widget after delay
@@ -73,13 +73,13 @@ export const AIChatbotWidget = ({
           initial={{ opacity: 0, scale: 0, x: 100, y: 100 }}
           animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
           exit={{ opacity: 0, scale: 0, x: 100, y: 100 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 260, 
+          transition={{
+            type: "spring",
+            stiffness: 260,
             damping: 20,
-            duration: 0.6 
+            duration: 0.6,
           }}
-          className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+          className="fixed bottom-10 right-8 z-50 flex flex-col items-end gap-3"
         >
           {/* Tooltip */}
           <AnimatePresence>
@@ -149,7 +149,7 @@ export const AIChatbotWidget = ({
           >
             {/* Glow effect */}
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-md group-hover:bg-primary/30 transition-colors" />
-            
+
             {/* Icon container */}
             <div className="relative w-full h-full flex items-center justify-center">
               <motion.div
@@ -164,7 +164,7 @@ export const AIChatbotWidget = ({
               >
                 <RobotIcon className="w-7 h-7 text-primary" />
               </motion.div>
-              
+
               {/* Online indicator */}
               <motion.div
                 animate={{
