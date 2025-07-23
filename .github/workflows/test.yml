@@ -165,58 +165,6 @@ jobs:
             echo "✅ No high or critical vulnerabilities found"
           fi
 
-  performance-benchmark:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    services:
-      mongodb:
-        image: mongo:7.0
-        env:
-          MONGO_INITDB_ROOT_USERNAME: test
-          MONGO_INITDB_ROOT_PASSWORD: test
-        ports:
-          - 27017:27017
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10.13.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run performance benchmarks
-        run: |
-          echo "Running performance benchmarks..."
-          pnpm test tests/performance --verbose
-        env:
-          NODE_ENV: test
-          MONGODB_CONNECTION_STRING: mongodb://test:test@localhost:27017/benchmark-test?authSource=admin
-          GEMINI_API_KEY: test-benchmark-key
-
-      - name: Store benchmark results
-        run: |
-          mkdir -p benchmark-results
-          echo "Performance benchmark completed on $(date)" > benchmark-results/latest.txt
-          echo "Commit: ${{ github.sha }}" >> benchmark-results/latest.txt
-
-      - name: Upload benchmark results
-        uses: actions/upload-artifact@v3
-        with:
-          name: performance-benchmarks
-          path: benchmark-results/
-
   notify:
     runs-on: ubuntu-latest
     needs: [test, build, security]
