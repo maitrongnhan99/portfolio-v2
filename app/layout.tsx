@@ -6,7 +6,7 @@ import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import OgImage from "@/public/images/og_image.webp";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
-import type React from "react";
+import React from "react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -84,6 +84,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Dynamic import to avoid IDE issues
+  const ErrorBoundary = React.lazy(() =>
+    import("@/components/common/error-boundary").then(module => ({
+      default: module.ErrorBoundary
+    }))
+  );
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.variable, firaCode.variable)}>
@@ -93,9 +100,13 @@ export default function RootLayout({
           enableSystem={true}
           disableTransitionOnChange
         >
-          <EnhancedGlowEffect />
-          <Navbar />
-          {children}
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <ErrorBoundary>
+              <EnhancedGlowEffect />
+              <Navbar />
+              {children}
+            </ErrorBoundary>
+          </React.Suspense>
         </ThemeProvider>
       </body>
     </html>
