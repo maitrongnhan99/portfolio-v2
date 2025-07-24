@@ -79,17 +79,29 @@ export const metadata: Metadata = {
   },
 };
 
+// Dynamic import to avoid IDE issues
+const ErrorBoundary = React.lazy(() =>
+  import("@/components/common/error-boundary").then((module) => ({
+    default: module.ErrorBoundary,
+  }))
+);
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Dynamic import to avoid IDE issues
-  const ErrorBoundary = React.lazy(() =>
-    import("@/components/common/error-boundary").then(module => ({
-      default: module.ErrorBoundary
-    }))
-  );
+  // Initialize monitoring on client side
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      import("@/lib/monitoring").then(
+        ({ initMonitoring, initPerformanceObserver }) => {
+          initMonitoring();
+          initPerformanceObserver();
+        }
+      );
+    }
+  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning>
