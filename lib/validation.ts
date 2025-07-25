@@ -100,6 +100,37 @@ export function sanitizeString(input: string): string {
     .replace(/on\w+=/gi, ''); // Remove event handlers
 }
 
+// URL validation and sanitization
+const SAFE_URL_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:'];
+
+export function isValidUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+    return SAFE_URL_PROTOCOLS.includes(parsedUrl.protocol);
+  } catch {
+    // If it's not a valid URL, check if it's a relative path
+    return url.startsWith('/') || url.startsWith('#');
+  }
+}
+
+export function sanitizeUrl(url: string): string {
+  // First check if it's a valid and safe URL
+  if (!isValidUrl(url)) {
+    // Return safe fallback for any invalid URL
+    return '#';
+  }
+  
+  return url;
+}
+
+// URL validation schema for Zod
+export const urlSchema = z.string().refine(
+  (url) => isValidUrl(url),
+  {
+    message: 'Invalid or unsafe URL. Only HTTP(S), mailto, tel, and relative URLs are allowed.',
+  }
+);
+
 export function sanitizeEmail(email: string): string {
   return email.toLowerCase().trim();
 }

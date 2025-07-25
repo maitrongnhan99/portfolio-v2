@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { DownloadIcon, GithubLogoIcon, LinkIcon } from "@phosphor-icons/react";
+import { sanitizeUrl } from "@/lib/validation";
 import NextLink from "next/link";
 import { FC } from "react";
 
@@ -25,7 +26,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           variant="ghost"
           className="text-slate-light hover:text-primary p-0"
         >
-          <NextLink href={liveUrl} target="_blank">
+          <NextLink href={sanitizeUrl(liveUrl)} target="_blank">
             <LinkIcon className="h-4 w-4 mr-2" />
             Demo
           </NextLink>
@@ -39,7 +40,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           variant="ghost"
           className="text-slate-light hover:text-primary p-0"
         >
-          <NextLink href={githubUrl} target="_blank">
+          <NextLink href={sanitizeUrl(githubUrl)} target="_blank">
             <GithubLogoIcon className="h-4 w-4 mr-2" />
             Code
           </NextLink>
@@ -53,7 +54,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           variant="ghost"
           className="text-slate-light hover:text-primary p-0"
         >
-          <NextLink href={liveUrl || "#"} target="_blank">
+          <NextLink href={sanitizeUrl(liveUrl || "#")} target="_blank">
             <DownloadIcon className="h-4 w-4 mr-2" />
             {downloads.toLocaleString()} Installs
           </NextLink>
