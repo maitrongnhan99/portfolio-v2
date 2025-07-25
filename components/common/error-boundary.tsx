@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import React from 'react';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import React from "react";
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
-  fallback?: React.ComponentType<{error: Error; reset: () => void}>;
+  fallback?: React.ComponentType<{ error: Error; reset: () => void }>;
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
 }
 
@@ -29,15 +29,15 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
-    
+    console.error("Error caught by boundary:", error, errorInfo);
+
     // Call custom error handler if provided
     this.props.onError?.(error, errorInfo);
-    
+
     // Log to monitoring service in production
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // TODO: Send to error monitoring service
-      console.error('Production error:', {
+      console.error("Production error:", {
         error: error.message,
         stack: error.stack,
         componentStack: errorInfo.componentStack,
@@ -77,10 +77,11 @@ export function DefaultErrorFallback({ error, reset }: ErrorFallbackProps) {
             Something went wrong
           </h2>
           <p className="text-slate text-sm mb-4">
-            We encountered an unexpected error. This has been logged and we'll look into it.
+            We encountered an unexpected error. This has been logged and
+            we&apos;ll look into it.
           </p>
-          
-          {process.env.NODE_ENV === 'development' && (
+
+          {process.env.NODE_ENV === "development" && (
             <details className="text-left bg-red-50 dark:bg-red-900/20 p-3 rounded-md mb-4">
               <summary className="cursor-pointer text-sm font-medium text-red-700 dark:text-red-300">
                 Error Details (Development)
@@ -89,7 +90,7 @@ export function DefaultErrorFallback({ error, reset }: ErrorFallbackProps) {
                 {error.message}
                 {error.stack && (
                   <>
-                    {'\n\nStack trace:\n'}
+                    {"\n\nStack trace:\n"}
                     {error.stack}
                   </>
                 )}
@@ -97,15 +98,13 @@ export function DefaultErrorFallback({ error, reset }: ErrorFallbackProps) {
             </details>
           )}
         </div>
-        
+
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button onClick={reset} variant="default">
             🔄 Try Again
           </Button>
           <Button asChild variant="outline">
-            <Link href="/">
-              🏠 Go Home
-            </Link>
+            <Link href="/">🏠 Go Home</Link>
           </Button>
         </div>
       </div>
@@ -120,7 +119,7 @@ export function ChatErrorBoundary({ children }: { children: React.ReactNode }) {
     <ErrorBoundary
       fallback={ChatErrorFallback}
       onError={(error) => {
-        console.error('Chat error:', error);
+        console.error("Chat error:", error);
         // Could send to analytics here
       }}
     >
@@ -141,7 +140,8 @@ function ChatErrorFallback({ error, reset }: ErrorFallbackProps) {
             Chat Error
           </h3>
           <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-            There was an issue with the chat interface. Please try refreshing or contact support if the problem persists.
+            There was an issue with the chat interface. Please try refreshing or
+            contact support if the problem persists.
           </p>
           <Button
             onClick={reset}
@@ -157,12 +157,16 @@ function ChatErrorFallback({ error, reset }: ErrorFallbackProps) {
   );
 }
 
-export function ProjectErrorBoundary({ children }: { children: React.ReactNode }) {
+export function ProjectErrorBoundary({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ErrorBoundary
       fallback={ProjectErrorFallback}
       onError={(error) => {
-        console.error('Project display error:', error);
+        console.error("Project display error:", error);
       }}
     >
       {children}
@@ -192,11 +196,11 @@ function ProjectErrorFallback({ error, reset }: ErrorFallbackProps) {
 // Hook for error reporting
 export function useErrorHandler() {
   return React.useCallback((error: Error, context?: string) => {
-    console.error(`Error in ${context || 'component'}:`, error);
-    
-    if (process.env.NODE_ENV === 'production') {
+    console.error(`Error in ${context || "component"}:`, error);
+
+    if (process.env.NODE_ENV === "production") {
       // TODO: Send to error monitoring service
-      console.error('Production error reported:', {
+      console.error("Production error reported:", {
         message: error.message,
         stack: error.stack,
         context,
