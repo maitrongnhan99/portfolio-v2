@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import SmartRetriever from '@/services/retriever';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { NextRequest, NextResponse } from 'next/server';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -36,21 +36,30 @@ interface StreamData {
 
 export async function POST(request: NextRequest): Promise<NextResponse<ChatResponse> | Response> {
   try {
-    const body = await request.json() as ChatRequest;
-    const { message, conversationHistory = [], stream = false } = body;
+    const body = await request.json();
 
-    if (!message || message.trim().length === 0) {
+    // Import validation here to avoid IDE issues
+    const { chatRequestSchema, validateRequest, sanitizeString } = await import('@/lib/validation');
+
+    // Validate request body
+    const validation = validateRequest(chatRequestSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { response: '', error: 'Message cannot be empty' },
+        { response: '', error: validation.error },
         { status: 400 }
       );
     }
 
+    const { message, conversationHistory = [], stream = false } = validation.data;
+
+    // Sanitize the message
+    const sanitizedMessage = sanitizeString(message);
+
     // Route to streaming or non-streaming handler
     if (stream) {
-      return handleStreamingChat(message, conversationHistory);
+      return handleStreamingChat(sanitizedMessage, conversationHistory);
     } else {
-      return handleNonStreamingChat(message, conversationHistory);
+      return handleNonStreamingChat(sanitizedMessage, conversationHistory);
     }
 
   } catch (error) {
