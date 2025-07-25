@@ -1,6 +1,6 @@
 import { ChatErrorBoundary, DefaultErrorFallback, ErrorBoundary, ProjectErrorBoundary } from '@/components/common/error-boundary';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock component that throws an error
 const ThrowError = ({ shouldThrow = false }: { shouldThrow?: boolean }) => {
@@ -79,21 +79,32 @@ describe('ErrorBoundary', () => {
   });
 
   it('resets error state when reset button is clicked', () => {
+    // Component that can toggle throwing error
+    let shouldThrow = true;
+    const TestComponent = () => {
+      return <ThrowError shouldThrow={shouldThrow} />;
+    };
+    
     const { rerender } = render(
       <ErrorBoundary>
-        <ThrowError shouldThrow={true} />
+        <TestComponent />
       </ErrorBoundary>
     );
     
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
     
     const resetButton = screen.getByText('🔄 Try Again');
+    
+    // Change the state so component won't throw on next render
+    shouldThrow = false;
+    
+    // Click reset button which should clear error state
     fireEvent.click(resetButton);
     
-    // Re-render with no error
+    // Force re-render of the same ErrorBoundary instance
     rerender(
       <ErrorBoundary>
-        <ThrowError shouldThrow={false} />
+        <TestComponent />
       </ErrorBoundary>
     );
     
@@ -118,40 +129,28 @@ describe('DefaultErrorFallback', () => {
 
   it('shows error details in development mode', () => {
     const originalEnv = process.env.NODE_ENV;
-    Object.defineProperty(process.env, 'NODE_ENV', {
-      value: 'development',
-      writable: true,
-      configurable: true,
-    });
+    // @ts-ignore - Need to mock NODE_ENV for testing
+    process.env.NODE_ENV = 'development';
 
     render(<DefaultErrorFallback error={mockError} reset={mockReset} />);
 
     expect(screen.getByText('Error Details (Development)')).toBeInTheDocument();
 
-    Object.defineProperty(process.env, 'NODE_ENV', {
-      value: originalEnv,
-      writable: true,
-      configurable: true,
-    });
+    // Restore original value
+    process.env.NODE_ENV = originalEnv;
   });
 
   it('hides error details in production mode', () => {
     const originalEnv = process.env.NODE_ENV;
-    Object.defineProperty(process.env, 'NODE_ENV', {
-      value: 'production',
-      writable: true,
-      configurable: true,
-    });
+    // @ts-ignore - Need to mock NODE_ENV for testing
+    process.env.NODE_ENV = 'production';
 
     render(<DefaultErrorFallback error={mockError} reset={mockReset} />);
 
     expect(screen.queryByText('Error Details (Development)')).not.toBeInTheDocument();
 
-    Object.defineProperty(process.env, 'NODE_ENV', {
-      value: originalEnv,
-      writable: true,
-      configurable: true,
-    });
+    // Restore original value
+    process.env.NODE_ENV = originalEnv;
   });
 
   it('calls reset function when Try Again is clicked', () => {

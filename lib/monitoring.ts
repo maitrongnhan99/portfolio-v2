@@ -1,4 +1,4 @@
-import { getCLS, getFID, getFCP, getLCP, getTTFB, Metric } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB, Metric } from 'web-vitals';
 
 // Types for monitoring data
 interface PerformanceMetric {
@@ -33,7 +33,7 @@ interface AnalyticsEvent {
 // Performance thresholds based on Core Web Vitals
 const PERFORMANCE_THRESHOLDS = {
   CLS: { good: 0.1, poor: 0.25 },
-  FID: { good: 100, poor: 300 },
+  INP: { good: 200, poor: 500 },
   FCP: { good: 1800, poor: 3000 },
   LCP: { good: 2500, poor: 4000 },
   TTFB: { good: 800, poor: 1800 },
@@ -139,11 +139,11 @@ export function initPerformanceMonitoring() {
   };
 
   // Measure Core Web Vitals
-  getCLS(handleMetric);
-  getFID(handleMetric);
-  getFCP(handleMetric);
-  getLCP(handleMetric);
-  getTTFB(handleMetric);
+  onCLS(handleMetric);
+  onINP(handleMetric);
+  onFCP(handleMetric);
+  onLCP(handleMetric);
+  onTTFB(handleMetric);
 }
 
 /**
