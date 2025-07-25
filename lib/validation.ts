@@ -97,6 +97,8 @@ export function sanitizeString(input: string): string {
     .trim()
     .replace(/[<>]/g, '') // Remove potential HTML tags
     .replace(/javascript:/gi, '') // Remove javascript: protocols
+    .replace(/data:/gi, '') // Remove data: protocols
+    .replace(/vbscript:/gi, '') // Remove vbscript: protocols
     .replace(/on\w+=/gi, ''); // Remove event handlers
 }
 
