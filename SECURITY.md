@@ -1,21 +1,58 @@
 # Security Policy
 
-## Supported Versions
+## Recent Security Fixes (2025-07-24)
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+### Critical Issues Resolved
+
+1. **Environment Variable Exposure** - Removed `TELEGRAM_BOT_TOKEN` from client-side environment variables
+2. **Build Error Suppression** - Removed `ignoreDuringBuilds` and `ignoreBuildErrors` to catch potential issues
+3. **Security Headers** - Added comprehensive security headers including CSP, XSS protection, and frame options
+
+### Security Headers Implemented
+
+- **X-Frame-Options**: DENY (prevents clickjacking)
+- **X-Content-Type-Options**: nosniff (prevents MIME type sniffing)
+- **X-XSS-Protection**: 1; mode=block (enables XSS filtering)
+- **Referrer-Policy**: origin-when-cross-origin (controls referrer information)
+- **Permissions-Policy**: Restricts camera, microphone, and geolocation access
+- **Content-Security-Policy**: Comprehensive CSP with minimal required permissions
+
+## Supported Versions
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 0.1.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability, please:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. **Do NOT** open a public issue
+2. Email the maintainer directly at [your-email]
+3. Include detailed information about the vulnerability
+4. Allow reasonable time for response and fix
+
+### Response Timeline
+
+- **Acknowledgment**: Within 48 hours
+- **Initial Assessment**: Within 1 week
+- **Fix Implementation**: Within 2 weeks for critical issues
+- **Public Disclosure**: After fix is deployed and tested
+
+## Security Best Practices
+
+### Environment Variables
+- Never expose sensitive tokens to client-side
+- Use server-side API routes for sensitive operations
+- Regularly rotate API keys and tokens
+
+### Dependencies
+- Run `npm audit` regularly
+- Keep dependencies updated
+- Review security advisories for used packages
+
+### API Security
+- Implement rate limiting
+- Validate all inputs
+- Use HTTPS in production
+- Implement proper authentication and authorization
