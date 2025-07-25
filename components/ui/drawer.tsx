@@ -5,22 +5,38 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
 
-const Drawer = ({
-  shouldScaleBackground = true,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+const Drawer = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Root>,
+  React.ComponentProps<typeof DrawerPrimitive.Root> & {
+    shouldScaleBackground?: boolean;
+  }
+>(({ shouldScaleBackground = true, ...props }, ref) => (
   <DrawerPrimitive.Root
+    ref={ref}
     shouldScaleBackground={shouldScaleBackground}
+    data-testid="drawer"
     {...props}
   />
-)
-Drawer.displayName = "Drawer"
+));
+Drawer.displayName = "Drawer";
 
-const DrawerTrigger = DrawerPrimitive.Trigger
+const DrawerTrigger = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>
+>(({ ...props }, ref) => (
+  <DrawerPrimitive.Trigger ref={ref} data-testid="drawer-trigger" {...props} />
+));
+DrawerTrigger.displayName = "DrawerTrigger";
 
-const DrawerPortal = DrawerPrimitive.Portal
+const DrawerPortal = DrawerPrimitive.Portal;
 
-const DrawerClose = DrawerPrimitive.Close
+const DrawerClose = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Close>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>
+>(({ ...props }, ref) => (
+  <DrawerPrimitive.Close ref={ref} data-testid="drawer-close" {...props} />
+));
+DrawerClose.displayName = "DrawerClose";
 
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
@@ -29,6 +45,7 @@ const DrawerOverlay = React.forwardRef<
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn("fixed inset-0 z-50 bg-black/80", className)}
+    data-testid="drawer-overlay"
     {...props}
   />
 ))
@@ -46,9 +63,10 @@ const DrawerContent = React.forwardRef<
         "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
         className
       )}
+      data-testid="drawer-content"
       {...props}
     >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" data-testid="drawer-handle" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -87,6 +105,7 @@ const DrawerTitle = React.forwardRef<
       "text-lg font-semibold leading-none tracking-tight",
       className
     )}
+    data-testid="drawer-title"
     {...props}
   />
 ))
@@ -99,6 +118,7 @@ const DrawerDescription = React.forwardRef<
   <DrawerPrimitive.Description
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
+    data-testid="drawer-description"
     {...props}
   />
 ))

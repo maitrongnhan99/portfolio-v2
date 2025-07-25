@@ -67,6 +67,7 @@ export function ContainerTextFlip({
         className
       )}
       key={words[currentWordIndex]}
+      data-testid="container-text-flip"
     >
       <motion.div
         transition={{
@@ -76,11 +77,13 @@ export function ContainerTextFlip({
         className={cn("inline-block", textClassName)}
         ref={textRef}
         layoutId={`word-div-${words[currentWordIndex]}-${id}`}
+        data-testid="container-text-flip-word"
       >
-        <motion.div className="inline-block">
+        <motion.div className="inline-block" data-testid="container-text-flip-letters">
           {words[currentWordIndex].split("").map((letter, index) => (
             <motion.span
               key={index}
+              data-testid={`container-text-flip-letter-${index}`}
               initial={{
                 opacity: 0,
                 filter: "blur(10px)",
