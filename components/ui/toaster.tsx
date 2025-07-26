@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import { useToast } from "@/hooks/use-toast"
 import {
   Toast,
   ToastClose,
@@ -7,13 +8,10 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/ui/toast";
-import { useToast } from "@/hooks/use-toast";
-import { FC } from "react";
-import { When } from "react-if";
+} from "@/components/ui/toast"
 
-export const Toaster: FC = () => {
-  const { toasts } = useToast();
+export function Toaster() {
+  const { toasts } = useToast()
 
   return (
     <ToastProvider>
@@ -21,19 +19,17 @@ export const Toaster: FC = () => {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
-              <When condition={!!title}>
-                <ToastTitle>{title}</ToastTitle>
-              </When>
-              <When condition={!!description}>
+              {title && <ToastTitle>{title}</ToastTitle>}
+              {description && (
                 <ToastDescription>{description}</ToastDescription>
-              </When>
+              )}
             </div>
             {action}
             <ToastClose />
           </Toast>
-        );
+        )
       })}
       <ToastViewport />
     </ToastProvider>
-  );
-};
+  )
+}

@@ -1,6 +1,8 @@
 import EnhancedGlowEffect from "@/components/common/enhanced-glow-effect";
 import { Navbar } from "@/components/common/navbar/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
+import { SessionProvider } from "@/components/providers/session-provider";
+import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import OgImage from "@/public/images/og_image.webp";
@@ -97,20 +99,23 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.variable, firaCode.variable)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange
-        >
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <ErrorBoundary>
-              <EnhancedGlowEffect />
-              <Navbar />
-              {children}
-            </ErrorBoundary>
-          </React.Suspense>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+            disableTransitionOnChange
+          >
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <ErrorBoundary>
+                <EnhancedGlowEffect />
+                <Navbar />
+                {children}
+                <Toaster />
+              </ErrorBoundary>
+            </React.Suspense>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
