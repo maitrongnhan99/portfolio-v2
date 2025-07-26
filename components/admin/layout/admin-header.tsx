@@ -1,5 +1,6 @@
 "use client";
 
+import { FC, useCallback } from "react";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -11,13 +12,13 @@ interface AdminHeaderProps {
   };
 }
 
-export default function AdminHeader({ user }: AdminHeaderProps) {
+const AdminHeader: FC<AdminHeaderProps> = ({ user }) => {
   const router = useRouter();
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     await signOut({ redirect: false });
     router.push("/admin/login");
-  };
+  }, [router]);
 
   return (
     <header className="bg-white shadow-sm border-b">
@@ -40,4 +41,6 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
       </div>
     </header>
   );
-}
+};
+
+export { AdminHeader };

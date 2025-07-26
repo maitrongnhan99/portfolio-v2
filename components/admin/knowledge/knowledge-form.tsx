@@ -1,9 +1,6 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { FC, memo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -33,16 +30,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
+import { useKnowledgeForm } from "@/hooks/admin/use-knowledge-form";
+import type { KnowledgeFormData } from "@/hooks/admin/use-knowledge-form";
+import { KNOWLEDGE_CATEGORIES, KNOWLEDGE_PRIORITIES } from "@/lib/admin/constants";
 
-const knowledgeSchema = z.object({
-  content: z.string().min(10, "Content must be at least 10 characters"),
-  category: z.enum(["personal", "skills", "experience", "projects", "education", "contact"]),
-  priority: z.number().min(1).max(3),
-  tags: z.array(z.string()).min(1, "At least one tag is required"),
-  source: z.string().min(1, "Source is required"),
-});
-
-type KnowledgeFormData = z.infer<typeof knowledgeSchema>;
 
 interface KnowledgeFormProps {
   open: boolean;
@@ -52,70 +43,27 @@ interface KnowledgeFormProps {
   mode: "create" | "edit";
 }
 
-const KnowledgeForm: FC<KnowledgeFormProps> = ({
+const KnowledgeForm: FC<KnowledgeFormProps> = memo(({
   open,
   onOpenChange,
   onSubmit,
   initialData,
   mode,
 }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tagInput, setTagInput] = useState("");
-
-  const form = useForm<KnowledgeFormData>({
-    resolver: zodResolver(knowledgeSchema),
-    defaultValues: {
-      content: "",
-      category: "personal",
-      priority: 2,
-      tags: [],
-      source: "manual_entry",
-      ...initialData,
-    },
+  const {
+    form,
+    isSubmitting,
+    tagInput,
+    setTagInput,
+    handleSubmit,
+    addTag,
+    removeTag,
+    handleTagInputKeyPress,
+  } = useKnowledgeForm({
+    initialData,
+    onSubmit,
+    onSuccess: () => onOpenChange(false),
   });
-
-  useEffect(() => {
-    if (initialData) {
-      form.reset({
-        content: initialData.content || "",
-        category: initialData.category || "personal",
-        priority: initialData.priority || 2,
-        tags: initialData.tags || [],
-        source: initialData.source || "manual_entry",
-      });
-    }
-  }, [initialData, form]);
-
-  const handleSubmit = async (data: KnowledgeFormData) => {
-    setIsSubmitting(true);
-    try {
-      await onSubmit(data);
-      form.reset();
-      onOpenChange(false);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const addTag = () => {
-    if (tagInput.trim()) {
-      const currentTags = form.getValues("tags");
-      if (!currentTags.includes(tagInput.trim())) {
-        form.setValue("tags", [...currentTags, tagInput.trim()]);
-      }
-      setTagInput("");
-    }
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    const currentTags = form.getValues("tags");
-    form.setValue(
-      "tags",
-      currentTags.filter((tag) => tag !== tagToRemove)
-    );
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -171,12 +119,11 @@ const KnowledgeForm: FC<KnowledgeFormProps> = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="personal">Personal</SelectItem>
-                        <SelectItem value="skills">Skills</SelectItem>
-                        <SelectItem value="experience">Experience</SelectItem>
-                        <SelectItem value="projects">Projects</SelectItem>
-                        <SelectItem value="education">Education</SelectItem>
-                        <SelectItem value="contact">Contact</SelectItem>
+                        {KNOWLEDGE_CATEGORIES.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            {cat.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -200,9 +147,11 @@ const KnowledgeForm: FC<KnowledgeFormProps> = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="1">High</SelectItem>
-                        <SelectItem value="2">Medium</SelectItem>
-                        <SelectItem value="3">Low</SelectItem>
+                        {KNOWLEDGE_PRIORITIES.map((priority) => (
+                          <SelectItem key={priority.value} value={priority.value.toString()}>
+                            {priority.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -224,12 +173,7 @@ const KnowledgeForm: FC<KnowledgeFormProps> = ({
                           placeholder="Add a tag..."
                           value={tagInput}
                           onChange={(e) => setTagInput(e.target.value)}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              addTag();
-                            }
-                          }}
+                          onKeyPress={handleTagInputKeyPress}
                         />
                         <Button
                           type="button"
@@ -306,6 +250,8 @@ const KnowledgeForm: FC<KnowledgeFormProps> = ({
       </DialogContent>
     </Dialog>
   );
-};
+});
+
+KnowledgeForm.displayName = "KnowledgeForm";
 
 export { KnowledgeForm };

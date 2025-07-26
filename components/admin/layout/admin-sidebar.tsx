@@ -1,5 +1,6 @@
 "use client";
 
+import { FC, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -17,16 +18,22 @@ const navigation = [
   { name: "Settings", href: "/admin/settings", icon: Cog6ToothIcon },
 ];
 
-export default function AdminSidebar() {
+const AdminSidebar: FC = () => {
   const pathname = usePathname();
+
+  const isActiveRoute = useMemo(() => {
+    return (href: string) => {
+      return pathname === href || 
+        (href !== "/admin" && pathname.startsWith(href));
+    };
+  }, [pathname]);
 
   return (
     <div className="flex flex-col w-64 bg-gray-800">
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <nav className="mt-5 flex-1 px-2 space-y-1">
           {navigation.map((item) => {
-            const isActive = pathname === item.href || 
-              (item.href !== "/admin" && pathname.startsWith(item.href));
+            const isActive = isActiveRoute(item.href);
             
             return (
               <Link
@@ -56,4 +63,6 @@ export default function AdminSidebar() {
       </div>
     </div>
   );
-}
+};
+
+export { AdminSidebar };

@@ -1,7 +1,7 @@
 "use client";
 
+import { FC, useState, useCallback } from "react";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,14 +9,14 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 
-export default function AdminLoginPage() {
+const AdminLoginPage: FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [email, password, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-navy">
@@ -100,4 +100,6 @@ export default function AdminLoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default AdminLoginPage;
