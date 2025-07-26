@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, memo } from "react";
 import {
   Table,
   TableBody,
@@ -24,6 +24,8 @@ import {
   RefreshCw 
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { getCategoryConfig, getPriorityConfig } from "@/lib/admin/utils";
+import type { KnowledgeCategory, PriorityLevel } from "@/lib/admin/constants";
 
 interface KnowledgeChunk {
   _id: string;
@@ -50,28 +52,8 @@ interface KnowledgeTableProps {
   onRegenerateEmbedding: (id: string) => void;
 }
 
-const getCategoryColor = (category: string) => {
-  const colors = {
-    personal: "bg-blue-500",
-    skills: "bg-green-500",
-    experience: "bg-purple-500",
-    projects: "bg-orange-500",
-    education: "bg-yellow-500",
-    contact: "bg-pink-500",
-  };
-  return colors[category as keyof typeof colors] || "bg-gray-500";
-};
 
-const getPriorityLabel = (priority: number) => {
-  const labels = {
-    1: { text: "High", color: "destructive" },
-    2: { text: "Medium", color: "secondary" },
-    3: { text: "Low", color: "outline" },
-  };
-  return labels[priority as keyof typeof labels] || labels[2];
-};
-
-const KnowledgeTable: FC<KnowledgeTableProps> = ({
+const KnowledgeTable: FC<KnowledgeTableProps> = memo(({
   chunks,
   onEdit,
   onDelete,
@@ -100,13 +82,13 @@ const KnowledgeTable: FC<KnowledgeTableProps> = ({
                 <p className="truncate">{chunk.content}</p>
               </TableCell>
               <TableCell>
-                <Badge className={getCategoryColor(chunk.metadata.category)}>
-                  {chunk.metadata.category}
+                <Badge className={getCategoryConfig(chunk.metadata.category as KnowledgeCategory).color}>
+                  {getCategoryConfig(chunk.metadata.category as KnowledgeCategory).label}
                 </Badge>
               </TableCell>
               <TableCell>
-                <Badge variant={getPriorityLabel(chunk.metadata.priority).color as any}>
-                  {getPriorityLabel(chunk.metadata.priority).text}
+                <Badge variant={getPriorityConfig(chunk.metadata.priority as PriorityLevel).variant as any}>
+                  {getPriorityConfig(chunk.metadata.priority as PriorityLevel).label}
                 </Badge>
               </TableCell>
               <TableCell>
@@ -173,6 +155,8 @@ const KnowledgeTable: FC<KnowledgeTableProps> = ({
       </Table>
     </div>
   );
-};
+});
+
+KnowledgeTable.displayName = "KnowledgeTable";
 
 export { KnowledgeTable };

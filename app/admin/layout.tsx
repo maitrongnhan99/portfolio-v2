@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/lib/auth/middleware";
-import AdminHeader from "@/components/admin/layout/admin-header";
-import AdminSidebar from "@/components/admin/layout/admin-sidebar";
+import { AdminHeader } from "@/components/admin/layout/admin-header";
+import { AdminSidebar } from "@/components/admin/layout/admin-sidebar";
 
 export default async function AdminLayout({
   children,

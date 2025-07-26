@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, memo } from "react";
 import {
   Card,
   CardContent,
@@ -9,13 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formatDistanceToNow } from "date-fns";
 import { 
   FileTextIcon,
   ChartBarIcon,
   FolderIcon,
-  ClockIcon
 } from "@heroicons/react/24/outline";
+import { StatsOverviewCard } from "./components/stats-overview-card";
+import { CategoryDistribution } from "./components/category-distribution";
+import { RecentActivity } from "./components/recent-activity";
+import { getCategoryConfig } from "@/lib/admin/utils";
+import type { KnowledgeCategory } from "@/lib/admin/constants";
 
 interface StatsData {
   categoryStats: Array<{
@@ -52,93 +55,33 @@ interface KnowledgeStatsProps {
   stats: StatsData;
 }
 
-const KnowledgeStats: FC<KnowledgeStatsProps> = ({ stats }) => {
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      personal: "bg-blue-500",
-      skills: "bg-green-500",
-      experience: "bg-purple-500",
-      projects: "bg-orange-500",
-      education: "bg-yellow-500",
-      contact: "bg-pink-500",
-    };
-    return colors[category as keyof typeof colors] || "bg-gray-500";
-  };
-
-  const getActionColor = (action: string) => {
-    const colors = {
-      create: "text-green-600",
-      update: "text-blue-600",
-      delete: "text-red-600",
-    };
-    return colors[action as keyof typeof colors] || "text-gray-600";
-  };
+const KnowledgeStats: FC<KnowledgeStatsProps> = memo(({ stats }) => {
 
   return (
     <div className="space-y-6">
-      {/* Overview Cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Knowledge Chunks</CardTitle>
-            <FileTextIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totals.chunks}</div>
-            <p className="text-xs text-muted-foreground">Across {stats.totals.categories} categories</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Queries</CardTitle>
-            <ChartBarIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totals.queries}</div>
-            <p className="text-xs text-muted-foreground">AI assistant interactions</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <FolderIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totals.categories}</div>
-            <p className="text-xs text-muted-foreground">Active categories</p>
-          </CardContent>
-        </Card>
+        <StatsOverviewCard
+          title="Total Knowledge Chunks"
+          value={stats.totals.chunks}
+          description={`Across ${stats.totals.categories} categories`}
+          icon={<FileTextIcon className="h-4 w-4 text-muted-foreground" />}
+        />
+        <StatsOverviewCard
+          title="Total Queries"
+          value={stats.totals.queries}
+          description="AI assistant interactions"
+          icon={<ChartBarIcon className="h-4 w-4 text-muted-foreground" />}
+        />
+        <StatsOverviewCard
+          title="Categories"
+          value={stats.totals.categories}
+          description="Active categories"
+          icon={<FolderIcon className="h-4 w-4 text-muted-foreground" />}
+        />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Category Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Category Distribution</CardTitle>
-            <CardDescription>Knowledge chunks per category</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {stats.categoryStats.map((cat) => (
-                <div key={cat._id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Badge className={getCategoryColor(cat._id)}>
-                      {cat._id}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">
-                      {cat.count} chunks
-                    </span>
-                  </div>
-                  <div className="text-sm">
-                    {cat.totalQueries} queries
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <CategoryDistribution categoryStats={stats.categoryStats} />
 
         {/* Top Queried */}
         <Card>
@@ -155,7 +98,7 @@ const KnowledgeStats: FC<KnowledgeStatsProps> = ({ stats }) => {
                     <span className="text-sm font-medium ml-2">{chunk.queryCount}</span>
                   </div>
                   <Badge variant="outline" className="text-xs">
-                    {chunk.metadata.category}
+                    {getCategoryConfig(chunk.metadata.category as KnowledgeCategory).label}
                   </Badge>
                 </div>
               ))}
@@ -167,39 +110,11 @@ const KnowledgeStats: FC<KnowledgeStatsProps> = ({ stats }) => {
         </Card>
       </div>
 
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-          <CardDescription>Latest actions on knowledge base</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {stats.recentActivity.map((activity) => (
-              <div key={activity._id} className="flex items-center gap-4 text-sm">
-                <ClockIcon className="h-4 w-4 text-muted-foreground" />
-                <div className="flex-1">
-                  <span className="font-medium">{activity.userId.name}</span>
-                  <span className={`ml-2 ${getActionColor(activity.action)}`}>
-                    {activity.action}d
-                  </span>
-                  <span className="ml-1 text-muted-foreground">
-                    a knowledge chunk
-                  </span>
-                </div>
-                <span className="text-xs text-muted-foreground">
-                  {formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}
-                </span>
-              </div>
-            ))}
-            {stats.recentActivity.length === 0 && (
-              <p className="text-sm text-muted-foreground">No recent activity</p>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      <RecentActivity activities={stats.recentActivity} />
     </div>
   );
-};
+});
+
+KnowledgeStats.displayName = "KnowledgeStats";
 
 export { KnowledgeStats };
