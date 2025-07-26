@@ -37,6 +37,15 @@ export class MongoVectorStore {
   }
 
   /**
+   * Generate embedding for a single text
+   * @param text - Text to generate embedding for
+   * @returns Promise<number[]> - Embedding vector
+   */
+  async generateEmbedding(text: string): Promise<number[]> {
+    return this.embeddingService.generateEmbedding(text);
+  }
+
+  /**
    * Add documents to the vector store with embeddings
    * @param chunks - Array of knowledge chunk data
    */
