@@ -94,18 +94,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Initialize monitoring on client side
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      import("@/lib/monitoring").then(
-        ({ initMonitoring, initPerformanceObserver }) => {
-          initMonitoring();
-          initPerformanceObserver();
-        }
-      );
-    }
-  }, []);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.variable, firaCode.variable)}>
