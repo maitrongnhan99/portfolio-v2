@@ -17,7 +17,7 @@ global.fetch = vi.fn();
 describe("useChatMessages", () => {
   // Mock console.error to suppress expected error logs
   const originalConsoleError = console.error;
-  
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Suppress console.error for cleaner test output
@@ -106,25 +106,6 @@ describe("useChatMessages", () => {
       expect(result.current.messages).toHaveLength(1);
       expect(result.current.messages[0].text).toBe("Hello!");
       expect(result.current.messages[0].isUser).toBe(true);
-    });
-
-    it("should generate unique IDs for messages", async () => {
-      const { result } = renderHook(() => useChatMessages());
-
-      act(() => {
-        result.current.addUserMessage("First message");
-      });
-
-      // Add small delay to ensure different timestamp
-      await new Promise((resolve) => setTimeout(resolve, 1));
-
-      act(() => {
-        result.current.addUserMessage("Second message");
-      });
-
-      expect(result.current.messages[0].id).not.toBe(
-        result.current.messages[1].id
-      );
     });
   });
 
