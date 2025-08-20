@@ -13,6 +13,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "https://maitrongnhan.com"
+  ),
   title: "Mai Trọng Nhân Portfolio",
   description:
     "Portfolio website showcasing my skills and projects as a FullStack developer",
@@ -79,18 +82,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Dynamic import to avoid IDE issues
+const ErrorBoundary = React.lazy(() =>
+  import("@/components/common/error-boundary").then((module) => ({
+    default: module.ErrorBoundary,
+  }))
+);
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Dynamic import to avoid IDE issues
-  const ErrorBoundary = React.lazy(() =>
-    import("@/components/common/error-boundary").then(module => ({
-      default: module.ErrorBoundary
-    }))
-  );
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.variable, firaCode.variable)}>

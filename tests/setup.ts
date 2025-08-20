@@ -1,5 +1,6 @@
-import { vi, beforeAll, afterAll, expect } from 'vitest';
+import { vi, beforeAll, afterAll, afterEach, expect } from 'vitest';
 import '@testing-library/jest-dom';
+import { cleanup } from '@testing-library/react';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -37,6 +38,11 @@ afterAll(() => {
   console.log = originalConsoleLog;
   console.error = originalConsoleError;
   console.warn = originalConsoleWarn;
+});
+
+// Clean up after each test
+afterEach(() => {
+  cleanup();
 });
 
 // Global error handler for unhandled rejections in tests
