@@ -6,19 +6,18 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const ContextMenu = React.forwardRef<
-  React.ElementRef<typeof ContextMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>
->(({ ...props }, ref) => (
-  <ContextMenuPrimitive.Root ref={ref} data-testid="context-menu" {...props} />
-));
+const ContextMenu = ContextMenuPrimitive.Root;
 ContextMenu.displayName = "ContextMenu";
 
 const ContextMenuTrigger = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>
 >(({ ...props }, ref) => (
-  <ContextMenuPrimitive.Trigger ref={ref} data-testid="context-menu-trigger" {...props} />
+  <ContextMenuPrimitive.Trigger
+    ref={ref}
+    data-testid="context-menu-trigger"
+    {...props}
+  />
 ));
 ContextMenuTrigger.displayName = "ContextMenuTrigger";
 
@@ -26,7 +25,11 @@ const ContextMenuGroup = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Group>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Group>
 >(({ ...props }, ref) => (
-  <ContextMenuPrimitive.Group ref={ref} data-testid="context-menu-group" {...props} />
+  <ContextMenuPrimitive.Group
+    ref={ref}
+    data-testid="context-menu-group"
+    {...props}
+  />
 ));
 ContextMenuGroup.displayName = "ContextMenuGroup";
 
@@ -36,7 +39,11 @@ const ContextMenuSub = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Sub>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Sub>
 >(({ ...props }, ref) => (
-  <ContextMenuPrimitive.Sub ref={ref} data-testid="context-menu-sub" {...props} />
+  <ContextMenuPrimitive.Sub
+    ref={ref}
+    data-testid="context-menu-sub"
+    {...props}
+  />
 ));
 ContextMenuSub.displayName = "ContextMenuSub";
 
@@ -44,7 +51,11 @@ const ContextMenuRadioGroup = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.RadioGroup>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioGroup>
 >(({ ...props }, ref) => (
-  <ContextMenuPrimitive.RadioGroup ref={ref} data-testid="context-menu-radio-group" {...props} />
+  <ContextMenuPrimitive.RadioGroup
+    ref={ref}
+    data-testid="context-menu-radio-group"
+    {...props}
+  />
 ));
 ContextMenuRadioGroup.displayName = "ContextMenuRadioGroup";
 
