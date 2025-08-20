@@ -21,9 +21,10 @@ export const ResumeView = () => {
         <div className="max-w-4xl mx-auto px-6 py-4">
           <Link 
             href="/"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
+            aria-label="Back to Portfolio"
           >
-            <House className="w-4 h-4" />
+            <House className="w-4 h-4" aria-hidden="true" />
             <span>Back to Portfolio</span>
           </Link>
         </div>
@@ -33,7 +34,7 @@ export const ResumeView = () => {
       <ResumeDownload />
 
       {/* Resume Content */}
-      <main className="max-w-4xl mx-auto px-6 py-8 print:px-0 print:py-0">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 print:px-0 print:py-0">
         <div className="bg-white print:shadow-none">
           <ResumeHeader data={resumeData.personalInfo} />
           

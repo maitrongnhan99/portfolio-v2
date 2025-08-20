@@ -50,32 +50,35 @@ export const ResumeDownload = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 print:hidden">
-      <div className="flex gap-2">
+    <div className="fixed top-4 right-4 z-50 print:hidden sm:right-4 right-2">
+      <div className="flex gap-2 flex-wrap sm:flex-nowrap">
         <Button
           onClick={handlePreview}
           variant="outline"
           disabled={isPreviewing}
-          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg"
+          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          aria-label="Preview PDF"
         >
-          <Eye className="w-4 h-4 mr-2" />
-          {isPreviewing ? "Loading..." : "Preview"}
+          <Eye className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">{isPreviewing ? "Loading..." : "Preview"}</span>
         </Button>
         <Button
           onClick={handlePrint}
           variant="outline"
-          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg"
+          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          aria-label="Print resume"
         >
-          <Printer className="w-4 h-4 mr-2" />
-          Print
+          <Printer className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">Print</span>
         </Button>
         <Button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          aria-label="Download resume as PDF"
         >
-          <Download className="w-4 h-4 mr-2" />
-          {isDownloading ? "Generating..." : "Download PDF"}
+          <Download className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">{isDownloading ? "Generating..." : "Download PDF"}</span>
         </Button>
       </div>
     </div>

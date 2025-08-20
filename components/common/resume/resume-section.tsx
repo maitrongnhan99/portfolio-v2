@@ -11,10 +11,10 @@ export const ResumeSection = ({ emoji, title, children, className = "" }: Resume
   return (
     <section className={`mb-8 ${className}`}>
       <div className="flex items-center gap-2 mb-4">
-        {emoji && <span className="text-2xl">{emoji}</span>}
-        <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+        {emoji && <span className="text-xl sm:text-2xl" aria-hidden="true">{emoji}</span>}
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900">{title}</h2>
       </div>
-      <div className="border-b border-gray-200 mb-4"></div>
+      <div className="border-b border-gray-200 mb-4" role="presentation"></div>
       {children}
     </section>
   );

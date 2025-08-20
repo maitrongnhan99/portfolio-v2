@@ -13,7 +13,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
         {data.map((project, index) => (
           <div key={index} className="space-y-2">
             <div className="flex items-center gap-2">
-              {project.emoji && <span className="text-lg">{project.emoji}</span>}
+              {project.emoji && <span className="text-lg" aria-hidden="true">{project.emoji}</span>}
               <h3 className="font-semibold text-gray-900">{project.name}</h3>
               <div className="flex gap-2">
                 {project.links.github && (
@@ -21,7 +21,8 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors"
+                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    aria-label={`View ${project.name} on GitHub`}
                   >
                     [GitHub]
                   </Link>
@@ -31,7 +32,8 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors"
+                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    aria-label={`View ${project.name} live demo`}
                   >
                     [Live Demo]
                   </Link>
@@ -41,7 +43,8 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.npm}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors"
+                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    aria-label={`View ${project.name} on NPM`}
                   >
                     [NPM]
                   </Link>
