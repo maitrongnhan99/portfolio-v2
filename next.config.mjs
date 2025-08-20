@@ -20,6 +20,7 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  serverExternalPackages: ["@react-pdf/renderer"],
 
   // Security: Removed client-side environment variable exposure
   // env: { TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN }, // REMOVED - security risk
