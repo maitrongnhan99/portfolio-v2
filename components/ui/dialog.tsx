@@ -6,12 +6,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Dialog = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>
->(({ ...props }, ref) => (
-  <DialogPrimitive.Root ref={ref} data-testid="dialog" {...props} />
-));
+const Dialog = DialogPrimitive.Root;
 Dialog.displayName = "Dialog";
 
 const DialogTrigger = React.forwardRef<

@@ -157,20 +157,8 @@ describe('ContextMenu Components', () => {
         </ContextMenu>
       );
       
-      const contextMenu = screen.getByTestId('context-menu');
+      const contextMenu = screen.getByTestId('context-menu-root');
       expect(contextMenu).toBeInTheDocument();
-    });
-
-    it('should forward ref correctly', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      
-      render(
-        <ContextMenu ref={ref}>
-          <ContextMenuTrigger>Right click me</ContextMenuTrigger>
-        </ContextMenu>
-      );
-      
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
 
     it('should support HTML div attributes', () => {
@@ -180,7 +168,7 @@ describe('ContextMenu Components', () => {
         </ContextMenu>
       );
       
-      const contextMenu = screen.getByTestId('context-menu');
+      const contextMenu = screen.getByTestId('context-menu-root');
       expect(contextMenu).toHaveAttribute('data-custom', 'value');
     });
   });
@@ -594,7 +582,7 @@ describe('ContextMenu Components', () => {
         </ContextMenu>
       );
 
-      const contextMenu = screen.getByTestId('context-menu');
+      const contextMenu = screen.getByTestId('context-menu-root');
       const trigger = screen.getByTestId('context-menu-trigger');
       const content = screen.getByTestId('context-menu-content');
       const label = screen.getByText('Actions');
@@ -672,7 +660,7 @@ describe('ContextMenu Components', () => {
         </ContextMenu>
       );
 
-      const contextMenu = screen.getByTestId('context-menu');
+      const contextMenu = screen.getByTestId('context-menu-root');
       const content = screen.getByTestId('context-menu-content');
 
       expect(contextMenu).toBeInTheDocument();

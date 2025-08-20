@@ -35,16 +35,7 @@ ContextMenuGroup.displayName = "ContextMenuGroup";
 
 const ContextMenuPortal = ContextMenuPrimitive.Portal;
 
-const ContextMenuSub = React.forwardRef<
-  React.ElementRef<typeof ContextMenuPrimitive.Sub>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Sub>
->(({ ...props }, ref) => (
-  <ContextMenuPrimitive.Sub
-    ref={ref}
-    data-testid="context-menu-sub"
-    {...props}
-  />
-));
+const ContextMenuSub = ContextMenuPrimitive.Sub;
 ContextMenuSub.displayName = "ContextMenuSub";
 
 const ContextMenuRadioGroup = React.forwardRef<

@@ -247,7 +247,9 @@ describe('Breadcrumb Components', () => {
     });
 
     it('should handle click events', async () => {
-      const handleClick = vi.fn();
+      const handleClick = vi.fn((e) => {
+        e.preventDefault();
+      });
       const user = userEvent.setup();
       
       render(

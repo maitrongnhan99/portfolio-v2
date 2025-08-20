@@ -50,6 +50,20 @@ afterEach(() => {
   cleanup();
 });
 
+// Prevent navigation errors in jsdom
+beforeAll(() => {
+  // Mock window.location.href to prevent navigation errors
+  delete (window as any).location;
+  (window as any).location = { href: 'http://localhost:3000' };
+  
+  // Add a global click event listener to prevent default on all anchor clicks
+  document.addEventListener('click', (e) => {
+    if (e.target instanceof HTMLAnchorElement) {
+      e.preventDefault();
+    }
+  }, true);
+});
+
 // Global error handler for unhandled rejections in tests
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);

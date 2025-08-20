@@ -23,7 +23,7 @@ import {
 // Mock Radix UI DropdownMenu
 vi.mock('@radix-ui/react-dropdown-menu', () => {
   const MockedRoot = React.forwardRef<HTMLDivElement, any>(({ children, onOpenChange, ...props }, ref) => (
-    <div ref={ref} {...props}>
+    <div ref={ref} data-testid="dropdown-menu" {...props}>
       {children}
     </div>
   ));

@@ -94,7 +94,7 @@ describe('Dialog Components', () => {
         </Dialog>
       );
       
-      const dialog = screen.getByTestId('dialog');
+      const dialog = screen.getByTestId('dialog-root');
       expect(dialog).toBeInTheDocument();
     });
 
@@ -117,7 +117,7 @@ describe('Dialog Components', () => {
         </Dialog>
       );
       
-      const dialog = screen.getByTestId('dialog');
+      const dialog = screen.getByTestId('dialog-root');
       expect(dialog).toHaveAttribute('data-custom', 'value');
     });
 
@@ -131,7 +131,7 @@ describe('Dialog Components', () => {
         </Dialog>
       );
       
-      const dialog = screen.getByTestId('dialog');
+      const dialog = screen.getByTestId('dialog-root');
       expect(dialog).toHaveAttribute('open');
     });
 
@@ -147,7 +147,7 @@ describe('Dialog Components', () => {
         </Dialog>
       );
       
-      const dialog = screen.getByTestId('dialog');
+      const dialog = screen.getByTestId('dialog-root');
       expect(dialog).toBeInTheDocument();
     });
   });
@@ -637,7 +637,7 @@ describe('Dialog Components', () => {
         </Dialog>
       );
 
-      const dialog = screen.getByTestId('dialog');
+      const dialog = screen.getByTestId('dialog-root');
       const trigger = screen.getByTestId('dialog-trigger');
       const overlay = screen.getByTestId('dialog-overlay');
       const content = screen.getByTestId('dialog-content');

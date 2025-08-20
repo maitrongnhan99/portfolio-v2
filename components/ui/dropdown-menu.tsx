@@ -6,12 +6,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const DropdownMenu = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>
->(({ ...props }, ref) => (
-  <DropdownMenuPrimitive.Root ref={ref} data-testid="dropdown-menu" {...props} />
-));
+const DropdownMenu = DropdownMenuPrimitive.Root;
 DropdownMenu.displayName = "DropdownMenu";
 
 const DropdownMenuTrigger = React.forwardRef<
@@ -32,12 +27,7 @@ DropdownMenuGroup.displayName = "DropdownMenuGroup";
 
 const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 
-const DropdownMenuSub = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Sub>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Sub>
->(({ ...props }, ref) => (
-  <DropdownMenuPrimitive.Sub ref={ref} data-testid="dropdown-menu-sub" {...props} />
-));
+const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 DropdownMenuSub.displayName = "DropdownMenuSub";
 
 const DropdownMenuRadioGroup = React.forwardRef<
