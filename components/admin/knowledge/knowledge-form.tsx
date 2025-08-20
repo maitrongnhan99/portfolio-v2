@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react";
 import { useKnowledgeForm } from "@/hooks/admin/use-knowledge-form";
 import type { KnowledgeFormData } from "@/hooks/admin/use-knowledge-form";
 import { KNOWLEDGE_CATEGORIES, KNOWLEDGE_PRIORITIES } from "@/lib/admin/constants";
@@ -235,7 +235,10 @@ const KnowledgeForm: FC<KnowledgeFormProps> = memo(({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+              >
                 {isSubmitting
                   ? mode === "create"
                     ? "Creating..."

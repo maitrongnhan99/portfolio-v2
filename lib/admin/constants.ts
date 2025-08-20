@@ -17,6 +17,13 @@ export const KNOWLEDGE_PRIORITIES = [
 
 export const ITEMS_PER_PAGE = 10;
 
+export const SORT_OPTIONS = [
+  { value: "createdAt", label: "Created Date" },
+  { value: "metadata.lastUpdated", label: "Updated Date" },
+  { value: "queryCount", label: "Query Count" },
+  { value: "metadata.priority", label: "Priority" },
+] as const;
+
 export const API_ENDPOINTS = {
   knowledge: "/api/admin/knowledge",
   stats: "/api/admin/stats",
@@ -31,3 +38,5 @@ export const ROUTES = {
 export type KnowledgeCategory = typeof KNOWLEDGE_CATEGORIES[number]["value"];
 export type KnowledgePriority = typeof KNOWLEDGE_PRIORITIES[number]["value"];
 export type PriorityLevel = 1 | 2 | 3;
+
+export type ActionType = "create" | "update" | "delete" | "view" | "export" | "import";

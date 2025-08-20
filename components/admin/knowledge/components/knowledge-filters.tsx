@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { RefreshCw } from "lucide-react";
+import { ArrowsClockwise } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -79,7 +79,7 @@ const KnowledgeFilters: FC<KnowledgeFiltersProps> = ({
             size="icon"
             onClick={onRefresh}
           >
-            <RefreshCw className="h-4 w-4" />
+            <ArrowsClockwise className="h-4 w-4" />
           </Button>
         </div>
       </CardContent>

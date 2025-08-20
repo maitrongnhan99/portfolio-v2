@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { LockClosedIcon } from "@heroicons/react/24/outline";
+import { LockSimple } from "@phosphor-icons/react";
 
 const AdminLoginPage: FC = () => {
   const router = useRouter();
@@ -42,16 +42,16 @@ const AdminLoginPage: FC = () => {
   }, [email, password, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-navy">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md">
-        <div className="bg-navy-light rounded-lg shadow-xl p-8 border border-navy-lighter">
+        <div className="bg-card rounded-lg shadow-xl p-8 border border-border">
           <div className="flex justify-center mb-8">
             <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-              <LockClosedIcon className="w-8 h-8 text-primary" />
+              <LockSimple className="w-8 h-8 text-primary" />
             </div>
           </div>
           
-          <h1 className="text-2xl font-bold text-center mb-8 text-slate-lighter">
+          <h1 className="text-2xl font-bold text-center mb-8 text-foreground">
             Admin Login
           </h1>
 

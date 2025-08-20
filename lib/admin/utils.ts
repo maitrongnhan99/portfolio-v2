@@ -1,4 +1,4 @@
-import { KNOWLEDGE_CATEGORIES, KNOWLEDGE_PRIORITIES, type KnowledgeCategory, type KnowledgePriority } from "./constants";
+import { KNOWLEDGE_CATEGORIES, KNOWLEDGE_PRIORITIES, type KnowledgeCategory, type KnowledgePriority, type ActionType } from "./constants";
 
 export const getCategoryConfig = (category: string) => {
   return KNOWLEDGE_CATEGORIES.find(c => c.value === category) || KNOWLEDGE_CATEGORIES[KNOWLEDGE_CATEGORIES.length - 1];
@@ -49,4 +49,23 @@ export const generatePaginationRange = (currentPage: number, totalPages: number)
   });
 
   return rangeWithDots;
+};
+
+export const getActionColor = (action: ActionType): string => {
+  switch (action) {
+    case "create":
+      return "text-green-600";
+    case "update":
+      return "text-blue-600";
+    case "delete":
+      return "text-red-600";
+    case "view":
+      return "text-gray-600";
+    case "export":
+      return "text-purple-600";
+    case "import":
+      return "text-orange-600";
+    default:
+      return "text-gray-600";
+  }
 };

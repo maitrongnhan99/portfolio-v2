@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
-  FileTextIcon,
-  ChartBarIcon,
-  FolderIcon,
-} from "@heroicons/react/24/outline";
+  FileText,
+  ChartBar,
+  Folder,
+} from "@phosphor-icons/react";
 import { StatsOverviewCard } from "./components/stats-overview-card";
 import { CategoryDistribution } from "./components/category-distribution";
 import { RecentActivity } from "./components/recent-activity";
@@ -64,19 +64,19 @@ const KnowledgeStats: FC<KnowledgeStatsProps> = memo(({ stats }) => {
           title="Total Knowledge Chunks"
           value={stats.totals.chunks}
           description={`Across ${stats.totals.categories} categories`}
-          icon={<FileTextIcon className="h-4 w-4 text-muted-foreground" />}
+          icon={<FileText className="h-4 w-4 text-muted-foreground" />}
         />
         <StatsOverviewCard
           title="Total Queries"
           value={stats.totals.queries}
           description="AI assistant interactions"
-          icon={<ChartBarIcon className="h-4 w-4 text-muted-foreground" />}
+          icon={<ChartBar className="h-4 w-4 text-muted-foreground" />}
         />
         <StatsOverviewCard
           title="Categories"
           value={stats.totals.categories}
           description="Active categories"
-          icon={<FolderIcon className="h-4 w-4 text-muted-foreground" />}
+          icon={<Folder className="h-4 w-4 text-muted-foreground" />}
         />
       </div>
 

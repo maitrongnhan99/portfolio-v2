@@ -6,14 +6,28 @@ import { usePagination } from "./use-pagination";
 interface KnowledgeChunk {
   _id: string;
   content: string;
-  category: string;
-  priority: string;
-  tags: string[];
+  metadata: {
+    category: string;
+    priority: number;
+    tags: string[];
+    source: string;
+    lastUpdated: string;
+  };
+  createdBy?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  modifiedBy?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
   isActive: boolean;
+  version: number;
+  queryCount: number;
   createdAt: string;
   updatedAt: string;
-  createdBy?: string;
-  updatedBy?: string;
 }
 
 interface KnowledgeStats {
@@ -79,8 +93,9 @@ function useKnowledgeData(): UseKnowledgeDataReturn {
 
       if (!response.ok) throw new Error(data.message);
 
+      // The API returns pagination object with total inside it
       setChunks(data.chunks);
-      setTotalItems(data.total);
+      setTotalItems(data.pagination?.total || data.total || 0);
     } catch (error) {
       toast({
         title: "Error",

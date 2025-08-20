@@ -45,7 +45,7 @@ const AdminAssistantPage: FC = () => {
     try {
       const url = formMode === "create" 
         ? "/api/admin/knowledge"
-        : `/api/admin/knowledge/${selectedChunk._id}`;
+        : `/api/admin/knowledge/${selectedChunk?._id}`;
       
       const method = formMode === "create" ? "POST" : "PUT";
       
@@ -107,8 +107,8 @@ const AdminAssistantPage: FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Knowledge Management</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold text-slate-lighter">Knowledge Management</h1>
+          <p className="text-slate">
             Manage the AI assistant&apos;s knowledge base
           </p>
         </div>
@@ -140,7 +140,7 @@ const AdminAssistantPage: FC = () => {
           <Card>
             <CardContent className="p-0">
               {loading ? (
-                <div className="p-8 text-center">Loading...</div>
+                <div className="p-8 text-center text-slate">Loading...</div>
               ) : (
                 <>
                   <KnowledgeTable

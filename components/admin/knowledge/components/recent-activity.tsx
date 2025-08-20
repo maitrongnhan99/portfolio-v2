@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { Clock } from "@phosphor-icons/react";
 import { formatDistanceToNow } from "date-fns";
 import { getActionColor } from "@/lib/admin/utils";
 import type { ActionType } from "@/lib/admin/constants";
@@ -37,7 +37,7 @@ const RecentActivity: FC<RecentActivityProps> = ({ activities }) => {
         <div className="space-y-4">
           {activities.map((activity) => (
             <div key={activity._id} className="flex items-center gap-4 text-sm">
-              <ClockIcon className="h-4 w-4 text-muted-foreground" />
+              <Clock className="h-4 w-4 text-muted-foreground" />
               <div className="flex-1">
                 <span className="font-medium">{activity.userId.name}</span>
                 <span className={`ml-2 ${getActionColor(activity.action as ActionType)}`}>

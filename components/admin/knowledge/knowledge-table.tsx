@@ -18,11 +18,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { 
-  MoreHorizontal, 
-  Edit, 
+  DotsThreeOutline, 
+  PencilSimple, 
   Trash, 
-  RefreshCw 
-} from "lucide-react";
+  ArrowsClockwise 
+} from "@phosphor-icons/react";
 import { formatDistanceToNow } from "date-fns";
 import { getCategoryConfig, getPriorityConfig } from "@/lib/admin/utils";
 import type { KnowledgeCategory, PriorityLevel } from "@/lib/admin/constants";
@@ -38,11 +38,20 @@ interface KnowledgeChunk {
     lastUpdated: string;
   };
   createdBy?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  modifiedBy?: {
+    _id: string;
     name: string;
     email: string;
   };
   queryCount: number;
   version: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface KnowledgeTableProps {
@@ -60,7 +69,7 @@ const KnowledgeTable: FC<KnowledgeTableProps> = memo(({
   onRegenerateEmbedding,
 }) => {
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border border-border">
       <Table>
         <TableHeader>
           <TableRow>
@@ -127,21 +136,21 @@ const KnowledgeTable: FC<KnowledgeTableProps> = memo(({
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
                       <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-4 w-4" />
+                      <DotsThreeOutline className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onClick={() => onEdit(chunk)}>
-                      <Edit className="mr-2 h-4 w-4" />
+                      <PencilSimple className="mr-2 h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onRegenerateEmbedding(chunk._id)}>
-                      <RefreshCw className="mr-2 h-4 w-4" />
+                      <ArrowsClockwise className="mr-2 h-4 w-4" />
                       Regenerate Embedding
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => onDelete(chunk._id)}
-                      className="text-red-600"
+                      className="text-destructive hover:text-destructive/80"
                     >
                       <Trash className="mr-2 h-4 w-4" />
                       Delete

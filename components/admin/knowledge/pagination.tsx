@@ -21,7 +21,7 @@ const Pagination: FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-between items-center p-4 border-t">
+    <div className="flex justify-between items-center p-4 border-t border-border">
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
