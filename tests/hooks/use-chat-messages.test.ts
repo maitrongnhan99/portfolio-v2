@@ -107,6 +107,25 @@ describe("useChatMessages", () => {
       expect(result.current.messages[0].text).toBe("Hello!");
       expect(result.current.messages[0].isUser).toBe(true);
     });
+
+    it("should generate unique IDs for messages", async () => {
+      const { result } = renderHook(() => useChatMessages());
+
+      act(() => {
+        result.current.addUserMessage("First message");
+      });
+
+      // Add small delay to ensure different timestamp
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      act(() => {
+        result.current.addUserMessage("Second message");
+      });
+
+      expect(result.current.messages[0].id).not.toBe(
+        result.current.messages[1].id
+      );
+    });
   });
 
   describe("handleNonStreamingMessage", () => {

@@ -33,6 +33,11 @@ beforeAll(() => {
   }
 });
 
+afterEach(() => {
+  // Clean up after each test
+  cleanup();
+});
+
 afterAll(() => {
   // Restore original console methods
   console.log = originalConsoleLog;

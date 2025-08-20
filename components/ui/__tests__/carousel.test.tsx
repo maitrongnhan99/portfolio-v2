@@ -452,6 +452,7 @@ describe('Carousel Components', () => {
           <CarouselContent>
             <CarouselItem>
               <div className="slide-content">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/image1.jpg" alt="Image 1" />
                 <h3>Slide Title 1</h3>
                 <p>Slide description</p>
@@ -459,6 +460,7 @@ describe('Carousel Components', () => {
             </CarouselItem>
             <CarouselItem>
               <div className="slide-content">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/image2.jpg" alt="Image 2" />
                 <h3>Slide Title 2</h3>
                 <p>Another description</p>

@@ -16,45 +16,52 @@ import {
 
 // Mock Vaul Drawer
 vi.mock('vaul', () => {
-  const MockedRoot = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
+  const MockedRoot = React.forwardRef<HTMLDivElement, any>(({ children, shouldScaleBackground, onOpenChange, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRoot.displayName = 'MockedRoot';
 
   const MockedTrigger = React.forwardRef<HTMLButtonElement, any>(({ children, ...props }, ref) => (
     <button ref={ref} type="button" {...props}>
       {children}
     </button>
   ));
+  MockedTrigger.displayName = 'MockedTrigger';
 
   const MockedContent = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedContent.displayName = 'MockedContent';
 
   const MockedOverlay = React.forwardRef<HTMLDivElement, any>(({ ...props }, ref) => (
     <div ref={ref} {...props} />
   ));
+  MockedOverlay.displayName = 'MockedOverlay';
 
   const MockedTitle = React.forwardRef<HTMLHeadingElement, any>(({ children, ...props }, ref) => (
     <h2 ref={ref} {...props}>
       {children}
     </h2>
   ));
+  MockedTitle.displayName = 'MockedTitle';
 
   const MockedDescription = React.forwardRef<HTMLParagraphElement, any>(({ children, ...props }, ref) => (
     <p ref={ref} {...props}>
       {children}
     </p>
   ));
+  MockedDescription.displayName = 'MockedDescription';
 
   const MockedClose = React.forwardRef<HTMLButtonElement, any>(({ children, ...props }, ref) => (
     <button ref={ref} type="button" {...props}>
       {children}
     </button>
   ));
+  MockedClose.displayName = 'MockedClose';
 
   return {
     Drawer: {

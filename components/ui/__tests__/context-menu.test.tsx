@@ -33,76 +33,89 @@ vi.mock('@radix-ui/react-context-menu', () => {
       {children}
     </div>
   ));
+  MockedTrigger.displayName = 'MockedTrigger';
 
   const MockedContent = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedContent.displayName = 'MockedContent';
 
   const MockedItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedItem.displayName = 'MockedItem';
 
   const MockedCheckboxItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedCheckboxItem.displayName = 'MockedCheckboxItem';
 
   const MockedRadioItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRadioItem.displayName = 'MockedRadioItem';
 
   const MockedLabel = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedLabel.displayName = 'MockedLabel';
 
   const MockedSeparator = React.forwardRef<HTMLDivElement, any>(({ ...props }, ref) => (
     <div ref={ref} {...props} />
   ));
+  MockedSeparator.displayName = 'MockedSeparator';
 
   const MockedGroup = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedGroup.displayName = 'MockedGroup';
 
   const MockedSub = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSub.displayName = 'MockedSub';
 
   const MockedSubTrigger = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSubTrigger.displayName = 'MockedSubTrigger';
 
   const MockedSubContent = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSubContent.displayName = 'MockedSubContent';
 
   const MockedRadioGroup = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRadioGroup.displayName = 'MockedRadioGroup';
 
   const MockedItemIndicator = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedItemIndicator.displayName = 'MockedItemIndicator';
 
   return {
     Root: MockedRoot,

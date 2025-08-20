@@ -147,6 +147,7 @@ describe('AlertDialog Components', () => {
       >((props, ref) => (
         <AlertDialogOverlay ref={ref} className="custom-overlay" {...props} />
       ));
+      CustomOverlay.displayName = 'CustomOverlay';
 
       render(
         <AlertDialog open>

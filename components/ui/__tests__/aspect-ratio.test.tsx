@@ -20,6 +20,7 @@ describe('AspectRatio Component', () => {
     it('should render with custom ratio', () => {
       render(
         <AspectRatio ratio={16 / 9}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/test.jpg" alt="Test" />
         </AspectRatio>
       );
@@ -46,6 +47,7 @@ describe('AspectRatio Component', () => {
     it('should render children correctly', () => {
       render(
         <AspectRatio ratio={4 / 3}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/image.jpg" alt="Test Image" />
           <div>Overlay content</div>
         </AspectRatio>
@@ -226,6 +228,7 @@ describe('AspectRatio Component', () => {
     it('should work with images', () => {
       render(
         <AspectRatio ratio={16 / 9}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src="/hero-image.jpg" 
             alt="Hero image" 
@@ -288,6 +291,7 @@ describe('AspectRatio Component', () => {
       render(
         <AspectRatio ratio={4 / 3}>
           <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/background.jpg" 
               alt="Background" 
@@ -397,6 +401,7 @@ describe('AspectRatio Component', () => {
           aria-label="Video thumbnail"
           aria-describedby="video-description"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/thumbnail.jpg" alt="Video thumbnail" />
         </AspectRatio>
       );
@@ -411,6 +416,7 @@ describe('AspectRatio Component', () => {
       render(
         <AspectRatio ratio={16 / 9} aria-label="Image gallery">
           <div role="img" aria-label="Gallery image">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/gallery.jpg" alt="Gallery item" />
           </div>
         </AspectRatio>

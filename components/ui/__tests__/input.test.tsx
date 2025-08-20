@@ -191,7 +191,7 @@ describe('Input Component', () => {
         <Input 
           id="test-input"
           name="test-name"
-          value="test-value"
+          defaultValue="test-value"
           required
           autoComplete="email"
           maxLength={50}
@@ -320,14 +320,14 @@ describe('Input Component', () => {
 
   describe('Edge Cases', () => {
     it('should handle empty value', () => {
-      render(<Input value="" />);
+      render(<Input defaultValue="" />);
       
       const input = screen.getByTestId('input');
       expect(input).toHaveValue('');
     });
 
     it('should handle numeric values', () => {
-      render(<Input type="number" value={42} />);
+      render(<Input type="number" defaultValue={42} />);
       
       const input = screen.getByTestId('input');
       expect(input).toHaveValue(42);
@@ -341,7 +341,7 @@ describe('Input Component', () => {
     });
 
     it('should handle readonly attribute', () => {
-      render(<Input readOnly value="readonly text" />);
+      render(<Input readOnly defaultValue="readonly text" />);
       
       const input = screen.getByTestId('input');
       expect(input).toHaveAttribute('readonly');

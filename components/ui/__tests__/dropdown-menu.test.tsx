@@ -22,87 +22,101 @@ import {
 
 // Mock Radix UI DropdownMenu
 vi.mock('@radix-ui/react-dropdown-menu', () => {
-  const MockedRoot = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
+  const MockedRoot = React.forwardRef<HTMLDivElement, any>(({ children, onOpenChange, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRoot.displayName = 'MockedRoot';
 
   const MockedTrigger = React.forwardRef<HTMLButtonElement, any>(({ children, ...props }, ref) => (
     <button ref={ref} type="button" {...props}>
       {children}
     </button>
   ));
+  MockedTrigger.displayName = 'MockedTrigger';
 
-  const MockedContent = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
-    <div ref={ref} {...props}>
+  const MockedContent = React.forwardRef<HTMLDivElement, any>(({ children, sideOffset, ...props }, ref) => (
+    <div ref={ref} {...props} data-sideoffset={sideOffset}>
       {children}
     </div>
   ));
+  MockedContent.displayName = 'MockedContent';
 
   const MockedItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedItem.displayName = 'MockedItem';
 
   const MockedCheckboxItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedCheckboxItem.displayName = 'MockedCheckboxItem';
 
   const MockedRadioItem = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRadioItem.displayName = 'MockedRadioItem';
 
   const MockedLabel = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedLabel.displayName = 'MockedLabel';
 
   const MockedSeparator = React.forwardRef<HTMLDivElement, any>(({ ...props }, ref) => (
     <div ref={ref} {...props} />
   ));
+  MockedSeparator.displayName = 'MockedSeparator';
 
   const MockedGroup = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedGroup.displayName = 'MockedGroup';
 
   const MockedSub = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSub.displayName = 'MockedSub';
 
   const MockedSubTrigger = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSubTrigger.displayName = 'MockedSubTrigger';
 
   const MockedSubContent = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedSubContent.displayName = 'MockedSubContent';
 
   const MockedRadioGroup = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedRadioGroup.displayName = 'MockedRadioGroup';
 
   const MockedItemIndicator = React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
     <div ref={ref} {...props}>
       {children}
     </div>
   ));
+  MockedItemIndicator.displayName = 'MockedItemIndicator';
 
   return {
     Root: MockedRoot,
@@ -352,7 +366,7 @@ describe('DropdownMenu Components', () => {
       );
       
       const content = screen.getByTestId('dropdown-menu-content');
-      expect(content).toHaveAttribute('sideOffset', '8');
+      expect(content).toHaveAttribute('data-sideoffset', '8');
     });
   });
 

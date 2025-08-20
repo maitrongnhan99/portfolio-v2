@@ -4,15 +4,20 @@ import React from 'react';
 import { ColourfulText } from '../colourful-text';
 
 // Mock framer-motion
-vi.mock('motion/react', () => ({
-  motion: {
-    span: React.forwardRef<HTMLSpanElement, any>(({ children, ...props }, ref) => (
-      <span ref={ref} {...props}>
-        {children}
-      </span>
-    )),
-  },
-}));
+vi.mock('motion/react', () => {
+  const MockSpan = React.forwardRef<HTMLSpanElement, any>(({ children, ...props }, ref) => (
+    <span ref={ref} {...props}>
+      {children}
+    </span>
+  ));
+  MockSpan.displayName = 'MockSpan';
+  
+  return {
+    motion: {
+      span: MockSpan,
+    },
+  };
+});
 
 describe('ColourfulText Component', () => {
   beforeEach(() => {
