@@ -19,17 +19,17 @@ Sentry.init({
   // Environment
   environment: process.env.NODE_ENV,
 
+  // Set tracePropagationTargets to control what URLs should have tracing headers attached
+  tracePropagationTargets: [
+    "localhost",
+    /^https:\/\/maitrongnhan\.com/,
+    /^\/api\//,
+  ],
+
   // Integrations
   integrations: [
     // Browser Tracing
-    Sentry.browserTracingIntegration({
-      // Set tracePropagationTargets to control what URLs should have tracing headers attached
-      tracePropagationTargets: [
-        "localhost",
-        /^https:\/\/maitrongnhan\.com/,
-        /^\/api\//,
-      ],
-    }),
+    Sentry.browserTracingIntegration(),
 
     // Session Replay
     Sentry.replayIntegration({
@@ -70,7 +70,8 @@ Sentry.init({
       }
 
       // Ignore network errors that are expected
-      if (hint.originalException?.message?.includes("NetworkError")) {
+      const error = hint.originalException as Error | undefined;
+      if (error?.message?.includes("NetworkError")) {
         return null;
       }
     }
