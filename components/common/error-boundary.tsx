@@ -31,18 +31,21 @@ export class ErrorBoundary extends React.Component<
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error caught by boundary:", error, errorInfo);
 
-    // Call custom error handler if provided
-    this.props.onError?.(error, errorInfo);
-
-    // Log to monitoring service in production
-    if (process.env.NODE_ENV === "production") {
-      // TODO: Send to error monitoring service
-      console.error("Production error:", {
-        error: error.message,
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
+    // Send to Sentry
+    if (typeof window !== "undefined") {
+      import("@sentry/nextjs").then((Sentry) => {
+        Sentry.withScope((scope) => {
+          scope.setContext("errorBoundary", {
+            componentStack: errorInfo.componentStack,
+          });
+          scope.setLevel("error");
+          Sentry.captureException(error);
+        });
       });
     }
+
+    // Call custom error handler if provided
+    this.props.onError?.(error, errorInfo);
   }
 
   handleReset = () => {
@@ -198,13 +201,17 @@ export function useErrorHandler() {
   return React.useCallback((error: Error, context?: string) => {
     console.error(`Error in ${context || "component"}:`, error);
 
-    if (process.env.NODE_ENV === "production") {
-      // TODO: Send to error monitoring service
-      console.error("Production error reported:", {
-        message: error.message,
-        stack: error.stack,
-        context,
-        timestamp: new Date().toISOString(),
+    // Send to Sentry
+    if (typeof window !== "undefined") {
+      import("@sentry/nextjs").then((Sentry) => {
+        Sentry.withScope((scope) => {
+          scope.setContext("errorHandler", {
+            context,
+            timestamp: new Date().toISOString(),
+          });
+          scope.setLevel("error");
+          Sentry.captureException(error);
+        });
       });
     }
   }, []);
