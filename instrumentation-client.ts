@@ -8,7 +8,7 @@ Sentry.init({
 
   // Performance Monitoring
   tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-  
+
   // Session Replay
   replaysSessionSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0.5,
   replaysOnErrorSampleRate: 1.0,
@@ -30,7 +30,7 @@ Sentry.init({
         /^\/api\//,
       ],
     }),
-    
+
     // Session Replay
     Sentry.replayIntegration({
       // Mask all text content, but keep media playback
@@ -42,7 +42,7 @@ Sentry.init({
         /^https:\/\/maitrongnhan\.com/,
       ],
     }),
-    
+
     // User Feedback
     Sentry.feedbackIntegration({
       // The feedback widget will open a modal
@@ -62,11 +62,13 @@ Sentry.init({
     // Filter out specific errors in production
     if (process.env.NODE_ENV === "production") {
       // Ignore browser extension errors
-      if (event.exception?.values?.[0]?.type === "TypeError" &&
-          event.exception?.values?.[0]?.value?.includes("chrome")) {
+      if (
+        event.exception?.values?.[0]?.type === "TypeError" &&
+        event.exception?.values?.[0]?.value?.includes("chrome")
+      ) {
         return null;
       }
-      
+
       // Ignore network errors that are expected
       if (hint.originalException?.message?.includes("NetworkError")) {
         return null;
@@ -106,10 +108,7 @@ Sentry.init({
   ],
 
   // Allow URLs for error reporting
-  allowUrls: [
-    /https:\/\/maitrongnhan\.com/,
-    /http:\/\/localhost:3000/,
-  ],
+  allowUrls: [/https:\/\/maitrongnhan\.com/, /http:\/\/localhost:3000/],
 
   // Deny URLs (3rd party scripts)
   denyUrls: [
@@ -119,3 +118,5 @@ Sentry.init({
     /^moz-extension:\/\//i,
   ],
 });
+
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

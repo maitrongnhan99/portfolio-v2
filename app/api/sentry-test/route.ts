@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
         // Test reference error
         // @ts-ignore - Intentional error for testing
         const obj = null;
-        obj.nonExistentMethod();
+        (obj as any).nonExistentMethod();
         break;
         
       case "custom":

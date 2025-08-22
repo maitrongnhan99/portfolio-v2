@@ -49,10 +49,4 @@ Sentry.init({
     "NEXT_NOT_FOUND",
     "NEXT_REDIRECT",
   ],
-
-  // Transport options for edge runtime
-  transportOptions: {
-    // Shorter timeout for edge functions
-    shutdownTimeout: 2000,
-  },
 });

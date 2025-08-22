@@ -21,11 +21,13 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
-    instrumentationHook: true,
   },
   serverExternalPackages: ["@react-pdf/renderer"],
 
-  env: { TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN },
+  env: {
+    TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  },
 
   // Security Headers
   async headers() {

@@ -12,9 +12,6 @@ Sentry.init({
   // Environment
   environment: process.env.NODE_ENV,
 
-  // Server-specific options
-  autoSessionTracking: true,
-  
   // Capture unhandled promise rejections
   onFatalError: (error) => {
     console.error("Fatal error occurred:", error);
@@ -24,10 +21,16 @@ Sentry.init({
   integrations: [
     // Prisma integration (if using Prisma)
     Sentry.prismaIntegration(),
-    
+
     // MongoDB integration
-    Sentry.mongoIntegration({
-      useMongoose: true, // Since you're using mongoose
+    Sentry.mongoIntegration(),
+    Sentry.captureConsoleIntegration({
+      levels: ["error", "warn"],
+    }),
+
+    // Local variables integration for better debugging
+    Sentry.localVariablesIntegration({
+      captureAllExceptions: true,
     }),
   ],
 
@@ -39,13 +42,15 @@ Sentry.init({
       if (event.request?.cookies) {
         delete event.request.cookies;
       }
-      
+
       // Remove any potential secrets from the event
       if (event.extra) {
         Object.keys(event.extra).forEach((key) => {
-          if (key.toLowerCase().includes("token") || 
-              key.toLowerCase().includes("secret") ||
-              key.toLowerCase().includes("password")) {
+          if (
+            key.toLowerCase().includes("token") ||
+            key.toLowerCase().includes("secret") ||
+            key.toLowerCase().includes("password")
+          ) {
             delete event.extra![key];
           }
         });
@@ -78,24 +83,5 @@ Sentry.init({
     "NEXT_REDIRECT",
   ],
 
-  // Configure transport options
-  transportOptions: {
-    // Increase timeout for server environments
-    shutdownTimeout: 5000,
-  },
-
-  // Profile sample rate (requires tracing to be enabled)
   profilesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-
-  // Capture console errors
-  integrations: [
-    Sentry.captureConsoleIntegration({
-      levels: ["error", "warn"],
-    }),
-    
-    // Local variables integration for better debugging
-    Sentry.localVariablesIntegration({
-      captureAllExceptions: true,
-    }),
-  ],
 });
