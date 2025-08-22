@@ -11,13 +11,14 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./tests/setup.ts",
-    include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
+    include: ["tests/**/*.test.ts", "tests/**/*.test.tsx", "components/**/__tests__/**/*.test.tsx"],
     reporters: ["default", "junit"],
     outputFile: "./coverage/junit.xml",
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],
       include: [
+        "components/**/*.{ts,tsx}",
         "services/**/*.{ts,tsx}",
         "lib/**/*.{ts,tsx}",
         "models/**/*.{ts,tsx}",

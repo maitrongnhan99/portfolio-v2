@@ -47,7 +47,7 @@ export default function Hero() {
           >
             I build things for{" "}
             <FlipWords
-              className="px-0 md:px-2 text-slate-500"
+              className="px-0 md:px-2 text-slate"
               words={["the web", "mobile apps"]}
             />
           </motion.h2>
@@ -58,9 +58,9 @@ export default function Hero() {
             className="text-slate max-w-lg mb-12 text-lg text-left leading-8"
           >
             I&apos;m a FullStack developer specializing in building exceptional
-            digital experiences. Currently, I&apos;m focused on building accessible,
-            human-centered products using React, Next.js, NestJS, MongoDB and
-            PostgreSQL.
+            digital experiences. Currently, I&apos;m focused on building
+            accessible, human-centered products using React, Next.js, NestJS,
+            MongoDB and PostgreSQL.
           </motion.p>
 
           <Social />
