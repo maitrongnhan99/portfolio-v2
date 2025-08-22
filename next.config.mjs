@@ -21,12 +21,11 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
-    instrumentationHook: true, // Enable instrumentation for Sentry
+    instrumentationHook: true,
   },
   serverExternalPackages: ["@react-pdf/renderer"],
 
-  // Security: Removed client-side environment variable exposure
-  // env: { TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN }, // REMOVED - security risk
+  env: { TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN },
 
   // Security Headers
   async headers() {
