@@ -22,11 +22,11 @@ vi.mock("@radix-ui/react-slot", () => {
   const Slot = React.forwardRef<any, any>(({ children, ...props }, ref) => {
     // Clone the child element and pass through props
     if (React.isValidElement(children)) {
-      return React.cloneElement(children, { ...props, ref });
+      return React.cloneElement(children, { ...props, ref } as any);
     }
     return children;
   });
-  Slot.displayName = 'Slot';
+  Slot.displayName = "Slot";
   return { Slot };
 });
 
@@ -38,7 +38,7 @@ vi.mock("@radix-ui/react-label", () => {
       </label>
     )
   );
-  Root.displayName = 'Root';
+  Root.displayName = "Root";
   return { Root };
 });
 
