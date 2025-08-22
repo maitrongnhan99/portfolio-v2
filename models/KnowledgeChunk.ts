@@ -11,6 +11,11 @@ export interface IKnowledgeChunk extends Document {
     source: string;
     lastUpdated: Date;
   };
+  createdBy?: mongoose.Types.ObjectId;
+  modifiedBy?: mongoose.Types.ObjectId;
+  isActive: boolean;
+  version: number;
+  queryCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -56,6 +61,26 @@ const KnowledgeChunkSchema = new Schema<IKnowledgeChunk>({
       type: Date,
       default: Date.now,
     },
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  modifiedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  version: {
+    type: Number,
+    default: 1,
+  },
+  queryCount: {
+    type: Number,
+    default: 0,
   },
 }, {
   timestamps: true,

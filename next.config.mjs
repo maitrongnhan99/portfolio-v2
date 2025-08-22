@@ -21,6 +21,7 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+    instrumentationHook: true, // Enable instrumentation for Sentry
   },
   serverExternalPackages: ["@react-pdf/renderer"],
 
