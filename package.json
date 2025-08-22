@@ -24,6 +24,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.10.0",
     "@emotion/is-prop-valid": "latest",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^3.10.0",
@@ -59,6 +60,7 @@
     "@sentry/nextjs": "^10.5.0",
     "@vercel/postgres": "latest",
     "autoprefixer": "^10.4.20",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.1.1",
@@ -71,6 +73,7 @@
     "mongoose": "^8.16.0",
     "motion": "^12.17.0",
     "next": "15.3.3",
+    "next-auth": "^4.24.11",
     "next-themes": "latest",
     "react": "^19",
     "react-day-picker": "9.9.0",
@@ -85,7 +88,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "telegraf": "^4.16.3",
-    "vaul": "^0.9.6",
+    "vaul": "^1.1.2",
     "web-vitals": "^5.0.3",
     "zod": "^3.25.63"
   },
