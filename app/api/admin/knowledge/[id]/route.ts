@@ -3,7 +3,7 @@ import { requireAuth } from "@/lib/auth/middleware";
 import KnowledgeChunk from "@/models/KnowledgeChunk";
 import connectToDatabase from "@/lib/mongodb";
 import { knowledgeSchema } from "@/lib/admin/validators";
-import MongoVectorStore from "@/services/vectorStore";
+import { MongoVectorStore } from "@/services/vectorStore";
 import AuditLog from "@/models/AuditLog";
 
 // GET /api/admin/knowledge/[id] - Get single chunk
@@ -79,12 +79,12 @@ export async function PUT(
     chunk.metadata = {
       ...chunk.metadata,
       category: validation.data.category,
-      priority: validation.data.priority,
+      priority: validation.data.priority as 1 | 2 | 3,
       tags: validation.data.tags,
       source: validation.data.source,
       lastUpdated: new Date(),
     };
-    chunk.modifiedBy = session.user.id;
+    chunk.modifiedBy = session.user.id as any;
     chunk.version += 1;
 
     // Regenerate embedding if content changed
@@ -145,7 +145,7 @@ export async function DELETE(
 
     // Soft delete
     chunk.isActive = false;
-    chunk.modifiedBy = session.user.id;
+    chunk.modifiedBy = session.user.id as any;
     await chunk.save();
 
     // Log activity

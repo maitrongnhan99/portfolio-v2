@@ -220,4 +220,3 @@ export const knowledgeBase: KnowledgeChunkData[] = [
   }
 ];
 
-export default knowledgeBase;

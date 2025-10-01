@@ -286,4 +286,3 @@ export class RetryManager {
   }
 }
 
-export default RetryManager;

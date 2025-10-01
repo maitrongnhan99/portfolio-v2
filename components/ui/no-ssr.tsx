@@ -17,4 +17,3 @@ export function NoSSR({ children, fallback = null }: NoSSRProps) {
   return isClient ? <>{children}</> : <>{fallback}</>;
 }
 
-export default NoSSR;

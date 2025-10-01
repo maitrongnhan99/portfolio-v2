@@ -32,21 +32,8 @@ export async function POST(request: NextRequest) {
       context: errorReport.context,
     });
 
-    // Example: Send to Sentry
-    if (process.env.SENTRY_DSN) {
-      try {
-        // In a real implementation, you'd use the Sentry SDK
-        // Sentry.captureException(new Error(errorReport.message), {
-        //   extra: errorReport.context,
-        //   tags: {
-        //     url: errorReport.url,
-        //     userAgent: errorReport.userAgent,
-        //   }
-        // });
-      } catch (error) {
-        console.error('Failed to send to Sentry:', error);
-      }
-    }
+    // Here you could send to external error monitoring services
+    // For now, we just log to console
 
     // Example: Send to custom error tracking
     // await saveErrorToDatabase(errorReport);

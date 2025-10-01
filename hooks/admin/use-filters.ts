@@ -20,7 +20,7 @@ export const useFilters = <T extends Record<string, any>>({
     setFilters(prev => {
       if (value === undefined || value === "") {
         const { [key]: _, ...rest } = prev;
-        return rest;
+        return rest as Partial<T>;
       }
       return { ...prev, [key]: value };
     });
@@ -34,7 +34,7 @@ export const useFilters = <T extends Record<string, any>>({
       setDebouncedFilters(prev => {
         if (value === undefined || value === "") {
           const { [key]: _, ...rest } = prev;
-          return rest;
+          return rest as Partial<T>;
         }
         return { ...prev, [key]: value };
       });

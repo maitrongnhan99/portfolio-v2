@@ -1,7 +1,7 @@
 import { KnowledgeChunkData } from "@/lib/knowledge-data";
 import connectToDatabase from "@/lib/mongodb";
 import KnowledgeChunk from "@/models/KnowledgeChunk";
-import EmbeddingService from "./embeddingService";
+import { EmbeddingService } from "./embeddingService";
 
 export interface RetrievedChunk {
   content: string;
@@ -300,4 +300,3 @@ export class MongoVectorStore {
   }
 }
 
-export default MongoVectorStore;

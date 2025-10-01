@@ -1,4 +1,4 @@
-import SmartRetriever from '@/services/retriever';
+import { SmartRetriever } from '@/services/retriever';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest, NextResponse } from 'next/server';
 

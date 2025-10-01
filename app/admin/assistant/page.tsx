@@ -16,7 +16,7 @@ const AdminAssistantPage: FC = () => {
   const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
-  const [selectedChunk, setSelectedChunk] = useState(null);
+  const [selectedChunk, setSelectedChunk] = useState<any>(null);
 
   const {
     chunks,
@@ -164,7 +164,7 @@ const AdminAssistantPage: FC = () => {
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-4">
-          {stats && <KnowledgeStats stats={stats} />}
+          {stats && <KnowledgeStats stats={stats as any} />}
         </TabsContent>
       </Tabs>
 

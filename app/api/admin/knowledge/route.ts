@@ -3,7 +3,7 @@ import { requireAuth } from "@/lib/auth/middleware";
 import KnowledgeChunk from "@/models/KnowledgeChunk";
 import connectToDatabase from "@/lib/mongodb";
 import { knowledgeSchema } from "@/lib/admin/validators";
-import MongoVectorStore from "@/services/vectorStore";
+import { MongoVectorStore } from "@/services/vectorStore";
 import AuditLog from "@/models/AuditLog";
 
 // GET /api/admin/knowledge - List all knowledge chunks

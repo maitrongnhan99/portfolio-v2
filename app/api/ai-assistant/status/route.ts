@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import KnowledgeChunk from '@/models/KnowledgeChunk';
-import SmartRetriever from '@/services/retriever';
+import { SmartRetriever } from '@/services/retriever';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 interface SystemStatus {

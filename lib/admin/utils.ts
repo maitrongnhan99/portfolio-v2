@@ -26,8 +26,8 @@ export const truncateText = (text: string, maxLength: number = 100) => {
 
 export const generatePaginationRange = (currentPage: number, totalPages: number) => {
   const delta = 2;
-  const range = [];
-  const rangeWithDots = [];
+  const range: number[] = [];
+  const rangeWithDots: (number | string)[] = [];
   let l: number | undefined;
 
   for (let i = 1; i <= totalPages; i++) {

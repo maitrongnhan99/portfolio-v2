@@ -354,4 +354,3 @@ export class ConversationExporter {
   }
 }
 
-export default ConversationExporter;

@@ -1,5 +1,5 @@
-import EmbeddingService from './embeddingService';
-import MongoVectorStore, { RetrievedChunk, VectorSearchOptions } from './vectorStore';
+import { EmbeddingService } from './embeddingService';
+import { MongoVectorStore, RetrievedChunk, VectorSearchOptions } from './vectorStore';
 
 export interface QueryIntent {
   category: string | null;
@@ -302,4 +302,3 @@ export class SmartRetriever {
   }
 }
 
-export default SmartRetriever;

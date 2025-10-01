@@ -17,8 +17,8 @@ import path from 'path';
 // Load environment variables
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 
-import MongoVectorStore from '../services/vectorStore';
-import knowledgeBase from '../lib/knowledge-data';
+import { MongoVectorStore } from '../services/vectorStore';
+import { knowledgeBase } from '../lib/knowledge-data';
 
 interface SeedOptions {
   clearExisting?: boolean;
@@ -225,4 +225,4 @@ if (require.main === module) {
   });
 }
 
-export default KnowledgeSeeder;
+export { KnowledgeSeeder };

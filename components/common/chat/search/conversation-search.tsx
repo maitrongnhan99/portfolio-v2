@@ -345,4 +345,3 @@ export function ConversationSearch({
   );
 }
 
-export default ConversationSearch;

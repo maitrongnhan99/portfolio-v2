@@ -31,16 +31,11 @@ export class ErrorBoundary extends React.Component<
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error caught by boundary:", error, errorInfo);
 
-    // Send to Sentry
-    if (typeof window !== "undefined") {
-      import("@sentry/nextjs").then((Sentry) => {
-        Sentry.withScope((scope) => {
-          scope.setContext("errorBoundary", {
-            componentStack: errorInfo.componentStack,
-          });
-          scope.setLevel("error");
-          Sentry.captureException(error);
-        });
+    // Log error for development
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error details:", {
+        error,
+        componentStack: errorInfo.componentStack,
       });
     }
 
@@ -201,17 +196,12 @@ export function useErrorHandler() {
   return React.useCallback((error: Error, context?: string) => {
     console.error(`Error in ${context || "component"}:`, error);
 
-    // Send to Sentry
-    if (typeof window !== "undefined") {
-      import("@sentry/nextjs").then((Sentry) => {
-        Sentry.withScope((scope) => {
-          scope.setContext("errorHandler", {
-            context,
-            timestamp: new Date().toISOString(),
-          });
-          scope.setLevel("error");
-          Sentry.captureException(error);
-        });
+    // Log error for development
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error handler details:", {
+        error,
+        context,
+        timestamp: new Date().toISOString(),
       });
     }
   }, []);

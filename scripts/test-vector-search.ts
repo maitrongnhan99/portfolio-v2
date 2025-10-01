@@ -18,8 +18,8 @@ dotenv.config({ path: envPath });
 // Import after env vars are loaded
 import connectToDatabase from '../lib/mongodb';
 import KnowledgeChunk from '../models/KnowledgeChunk';
-import SmartRetriever from '../services/retriever';
-import MongoVectorStore from '../services/vectorStore';
+import { SmartRetriever } from '../services/retriever';
+import { MongoVectorStore } from '../services/vectorStore';
 
 interface TestQuery {
   query: string;

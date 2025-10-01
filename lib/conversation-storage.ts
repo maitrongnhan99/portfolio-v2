@@ -324,4 +324,3 @@ export class ConversationStorage {
   }
 }
 
-export default ConversationStorage;

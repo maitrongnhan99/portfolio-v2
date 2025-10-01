@@ -119,4 +119,3 @@ export class EmbeddingService {
   }
 }
 
-export default EmbeddingService;
