@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AnimatedShapes from "./animated-shapes";
 import ContactFormModal from "./contact-form-modal";
-import { ThankYouModal } from "./thank-you-modal";
 import ScrollReveal from "./scroll-reveal";
+import { ThankYouModal } from "./thank-you-modal";
 
 export default function Contact() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function Contact() {
                 onClick={() => setIsModalOpen(true)}
                 variant="outline"
                 size="lg"
-                className="font-mono border-primary text-primary hover:bg-primary/10 px-8 py-6"
+                className="font-mono border-primary text-primary hover:bg-white/80 hover:text-primary px-8 py-6"
               >
                 Say Hello
               </Button>

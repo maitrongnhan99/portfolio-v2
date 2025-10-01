@@ -1,11 +1,11 @@
 "use client";
 
-import { FC } from "react";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { navLinks } from "./nav-links";
+import { FC } from "react";
 import { When } from "react-if";
+import { navLinks } from "./nav-links";
 
 interface DesktopNavProps {
   isHome: boolean;
@@ -56,7 +56,7 @@ const DesktopNav: FC<DesktopNavProps> = ({ isHome }) => {
             asChild
             variant="outline"
             size="sm"
-            className="ml-4 font-mono border-primary text-primary hover:bg-primary/10"
+            className="ml-4 font-mono border-primary text-primary hover:bg-white/80 hover:text-primary"
           >
             <Link href="/resume">Resume</Link>
           </Button>

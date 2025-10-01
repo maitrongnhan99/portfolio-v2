@@ -23,7 +23,10 @@ interface ProjectClientContentProps {
 
 const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
   return (
-    <main data-testid="project-page" className="relative pt-20 pb-16">
+    <main
+      data-testid="project-page"
+      className="min-h-screen bg-navy relative pt-20 pb-16"
+    >
       <AnimatedGradient className="opacity-80" />
 
       <div className="container px-4 md:px-6 relative z-10">
@@ -33,9 +36,12 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             variant="ghost"
             size="sm"
             asChild
-            className="mb-6 rounded-full"
+            className="mb-6 rounded-full hover:bg-navy/80"
           >
-            <Link href="/#projects" className="flex items-center gap-2">
+            <Link
+              href="/#projects"
+              className="flex items-center gap-2 text-slate-300 hover:text-slate-100"
+            >
               <ArrowLeftIcon className="h-4 w-4" />
               Back to Projects
             </Link>
@@ -43,7 +49,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
 
           <motion.h1
             data-testid="project-title"
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 text-slate-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -51,7 +57,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             {project.title}
           </motion.h1>
 
-          <div data-testid="project-tech-badges" className="flex flex-wrap gap-3 mb-6">
+          <div
+            data-testid="project-tech-badges"
+            className="flex flex-wrap gap-3 mb-6"
+          >
             {project.technologies.map((tech: string) => (
               <Badge key={tech} variant="secondary">
                 {tech}
@@ -63,7 +72,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
             <ScrollReveal>
-              <div data-testid="project-gallery" className="relative aspect-video overflow-hidden rounded-xl border mb-8">
+              <div
+                data-testid="project-gallery"
+                className="relative aspect-video overflow-hidden rounded-xl border mb-8"
+              >
                 <Image
                   src={project.image || "/placeholder.svg"}
                   alt={project.title}
@@ -76,8 +88,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             <ScrollReveal delay={0.1}>
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-                  <div className="prose dark:prose-invert max-w-none">
+                  <h2 className="text-2xl font-semibold mb-4 text-slate-200">
+                    Overview
+                  </h2>
+                  <div className="prose dark:prose-invert max-w-none text-slate-300">
                     <p>{project.description}</p>
                     {project.longDescription && (
                       <p className="mt-4">{project.longDescription}</p>
@@ -87,7 +101,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
 
                 {project.features && (
                   <div data-testid="project-features">
-                    <h2 className="text-2xl font-semibold mb-4">
+                    <h2 className="text-2xl font-semibold mb-4 text-slate-200">
                       Key Features
                     </h2>
                     <ul className="space-y-2">
@@ -101,7 +115,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                             transition={{ delay: 0.1 * index, duration: 0.5 }}
                           >
                             <span className="text-primary mt-1">•</span>
-                            <span>{feature}</span>
+                            <span className="text-slate-300">{feature}</span>
                           </motion.li>
                         )
                       )}
@@ -111,10 +125,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
 
                 {project.challenges && (
                   <div data-testid="project-challenges">
-                    <h2 className="text-2xl font-semibold mb-4">
+                    <h2 className="text-2xl font-semibold mb-4 text-slate-200">
                       Challenges & Solutions
                     </h2>
-                    <p>{project.challenges}</p>
+                    <p className="text-slate-300">{project.challenges}</p>
                   </div>
                 )}
               </div>
@@ -123,7 +137,9 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             {project.gallery && project.gallery.length > 0 && (
               <ScrollReveal delay={0.2}>
                 <div className="mt-12">
-                  <h2 className="text-2xl font-semibold mb-6">Gallery</h2>
+                  <h2 className="text-2xl font-semibold mb-6 text-slate-200">
+                    Gallery
+                  </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {project.gallery.map((image: string, index: number) => (
                       <motion.div
@@ -149,8 +165,8 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
           <div>
             <div className="sticky top-24">
               <ScrollReveal direction="right">
-                <div className="bg-card rounded-xl border p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-4">
+                <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6 shadow-sm">
+                  <h3 className="text-xl font-semibold mb-4 text-slate-200">
                     Project Details
                   </h3>
 
@@ -158,27 +174,46 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                     {project.date && (
                       <div className="flex items-center gap-2">
                         <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{project.date}</span>
+                        <span className="text-sm text-slate-300">
+                          {project.date}
+                        </span>
                       </div>
                     )}
 
                     {project.category && (
                       <div className="flex items-center gap-2">
                         <TagIcon className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">{project.category}</span>
+                        <span className="text-sm text-slate-300">
+                          {project.category}
+                        </span>
                       </div>
                     )}
 
                     <div className="pt-4 space-y-3">
-                      <Button asChild className="w-full" data-testid="project-demo-link">
-                        <Link href={sanitizeUrl(project.liveUrl)} target="_blank">
+                      <Button
+                        asChild
+                        className="w-full"
+                        data-testid="project-demo-link"
+                      >
+                        <Link
+                          href={sanitizeUrl(project.liveUrl)}
+                          target="_blank"
+                        >
                           <LinkIcon className="mr-2 h-4 w-4" />
                           View Live Demo
                         </Link>
                       </Button>
 
-                      <Button asChild variant="outline" className="w-full" data-testid="project-github-link">
-                        <Link href={sanitizeUrl(project.githubUrl)} target="_blank">
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="w-full"
+                        data-testid="project-github-link"
+                      >
+                        <Link
+                          href={sanitizeUrl(project.githubUrl)}
+                          target="_blank"
+                        >
                           <Github className="mr-2 h-4 w-4" />
                           View Source Code
                         </Link>
@@ -191,8 +226,11 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
               {project.relatedProjects &&
                 project.relatedProjects.length > 0 && (
                   <ScrollReveal direction="right" delay={0.1}>
-                    <div data-testid="related-projects" className="bg-card rounded-xl border p-6 shadow-sm mt-6">
-                      <h3 className="text-lg font-semibold mb-4">
+                    <div
+                      data-testid="related-projects"
+                      className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6 shadow-sm mt-6"
+                    >
+                      <h3 className="text-lg font-semibold mb-4 text-slate-200">
                         Related Projects
                       </h3>
                       <div className="space-y-3">
@@ -202,7 +240,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                             href={`/project/${related.slug}`}
                             className="block"
                           >
-                            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-muted transition-colors">
+                            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-slate-700/50 transition-colors">
                               <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
                                 <Image
                                   src={related.image || "/placeholder.svg"}
@@ -212,10 +250,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                                 />
                               </div>
                               <div>
-                                <h4 className="text-sm font-medium">
+                                <h4 className="text-sm font-medium text-slate-200">
                                   {related.title}
                                 </h4>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-slate-400">
                                   {related.category}
                                 </p>
                               </div>
