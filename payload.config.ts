@@ -1,11 +1,16 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { resendAdapter } from "@payloadcms/email-resend";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
+import dotenv from "dotenv";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
+import {
+  createPasswordResetEmail,
+  createVerificationEmail,
+} from "./lib/email-templates";
 
 // Load environment variables
 dotenv.config({ path: ".env.local" });
@@ -32,7 +37,7 @@ export default buildConfig({
   secret: (() => {
     const secret = process.env.PAYLOAD_SECRET;
     if (!secret || secret.length < 32) {
-      throw new Error('PAYLOAD_SECRET must be at least 32 characters long');
+      throw new Error("PAYLOAD_SECRET must be at least 32 characters long");
     }
     return secret;
   })(),
@@ -338,21 +343,25 @@ export default buildConfig({
     {
       slug: "users",
       auth: {
-        // Email verification disabled until email transport is configured
-        // verify: {
-        //   generateEmailHTML: ({ token, user }) => {
-        //     return `<p>Hello ${user.firstName || user.email},</p>
-        //             <p>Please verify your email address by clicking the link below:</p>
-        //             <p><a href="${process.env.NEXT_PUBLIC_SERVER_URL}/verify?token=${token}">Verify Email</a></p>`
-        //   },
-        // },
-        // forgotPassword: {
-        //   generateEmailHTML: ({ token, user }) => {
-        //     return `<p>Hello ${user.firstName || user.email},</p>
-        //             <p>You requested a password reset. Click the link below to reset your password:</p>
-        //             <p><a href="${process.env.NEXT_PUBLIC_SERVER_URL}/reset-password?token=${token}">Reset Password</a></p>`
-        //   },
-        // },
+        verify: {
+          generateEmailHTML: (args) => {
+            if (!args || !args.token || !args.user) {
+              throw new Error("Missing token or user for email verification");
+            }
+            return createVerificationEmail(args.user, args.token);
+          },
+          generateEmailSubject: () =>
+            `Welcome to Portfolio CMS - Please verify your email`,
+        },
+        forgotPassword: {
+          generateEmailHTML: (args) => {
+            if (!args || !args.token || !args.user) {
+              throw new Error("Missing token or user for password reset");
+            }
+            return createPasswordResetEmail(args.user, args.token);
+          },
+          generateEmailSubject: () => `Portfolio CMS - Password Reset Request`,
+        },
       },
       admin: {
         useAsTitle: "email",
@@ -498,12 +507,13 @@ export default buildConfig({
 
   // Note: Global hooks removed - collection-specific hooks should be used instead
 
-  // Email configuration disabled for now - can be configured later with proper transport
-  // email: {
-  //   fromName: 'Portfolio CMS',
-  //   fromAddress: process.env.ADMIN_EMAIL || 'admin@example.com',
-  //   transport: async () => {
-  //     // Configure your email transport here (nodemailer, etc.)
-  //   }
-  // },
+  // Email configuration with Resend
+  email: resendAdapter({
+    defaultFromAddress:
+      process.env.FROM_EMAIL ||
+      process.env.ADMIN_EMAIL ||
+      "noreply@example.com",
+    defaultFromName: process.env.FROM_NAME || "Portfolio CMS",
+    apiKey: process.env.RESEND_API_KEY || "",
+  }),
 });
