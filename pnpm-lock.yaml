@@ -26,6 +26,9 @@ importers:
       '@payloadcms/db-mongodb':
         specifier: ^3.58.0
         version: 3.58.0(payload@3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3))
+      '@payloadcms/email-resend':
+        specifier: ^3.59.0
+        version: 3.59.0(payload@3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3))
       '@payloadcms/next':
         specifier: ^3.58.0
         version: 3.58.0(@types/react@19.1.8)(graphql@16.11.0)(monaco-editor@0.53.0)(next@15.3.3(@babel/core@7.28.0)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
@@ -212,6 +215,9 @@ importers:
       recharts:
         specifier: 2.15.3
         version: 2.15.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      resend:
+        specifier: ^6.1.2
+        version: 6.1.2
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
@@ -1503,6 +1509,12 @@ packages:
     resolution: {integrity: sha512-xwURPjQOOkkYbjz+l1m2xIjK+0XSR8VNUlU7s4x4ym7ngSGESE7rBi6hb0Lri1MIY/sPgrX7EMjHi4hSCHZwXw==}
     peerDependencies:
       payload: 3.58.0
+
+  '@payloadcms/email-resend@3.59.0':
+    resolution: {integrity: sha512-VfJEPQfOy5rqXDPZV8Q9GgozOoYhfvaDCNyKlV7MCJqUi4BL7d0+/49362AkmsqElroefAk+/g3+xjwLWNxOaA==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      payload: 3.59.0
 
   '@payloadcms/graphql@3.58.0':
     resolution: {integrity: sha512-f8akk3of6Bl1Rp4bb6coBczll5IelUOs2mUSQyHvOGKbfz394FsNGX2WSl5DFaelEyyf/cVZpF7tgklvAN+DyA==}
@@ -5509,6 +5521,15 @@ packages:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
+  resend@6.1.2:
+    resolution: {integrity: sha512-C9Q+YkRe57P8MQlkHG3yatSR/B6sqBGA06Ri2DveJfkz9Vm16182FC/iHB0K6IAfmqZ4yRrFebFw1EPuktLtSg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@react-email/render': '*'
+    peerDependenciesMeta:
+      '@react-email/render':
+        optional: true
+
   resize-observer-polyfill@1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
 
@@ -7845,6 +7866,10 @@ snapshots:
       - snappy
       - socks
       - supports-color
+
+  '@payloadcms/email-resend@3.59.0(payload@3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3))':
+    dependencies:
+      payload: 3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3)
 
   '@payloadcms/graphql@3.58.0(graphql@16.11.0)(payload@3.58.0(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
@@ -12531,6 +12556,8 @@ snapshots:
       set-function-name: 2.0.2
 
   require-from-string@2.0.2: {}
+
+  resend@6.1.2: {}
 
   resize-observer-polyfill@1.5.1: {}
 
