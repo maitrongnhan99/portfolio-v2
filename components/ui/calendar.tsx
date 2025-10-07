@@ -71,6 +71,7 @@ const CalendarDayButton = React.forwardRef<HTMLButtonElement, DayButtonProps>(
       <button
         {...buttonProps}
         ref={setRef}
+        role="gridcell"
         aria-selected={modifiers.selected ? "true" : undefined}
       />
     );
@@ -128,18 +129,18 @@ function Calendar({
   } = components ?? {};
 
   const mergedComponents = {
-    DayButton: customDayButton ?? CalendarDayButton,
-    WeekNumber: customWeekNumber ?? CalendarWeekNumber,
+    DayButton: customDayButton ?? (CalendarDayButton as any),
+    WeekNumber: customWeekNumber ?? (CalendarWeekNumber as any),
     ...otherComponents,
-    Chevron: ({ orientation }: { orientation: "left" | "right" }) => {
+    Chevron: ({ orientation, ...props }: { orientation?: "left" | "right" | "up" | "down"; className?: string; size?: number; disabled?: boolean }) => {
       if (customChevron) {
         const element = customChevron({ orientation });
 
         if (React.isValidElement(element)) {
-          if (orientation === "right" && element.props["data-testid"]) {
-            return React.cloneElement(element, {
-              ...element.props,
-              "data-testid": `${element.props["data-testid"]}-next`,
+          const elementProps = element.props as any;
+          if (orientation === "right" && elementProps["data-testid"]) {
+            return React.cloneElement(element as React.ReactElement<any>, {
+              "data-testid": `${elementProps["data-testid"]}-next`,
             });
           }
           return element;
@@ -148,11 +149,13 @@ function Calendar({
         return element;
       }
 
-      return orientation === "left" ? (
-        <ArrowLeftIcon className="h-4 w-4" />
-      ) : (
-        <ArrowRightIcon className="h-4 w-4" />
-      );
+      if (orientation === "left") {
+        return <ArrowLeftIcon className="h-4 w-4" />;
+      } else if (orientation === "right") {
+        return <ArrowRightIcon className="h-4 w-4" />;
+      }
+      // Default fallback for other orientations or undefined
+      return <ArrowRightIcon className="h-4 w-4" />;
     },
   };
 

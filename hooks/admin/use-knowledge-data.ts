@@ -96,17 +96,17 @@ export const useKnowledgeData = () => {
   // Load data when filters or pagination changes
   useEffect(() => {
     loadData();
-  }, [debouncedFilters, pagination.page]);
+  }, [loadData, debouncedFilters, pagination.page]);
 
   // Load stats on mount
   useEffect(() => {
     loadStats();
-  }, []);
+  }, [loadStats]);
 
   // Reset page when filters change
   useEffect(() => {
     resetPage();
-  }, [debouncedFilters.search, debouncedFilters.category, debouncedFilters.sortBy]);
+  }, [resetPage, debouncedFilters.search, debouncedFilters.category, debouncedFilters.sortBy]);
 
   return {
     chunks,
