@@ -8,12 +8,26 @@ import path from 'path';
 dotenv.config({ path: path.join(process.cwd(), '.env.test') });
 
 // Set test environment variables
+// Ensure Object.defineProperty works consistently with NODE_ENV in Node 22+
+const originalDefineProperty = Object.defineProperty;
+Object.defineProperty = function (target: any, property: PropertyKey, attributes: PropertyDescriptor) {
+  if (target === process.env && property === 'NODE_ENV') {
+    const normalizedDescriptor: PropertyDescriptor = {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      ...attributes
+    };
+
+    return originalDefineProperty(target, property, normalizedDescriptor);
+  }
+
+  return originalDefineProperty(target, property, attributes);
+};
+
 // Use Object.defineProperty to set NODE_ENV
 Object.defineProperty(process.env, 'NODE_ENV', {
   value: 'test',
-  writable: true,
-  enumerable: true,
-  configurable: true
 });
 process.env.GEMINI_API_KEY = 'test-gemini-api-key';
 process.env.MONGODB_CONNECTION_STRING = 'mongodb://test-connection';

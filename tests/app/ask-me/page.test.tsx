@@ -123,11 +123,15 @@ vi.mock('next/link', () => ({
 vi.mock('@phosphor-icons/react', () => ({
   ArrowDownIcon: (props: any) => <span {...props}>ArrowDown</span>,
   ArrowLeftIcon: (props: any) => <span {...props}>ArrowLeft</span>,
+  ArrowUpRightIcon: (props: any) => <span {...props}>ArrowUpRight</span>,
+  FolderNotchIcon: (props: any) => <span {...props}>FolderNotch</span>,
+  SparkleIcon: (props: any) => <span {...props}>Sparkle</span>,
 }));
 
 vi.mock('framer-motion', () => ({
   motion: {
     button: ({ children, onClick }: any) => <button onClick={onClick}>{children}</button>,
+    div: ({ children, ...rest }: any) => <div {...rest}>{children}</div>,
   },
 }));
 
