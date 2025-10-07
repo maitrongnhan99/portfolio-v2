@@ -9,7 +9,7 @@ import OgImage from "@/public/images/og_image.webp";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
 import React from "react";
-import "./globals.css";
+import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-mono" });
@@ -91,7 +91,7 @@ const ErrorBoundary = React.lazy(() =>
   }))
 );
 
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;

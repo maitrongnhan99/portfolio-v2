@@ -12,10 +12,10 @@ import {
 } from "@phosphor-icons/react";
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: House },
-  { name: "Knowledge Assistant", href: "/admin/assistant", icon: FileText },
-  { name: "Analytics", href: "/admin/analytics", icon: ChartBar },
-  { name: "Settings", href: "/admin/settings", icon: Gear },
+  { name: "Dashboard", href: "/dashboard", icon: House },
+  { name: "Knowledge Assistant", href: "/dashboard/assistant", icon: FileText },
+  { name: "Analytics", href: "/dashboard/analytics", icon: ChartBar },
+  { name: "Settings", href: "/dashboard/settings", icon: Gear },
 ];
 
 const AdminSidebar: FC = () => {
@@ -24,7 +24,7 @@ const AdminSidebar: FC = () => {
   const isActiveRoute = useMemo(() => {
     return (href: string) => {
       return pathname === href || 
-        (href !== "/admin" && pathname.startsWith(href));
+        (href !== "/dashboard" && pathname.startsWith(href));
     };
   }, [pathname]);
 

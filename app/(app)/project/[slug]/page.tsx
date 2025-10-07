@@ -1,6 +1,6 @@
 import { ProjectClientContent } from "@/components/common/project/project-client-content";
 import { ProjectStructuredData } from "@/components/common/seo/project-structured-data";
-import { projectsData } from "@/lib/projects-data";
+import { getProjects, getProjectBySlug } from "@/lib/data-service-server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -11,16 +11,23 @@ interface ProjectPageProps {
 }
 
 export async function generateStaticParams() {
-  return projectsData.map((project) => ({
-    slug: project.slug,
-  }));
+  try {
+    const projects = await getProjects();
+    return projects.map((project) => ({
+      slug: project.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    // Fallback to empty array - pages will be generated on-demand
+    return [];
+  }
 }
 
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -100,7 +107,7 @@ export async function generateMetadata({
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();

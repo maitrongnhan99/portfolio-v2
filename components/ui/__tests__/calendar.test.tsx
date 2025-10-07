@@ -447,19 +447,19 @@ describe('Calendar Component', () => {
     });
 
     it('should support custom components', () => {
-      const CustomCaption = () => <div data-testid="custom-caption">Custom Caption</div>;
+      const CustomChevron = () => <div data-testid="custom-chevron">Custom Chevron</div>;
       
       render(
         <Calendar 
           components={{
-            Caption: CustomCaption
+            Chevron: CustomChevron
           }}
         />
       );
       
-      const customCaption = screen.getByTestId('custom-caption');
-      expect(customCaption).toBeInTheDocument();
-      expect(customCaption).toHaveTextContent('Custom Caption');
+      const customChevron = screen.getByTestId('custom-chevron');
+      expect(customChevron).toBeInTheDocument();
+      expect(customChevron).toHaveTextContent('Custom Chevron');
     });
   });
 });

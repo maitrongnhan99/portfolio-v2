@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-export interface IUser extends Document {
+export interface IUserLegacy extends Document {
   name: string;
   email: string;
   password: string;
@@ -12,7 +12,7 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUser>({
+const UserLegacySchema = new Schema<IUserLegacy>({
   name: {
     type: String,
     required: true,
@@ -44,7 +44,7 @@ const UserSchema = new Schema<IUser>({
 });
 
 // Hash password before saving
-UserSchema.pre('save', async function(next) {
+UserLegacySchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
   const salt = await bcrypt.genSalt(10);
@@ -53,11 +53,12 @@ UserSchema.pre('save', async function(next) {
 });
 
 // Index for faster queries
-UserSchema.index({ email: 1 });
-UserSchema.index({ role: 1 });
+// Note: Email index removed to avoid duplicate index warning with Payload CMS
+// The unique: true constraint on email field still provides uniqueness
+UserLegacySchema.index({ role: 1 });
 
-const User: Model<IUser> = 
-  mongoose.models.User || 
-  mongoose.model<IUser>('User', UserSchema);
+const UserLegacy: Model<IUserLegacy> = 
+  mongoose.models.UserLegacy || 
+  mongoose.model<IUserLegacy>('UserLegacy', UserLegacySchema);
 
-export default User;
+export default UserLegacy;

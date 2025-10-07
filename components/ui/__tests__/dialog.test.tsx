@@ -98,16 +98,15 @@ describe('Dialog Components', () => {
       expect(dialog).toBeInTheDocument();
     });
 
-    it('should forward ref correctly', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      
+    it('should pass props correctly', () => {
       render(
-        <Dialog ref={ref}>
+        <Dialog open>
           <DialogTrigger>Open Dialog</DialogTrigger>
         </Dialog>
       );
       
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
+      const dialog = screen.getByTestId('dialog-root');
+      expect(dialog).toHaveAttribute('open');
     });
 
     it('should support HTML div attributes', () => {

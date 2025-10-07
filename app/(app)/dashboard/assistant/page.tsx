@@ -1,16 +1,16 @@
 "use client";
 
-import { FC, useState, useCallback } from "react";
-import { KnowledgeTable } from "@/components/admin/knowledge/knowledge-table";
+import { KnowledgeActions } from "@/components/admin/knowledge/knowledge-actions";
+import { KnowledgeFilters } from "@/components/admin/knowledge/knowledge-filters";
 import { KnowledgeForm } from "@/components/admin/knowledge/knowledge-form";
 import { KnowledgeStats } from "@/components/admin/knowledge/knowledge-stats";
-import { KnowledgeFilters } from "@/components/admin/knowledge/knowledge-filters";
-import { KnowledgeActions } from "@/components/admin/knowledge/knowledge-actions";
+import { KnowledgeTable } from "@/components/admin/knowledge/knowledge-table";
 import { Pagination } from "@/components/admin/knowledge/pagination";
-import { useKnowledgeData } from "@/hooks/use-knowledge-data";
-import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useKnowledgeData } from "@/hooks/use-knowledge-data";
+import { useToast } from "@/hooks/use-toast";
+import { FC, useCallback, useState } from "react";
 
 const AdminAssistantPage: FC = () => {
   const { toast } = useToast();
@@ -41,53 +41,65 @@ const AdminAssistantPage: FC = () => {
     setFormOpen(true);
   }, []);
 
-  const handleFormSubmit = useCallback(async (data: any) => {
-    try {
-      const url = formMode === "create" 
-        ? "/api/admin/knowledge"
-        : `/api/admin/knowledge/${selectedChunk?._id}`;
-      
-      const method = formMode === "create" ? "POST" : "PUT";
-      
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+  const handleFormSubmit = useCallback(
+    async (data: any) => {
+      try {
+        const url =
+          formMode === "create"
+            ? "/api/admin/knowledge"
+            : `/api/admin/knowledge/${selectedChunk?._id}`;
 
-      if (response.ok) {
-        toast({
-          title: "Success",
-          description: `Knowledge ${formMode === "create" ? "created" : "updated"} successfully`,
+        const method = formMode === "create" ? "POST" : "PUT";
+
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
         });
-        setFormOpen(false);
-        await refresh();
-      } else {
-        throw new Error("Failed to save knowledge");
+
+        if (response.ok) {
+          toast({
+            title: "Success",
+            description: `Knowledge ${
+              formMode === "create" ? "created" : "updated"
+            } successfully`,
+          });
+          setFormOpen(false);
+          await refresh();
+        } else {
+          throw new Error("Failed to save knowledge");
+        }
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: `Failed to ${formMode} knowledge`,
+          variant: "destructive",
+        });
       }
-    } catch (error) {
+    },
+    [formMode, selectedChunk, toast, refresh]
+  );
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      if (!confirm("Are you sure you want to delete this knowledge chunk?")) {
+        return;
+      }
+      await deleteChunk(id);
+    },
+    [deleteChunk]
+  );
+
+  const handleRegenerateEmbedding = useCallback(
+    async (id: string) => {
       toast({
-        title: "Error",
-        description: `Failed to ${formMode} knowledge`,
-        variant: "destructive",
+        title: "Regenerating",
+        description: "Regenerating embedding for knowledge chunk...",
       });
-    }
-  }, [formMode, selectedChunk, toast, refresh]);
-
-  const handleDelete = useCallback(async (id: string) => {
-    if (!confirm("Are you sure you want to delete this knowledge chunk?")) {
-      return;
-    }
-    await deleteChunk(id);
-  }, [deleteChunk]);
-
-  const handleRegenerateEmbedding = useCallback(async (id: string) => {
-    toast({
-      title: "Regenerating",
-      description: "Regenerating embedding for knowledge chunk...",
-    });
-    // Implementation would go here
-  }, [toast]);
+      // Implementation would go here
+    },
+    [toast]
+  );
 
   const handleImport = useCallback(() => {
     toast({
@@ -107,7 +119,9 @@ const AdminAssistantPage: FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-lighter">Knowledge Management</h1>
+          <h1 className="text-3xl font-bold text-slate-lighter">
+            Knowledge Management
+          </h1>
           <p className="text-slate">
             Manage the AI assistant&apos;s knowledge base
           </p>
@@ -173,13 +187,17 @@ const AdminAssistantPage: FC = () => {
         open={formOpen}
         onOpenChange={setFormOpen}
         onSubmit={handleFormSubmit}
-        initialData={selectedChunk?.metadata ? {
-          content: selectedChunk.content,
-          category: selectedChunk.metadata.category,
-          priority: selectedChunk.metadata.priority,
-          tags: selectedChunk.metadata.tags,
-          source: selectedChunk.metadata.source,
-        } : undefined}
+        initialData={
+          selectedChunk?.metadata
+            ? {
+                content: selectedChunk.content,
+                category: selectedChunk.metadata.category,
+                priority: selectedChunk.metadata.priority,
+                tags: selectedChunk.metadata.tags,
+                source: selectedChunk.metadata.source,
+              }
+            : undefined
+        }
         mode={formMode}
       />
     </div>

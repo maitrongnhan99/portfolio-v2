@@ -1,0 +1,42 @@
+/* Custom styles for Payload CMS Admin Panel */
+/* This file allows you to customize the appearance of the admin interface */
+
+/* Ensure proper layer ordering to prevent conflicts with Tailwind */
+@layer payload {
+  :root {
+    /* Main PayloadCMS theme variables */
+    --theme-bg: #f4f5f7;
+    --theme-input-bg: #ffffff;
+    --theme-text: #333333;
+    --theme-text-color: #333333;
+    
+    /* Additional PayloadCMS variables that might be missing */
+    --theme-elevation-bg: #ffffff;
+    --theme-elevation-1000: #ffffff;
+    --theme-elevation-900: #fafafa;
+    --theme-elevation-800: #f5f5f5;
+    --theme-elevation-700: #f0f0f0;
+    --theme-elevation-600: #ebebeb;
+    --theme-elevation-500: #e6e6e6;
+    --theme-elevation-400: #e1e1e1;
+    --theme-elevation-300: #dcdcdc;
+    --theme-elevation-200: #d7d7d7;
+    --theme-elevation-100: #d2d2d2;
+    --theme-elevation-50: #cdcdcd;
+    --theme-elevation-0: #c8c8c8;
+    
+    /* Border and outline colors */
+    --theme-border-color: #e1e4e8;
+    --theme-outline-color: #0969da;
+    
+    /* Success, warning, error colors */
+    --theme-success-color: #28a745;
+    --theme-warning-color: #ffc107;
+    --theme-error-color: #dc3545;
+    
+    /* Navigation and sidebar */
+    --theme-nav-bg: #ffffff;
+    --theme-sidebar-bg: #f8f9fa;
+  }
+
+}

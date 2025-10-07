@@ -1,6 +1,6 @@
 "use client";
 
-import { projectsData } from "@/lib/projects-data";
+import { Project } from "@/lib/data-service";
 import { FC, useState } from "react";
 import { Spotlight } from "../../ui/spotlight-new";
 import ScrollReveal from "../scroll-reveal";
@@ -8,14 +8,18 @@ import { ProjectCard } from "./project-card";
 import { ProjectCategories } from "./project-categories";
 import { ProjectHeader } from "./project-header";
 
-const Projects: FC = () => {
+interface ProjectsClientProps {
+  projects: Project[];
+}
+
+const ProjectsClient: FC<ProjectsClientProps> = ({ projects }) => {
   const categories = ["All", "Frontend", "FullStack", "Backend"];
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredProjects =
     activeCategory === "All"
-      ? projectsData
-      : projectsData.filter((project) => project.category === activeCategory);
+      ? projects
+      : projects.filter((project) => project.category === activeCategory);
 
   return (
     <section id="projects" className="relative py-32 bg-navy overflow-hidden">
@@ -46,4 +50,4 @@ const Projects: FC = () => {
   );
 };
 
-export { Projects };
+export { ProjectsClient };

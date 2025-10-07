@@ -181,7 +181,7 @@ vi.mock('@/lib/retry-utils', () => ({
 }));
 
 // Import the component after all mocks
-import AskMePage from '@/app/(ai-assistant)/ask-me/page';
+import AskMePage from '@/app/(app)/(ai-assistant)/ask-me/page';
 
 describe('AskMePage', () => {
   // Mock console.error to suppress expected error logs

@@ -1,9 +1,11 @@
 # Admin Assistant Implementation Plan
 
 ## Overview
+
 This document outlines the implementation plan for creating an admin interface at `/admin/assistant` to manage the AI assistant's knowledge base. The system will use NextAuth for authentication and provide full CRUD operations for knowledge chunks with automatic vector embedding generation.
 
 ## Table of Contents
+
 1. [Architecture Overview](#architecture-overview)
 2. [Implementation Checklist](#implementation-checklist)
 3. [Phase 1: NextAuth Setup](#phase-1-nextauth-setup)
@@ -19,6 +21,7 @@ This document outlines the implementation plan for creating an admin interface a
 ## Architecture Overview
 
 ### Tech Stack
+
 - **Authentication**: NextAuth.js (Auth.js)
 - **Database**: MongoDB (existing)
 - **Vector Store**: MongoDB Atlas Vector Search (existing)
@@ -27,6 +30,7 @@ This document outlines the implementation plan for creating an admin interface a
 - **API**: Next.js API Routes
 
 ### Directory Structure
+
 ```
 app/
 ├── admin/
@@ -83,6 +87,7 @@ models/
 ## Implementation Checklist
 
 ### Phase 1: NextAuth Setup ⏳
+
 - [ ] Install NextAuth dependencies
 - [ ] Create auth configuration
 - [ ] Set up environment variables
@@ -90,6 +95,7 @@ models/
 - [ ] Configure session strategy
 
 ### Phase 2: Database Schema ⏳
+
 - [ ] Update KnowledgeChunk model
 - [ ] Create User model
 - [ ] Create AuditLog model
@@ -97,6 +103,7 @@ models/
 - [ ] Create admin user seed script
 
 ### Phase 3: Authentication ⏳
+
 - [ ] Create login page UI
 - [ ] Implement credentials provider
 - [ ] Add session management
@@ -104,6 +111,7 @@ models/
 - [ ] Add logout functionality
 
 ### Phase 4: API Routes ⏳
+
 - [ ] Knowledge CRUD endpoints
 - [ ] Stats/Analytics endpoint
 - [ ] Bulk operations endpoint
@@ -111,6 +119,7 @@ models/
 - [ ] Implement error handling
 
 ### Phase 5: UI Components ⏳
+
 - [ ] Admin layout wrapper
 - [ ] Knowledge data table
 - [ ] Add/Edit form modal
@@ -118,6 +127,7 @@ models/
 - [ ] Statistics dashboard
 
 ### Phase 6: Features ⏳
+
 - [ ] Real-time search
 - [ ] Batch operations
 - [ ] Export/Import functionality
@@ -125,6 +135,7 @@ models/
 - [ ] Embedding regeneration
 
 ### Phase 7: Testing ⏳
+
 - [ ] Unit tests for API routes
 - [ ] Integration tests
 - [ ] E2E tests for workflows
@@ -134,13 +145,16 @@ models/
 ## Phase 1: NextAuth Setup
 
 ### 1.1 Install Dependencies
+
 ```bash
 pnpm add next-auth @auth/mongodb-adapter bcryptjs
 pnpm add -D @types/bcryptjs
 ```
 
 ### 1.2 Environment Variables
+
 Add to `.env.local`:
+
 ```env
 # NextAuth Configuration
 NEXTAUTH_URL=http://localhost:3000
@@ -152,7 +166,9 @@ ADMIN_PASSWORD=your-secure-password
 ```
 
 ### 1.3 Create NextAuth Configuration
+
 Create `app/api/auth/[...nextauth]/route.ts`:
+
 ```typescript
 import NextAuth from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
@@ -162,6 +178,7 @@ export { handler as GET, handler as POST };
 ```
 
 Create `lib/auth/auth-options.ts`:
+
 ```typescript
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -232,7 +249,9 @@ export const authOptions: NextAuthOptions = {
 ## Phase 2: Database Schema Updates
 
 ### 2.1 User Model
+
 Create `models/User.ts`:
+
 ```typescript
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -300,7 +319,9 @@ export default User;
 ```
 
 ### 2.2 Update KnowledgeChunk Model
+
 Add these fields to existing model:
+
 ```typescript
 // In models/KnowledgeChunk.ts, add to schema:
 createdBy: {
@@ -327,7 +348,9 @@ queryCount: {
 ```
 
 ### 2.3 AuditLog Model
+
 Create `models/AuditLog.ts`:
+
 ```typescript
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
@@ -379,7 +402,9 @@ export default AuditLog;
 ```
 
 ### 2.4 Admin User Seed Script
+
 Create `scripts/seed-admin.ts`:
+
 ```typescript
 #!/usr/bin/env npx tsx
 
@@ -432,7 +457,9 @@ seedAdmin();
 ## Phase 3: Admin Authentication
 
 ### 3.1 Auth Middleware
+
 Create `lib/auth/middleware.ts`:
+
 ```typescript
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth-options";
@@ -457,7 +484,9 @@ export async function getAuthSession() {
 ```
 
 ### 3.2 Login Page
+
 Create `app/admin/login/page.tsx`:
+
 ```typescript
 "use client";
 
@@ -565,7 +594,9 @@ export default function AdminLoginPage() {
 ```
 
 ### 3.3 Protected Admin Layout
+
 Create `app/admin/layout.tsx`:
+
 ```typescript
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/lib/auth/middleware";
@@ -600,7 +631,9 @@ export default async function AdminLayout({
 ## Phase 4: API Routes
 
 ### 4.1 Knowledge CRUD Routes
+
 Create `app/api/admin/knowledge/route.ts`:
+
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth/middleware";
@@ -741,6 +774,7 @@ export async function POST(request: NextRequest) {
 ```
 
 Create `app/api/admin/knowledge/[id]/route.ts`:
+
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth/middleware";
@@ -910,7 +944,9 @@ export async function DELETE(
 ```
 
 ### 4.2 Statistics API
+
 Create `app/api/admin/stats/route.ts`:
+
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth/middleware";
@@ -982,7 +1018,9 @@ export async function GET(request: NextRequest) {
 ## Phase 5: Admin UI Components
 
 ### 5.1 Knowledge Table Component
+
 Create `components/admin/knowledge/knowledge-table.tsx`:
+
 ```typescript
 "use client";
 
@@ -1162,7 +1200,9 @@ export function KnowledgeTable({
 ```
 
 ### 5.2 Knowledge Form Component
+
 Create `components/admin/knowledge/knowledge-form.tsx`:
+
 ```typescript
 "use client";
 
@@ -1478,6 +1518,7 @@ export function KnowledgeForm({
 ## Phase 6: Main Admin Page
 
 Create `app/admin/assistant/page.tsx`:
+
 ```typescript
 "use client";
 
@@ -1781,7 +1822,9 @@ export default function AdminAssistantPage() {
 ## Phase 7: Testing
 
 ### 7.1 API Route Tests
+
 Create `tests/api/admin/knowledge.test.ts`:
+
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createMocks } from 'node-mocks-http';
@@ -1836,7 +1879,9 @@ describe('/api/admin/knowledge', () => {
 ```
 
 ### 7.2 E2E Test Example
+
 Create `tests/e2e/admin-knowledge.spec.ts`:
+
 ```typescript
 import { test, expect } from '@playwright/test';
 
@@ -1901,6 +1946,7 @@ test.describe('Admin Knowledge Management', () => {
 ## Security Considerations
 
 ### 1. Authentication Security
+
 - Use strong password hashing (bcrypt with salt rounds >= 10)
 - Implement rate limiting on login attempts
 - Add CAPTCHA after failed attempts
@@ -1908,23 +1954,27 @@ test.describe('Admin Knowledge Management', () => {
 - Implement session timeout
 
 ### 2. Authorization
+
 - Verify admin role on every protected route
 - Use middleware for consistent auth checks
 - Implement RBAC for future role expansion
 
 ### 3. Input Validation
+
 - Validate all inputs with Zod schemas
 - Sanitize content before storage
 - Escape content when displaying
 - Implement file upload restrictions
 
 ### 4. API Security
+
 - Add rate limiting per IP/user
 - Implement CORS properly
 - Use CSRF tokens for state-changing operations
 - Log all admin actions for audit trail
 
 ### 5. Database Security
+
 - Use MongoDB connection with SSL
 - Implement field-level encryption for sensitive data
 - Regular backups of knowledge base
@@ -1933,6 +1983,7 @@ test.describe('Admin Knowledge Management', () => {
 ## Deployment Considerations
 
 ### 1. Environment Variables
+
 ```env
 # Production settings
 NODE_ENV=production
@@ -1943,6 +1994,7 @@ GEMINI_API_KEY=<production-api-key>
 ```
 
 ### 2. Build Optimization
+
 ```json
 // package.json scripts
 {
@@ -1952,12 +2004,14 @@ GEMINI_API_KEY=<production-api-key>
 ```
 
 ### 3. Monitoring
+
 - Set up error tracking (Sentry)
 - Monitor API response times
 - Track embedding generation costs
 - Monitor MongoDB Atlas usage
 
 ### 4. Backup Strategy
+
 - Daily automated backups of MongoDB
 - Export knowledge base regularly
 - Version control for knowledge updates
@@ -1976,6 +2030,7 @@ GEMINI_API_KEY=<production-api-key>
 ## Conclusion
 
 This implementation plan provides a complete admin interface for managing your AI assistant's knowledge base with:
+
 - Secure authentication using NextAuth
 - Full CRUD operations for knowledge management
 - Real-time embedding generation

@@ -14,14 +14,14 @@ export default async function AdminLayout({
   const pathname = headersList.get("x-pathname") || "";
 
   // Skip authentication check for login page
-  if (pathname === "/admin/login") {
+  if (pathname === "/dashboard/login") {
     return <>{children}</>;
   }
 
   const session = await getAuthSession();
 
   if (!session || session.user?.role !== "admin") {
-    redirect("/admin/login");
+    redirect("/dashboard/login");
   }
 
   return (

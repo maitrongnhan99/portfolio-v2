@@ -31,7 +31,7 @@ const AdminLoginPage: FC = () => {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        router.push("/admin/assistant");
+        router.push("/dashboard/assistant");
         router.refresh();
       }
     } catch (error) {
