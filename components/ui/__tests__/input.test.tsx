@@ -9,7 +9,7 @@ describe('Input Component', () => {
     it('should render with default props', () => {
       render(<Input />);
 
-      const input = screen.getByTestId('input');
+      const input = screen.getByTestId('input') as HTMLInputElement;
       expect(input).toBeInTheDocument();
       expect(input.tagName).toBe('INPUT');
       // Default type is text, but attribute may not be present

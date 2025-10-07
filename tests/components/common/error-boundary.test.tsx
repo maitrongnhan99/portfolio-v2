@@ -129,28 +129,44 @@ describe('DefaultErrorFallback', () => {
 
   it('shows error details in development mode', () => {
     const originalEnv = process.env.NODE_ENV;
-    // @ts-ignore - Need to mock NODE_ENV for testing
-    process.env.NODE_ENV = 'development';
+    // Use Object.defineProperty to mock NODE_ENV for testing
+    Object.defineProperty(process.env, 'NODE_ENV', {
+      value: 'development',
+      writable: true,
+      configurable: true
+    });
 
     render(<DefaultErrorFallback error={mockError} reset={mockReset} />);
 
     expect(screen.getByText('Error Details (Development)')).toBeInTheDocument();
 
     // Restore original value
-    process.env.NODE_ENV = originalEnv;
+    Object.defineProperty(process.env, 'NODE_ENV', {
+      value: originalEnv,
+      writable: true,
+      configurable: true
+    });
   });
 
   it('hides error details in production mode', () => {
     const originalEnv = process.env.NODE_ENV;
-    // @ts-ignore - Need to mock NODE_ENV for testing
-    process.env.NODE_ENV = 'production';
+    // Use Object.defineProperty to mock NODE_ENV for testing
+    Object.defineProperty(process.env, 'NODE_ENV', {
+      value: 'production',
+      writable: true,
+      configurable: true
+    });
 
     render(<DefaultErrorFallback error={mockError} reset={mockReset} />);
 
     expect(screen.queryByText('Error Details (Development)')).not.toBeInTheDocument();
 
     // Restore original value
-    process.env.NODE_ENV = originalEnv;
+    Object.defineProperty(process.env, 'NODE_ENV', {
+      value: originalEnv,
+      writable: true,
+      configurable: true
+    });
   });
 
   it('calls reset function when Try Again is clicked', () => {

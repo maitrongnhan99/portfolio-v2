@@ -2,9 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "./mongodb-client";
-import bcrypt from "bcryptjs";
-import connectToDatabase from "@/lib/mongodb";
-import User from "@/models/User";
+import { getPayload } from "payload";
+import configPromise from "@/payload.config";
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -20,22 +19,32 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        await connectToDatabase();
-        const user = await User.findOne({ 
-          email: credentials.email,
-          role: "admin" 
-        });
+        try {
+          const payload = await getPayload({ config: configPromise });
+          
+          // Use Payload's built-in login method
+          const result = await payload.login({
+            collection: 'users',
+            data: {
+              email: credentials.email,
+              password: credentials.password,
+            },
+          });
 
-        if (!user || !await bcrypt.compare(credentials.password, user.password)) {
+          if (result.user && result.user.role === 'admin') {
+            return {
+              id: result.user.id,
+              email: result.user.email,
+              name: `${result.user.firstName} ${result.user.lastName}`,
+              role: result.user.role
+            };
+          }
+
+          return null;
+        } catch (error) {
+          console.error('Authentication error:', error);
           return null;
         }
-
-        return {
-          id: (user._id as any).toString(),
-          email: user.email,
-          name: user.name,
-          role: user.role
-        };
       }
     })
   ],
@@ -60,7 +69,7 @@ export const authOptions: NextAuthOptions = {
     }
   },
   pages: {
-    signIn: "/admin/login",
-    error: "/admin/login",
+    signIn: "/dashboard/login",
+    error: "/dashboard/login",
   }
 };

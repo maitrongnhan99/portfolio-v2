@@ -30,9 +30,9 @@ export const API_ENDPOINTS = {
 } as const;
 
 export const ROUTES = {
-  admin: "/admin",
-  adminAssistant: "/admin/assistant",
-  adminLogin: "/admin/login",
+  admin: "/dashboard",
+  adminAssistant: "/dashboard/assistant",
+  adminLogin: "/dashboard/login",
 } as const;
 
 export type KnowledgeCategory = typeof KNOWLEDGE_CATEGORIES[number]["value"];

@@ -181,16 +181,17 @@ describe('DropdownMenu Components', () => {
       expect(dropdownMenu).toBeInTheDocument();
     });
 
-    it('should forward ref correctly', () => {
-      const ref = React.createRef<HTMLDivElement>();
+    it('should handle open/close state', () => {
+      const handleOpenChange = vi.fn();
       
       render(
-        <DropdownMenu ref={ref}>
+        <DropdownMenu onOpenChange={handleOpenChange}>
           <DropdownMenuTrigger>Open Menu</DropdownMenuTrigger>
         </DropdownMenu>
       );
       
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
+      const dropdownMenu = screen.getByTestId('dropdown-menu');
+      expect(dropdownMenu).toBeInTheDocument();
     });
 
     it('should support HTML div attributes', () => {

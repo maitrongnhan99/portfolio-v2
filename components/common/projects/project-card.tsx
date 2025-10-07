@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpRightIcon, StarIcon } from "@phosphor-icons/react";
+import { Project } from "@/lib/data-service";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,19 +10,7 @@ import { FC } from "react";
 import { ProjectLinks } from "./project-links";
 
 interface ProjectCardProps {
-  project: {
-    id: number;
-    slug: string;
-    title: string;
-    description: string;
-    image: string;
-    category: string;
-    technologies: string[];
-    liveUrl?: string;
-    githubUrl?: string;
-    stars?: number;
-    downloads?: number;
-  };
+  project: Project;
 }
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {

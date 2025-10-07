@@ -297,6 +297,7 @@ describe('Carousel Components', () => {
       expect(srText).toBeInTheDocument();
       expect(srText).toHaveClass('sr-only');
     });
+  });
 
   describe('CarouselNext', () => {
     it('should render with default props', () => {
@@ -503,7 +504,7 @@ describe('Carousel Components', () => {
     });
 
     it('should handle plugins', () => {
-      const plugins = []; // Mock plugins array
+      const plugins: any[] = []; // Mock plugins array
 
       render(
         <Carousel plugins={plugins}>
@@ -675,8 +676,8 @@ describe('Carousel Components', () => {
       consoleSpy.mockRestore();
     });
   });
-});
 
+  describe('CarouselPrevious', () => {
     it('should render with custom className', () => {
       render(
         <Carousel>
@@ -761,3 +762,4 @@ describe('Carousel Components', () => {
       expect(prevButton).toBeInTheDocument();
     });
   });
+});

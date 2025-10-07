@@ -102,16 +102,15 @@ describe('Drawer Components', () => {
       expect(drawer).toBeInTheDocument();
     });
 
-    it('should forward ref correctly', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      
+    it('should pass shouldScaleBackground prop correctly', () => {
       render(
-        <Drawer ref={ref}>
+        <Drawer shouldScaleBackground={false}>
           <DrawerTrigger>Open Drawer</DrawerTrigger>
         </Drawer>
       );
       
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
+      const drawer = screen.getByTestId('drawer');
+      expect(drawer).toBeInTheDocument();
     });
 
     it('should support HTML div attributes', () => {

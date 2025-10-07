@@ -256,12 +256,11 @@ describe('Command Components', () => {
     });
 
     it('should handle input events', async () => {
-      const handleChange = vi.fn();
       const user = userEvent.setup();
       
       render(
         <Command>
-          <CommandInput placeholder="Search..." onChange={handleChange} />
+          <CommandInput placeholder="Search..." />
         </Command>
       );
       

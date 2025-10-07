@@ -385,13 +385,13 @@ describe('Chart Components', () => {
     const mockLegendPayload = [
       {
         value: 'desktop',
-        type: 'line',
+        type: 'line' as const,
         color: '#8884d8',
         dataKey: 'desktop',
       },
       {
         value: 'mobile',
-        type: 'line',
+        type: 'line' as const,
         color: '#82ca9d',
         dataKey: 'mobile',
       },

@@ -3,7 +3,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import connectToDatabase from '../lib/mongodb';
-import User from '../models/User';
+import UserLegacy from '../models/UserLegacy';
 
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 
@@ -15,14 +15,14 @@ async function seedAdmin() {
     const adminPassword = process.env.ADMIN_PASSWORD || 'changeme123';
     
     // Check if admin already exists
-    const existingAdmin = await User.findOne({ email: adminEmail });
+    const existingAdmin = await UserLegacy.findOne({ email: adminEmail });
     if (existingAdmin) {
       console.log('Admin user already exists');
       return;
     }
     
     // Create admin user
-    const admin = new User({
+    const admin = new UserLegacy({
       name: 'Admin',
       email: adminEmail,
       password: adminPassword,

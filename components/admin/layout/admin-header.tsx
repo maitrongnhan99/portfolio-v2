@@ -26,7 +26,7 @@ const AdminHeader: FC<AdminHeaderProps> = ({ user }) => {
 
   const handleSignOut = useCallback(async () => {
     await signOut({ redirect: false });
-    router.push("/admin/login");
+    router.push("/dashboard/login");
   }, [router]);
 
   return (
