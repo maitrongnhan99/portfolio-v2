@@ -68,6 +68,11 @@ const QuickActions = lazy(() =>
     default: module.QuickActions,
   }))
 );
+const ProjectShowcase = lazy(() =>
+  import("@/components/common/chat/project-showcase").then((module) => ({
+    default: module.ProjectShowcase,
+  }))
+);
 const DeleteConfirmModal = lazy(() =>
   import("@/components/common/chat/delete-confirm-modal").then((module) => ({
     default: module.DeleteConfirmModal,
@@ -529,6 +534,10 @@ function AskMePageContent() {
                   timestamp={new Date()}
                 />
                 <QuickActions
+                  onSendMessage={handleSendMessage}
+                  isVisible={true}
+                />
+                <ProjectShowcase
                   onSendMessage={handleSendMessage}
                   isVisible={true}
                 />
