@@ -310,7 +310,7 @@ export class MockRateLimiter {
   }
 }
 
-export default {
+const mockServices = {
   MockEmbeddingService,
   createMockGeminiAI,
   createMockMongoOperations,
@@ -319,3 +319,5 @@ export default {
   MockPerformanceMonitor,
   MockRateLimiter
 };
+
+export default mockServices;
