@@ -2,7 +2,76 @@
 
 This document explains how to configure cloud storage for your Payload CMS implementation.
 
-## AWS S3 Configuration
+## Vercel Blob Storage Configuration (Recommended)
+
+### Prerequisites
+
+1. Vercel account and project
+2. Project deployed to Vercel or configured locally
+
+### Step 1: Enable Blob Storage in Vercel
+
+1. Go to your Vercel project dashboard
+2. Navigate to "Storage" tab
+3. Click "Create Database" or "Connect Database"
+4. Select "Blob" storage option
+5. Follow the setup wizard
+
+### Step 2: Configure Environment Variables
+
+Vercel automatically provides the `BLOB_READ_WRITE_TOKEN` when you enable Blob storage:
+
+```bash
+# Add to your .env.local file
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
+```
+
+For local development:
+
+1. Copy the token from your Vercel project dashboard
+2. Add it to your `.env.local` file
+
+### Step 3: Verify Configuration
+
+The Payload configuration is already set up to use Vercel Blob storage when the token is available:
+
+```typescript
+vercelBlobStorage({
+  enabled: true,
+  collections: {
+    media: {
+      prefix: "media",
+    },
+  },
+  token: process.env.BLOB_READ_WRITE_TOKEN,
+})
+```
+
+### Benefits of Vercel Blob Storage
+
+- **Zero Configuration**: No bucket creation or permissions setup
+- **Integrated CDN**: Built-in edge caching for fast global delivery
+- **Automatic Scaling**: Scales with your application usage
+- **Simple Pricing**: Pay only for what you use
+- **Seamless Integration**: Works perfectly with Vercel deployments
+- **Large File Support**: Client uploads for files larger than 4.5MB
+
+### File Size Considerations
+
+- Server uploads: Limited to 4.5MB when deployed on Vercel
+- Client uploads: No size limit (handled directly by browser to Blob storage)
+- The adapter automatically enables client uploads for larger files
+
+### Testing Vercel Blob Storage
+
+1. Start your development server: `pnpm dev`
+2. Navigate to `/admin`
+3. Log in with admin credentials
+4. Go to Media collection
+5. Try uploading various file types and sizes
+6. Verify files are accessible via their URLs
+
+## AWS S3 Configuration (Alternative)
 
 ### Prerequisites
 
@@ -159,7 +228,28 @@ gcsStorage({
 
 ### Common Issues
 
-#### S3 Access Denied
+#### Vercel Blob Storage Issues
+
+**Upload Failures**
+
+- Verify `BLOB_READ_WRITE_TOKEN` is set correctly
+- Check that Blob storage is enabled in your Vercel project
+- Ensure the token has read/write permissions
+- Try clearing your browser cache and cookies
+
+**File Access Issues**
+
+- Blob URLs are automatically generated and globally accessible
+- Check browser network tab for 403/404 errors
+- Verify the file was uploaded successfully in Vercel dashboard
+
+**Local Development Issues**
+
+- Make sure you've copied the token from Vercel dashboard to `.env.local`
+- Restart your development server after adding the token
+- Check console for any authentication errors
+
+#### S3 Access Denied (Legacy)
 
 - Verify IAM user has correct permissions
 - Check bucket policy allows your operations
@@ -180,14 +270,55 @@ gcsStorage({
 ### Debug Commands
 
 ```bash
-# Test AWS credentials
+# Test AWS credentials (for S3)
 aws sts get-caller-identity
 
-# List S3 buckets
+# List S3 buckets (for S3)
 aws s3 ls
 
-# Test bucket access
+# Test bucket access (for S3)
 aws s3 ls s3://your-portfolio-bucket
+
+# Test Vercel Blob token (for Vercel Blob)
+curl -H "Authorization: Bearer $BLOB_READ_WRITE_TOKEN" https://blob.vercel-storage.com/
+```
+
+## Migration from S3 to Vercel Blob
+
+### Migration Steps
+
+1. **Enable Vercel Blob Storage**
+   - Set up Blob storage in your Vercel project
+   - Copy the `BLOB_READ_WRITE_TOKEN` to your environment
+
+2. **Update Configuration**
+   - The configuration has been updated to use Vercel Blob
+   - Remove old S3 environment variables if no longer needed
+
+3. **Test New Setup**
+   - Upload new files to verify Vercel Blob is working
+   - Existing S3 files will remain accessible at their original URLs
+
+4. **Optional: Migrate Existing Files**
+   - Download files from S3 bucket
+   - Re-upload through the Payload admin interface
+   - Update any hardcoded S3 URLs in your content
+
+### Environment Variable Changes
+
+**Remove (S3):**
+
+```bash
+S3_BUCKET=your-s3-bucket-name
+S3_REGION=us-east-1
+S3_ACCESS_KEY_ID=your-aws-access-key-id
+S3_SECRET_ACCESS_KEY=your-aws-secret-access-key
+```
+
+**Add (Vercel Blob):**
+
+```bash
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
 ```
 
 ## Security Considerations

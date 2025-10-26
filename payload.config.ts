@@ -1,6 +1,6 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { s3Storage } from "@payloadcms/storage-s3";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -274,6 +274,8 @@ export default buildConfig({
         group: "Media",
       },
       upload: {
+        // Disable local storage when using cloud storage
+        disableLocalStorage: true,
         mimeTypes: ["image/*", "video/*", "application/pdf"],
         imageSizes: [
           {
@@ -301,6 +303,7 @@ export default buildConfig({
             position: "centre",
           },
         ],
+        adminThumbnail: "thumbnail",
       },
       fields: [
         {
@@ -329,6 +332,27 @@ export default buildConfig({
           ],
           admin: {
             description: "How this media is being used",
+          },
+        },
+        {
+          name: "publicUrl",
+          type: "text",
+          admin: {
+            hidden: true,
+            description: "Direct URL to the file in Vercel Blob Storage",
+          },
+          hooks: {
+            afterRead: [
+              ({ data }) => {
+                // Only generate URL if we have filename data
+                if (data?.filename) {
+                  const blobDomain = "https://xiaw58us2q2emqf3.public.blob.vercel-storage.com";
+                  const prefix = "media";
+                  return `${blobDomain}/${prefix}/${data.filename}`;
+                }
+                return null;
+              },
+            ],
           },
         },
       ],
@@ -456,23 +480,15 @@ export default buildConfig({
 
   // Plugins
   plugins: [
-    // Cloud storage plugin for S3
-    ...(process.env.S3_BUCKET
+    // Cloud storage plugin for Vercel Blob
+    ...(process.env.BLOB_READ_WRITE_TOKEN
       ? [
-          s3Storage({
+          vercelBlobStorage({
+            enabled: true,
             collections: {
-              media: {
-                prefix: "media",
-              },
+              media: true,
             },
-            bucket: process.env.S3_BUCKET!,
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
-              },
-              region: process.env.S3_REGION!,
-            },
+            token: process.env.BLOB_READ_WRITE_TOKEN,
           }),
         ]
       : []),
