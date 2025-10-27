@@ -4,12 +4,12 @@ This document describes the LangChain.js integration for the portfolio chatbot's
 
 ## Overview
 
-The chatbot has been enhanced with LangChain.js to provide:
+The chatbot uses LangChain.js exclusively to provide:
 - **Better scalability** - Modular architecture with reusable components
 - **Improved conversation memory** - Built-in conversation history management
 - **Advanced retrieval** - LangChain's optimized retrieval chains
 - **Streaming support** - Real-time response streaming
-- **Fallback mechanism** - Automatic fallback to original implementation
+- **Production-ready** - Clean, maintainable codebase
 
 ## Architecture
 
@@ -27,8 +27,7 @@ The chatbot has been enhanced with LangChain.js to provide:
    - Uses Google Gemini 1.5 Flash for response generation
 
 3. **API Routes**
-   - `/api/ai-assistant/chat` - Main chat endpoint (uses LangChain by default)
-   - `/api/ai-assistant/chat-langchain` - Dedicated LangChain endpoint
+   - `/api/ai-assistant/chat` - Main chat endpoint (LangChain-powered)
 
 ## Installation
 
@@ -46,9 +45,6 @@ pnpm add @langchain/core @langchain/community @langchain/google-genai @langchain
 # Required
 GEMINI_API_KEY=your_gemini_api_key
 MONGODB_URI=your_mongodb_atlas_uri
-
-# Optional
-USE_LANGCHAIN=true  # Enable/disable LangChain (default: true)
 ```
 
 ### MongoDB Atlas Setup
@@ -110,7 +106,7 @@ for await (const chunk of stream) {
 ### API Request
 
 ```bash
-# Using LangChain (default)
+# Non-streaming request
 curl -X POST http://localhost:3000/api/ai-assistant/chat \
   -H "Content-Type: application/json" \
   -d '{
@@ -119,14 +115,13 @@ curl -X POST http://localhost:3000/api/ai-assistant/chat \
     "stream": false
   }'
 
-# Disable LangChain for a specific request
+# Streaming request
 curl -X POST http://localhost:3000/api/ai-assistant/chat \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "What are Mai'\''s skills?",
+    "message": "Tell me about Mai'\''s projects",
     "conversationHistory": [],
-    "stream": false,
-    "useLangChain": false
+    "stream": true
   }'
 ```
 
@@ -178,18 +173,20 @@ async function* queryStream(question: string, history: ConversationMessage[]) {
 }
 ```
 
-### 4. Fallback Mechanism
+### 4. Error Handling
 
-Automatic fallback to original implementation on errors:
+Robust error handling with user-friendly messages:
 
 ```typescript
 try {
-  // Try LangChain
-  return await handleLangChainNonStreamingChat(message, history);
+  const result = await ragService.queryWithHistory(message, history);
+  return NextResponse.json({ response: result.response, sources: result.sources });
 } catch (error) {
-  // Fallback to original
-  console.log('⚠️  Falling back to original RAG implementation');
-  return await handleNonStreamingChat(message, history);
+  console.error('Error in chat:', error);
+  return NextResponse.json({
+    response: 'I apologize, but I encountered an issue...',
+    error: error instanceof Error ? error.message : 'Unknown error'
+  }, { status: 500 });
 }
 ```
 
@@ -215,25 +212,17 @@ MongoDB connection pooling is handled by:
 - Mongoose connection management
 - LangChain's built-in connection reuse
 
-## Comparison: Original vs LangChain
+## Benefits of LangChain
 
-| Feature | Original | LangChain |
-|---------|----------|-----------|
-| Vector Search | Custom MongoDB aggregation | `MongoDBAtlasVectorSearch` |
-| Embeddings | Direct Gemini API calls | `GoogleGenerativeAIEmbeddings` |
-| Conversation Memory | Manual history management | Built-in `BufferMemory` |
-| Streaming | Custom SSE implementation | LangChain streaming chains |
-| Error Handling | Custom error handling | Built-in retry logic |
-| Extensibility | Tightly coupled | Modular chains |
-
-## Migration Notes
-
-### Backward Compatibility
-
-The implementation maintains backward compatibility:
-- Original endpoints still work
-- Can toggle between implementations using `useLangChain` flag
-- Automatic fallback on LangChain errors
+| Aspect | Benefit |
+|--------|---------|
+| Vector Search | Clean abstraction with `MongoDBAtlasVectorSearch` |
+| Embeddings | Managed by `GoogleGenerativeAIEmbeddings` |
+| Conversation Memory | Built-in conversation history management |
+| Streaming | Native LangChain streaming chains |
+| Error Handling | Robust error handling with clear messages |
+| Extensibility | Modular chains for easy enhancement |
+| Maintainability | Cleaner, more readable codebase |
 
 ### Data Format
 
