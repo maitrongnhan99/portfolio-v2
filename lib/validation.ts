@@ -17,6 +17,7 @@ export const chatRequestSchema = z.object({
     .max(50, 'Conversation history too long')
     .optional(),
   stream: z.boolean().optional().default(false),
+  useLangChain: z.boolean().optional(),
 });
 
 export type ChatRequest = z.infer<typeof chatRequestSchema>;

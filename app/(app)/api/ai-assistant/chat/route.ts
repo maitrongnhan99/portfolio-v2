@@ -1,8 +1,10 @@
 import { SmartRetriever } from '@/services/retriever';
+import { getLangChainRAGService } from '@/services/langchain-rag-service';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest, NextResponse } from 'next/server';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const USE_LANGCHAIN = process.env.USE_LANGCHAIN !== 'false'; // Use LangChain by default
 
 // Initialize GenAI only when API key is available
 const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
@@ -11,6 +13,7 @@ interface ChatRequest {
   message: string;
   conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>;
   stream?: boolean;
+  useLangChain?: boolean; // Optional flag to use LangChain
 }
 
 interface ChatResponse {
@@ -50,12 +53,23 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       );
     }
 
-    const { message, conversationHistory = [], stream = false } = validation.data;
+    const { message, conversationHistory = [], stream = false, useLangChain = USE_LANGCHAIN } = validation.data;
 
     // Sanitize the message
     const sanitizedMessage = sanitizeString(message);
 
-    // Route to streaming or non-streaming handler
+    // Use LangChain if enabled
+    if (useLangChain) {
+      console.log('🔗 Using LangChain for enhanced RAG');
+      if (stream) {
+        return handleLangChainStreamingChat(sanitizedMessage, conversationHistory);
+      } else {
+        return handleLangChainNonStreamingChat(sanitizedMessage, conversationHistory);
+      }
+    }
+
+    // Fallback to original implementation
+    console.log('📦 Using original RAG implementation');
     if (stream) {
       return handleStreamingChat(sanitizedMessage, conversationHistory);
     } else {
@@ -548,11 +562,111 @@ Mai believes in continuous learning and staying updated with the latest technolo
 What would you like to know more about?`;
 }
 
+/**
+ * LangChain-powered streaming chat handler
+ */
+async function handleLangChainStreamingChat(
+  message: string,
+  conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }>
+): Promise<Response> {
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        console.log(`🚀 [LangChain] Processing streaming chat message: "${message}"`);
+
+        // Initialize LangChain RAG service
+        const ragService = getLangChainRAGService();
+
+        // Stream the response using LangChain
+        const streamGenerator = ragService.queryStream(message, conversationHistory);
+
+        for await (const chunk of streamGenerator) {
+          if (chunk.type === 'chunk' && chunk.content) {
+            const data: StreamData = { type: 'chunk', content: chunk.content };
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+          } else if (chunk.type === 'sources' && chunk.sources) {
+            const data: StreamData = { type: 'sources', sources: chunk.sources };
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+          } else if (chunk.type === 'done') {
+            const data: StreamData = { type: 'done' };
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+          }
+        }
+
+        console.log(`✅ [LangChain] Streaming response completed successfully`);
+
+      } catch (error) {
+        console.error('❌ [LangChain] Error in streaming chat:', error);
+
+        const errorData: StreamData = {
+          type: 'error',
+          error: 'I apologize, but I encountered an issue processing your request. Please try again or ask a different question.'
+        };
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(errorData)}\n\n`));
+      } finally {
+        controller.close();
+      }
+    }
+  });
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
+/**
+ * LangChain-powered non-streaming chat handler
+ */
+async function handleLangChainNonStreamingChat(
+  message: string,
+  conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }>
+): Promise<NextResponse<ChatResponse>> {
+  try {
+    console.log(`🚀 [LangChain] Processing non-streaming chat message: "${message}"`);
+
+    // Initialize LangChain RAG service
+    const ragService = getLangChainRAGService();
+
+    // Query with conversation history
+    const result = await ragService.queryWithHistory(message, conversationHistory);
+
+    console.log(`✅ [LangChain] Generated response with ${result.sources.length} sources`);
+
+    return NextResponse.json({
+      response: result.response,
+      sources: result.sources
+    });
+
+  } catch (error) {
+    console.error('❌ [LangChain] Error in non-streaming chat:', error);
+
+    // Fallback to original implementation on error
+    console.log('⚠️  Falling back to original RAG implementation');
+    return handleNonStreamingChat(message, conversationHistory);
+  }
+}
+
 export async function GET(): Promise<NextResponse> {
-  return NextResponse.json({ 
+  return NextResponse.json({
     message: 'AI Assistant Chat API is running',
     endpoints: {
       POST: 'Send a message to the AI assistant'
-    }
+    },
+    features: [
+      'LangChain-powered RAG (default)',
+      'Original RAG implementation (fallback)',
+      'Conversational memory',
+      'Streaming and non-streaming responses'
+    ],
+    langchainEnabled: USE_LANGCHAIN
   });
 }
