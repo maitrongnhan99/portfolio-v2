@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
@@ -14,11 +13,6 @@
     "seed-knowledge:clear": "tsx scripts/seed-knowledge.ts --clear",
     "migrate:payload": "tsx scripts/migrate-to-payload.ts",
     "migrate:payload:force": "FORCE_MIGRATION=true tsx scripts/migrate-to-payload.ts",
-    "test:payload": "tsx scripts/test-payload.ts",
-    "admin:create": "tsx scripts/create-payload-admin.ts",
-    "admin:clear": "tsx scripts/clear-admin-users.ts",
-    "admin:reset": "tsx scripts/reset-admin.ts",
-    "admin:reset-simple": "tsx scripts/reset-admin-simple.ts",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -30,8 +24,7 @@
     "test:ci": "vitest run --coverage",
     "test:ci:coverage": "vitest run --coverage --config vitest.config.ci.mjs",
     "test:verbose": "VERBOSE_TESTS=1 vitest --reporter=verbose",
-    "test:ui": "vitest --ui",
-    "create-admin": "tsx scripts/create-payload-admin.ts"
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
@@ -113,7 +106,14 @@
   "pnpm": {
     "overrides": {
       "@eslint/plugin-kit": "^0.3.3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "bufferutil",
+      "esbuild",
+      "mongodb-memory-server",
+      "sharp",
+      "unrs-resolver"
+    ]
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -141,5 +141,6 @@
     "vite": "^7.0.5",
     "vitest": "^3.2.4",
     "vitest-sonar-reporter": "^2.0.1"
-  }
+  },
+  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8"
 }

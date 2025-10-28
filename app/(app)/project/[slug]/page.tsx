@@ -1,6 +1,6 @@
 import { ProjectClientContent } from "@/components/common/project/project-client-content";
 import { ProjectStructuredData } from "@/components/common/seo/project-structured-data";
-import { getProjects, getProjectBySlug } from "@/lib/data-service-server";
+import { getProjectBySlug, getProjects } from "@/lib/data-service-server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
       slug: project.slug,
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
+    console.error("Error generating static params:", error);
     // Fallback to empty array - pages will be generated on-demand
     return [];
   }

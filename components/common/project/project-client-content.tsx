@@ -16,6 +16,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 interface ProjectClientContentProps {
   project: any;
@@ -94,7 +96,19 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                   <div className="prose dark:prose-invert max-w-none text-slate-300">
                     <p>{project.description}</p>
                     {project.longDescription && (
-                      <p className="mt-4">{project.longDescription}</p>
+                      <div className="mt-4">
+                        {typeof project.longDescription === "string" ? (
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: project.longDescription,
+                            }}
+                          />
+                        ) : (
+                          <RichText
+                            data={project.longDescription as SerializedEditorState}
+                          />
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

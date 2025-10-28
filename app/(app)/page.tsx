@@ -9,9 +9,7 @@ import { Skills } from "@/components/common/skills";
 import { getProjects } from "@/lib/data-service-server";
 
 export default async function Home() {
-  // Fetch projects data server-side
   const projects = await getProjects();
-  console.log("@projects", projects);
   return (
     <main data-testid="home-page" className="min-h-screen bg-navy relative">
       <HomeStructuredData />
@@ -21,8 +19,6 @@ export default async function Home() {
       <ProjectsServer projects={projects} />
       <Contact />
       <Footer />
-
-      {/* AI Chatbot Widget */}
       <AIChatbotWidget autoShow={true} showDelay={3000} />
     </main>
   );
