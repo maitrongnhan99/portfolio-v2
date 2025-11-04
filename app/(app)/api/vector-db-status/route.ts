@@ -100,7 +100,7 @@ export async function GET() {
       const pipeline = [
         {
           $vectorSearch: {
-            index: "knowledge_vector_index",
+            index: "knowleges_vector_index",
             path: "embedding",
             queryVector: testEmbedding,
             numCandidates: 10,
@@ -127,7 +127,7 @@ export async function GET() {
       
       if (error instanceof Error && error.message.includes('$vectorSearch')) {
         diagnostics.recommendations.push(
-          'Create vector search index "knowledge_vector_index" in MongoDB Atlas'
+          'Create vector search index "knowleges_vector_index" in MongoDB Atlas'
         );
       }
     }
