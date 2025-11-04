@@ -76,6 +76,7 @@ export function useChatMessages() {
         {
           maxAttempts: 3,
           initialDelay: 1000,
+          timeout: 90000, // 90 seconds for AI model responses
           onRetry: (error, attempt) => {
             console.log(
               `Retrying streaming request (attempt ${attempt}):`,
@@ -197,6 +198,7 @@ export function useChatMessages() {
         {
           maxAttempts: 3,
           initialDelay: 1000,
+          timeout: 90000, // 90 seconds for AI model responses
           onRetry: (error, attempt) => {
             console.log(
               `Retrying non-streaming request (attempt ${attempt}):`,

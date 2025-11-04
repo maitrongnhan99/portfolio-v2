@@ -3,7 +3,7 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { RunnableSequence, RunnablePassthrough } from "@langchain/core/runnables";
 import { Document } from "@langchain/core/documents";
-import { getLangChainVectorStore } from "./langchain-vector-store";
+import { getQdrantVectorStore } from "./qdrant-vector-store";
 
 export interface ConversationMessage {
   role: "user" | "assistant";
@@ -25,7 +25,7 @@ export interface RAGResponse {
  */
 export class LangChainRAGService {
   private model: ChatGoogleGenerativeAI;
-  private vectorStore: ReturnType<typeof getLangChainVectorStore>;
+  private vectorStore: ReturnType<typeof getQdrantVectorStore>;
 
   constructor() {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -36,12 +36,12 @@ export class LangChainRAGService {
     // Initialize Google Generative AI model
     this.model = new ChatGoogleGenerativeAI({
       apiKey: apiKey,
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       temperature: 0.7,
       maxOutputTokens: 2048,
     });
 
-    this.vectorStore = getLangChainVectorStore();
+    this.vectorStore = getQdrantVectorStore();
   }
 
   /**

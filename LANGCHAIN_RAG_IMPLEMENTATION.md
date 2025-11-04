@@ -1,13 +1,15 @@
-# LangChain RAG Implementation
+# LangChain RAG Implementation with Qdrant
 
-This document describes the LangChain.js integration for the portfolio chatbot's RAG (Retrieval-Augmented Generation) system.
+This document describes the LangChain.js integration with Qdrant vector database for the portfolio chatbot's RAG (Retrieval-Augmented Generation) system.
 
 ## Overview
 
-The chatbot uses LangChain.js exclusively to provide:
+The chatbot uses LangChain.js with Qdrant vector database to provide:
+
+- **Superior vector search** - Purpose-built vector database for optimal performance
 - **Better scalability** - Modular architecture with reusable components
 - **Improved conversation memory** - Built-in conversation history management
-- **Advanced retrieval** - LangChain's optimized retrieval chains
+- **Advanced retrieval** - LangChain's optimized retrieval chains with Qdrant
 - **Streaming support** - Real-time response streaming
 - **Production-ready** - Clean, maintainable codebase
 
@@ -15,13 +17,14 @@ The chatbot uses LangChain.js exclusively to provide:
 
 ### Components
 
-1. **LangChain Vector Store** (`services/langchain-vector-store.ts`)
-   - Wraps MongoDB Atlas Vector Search with LangChain's `MongoDBAtlasVectorSearch`
-   - Uses Google Generative AI embeddings (text-embedding-004)
+1. **Qdrant Vector Store** (`services/qdrant-vector-store.ts`)
+   - Integrates Qdrant vector database with LangChain's `QdrantVectorStore`
+   - Uses Google Generative AI embeddings (text-embedding-004, 768 dimensions)
    - Provides document addition, similarity search, and retriever creation
+   - Optimized for high-performance vector operations
 
 2. **LangChain RAG Service** (`services/langchain-rag-service.ts`)
-   - Implements conversational RAG using LangChain chains
+   - Implements conversational RAG using LangChain chains with Qdrant
    - Manages conversation history and context
    - Supports both streaming and non-streaming responses
    - Uses Google Gemini 1.5 Flash for response generation
@@ -34,7 +37,7 @@ The chatbot uses LangChain.js exclusively to provide:
 The required packages are already installed:
 
 ```bash
-pnpm add @langchain/core @langchain/community @langchain/google-genai @langchain/mongodb langchain
+pnpm add @langchain/core @langchain/community @langchain/google-genai @langchain/qdrant @qdrant/js-client-rest langchain
 ```
 
 ## Configuration
@@ -44,16 +47,27 @@ pnpm add @langchain/core @langchain/community @langchain/google-genai @langchain
 ```env
 # Required
 GEMINI_API_KEY=your_gemini_api_key
-MONGODB_URI=your_mongodb_atlas_uri
+
+# Qdrant Configuration
+QDRANT_URL=http://localhost:6333  # For local instance
+QDRANT_API_KEY=your_qdrant_api_key  # Optional for local, required for cloud
 ```
 
-### MongoDB Atlas Setup
+### Qdrant Setup
 
-1. Create a MongoDB Atlas Vector Search index named `knowledge_vector_index`
-2. Configure the index with:
-   - Vector field: `embedding`
-   - Dimensions: 768
-   - Similarity: cosine
+1. **Local Development**: Run Qdrant locally using Docker:
+
+   ```bash
+   docker run -p 6333:6333 qdrant/qdrant
+   ```
+
+2. **Cloud Deployment**: Use Qdrant Cloud or deploy to your preferred cloud provider
+
+3. **Collection Configuration**:
+   - Collection name: `portfolio_knowledge`
+   - Vector dimensions: 768 (text-embedding-004)
+   - Distance metric: Cosine similarity
+   - Auto-created on first use
 
 ## Usage
 
@@ -144,10 +158,12 @@ const result = await ragService.queryWithHistory(lastQuestion, history);
 
 ### 2. Advanced Retrieval
 
-LangChain's retriever supports:
-- **Similarity search** - Vector-based semantic search
+LangChain's Qdrant retriever supports:
+
+- **Similarity search** - High-performance vector-based semantic search
 - **MMR (Maximum Marginal Relevance)** - Diverse result selection
-- **Metadata filtering** - Category-based filtering
+- **Metadata filtering** - Advanced category-based filtering with Qdrant
+- **Cosine similarity** - Optimized distance calculations
 
 ```typescript
 const retriever = await vectorStore.asRetriever({
@@ -194,42 +210,49 @@ try {
 
 ### Caching
 
-LangChain automatically caches:
-- Embeddings for similar queries
-- Vector store connections
-- Model instances
+LangChain and Qdrant provide caching:
+
+- Embeddings for similar queries (LangChain)
+- Vector store connections (reused)
+- Model instances (cached)
+- Vector search results (Qdrant internal caching)
 
 ### Rate Limiting
 
 Built-in rate limiting for:
+
 - Google Gemini API calls
 - Embedding generation
-- MongoDB queries
+- Qdrant API requests
 
 ### Connection Pooling
 
-MongoDB connection pooling is handled by:
-- Mongoose connection management
-- LangChain's built-in connection reuse
+Qdrant connection pooling is handled by:
 
-## Benefits of LangChain
+- Qdrant client connection management
+- LangChain's built-in connection reuse
+- Persistent HTTP connections
+
+## Benefits of LangChain with Qdrant
 
 | Aspect | Benefit |
 |--------|---------|
-| Vector Search | Clean abstraction with `MongoDBAtlasVectorSearch` |
+| Vector Search | High-performance vector search with `QdrantVectorStore` |
 | Embeddings | Managed by `GoogleGenerativeAIEmbeddings` |
 | Conversation Memory | Built-in conversation history management |
 | Streaming | Native LangChain streaming chains |
 | Error Handling | Robust error handling with clear messages |
 | Extensibility | Modular chains for easy enhancement |
 | Maintainability | Cleaner, more readable codebase |
+| Performance | Purpose-built vector database optimized for speed |
 
 ### Data Format
 
-LangChain uses the same data format:
-- Vector embeddings: 768 dimensions
-- MongoDB collection: `knowledgechunks`
-- Index: `knowledge_vector_index`
+LangChain with Qdrant uses:
+
+- Vector embeddings: 768 dimensions (text-embedding-004)
+- Qdrant collection: `portfolio_knowledge`
+- Distance metric: Cosine similarity
 
 ### Metadata Structure
 
@@ -249,11 +272,11 @@ LangChain uses the same data format:
 
 **Error**: `Vector store not initialized`
 
-**Solution**: Ensure MongoDB connection is established before using the vector store.
+**Solution**: Ensure Qdrant connection is established before using the vector store.
 
 ```typescript
-await connectToDatabase();
-const vectorStore = await getLangChainVectorStore().getVectorStore();
+const vectorStore = getQdrantVectorStore();
+await vectorStore.getVectorStore(); // This initializes the connection
 ```
 
 ### Issue: Embedding dimension mismatch
@@ -273,6 +296,21 @@ const embeddings = new GoogleGenerativeAIEmbeddings({
 **Error**: `429 Too Many Requests`
 
 **Solution**: Implement exponential backoff or reduce request frequency.
+
+### Issue: Qdrant connection failed
+
+**Error**: `Connection to Qdrant failed`
+
+**Solution**:
+
+1. Ensure Qdrant is running (locally or cloud)
+2. Check `QDRANT_URL` environment variable
+3. Verify API key if using Qdrant Cloud
+4. For local development:
+
+   ```bash
+   docker run -p 6333:6333 qdrant/qdrant
+   ```
 
 ## Future Enhancements
 
@@ -296,12 +334,14 @@ const embeddings = new GoogleGenerativeAIEmbeddings({
 
 - [LangChain.js Documentation](https://js.langchain.com/docs/)
 - [LangChain RAG Tutorial](https://js.langchain.com/docs/tutorials/rag/)
-- [MongoDB Atlas Vector Search](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/)
+- [LangChain Qdrant Integration](https://js.langchain.com/docs/integrations/vectorstores/qdrant/)
+- [Qdrant Documentation](https://qdrant.tech/documentation/)
 - [Google Gemini API](https://ai.google.dev/docs)
 
 ## Support
 
 For issues or questions:
+
 1. Check the documentation above
 2. Review the code comments in the implementation files
 3. Open an issue on the GitHub repository
