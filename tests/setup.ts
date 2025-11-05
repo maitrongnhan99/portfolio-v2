@@ -29,7 +29,7 @@ Object.defineProperty = function (target: any, property: PropertyKey, attributes
 Object.defineProperty(process.env, 'NODE_ENV', {
   value: 'test',
 });
-process.env.GEMINI_API_KEY = 'test-gemini-api-key';
+process.env.OPENAI_API_KEY = 'test-openai-api-key';
 process.env.MONGODB_CONNECTION_STRING = 'mongodb://test-connection';
 
 // Mock console methods to reduce test output noise

@@ -178,8 +178,8 @@ export const resumeData: ResumeData = {
     {
       name: "AI Assistant Chat Interface",
       emoji: "🤖",
-      description: "RAG-powered AI assistant with conversation history, search functionality, and export capabilities using Gemini API.",
-      technologies: ["React", "Next.js", "TypeScript", "MongoDB", "Gemini API"],
+      description: "RAG-powered AI assistant with conversation history, search functionality, and export capabilities using OpenAI API.",
+      technologies: ["React", "Next.js", "TypeScript", "Qdrant", "OpenAI API"],
       links: {
         github: "https://github.com/maitrongnhan99/portfolio-v2"
       }

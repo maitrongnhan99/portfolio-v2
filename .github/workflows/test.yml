@@ -31,7 +31,7 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
-          GEMINI_API_KEY: test-build-key
+          OPENAI_API_KEY: test-build-key
           MONGODB_CONNECTION_STRING: mongodb://localhost:27017/build-test
 
       - name: Test build output

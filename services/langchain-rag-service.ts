@@ -1,4 +1,4 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { RunnableSequence, RunnablePassthrough } from "@langchain/core/runnables";
@@ -24,21 +24,21 @@ export interface RAGResponse {
  * Provides conversational AI with retrieval-augmented generation
  */
 export class LangChainRAGService {
-  private model: ChatGoogleGenerativeAI;
+  private model: ChatOpenAI;
   private vectorStore: ReturnType<typeof getQdrantVectorStore>;
 
   constructor() {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY environment variable is required");
+      throw new Error("OPENAI_API_KEY environment variable is required");
     }
 
-    // Initialize Google Generative AI model
-    this.model = new ChatGoogleGenerativeAI({
-      apiKey: apiKey,
-      model: "gemini-2.5-flash",
+    // Initialize OpenAI model
+    this.model = new ChatOpenAI({
+      openAIApiKey: apiKey,
+      modelName: "gpt-4o-mini", // Cost-effective model for chat
       temperature: 0.7,
-      maxOutputTokens: 2048,
+      maxTokens: 2048,
     });
 
     this.vectorStore = getQdrantVectorStore();
@@ -298,7 +298,7 @@ RESPONSE:`
   /**
    * Get the underlying model for advanced usage
    */
-  getModel(): ChatGoogleGenerativeAI {
+  getModel(): ChatOpenAI {
     return this.model;
   }
 

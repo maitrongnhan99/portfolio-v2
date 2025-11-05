@@ -1,5 +1,5 @@
 import { QdrantVectorStore } from "@langchain/qdrant";
-import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { QdrantClient } from "@qdrant/js-client-rest";
 
 /**
@@ -7,21 +7,22 @@ import { QdrantClient } from "@qdrant/js-client-rest";
  * Provides integration between LangChain and Qdrant for vector search
  */
 export class QdrantVectorStoreService {
-  private embeddings: GoogleGenerativeAIEmbeddings;
+  private embeddings: OpenAIEmbeddings;
   private vectorStore: QdrantVectorStore | null = null;
   private qdrantClient: QdrantClient | null = null;
   private collectionName = "portfolio_knowledge";
 
   constructor() {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY environment variable is required");
+      throw new Error("OPENAI_API_KEY environment variable is required");
     }
 
-    // Initialize Google Generative AI embeddings
-    this.embeddings = new GoogleGenerativeAIEmbeddings({
-      apiKey: apiKey,
-      model: "text-embedding-004",
+    // Initialize OpenAI embeddings with 768 dimensions to match Qdrant collection
+    this.embeddings = new OpenAIEmbeddings({
+      openAIApiKey: apiKey,
+      modelName: "text-embedding-3-small",
+      dimensions: 768,
     });
   }
 
@@ -94,7 +95,7 @@ export class QdrantVectorStoreService {
         // Create collection with proper vector configuration
         await this.qdrantClient.createCollection(this.collectionName, {
           vectors: {
-            size: 768, // text-embedding-004 dimensions
+            size: 768, // text-embedding-3-small with 768 dimensions
             distance: "Cosine",
           },
           optimizers_config: {
@@ -148,7 +149,7 @@ export class QdrantVectorStoreService {
   /**
    * Get the embeddings instance
    */
-  getEmbeddings(): GoogleGenerativeAIEmbeddings {
+  getEmbeddings(): OpenAIEmbeddings {
     return this.embeddings;
   }
 
