@@ -37,6 +37,10 @@
   ],
   "exclude": [
     "node_modules",
-    ".next"
+    ".next",
+    "**/*.disabled/**",
+    "**/*.disabled",
+    "services/retriever.ts",
+    "tests/utils/testUtils.ts"
   ]
 }

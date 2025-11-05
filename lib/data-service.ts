@@ -1,5 +1,5 @@
-import { projectsData } from "./projects-data";
 import type { Project } from "./data-service-types";
+import { projectsData } from "./projects-data";
 
 // Client-safe data service that only uses static data
 // For server-side Payload CMS functionality, use data-service-server.ts

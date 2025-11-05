@@ -1,12 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "./mongodb-client";
 import { getPayload } from "payload";
 import configPromise from "@/payload.config";
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -33,7 +30,7 @@ export const authOptions: NextAuthOptions = {
 
           if (result.user && result.user.role === 'admin') {
             return {
-              id: result.user.id,
+              id: String(result.user.id),
               email: result.user.email,
               name: `${result.user.firstName} ${result.user.lastName}`,
               role: result.user.role

@@ -1,5 +1,4 @@
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { resendAdapter } from "@payloadcms/email-resend";
+import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import dotenv from "dotenv";
@@ -23,8 +22,10 @@ export default buildConfig({
   editor: lexicalEditor(),
 
   // Database adapter
-  db: mongooseAdapter({
-    url: process.env.MONGODB_CONNECTION_STRING || "",
+  db: vercelPostgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL || "",
+    },
   }),
 
   // Server URL configuration
@@ -525,12 +526,12 @@ export default buildConfig({
   // Note: Global hooks removed - collection-specific hooks should be used instead
 
   // Email configuration with Resend
-  email: resendAdapter({
-    defaultFromAddress:
-      process.env.FROM_EMAIL ||
-      process.env.ADMIN_EMAIL ||
-      "noreply@example.com",
-    defaultFromName: process.env.FROM_NAME || "Portfolio CMS",
-    apiKey: process.env.RESEND_API_KEY || "",
-  }),
+  // email: resendAdapter({
+  //   defaultFromAddress:
+  //     process.env.FROM_EMAIL ||
+  //     process.env.ADMIN_EMAIL ||
+  //     "noreply@example.com",
+  //   defaultFromName: process.env.FROM_NAME || "Portfolio CMS",
+  //   apiKey: process.env.RESEND_API_KEY || "",
+  // }),
 });
