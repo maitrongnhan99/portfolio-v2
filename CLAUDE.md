@@ -83,4 +83,14 @@ pnpm lint
 
 ### Environment Variables
 - `TELEGRAM_BOT_TOKEN` - Required for contact form notifications
+- `POSTGRES_URL` - Required for PayloadCMS database connection (Vercel Postgres)
+- `PAYLOAD_SECRET` - Required for PayloadCMS encryption (min 32 characters)
+- `RESEND_API_KEY` - Required for PayloadCMS email functionality
+- `BLOB_READ_WRITE_TOKEN` - Required for Vercel Blob storage (media uploads)
 - Environment variables are exposed via `next.config.mjs`
+
+### Database Configuration
+- **PayloadCMS** with **Vercel Postgres** adapter
+- Migrated from MongoDB to Postgres for better Vercel integration
+- Uses `@payloadcms/db-vercel-postgres` package
+- Connection configured via `POSTGRES_URL` environment variable
