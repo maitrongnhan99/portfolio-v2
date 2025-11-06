@@ -6,7 +6,7 @@ import { Project } from "@/lib/data-service";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { ProjectLinks } from "./project-links";
 
 interface ProjectCardProps {
@@ -14,6 +14,8 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
+  const [imageError, setImageError] = useState(false);
+  
   return (
     <motion.div
       className="group relative"
@@ -27,10 +29,12 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         >
           <div className="aspect-video relative overflow-hidden">
             <Image
-              src={project.image || "/placeholder.svg"}
+              src={imageError ? "/placeholder.svg" : (project.image || "/placeholder.svg")}
               alt={project.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImageError(true)}
+              onLoad={() => setImageError(false)}
             />
             <div className="absolute inset-0 bg-navy/80 opacity-40 group-hover:opacity-20 transition-opacity duration-300"></div>
           </div>

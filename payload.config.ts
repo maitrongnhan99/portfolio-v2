@@ -279,6 +279,12 @@ export default buildConfig({
       admin: {
         group: "Media",
       },
+      access: {
+        read: () => true, // Public read access for media files
+        create: ({ req: { user } }) => !!user, // Only authenticated users can upload
+        update: ({ req: { user } }) => !!user, // Only authenticated users can update
+        delete: ({ req: { user } }) => user?.role === "admin", // Only admins can delete
+      },
       upload: {
         // Disable local storage when using cloud storage
         disableLocalStorage: true,

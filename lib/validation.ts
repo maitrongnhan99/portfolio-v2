@@ -105,7 +105,12 @@ export function sanitizeString(input: string): string {
 // URL validation and sanitization
 const SAFE_URL_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:'];
 
-export function isValidUrl(url: string): boolean {
+export function isValidUrl(url: string | null | undefined): boolean {
+  // Handle null, undefined, or empty strings
+  if (!url || typeof url !== 'string' || url.trim() === '') {
+    return false;
+  }
+  
   try {
     const parsedUrl = new URL(url);
     return SAFE_URL_PROTOCOLS.includes(parsedUrl.protocol);
@@ -115,7 +120,12 @@ export function isValidUrl(url: string): boolean {
   }
 }
 
-export function sanitizeUrl(url: string): string {
+export function sanitizeUrl(url: string | null | undefined): string {
+  // Handle null, undefined, or empty strings
+  if (!url || typeof url !== 'string' || url.trim() === '') {
+    return '#';
+  }
+  
   // First check if it's a valid and safe URL
   if (!isValidUrl(url)) {
     // Return safe fallback for any invalid URL

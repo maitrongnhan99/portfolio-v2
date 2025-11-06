@@ -204,34 +204,38 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                     )}
 
                     <div className="pt-4 space-y-3">
-                      <Button
-                        asChild
-                        className="w-full"
-                        data-testid="project-demo-link"
-                      >
-                        <Link
-                          href={sanitizeUrl(project.liveUrl)}
-                          target="_blank"
+                      {project.liveUrl && (
+                        <Button
+                          asChild
+                          className="w-full"
+                          data-testid="project-demo-link"
                         >
-                          <LinkIcon className="mr-2 h-4 w-4" />
-                          View Live Demo
-                        </Link>
-                      </Button>
+                          <Link
+                            href={sanitizeUrl(project.liveUrl)}
+                            target="_blank"
+                          >
+                            <LinkIcon className="mr-2 h-4 w-4" />
+                            View Live Demo
+                          </Link>
+                        </Button>
+                      )}
 
-                      <Button
-                        asChild
-                        variant="outline"
-                        className="w-full"
-                        data-testid="project-github-link"
-                      >
-                        <Link
-                          href={sanitizeUrl(project.githubUrl)}
-                          target="_blank"
+                      {project.githubUrl && (
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="w-full"
+                          data-testid="project-github-link"
                         >
-                          <Github className="mr-2 h-4 w-4" />
-                          View Source Code
-                        </Link>
-                      </Button>
+                          <Link
+                            href={sanitizeUrl(project.githubUrl)}
+                            target="_blank"
+                          >
+                            <Github className="mr-2 h-4 w-4" />
+                            View Source Code
+                          </Link>
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>

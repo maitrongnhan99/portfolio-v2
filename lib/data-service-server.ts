@@ -10,6 +10,41 @@ const isPayloadEnabled = (): boolean => {
   return process.env.PAYLOAD_ENABLED === "true";
 };
 
+// Helper function to extract the best image URL from Payload image objects
+const getImageUrl = (imageField: any): string => {
+  if (!imageField) {
+    return "/placeholder.svg"; // Fallback to placeholder
+  }
+
+  // If it's already a string, return it
+  if (typeof imageField === "string") {
+    return imageField;
+  }
+
+  // If it's an object, prefer publicUrl, then url, then filename with base path
+  if (typeof imageField === "object") {
+    // First priority: direct publicUrl from the hook, but fix the path if needed
+    if (imageField.publicUrl) {
+      // Remove /media/ prefix if it exists in the publicUrl
+      return imageField.publicUrl.replace('/media/', '/');
+    }
+
+    // Second priority: construct correct Vercel Blob URL from filename
+    if (imageField.filename) {
+      const blobDomain = "https://xiaw58us2q2emqf3.public.blob.vercel-storage.com";
+      return `${blobDomain}/${imageField.filename}`;
+    }
+
+    // Third priority: standard url field (fallback to local API)
+    if (imageField.url) {
+      return imageField.url;
+    }
+  }
+
+  // Fallback to placeholder if we can't determine the URL
+  return "/placeholder.svg";
+};
+
 const getProjectsFromPayload = async (): Promise<Project[]> => {
   try {
     const payload = await getPayload({ config });
@@ -31,7 +66,7 @@ const getProjectsFromPayload = async (): Promise<Project[]> => {
       slug: doc.slug,
       description: doc.description,
       longDescription: doc.longDescription,
-      image: typeof doc.image === "object" ? doc.image?.url : doc.image,
+      image: getImageUrl(doc.image),
       category: doc.category,
       technologies: doc.technologies?.map((tech: any) => tech.technology) || [],
       features: doc.features?.map((feature: any) => feature.feature) || [],
@@ -40,9 +75,7 @@ const getProjectsFromPayload = async (): Promise<Project[]> => {
       liveUrl: doc.liveUrl,
       githubUrl: doc.githubUrl,
       gallery:
-        doc.gallery?.map((item: any) =>
-          typeof item.image === "object" ? item.image?.url : item.image
-        ) || [],
+        doc.gallery?.map((item: any) => getImageUrl(item.image)) || [],
       featured: doc.featured || false,
       status: doc.status,
     }));
