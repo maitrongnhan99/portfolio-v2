@@ -26,14 +26,16 @@
       "@/*": [
         "./*"
       ],
-      "@payload-config": ["./payload.config.ts"]
+      "@payload-config": [
+        "./payload.config.ts"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "types/global.d.ts"
   ],
   "exclude": [
     "node_modules",

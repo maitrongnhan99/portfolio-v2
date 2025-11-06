@@ -1,20 +1,22 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
 export class EmbeddingService {
-  private genAI: GoogleGenerativeAI;
+  private openai: OpenAI;
 
   constructor() {
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-    if (!GEMINI_API_KEY) {
-      throw new Error('Please define the GEMINI_API_KEY environment variable inside .env.local');
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    if (!OPENAI_API_KEY) {
+      throw new Error('Please define the OPENAI_API_KEY environment variable inside .env.local');
     }
-    this.genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    this.openai = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
   }
 
   /**
-   * Generate embedding for a single text using Google's text-embedding-004 model
+   * Generate embedding for a single text using OpenAI's text-embedding-3-small model
    * @param text - The text to generate embedding for
-   * @returns Promise<number[]> - Array of 768 dimensions
+   * @returns Promise<number[]> - Array of 1536 dimensions
    */
   async generateEmbedding(text: string): Promise<number[]> {
     try {
@@ -22,19 +24,21 @@ export class EmbeddingService {
         throw new Error('Text cannot be empty');
       }
 
-      const model = this.genAI.getGenerativeModel({ model: "text-embedding-004" });
-      
-      const result = await model.embedContent(text);
-      
-      if (!result.embedding || !result.embedding.values) {
+      const response = await this.openai.embeddings.create({
+        model: "text-embedding-3-small",
+        input: text,
+        dimensions: 1536, // Use 1536 dimensions (default for text-embedding-3-small)
+      });
+
+      if (!response.data || response.data.length === 0 || !response.data[0].embedding) {
         throw new Error('Failed to generate embedding: No embedding values returned');
       }
 
-      const embedding = result.embedding.values;
-      
+      const embedding = response.data[0].embedding;
+
       // Validate embedding dimensions
-      if (embedding.length !== 768) {
-        throw new Error(`Invalid embedding dimensions: expected 768, got ${embedding.length}`);
+      if (embedding.length !== 1536) {
+        throw new Error(`Invalid embedding dimensions: expected 1536, got ${embedding.length}`);
       }
 
       return embedding;
@@ -57,23 +61,23 @@ export class EmbeddingService {
 
       // Filter out empty texts
       const validTexts = texts.filter(text => text && text.trim().length > 0);
-      
+
       if (validTexts.length === 0) {
         throw new Error('No valid texts provided');
       }
 
-      // Process embeddings sequentially to avoid rate limiting
-      const embeddings: number[][] = [];
-      
-      for (const text of validTexts) {
-        const embedding = await this.generateEmbedding(text);
-        embeddings.push(embedding);
-        
-        // Small delay to respect rate limits
-        await new Promise(resolve => setTimeout(resolve, 100));
+      // OpenAI supports batch embedding generation
+      const response = await this.openai.embeddings.create({
+        model: "text-embedding-3-small",
+        input: validTexts,
+        dimensions: 1536,
+      });
+
+      if (!response.data || response.data.length === 0) {
+        throw new Error('Failed to generate embeddings: No embedding values returned');
       }
 
-      return embeddings;
+      return response.data.map(item => item.embedding);
     } catch (error) {
       console.error('Error generating batch embeddings:', error);
       throw new Error(`Failed to generate batch embeddings: ${error instanceof Error ? error.message : 'Unknown error'}`);

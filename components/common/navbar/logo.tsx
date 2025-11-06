@@ -1,9 +1,9 @@
 "use client";
 
-import { FC } from "react";
+import Logo from "@/public/portfolio-logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/public/portfolio-logo.png";
+import { FC } from "react";
 
 const NavLogo: FC = () => {
   return (

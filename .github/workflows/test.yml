@@ -31,8 +31,19 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
-          GEMINI_API_KEY: test-build-key
-          MONGODB_CONNECTION_STRING: mongodb://localhost:27017/build-test
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          QDRANT_URL: ${{ secrets.QDRANT_URL }}
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+          SERVER_URL: ${{ secrets.SERVER_URL }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          PAYLOAD_ENABLED: ${{ secrets.PAYLOAD_ENABLED }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          FROM_NAME: ${{ secrets.FROM_NAME }}
 
       - name: Test build output
         run: |
