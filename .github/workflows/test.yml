@@ -31,8 +31,19 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
-          OPENAI_API_KEY: test-build-key
-          MONGODB_CONNECTION_STRING: mongodb://localhost:27017/build-test
+          TELEGRAM_BOT_TOKEN: your_telegram_bot_token
+          OPENAI_API_KEY: your_openai_api_key
+          QDRANT_URL: http://localhost:6333
+          QDRANT_API_KEY: your_qdrant_api_key
+          PAYLOAD_SECRET: your-secure-payload-secret-min-32-chars
+          NEXT_PUBLIC_SERVER_URL: http://localhost:3000
+          SERVER_URL: http://localhost:3000
+          POSTGRES_URL: your-vercel-postgres-connection-string
+          PAYLOAD_ENABLED: true
+          BLOB_READ_WRITE_TOKEN: your-vercel-blob-token
+          RESEND_API_KEY: your-resend-api-key
+          FROM_EMAIL: noreply@yourdomain.com
+          FROM_NAME: Portfolio CMS
 
       - name: Test build output
         run: |
