@@ -5,7 +5,7 @@ export default class OpenAI {
     create: vi.fn().mockResolvedValue({
       data: [
         {
-          embedding: Array(768).fill(0).map(() => Math.random() * 2 - 1),
+          embedding: Array(1536).fill(0).map(() => Math.random() * 2 - 1),
           index: 0,
           object: 'embedding'
         }

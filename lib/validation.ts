@@ -46,7 +46,7 @@ export type ContactFormData = z.infer<typeof contactFormSchema>;
 
 // Rate limiting validation
 export const rateLimitSchema = z.object({
-  ip: z.string().ip(),
+  ip: z.string().regex(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/, "Invalid IP address"),
   endpoint: z.string(),
   timestamp: z.number(),
 });
@@ -55,7 +55,7 @@ export const rateLimitSchema = z.object({
 export const apiErrorSchema = z.object({
   error: z.string(),
   code: z.string().optional(),
-  details: z.record(z.any()).optional(),
+  details: z.record(z.string(), z.any()).optional(),
 });
 
 export const chatResponseSchema = z.object({
@@ -82,7 +82,7 @@ export function validateRequest<T>(
     return { success: true, data: validatedData };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errorMessage = error.errors
+      const errorMessage = error.issues
         .map((err) => `${err.path.join('.')}: ${err.message}`)
         .join(', ');
       return { success: false, error: errorMessage };

@@ -1,8 +1,11 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { StringOutputParser } from "@langchain/core/output_parsers";
-import { RunnableSequence, RunnablePassthrough } from "@langchain/core/runnables";
 import { Document } from "@langchain/core/documents";
+import { StringOutputParser } from "@langchain/core/output_parsers";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import {
+  RunnablePassthrough,
+  RunnableSequence,
+} from "@langchain/core/runnables";
+import { ChatOpenAI } from "@langchain/openai";
 import { getQdrantVectorStore } from "./qdrant-vector-store";
 
 export interface ConversationMessage {
@@ -38,7 +41,7 @@ export class LangChainRAGService {
       openAIApiKey: apiKey,
       modelName: "gpt-4o-mini", // Cost-effective model for chat
       temperature: 0.7,
-      maxTokens: 2048,
+      maxTokens: 4096,
     });
 
     this.vectorStore = getQdrantVectorStore();
@@ -96,7 +99,7 @@ RESPONSE:`
       promptTemplate,
       this.model,
       new StringOutputParser(),
-    ]);
+    ] as any);
 
     return { chain: ragChain, retriever };
   }
@@ -148,13 +151,14 @@ RESPONSE:`
           const docs = await retriever.invoke(input.question);
           return this.formatDocuments(docs);
         },
-        question: (input: { question: string; history: string }) => input.question,
+        question: (input: { question: string; history: string }) =>
+          input.question,
         history: () => historyText,
       },
       promptTemplate,
       this.model,
       new StringOutputParser(),
-    ]);
+    ] as any);
 
     return { chain: ragChain, retriever };
   }
@@ -177,7 +181,9 @@ RESPONSE:`
 
       // Format sources
       const sources = relevantDocs.map((doc) => ({
-        content: doc.pageContent.substring(0, 200) + (doc.pageContent.length > 200 ? "..." : ""),
+        content:
+          doc.pageContent.substring(0, 200) +
+          (doc.pageContent.length > 200 ? "..." : ""),
         category: (doc.metadata.category as string) || "unknown",
         score: 0.9, // LangChain doesn't always return scores in the same format
       }));
@@ -227,12 +233,16 @@ RESPONSE:`
 
       // Format sources
       const sources = relevantDocs.map((doc) => ({
-        content: doc.pageContent.substring(0, 200) + (doc.pageContent.length > 200 ? "..." : ""),
+        content:
+          doc.pageContent.substring(0, 200) +
+          (doc.pageContent.length > 200 ? "..." : ""),
         category: (doc.metadata.category as string) || "unknown",
         score: 0.9,
       }));
 
-      console.log(`✅ Generated conversational response with ${sources.length} sources`);
+      console.log(
+        `✅ Generated conversational response with ${sources.length} sources`
+      );
 
       return {
         response: response.trim(),
@@ -250,7 +260,11 @@ RESPONSE:`
   async *queryStream(
     question: string,
     conversationHistory: ConversationMessage[] = []
-  ): AsyncGenerator<{ type: "chunk" | "sources" | "done"; content?: string; sources?: any[] }> {
+  ): AsyncGenerator<{
+    type: "chunk" | "sources" | "done";
+    content?: string;
+    sources?: any[];
+  }> {
     try {
       console.log(`🤖 Processing streaming query: "${question}"`);
 
@@ -280,7 +294,9 @@ RESPONSE:`
 
       // Send sources at the end
       const sources = relevantDocs.map((doc) => ({
-        content: doc.pageContent.substring(0, 200) + (doc.pageContent.length > 200 ? "..." : ""),
+        content:
+          doc.pageContent.substring(0, 200) +
+          (doc.pageContent.length > 200 ? "..." : ""),
         category: (doc.metadata.category as string) || "unknown",
         score: 0.9,
       }));
