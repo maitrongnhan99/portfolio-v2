@@ -103,7 +103,7 @@ expect.extend({
   },
   toBeValidEmbedding(received: number[]) {
     const pass = Array.isArray(received) && 
-                 received.length === 1536 && 
+                 received.length === 768 && 
                  received.every(val => typeof val === 'number' && !isNaN(val));
     if (pass) {
       return {
@@ -112,7 +112,7 @@ expect.extend({
       };
     } else {
       return {
-        message: () => `expected ${received} to be a valid 1536-dimension embedding`,
+        message: () => `expected ${received} to be a valid 768-dimension embedding`,
         pass: false,
       };
     }

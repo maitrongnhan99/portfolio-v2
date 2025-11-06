@@ -18,11 +18,11 @@ export class QdrantVectorStoreService {
       throw new Error("OPENAI_API_KEY environment variable is required");
     }
 
-    // Initialize OpenAI embeddings with 1536 dimensions (default for text-embedding-3-small)
+    // Initialize OpenAI embeddings with 768 dimensions (compatible with database)
     this.embeddings = new OpenAIEmbeddings({
       openAIApiKey: apiKey,
       modelName: "text-embedding-3-small",
-      dimensions: 1536,
+      dimensions: 768,
     });
   }
 
@@ -95,7 +95,7 @@ export class QdrantVectorStoreService {
         // Create collection with proper vector configuration
         await this.qdrantClient.createCollection(this.collectionName, {
           vectors: {
-            size: 1536, // text-embedding-3-small with 1536 dimensions (default)
+            size: 768, // text-embedding-3-small with 768 dimensions (compatible with database)
             distance: "Cosine",
           },
           optimizers_config: {

@@ -16,7 +16,7 @@ export class EmbeddingService {
   /**
    * Generate embedding for a single text using OpenAI's text-embedding-3-small model
    * @param text - The text to generate embedding for
-   * @returns Promise<number[]> - Array of 1536 dimensions
+   * @returns Promise<number[]> - Array of 768 dimensions
    */
   async generateEmbedding(text: string): Promise<number[]> {
     try {
@@ -27,7 +27,7 @@ export class EmbeddingService {
       const response = await this.openai.embeddings.create({
         model: "text-embedding-3-small",
         input: text,
-        dimensions: 1536, // Use 1536 dimensions (default for text-embedding-3-small)
+        dimensions: 768, // Use 768 dimensions (compatible with database)
       });
 
       if (!response.data || response.data.length === 0 || !response.data[0].embedding) {
@@ -37,8 +37,8 @@ export class EmbeddingService {
       const embedding = response.data[0].embedding;
 
       // Validate embedding dimensions
-      if (embedding.length !== 1536) {
-        throw new Error(`Invalid embedding dimensions: expected 1536, got ${embedding.length}`);
+      if (embedding.length !== 768) {
+        throw new Error(`Invalid embedding dimensions: expected 768, got ${embedding.length}`);
       }
 
       return embedding;
@@ -70,7 +70,7 @@ export class EmbeddingService {
       const response = await this.openai.embeddings.create({
         model: "text-embedding-3-small",
         input: validTexts,
-        dimensions: 1536,
+        dimensions: 768,
       });
 
       if (!response.data || response.data.length === 0) {
