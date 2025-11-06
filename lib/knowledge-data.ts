@@ -134,10 +134,10 @@ export const knowledgeBase: KnowledgeChunkData[] = [
     source: "portfolio_projects"
   },
   {
-    content: "Mai developed an AI Assistant feature with RAG (Retrieval-Augmented Generation) system using Google Gemini and MongoDB Atlas Vector Search for intelligent responses.",
+    content: "Mai developed an AI Assistant feature with RAG (Retrieval-Augmented Generation) system using OpenAI and Qdrant Vector Database for intelligent responses.",
     category: "projects",
     priority: 1,
-    tags: ["ai", "rag", "gemini", "mongodb", "vector-search", "intelligent", "assistant"],
+    tags: ["ai", "rag", "openai", "qdrant", "vector-search", "intelligent", "assistant"],
     source: "portfolio_projects"
   },
 

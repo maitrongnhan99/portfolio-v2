@@ -18,9 +18,6 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Custom loader to handle PayloadCMS media URLs
-    loader: "custom",
-    loaderFile: "./lib/image-loader.js",
     remotePatterns: [
       {
         protocol: "http",
@@ -50,11 +47,11 @@ const nextConfig = {
   },
 
   experimental: {
-    reactCompiler: false, // Required by Payload
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  turbopack: {},
   // serverExternalPackages: [
   //   "@react-pdf/renderer",
   //   "detect-libc",

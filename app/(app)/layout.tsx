@@ -1,15 +1,15 @@
 import EnhancedGlowEffect from "@/components/common/enhanced-glow-effect";
+import { ErrorBoundary } from "@/components/common/error-boundary";
 import { Navbar } from "@/components/common/navbar/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
-import { SessionProvider } from "@/components/providers/session-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import OgImage from "@/public/images/og_image.webp";
+import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
 import React from "react";
-import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-mono" });
@@ -83,39 +83,23 @@ export const metadata: Metadata = {
     apple: Favicon.src,
   },
 };
-
-// Dynamic import to avoid IDE issues
-const ErrorBoundary = React.lazy(() =>
-  import("@/components/common/error-boundary").then((module) => ({
-    default: module.ErrorBoundary,
-  }))
-);
-
-export default function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.variable, firaCode.variable)}>
-        <SessionProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem={true}
-            disableTransitionOnChange
-          >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <ErrorBoundary>
-                <EnhancedGlowEffect />
-                <Navbar />
-                {children}
-                <Toaster />
-              </ErrorBoundary>
-            </React.Suspense>
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          disableTransitionOnChange
+        >
+          <ErrorBoundary>
+            <EnhancedGlowEffect />
+            <Navbar />
+            {children}
+            <Toaster />
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   );

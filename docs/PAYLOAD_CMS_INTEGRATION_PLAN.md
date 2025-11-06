@@ -12,7 +12,7 @@ This document outlines the comprehensive plan to integrate Payload CMS into the 
 - **Runtime**: React 19 with TypeScript
 - **Styling**: Tailwind CSS with custom design system
 - **Database**: MongoDB (already configured)
-- **Authentication**: NextAuth.js
+- **Authentication**: PayloadCMS (migrated from NextAuth.js)
 - **Package Manager**: pnpm
 - **Current Features**: Portfolio showcase, contact form, admin assistant, AI chat
 
@@ -211,9 +211,9 @@ export default buildConfig({
 
 #### 3.4 Users Collection
 
-**Purpose**: Content management users (extends existing auth)
+**Purpose**: Content management users (PayloadCMS built-in authentication)
 
-**Integration**: Link with existing NextAuth.js setup
+**Integration**: Uses PayloadCMS built-in authentication system
 
 ### Phase 4: Directory Structure
 
@@ -319,11 +319,7 @@ PAYLOAD_PUBLIC_SERVER_URL=http://localhost:3000
 # Existing variables
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 GEMINI_API_KEY=your_gemini_api_key
-MONGODB_CONNECTION_STRING=your_mongodb_connection_string
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=jPqrp2IvedEpjTPGPiE7RSd3Wki8NgtYlm7GJ3QpJjYL
-ADMIN_EMAIL=mainhan.nm30@gmail.com
-ADMIN_PASSWORD=maitrongnhan99
+POSTGRES_URL=your-vercel-postgres-connection-string
 
 # New Payload variables
 PAYLOAD_SECRET=generate-secure-random-string
@@ -508,8 +504,28 @@ Projects collection will include workflow states:
 
 ---
 
-**Document Version**: 2.0  
+## Migration Status
+
+### ✅ NextAuth Removal (Completed)
+
+NextAuth.js has been successfully removed from the application:
+
+- **Package Removal**: `next-auth` package removed from dependencies
+- **File Cleanup**: All NextAuth configuration and implementation files deleted
+- **Component Updates**: Admin components updated to remove NextAuth dependencies
+- **Environment**: NextAuth environment variables removed from .env.example
+- **Authentication**: Now relies exclusively on PayloadCMS built-in authentication
+
+### 🔄 Remaining Tasks
+
+- Implement PayloadCMS session management in dashboard layout
+- Update login page to use PayloadCMS authentication endpoint
+- Test authentication flow with PayloadCMS
+
+---
+
+**Document Version**: 2.1  
 **Plan Status**: ✅ APPROVED  
 **Created**: 2024-01-01  
-**Last Updated**: 2024-01-01  
+**Last Updated**: 2024-11-06  
 **Author**: Claude Code Assistant
