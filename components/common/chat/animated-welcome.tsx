@@ -181,7 +181,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                   {char === ' ' ? '\u00A0' : char}
                 </motion.span>
               ))}
-              <motion.span
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ 
@@ -189,11 +189,9 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                   duration: 1,
                   delay: displayedText.length * 0.03 + 0.2
                 }}
-                className="text-primary inline-block"
-                style={{ marginLeft: '2px' }}
-              >
-                |
-              </motion.span>
+                className="bg-primary inline-block w-0.5 h-7 ml-0.5"
+                style={{ verticalAlign: 'text-bottom' }}
+              />
             </motion.h1>
           ) : (
             <motion.div

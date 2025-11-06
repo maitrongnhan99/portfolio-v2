@@ -5,6 +5,18 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
+ * GET /api/ai-assistant/chat
+ * Health check endpoint for connection status
+ */
+export async function GET() {
+  return NextResponse.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    service: "ai-assistant-chat"
+  });
+}
+
+/**
  * POST /api/ai-assistant/chat
  * Handle chat requests with RAG
  */

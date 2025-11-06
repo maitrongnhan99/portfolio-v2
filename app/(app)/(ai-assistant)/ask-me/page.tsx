@@ -1,28 +1,13 @@
 "use client";
 
-import {
-  ChatInput,
-  ChatMessage,
-  TypingIndicator,
-  type ChatInputRef,
-} from "@/components/common/chat";
+import { AskMeComposer } from "@/components/common/ai-assistant/askme-composer";
+import { AskMeDeleteModal } from "@/components/common/ai-assistant/askme-delete-modal";
+import { AskMeHeaderBar } from "@/components/common/ai-assistant/askme-header-bar";
+import { AskMeKeyboardShortcuts } from "@/components/common/ai-assistant/askme-keyboard-shortcuts";
+import { AskMeMessagesView } from "@/components/common/ai-assistant/askme-messages-view";
+import { type ChatInputRef } from "@/components/common/chat";
 import { ChatControlsSidebar } from "@/components/common/chat/chat-controls-sidebar";
-import { ChatControlsToggle } from "@/components/common/chat/chat-controls-toggle";
-import { ChatHeader } from "@/components/common/chat/chat-header";
-import { ConnectionStatus } from "@/components/common/chat/connection-status";
-import {
-  ProgressLoadingSkeleton,
-  SuggestionsLoadingSkeleton,
-  WelcomeLoadingSkeleton,
-} from "@/components/common/chat/loading-skeletons";
 import { AskMeStructuredData } from "@/components/common/seo/ask-me-structured-data";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { ChatProvider, useChatContext } from "@/contexts/chat-context";
 import { useChatMessages } from "@/hooks/use-chat-messages";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
@@ -35,19 +20,9 @@ import {
   createUpdatedConversation,
   getConversationHistory,
 } from "@/lib/chat-utils";
-import { ArrowDownIcon, ArrowLeftIcon } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { lazy, useCallback, useEffect, useRef, useState } from "react";
 
-// Lazy load heavy components
+// Lazy load heavy components (kept for types/consumers still in this file)
 const AnimatedWelcome = lazy(() =>
   import("@/components/common/chat/animated-welcome").then((module) => ({
     default: module.AnimatedWelcome,
@@ -71,11 +46,6 @@ const QuickActions = lazy(() =>
 const ProjectShowcase = lazy(() =>
   import("@/components/common/chat/project-showcase").then((module) => ({
     default: module.ProjectShowcase,
-  }))
-);
-const DeleteConfirmModal = lazy(() =>
-  import("@/components/common/chat/delete-confirm-modal").then((module) => ({
-    default: module.DeleteConfirmModal,
   }))
 );
 
@@ -475,25 +445,20 @@ function AskMePageContent() {
       className="h-screen bg-navy flex flex-col"
       style={{ backgroundColor: "#0b192f" }}
     >
-      {/* Header with ChatHeader and Controls Toggle */}
-      <div className="border-b border-navy-lighter bg-navy-light/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
-          <ChatHeader currentConversation={currentConversation} />
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Link
-              href="/"
-              className="relative p-2.5 rounded-lg bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              aria-label="Back to Portfolio"
-            >
-              <ArrowLeftIcon className="w-5 h-5" />
-            </Link>
-            <ChatControlsToggle
-              isOpen={showControlsSidebar}
-              onClick={() => setShowControlsSidebar(!showControlsSidebar)}
-            />
-          </div>
-        </div>
-      </div>
+      <AskMeHeaderBar
+        currentConversation={currentConversation}
+        isSidebarOpen={showControlsSidebar}
+        onToggleSidebar={() => setShowControlsSidebar(!showControlsSidebar)}
+      />
+
+      <AskMeKeyboardShortcuts
+        messagesLength={messages.length}
+        isSidebarOpen={showControlsSidebar}
+        setShowSearchDialog={setShowSearchDialog}
+        setShowControlsSidebar={setShowControlsSidebar}
+        onSaveConversation={handleSaveConversation}
+        onNewConversation={handleNewConversation}
+      />
 
       {/* Controls Sidebar */}
       <ChatControlsSidebar
@@ -513,188 +478,43 @@ function AskMePageContent() {
         isOnline={connectionStatus.isOnline}
       />
 
-      {/* Chat Messages */}
-      <div className="flex-1 flex flex-col overflow-hidden relative">
-        <ScrollArea ref={scrollViewportRef} className="flex-1">
-          <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-4xl">
-            {/* Show welcome animation and enhanced suggestions when no conversation started */}
-            {showWelcome && (
-              <Suspense fallback={<WelcomeLoadingSkeleton />}>
-                <AnimatedWelcome onComplete={handleWelcomeComplete} />
-              </Suspense>
-            )}
+      <AskMeMessagesView
+        showWelcome={showWelcome}
+        showEnhancedSuggestions={showEnhancedSuggestions}
+        conversationMetadata={conversationMetadata}
+        messages={messages}
+        isTyping={isTyping}
+        streamingState={streamingState}
+        onSendMessage={handleSendMessage}
+        scrollViewportRef={scrollViewportRef}
+        messagesEndRef={messagesEndRef}
+        scrollState={scrollState}
+        scrollToBottom={scrollToBottom}
+        onWelcomeComplete={handleWelcomeComplete}
+      />
 
-            {showEnhancedSuggestions && (
-              <Suspense fallback={<SuggestionsLoadingSkeleton />}>
-                <EnhancedSuggestions
-                  onSendMessage={handleSendMessage}
-                  timestamp={new Date()}
-                />
-                <QuickActions
-                  onSendMessage={handleSendMessage}
-                  isVisible={true}
-                />
-                <ProjectShowcase
-                  onSendMessage={handleSendMessage}
-                  isVisible={true}
-                />
-              </Suspense>
-            )}
-
-            {/* Show conversation progress after first message */}
-            {conversationMetadata.conversationStartTime &&
-              conversationMetadata.userMessageCount > 0 && (
-                <Suspense fallback={<ProgressLoadingSkeleton />}>
-                  <ConversationProgress
-                    messageCount={conversationMetadata.userMessageCount}
-                    conversationStartTime={
-                      conversationMetadata.conversationStartTime
-                    }
-                    topicsExplored={conversationMetadata.topicsExplored}
-                    isVisible={true}
-                  />
-                </Suspense>
-              )}
-
-            {/* Show conversation messages */}
-            {messages.map((message) => (
-              <ChatMessage
-                key={message.id}
-                message={message.text}
-                isUser={message.isUser}
-                timestamp={message.timestamp}
-                isStreaming={message.isStreaming}
-                streamingComplete={message.streamingComplete}
-                sources={message.sources}
-              />
-            ))}
-
-            {isTyping && <TypingIndicator />}
-            {streamingState.isStreaming && !isTyping && (
-              <div className="flex items-center gap-2 text-sm text-slate/70 mb-4">
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                Streaming response...
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-        </ScrollArea>
-
-        {/* Scroll to bottom button */}
-        {scrollState.showScrollButton && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToBottom}
-            className="absolute bottom-4 right-4 w-10 h-10 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg"
-            title="Scroll to bottom"
-          >
-            <ArrowDownIcon className="w-5 h-5 text-primary" />
-          </motion.button>
-        )}
-
-        {/* Chat Input */}
-        <div className="border-t border-navy-lighter bg-navy/50 backdrop-blur-sm p-3 sm:p-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Controls */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 mb-3">
-              <TooltipProvider>
-                <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-                  {/* Streaming toggle */}
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={toggleStreaming}
-                        className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                          chatSettings.useStreaming
-                            ? "bg-primary/20 text-primary border border-primary/30"
-                            : "bg-slate/10 text-slate border border-slate/20"
-                        }`}
-                      >
-                        <span className="sm:hidden">
-                          {chatSettings.useStreaming ? "Stream" : "No Stream"}
-                        </span>
-                        <span className="hidden sm:inline">
-                          {chatSettings.useStreaming
-                            ? "Streaming ON"
-                            : "Streaming OFF"}
-                        </span>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-navy-light border-navy-lighter">
-                      <p className="text-xs text-slate-light">
-                        {chatSettings.useStreaming
-                          ? "Real-time responses"
-                          : "Complete responses"}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-
-                  {/* Auto-save toggle */}
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={toggleAutoSave}
-                        className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
-                          chatSettings.autoSave
-                            ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                            : "bg-slate/10 text-slate border border-slate/20"
-                        }`}
-                      >
-                        <span className="sm:hidden">
-                          {chatSettings.autoSave ? "Auto" : "Manual"}
-                        </span>
-                        <span className="hidden sm:inline">
-                          {chatSettings.autoSave
-                            ? "Auto-save ON"
-                            : "Auto-save OFF"}
-                        </span>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-navy-light border-navy-lighter">
-                      <p className="text-xs text-slate-light">
-                        {chatSettings.autoSave
-                          ? "Saves automatically"
-                          : "Manual save only"}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </TooltipProvider>
-
-              <div className="flex flex-col items-center gap-2">
-                <ConnectionStatus
-                  showDetails={true}
-                  defaultShowStatusBar={false}
-                />
-              </div>
-            </div>
-
-            <ChatInput
-              ref={chatInputRef}
-              onSendMessage={handleSendMessage}
-              disabled={isTyping || streamingState.isStreaming}
-              placeholder="Ask me about Mai's skills, experience, projects, or anything else..."
-            />
-          </div>
-        </div>
-      </div>
+      <AskMeComposer
+        chatInputRef={chatInputRef}
+        onSendMessage={handleSendMessage}
+        isTyping={isTyping}
+        streamingState={streamingState}
+        chatSettings={chatSettings}
+        toggleStreaming={toggleStreaming}
+        toggleAutoSave={toggleAutoSave}
+      />
 
       {/* Delete Confirmation Modal */}
       {deleteConversationId && (
-        <Suspense fallback={null}>
-          <DeleteConfirmModal
-            open={!!deleteConversationId}
-            onOpenChange={(open) => !open && setDeleteConversationId(null)}
-            conversationTitle={
-              conversations.find((c) => c.id === deleteConversationId)?.title
-            }
-            onConfirm={confirmDelete}
-            onCancel={() => setDeleteConversationId(null)}
-            isDeleting={isDeleting}
-          />
-        </Suspense>
+        <AskMeDeleteModal
+          open={!!deleteConversationId}
+          onOpenChange={(open) => !open && setDeleteConversationId(null)}
+          conversationTitle={
+            conversations.find((c) => c.id === deleteConversationId)?.title
+          }
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteConversationId(null)}
+          isDeleting={isDeleting}
+        />
       )}
     </main>
   );

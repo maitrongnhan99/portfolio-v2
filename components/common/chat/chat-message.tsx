@@ -97,7 +97,7 @@ const ChatMessageComponent = ({
           
           {/* Streaming cursor effect */}
           {isStreaming && (
-            <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse ml-1"></span>
+            <span className="inline-block w-0.5 h-5 bg-primary animate-pulse ml-1" style={{ verticalAlign: 'text-bottom' }}></span>
           )}
           
           {/* Empty message placeholder for streaming */}
