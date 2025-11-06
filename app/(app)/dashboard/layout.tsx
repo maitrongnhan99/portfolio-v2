@@ -1,6 +1,5 @@
 import { AdminHeader } from "@/components/admin/layout/admin-header";
 import { AdminSidebar } from "@/components/admin/layout/admin-sidebar";
-import { getAuthSession } from "@/lib/auth/middleware";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -18,15 +17,16 @@ export default async function AdminLayout({
     return <>{children}</>;
   }
 
-  const session = await getAuthSession();
-
-  if (!session || session.user?.role !== "admin") {
-    redirect("/dashboard/login");
-  }
+  // TODO: Implement PayloadCMS session check
+  // For now, we'll use a temporary user object
+  const user = {
+    email: "admin@example.com",
+    name: "Admin User"
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <AdminHeader user={session.user} />
+      <AdminHeader user={user} />
       <div className="flex flex-1">
         <AdminSidebar />
         <main className="flex-1 p-6">{children}</main>

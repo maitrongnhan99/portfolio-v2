@@ -1,7 +1,6 @@
 "use client";
 
 import { FC, useCallback } from "react";
-import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -25,7 +24,7 @@ const AdminHeader: FC<AdminHeaderProps> = ({ user }) => {
   const { theme, setTheme } = useTheme();
 
   const handleSignOut = useCallback(async () => {
-    await signOut({ redirect: false });
+    // Clear any local session data if needed
     router.push("/dashboard/login");
   }, [router]);
 

@@ -92,7 +92,7 @@ export default function AskMePage() {
 
 function AskMePageContent() {
   const chatInputRef = useRef<ChatInputRef>(null);
-  
+
   const {
     showWelcome,
     setShowWelcome,
@@ -389,7 +389,7 @@ function AskMePageContent() {
   const handleSendMessage = async (text: string) => {
     // Focus the input when a suggestion is clicked
     chatInputRef.current?.focus();
-    
+
     // Hide welcome elements after first user interaction
     setShowWelcome(false);
     setShowEnhancedSuggestions(false);
@@ -475,9 +475,6 @@ function AskMePageContent() {
       className="h-screen bg-navy flex flex-col"
       style={{ backgroundColor: "#0b192f" }}
     >
-      {/* Connection Status */}
-      <ConnectionStatus />
-
       {/* Header with ChatHeader and Controls Toggle */}
       <div className="border-b border-navy-lighter bg-navy-light/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">

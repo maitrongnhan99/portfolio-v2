@@ -1,7 +1,6 @@
 "use client";
 
 import { FC, useState, useCallback } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,13 +21,17 @@ const AdminLoginPage: FC = () => {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      // TODO: Implement PayloadCMS authentication
+      // This will be handled by PayloadCMS login endpoint
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (result?.error) {
+      if (!response.ok) {
         setError("Invalid email or password");
       } else {
         router.push("/dashboard/assistant");
