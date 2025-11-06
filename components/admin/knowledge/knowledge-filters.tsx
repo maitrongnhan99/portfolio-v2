@@ -1,6 +1,7 @@
-import { FC } from "react";
-import { ArrowsClockwise } from "@phosphor-icons/react";
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,13 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { KNOWLEDGE_CATEGORIES } from "@/lib/admin/constants";
+import { ArrowsClockwiseIcon } from "@phosphor-icons/react";
+import { FC } from "react";
 
 interface KnowledgeFiltersProps {
   search: string;
@@ -73,12 +70,8 @@ const KnowledgeFilters: FC<KnowledgeFiltersProps> = ({
               <SelectItem value="metadata.priority">Priority</SelectItem>
             </SelectContent>
           </Select>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onRefresh}
-          >
-            <ArrowsClockwise className="h-4 w-4" />
+          <Button variant="outline" size="icon" onClick={onRefresh}>
+            <ArrowsClockwiseIcon className="h-4 w-4" />
           </Button>
         </div>
       </CardContent>
