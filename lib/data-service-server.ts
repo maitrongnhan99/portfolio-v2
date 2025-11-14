@@ -26,12 +26,13 @@ const getImageUrl = (imageField: any): string => {
     // First priority: direct publicUrl from the hook, but fix the path if needed
     if (imageField.publicUrl) {
       // Remove /media/ prefix if it exists in the publicUrl
-      return imageField.publicUrl.replace('/media/', '/');
+      return imageField.publicUrl.replace("/media/", "/");
     }
 
     // Second priority: construct correct Vercel Blob URL from filename
     if (imageField.filename) {
-      const blobDomain = "https://xiaw58us2q2emqf3.public.blob.vercel-storage.com";
+      const blobDomain =
+        "https://xiaw58us2q2emqf3.public.blob.vercel-storage.com";
       return `${blobDomain}/${imageField.filename}`;
     }
 
@@ -71,11 +72,11 @@ const getProjectsFromPayload = async (): Promise<Project[]> => {
       technologies: doc.technologies?.map((tech: any) => tech.technology) || [],
       features: doc.features?.map((feature: any) => feature.feature) || [],
       challenges: doc.challenges,
+      solutions: doc.solutions,
       date: doc.date,
       liveUrl: doc.liveUrl,
       githubUrl: doc.githubUrl,
-      gallery:
-        doc.gallery?.map((item: any) => getImageUrl(item.image)) || [],
+      gallery: doc.gallery?.map((item: any) => getImageUrl(item.image)) || [],
       featured: doc.featured || false,
       status: doc.status,
     }));

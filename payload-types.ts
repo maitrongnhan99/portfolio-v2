@@ -193,6 +193,24 @@ export interface Project {
     [k: string]: unknown;
   } | null;
   /**
+   * Solutions implemented and technical approaches taken
+   */
+  solutions?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
    * Main project image
    */
   image?: (number | null) | Media;
@@ -449,6 +467,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   challenges?: T;
+  solutions?: T;
   image?: T;
   gallery?:
     | T
