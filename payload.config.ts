@@ -149,7 +149,7 @@ export default buildConfig({
         },
         {
           name: "challenges",
-          type: "textarea",
+          type: "richText",
           admin: {
             description: "Challenges faced and how they were solved",
           },

@@ -1,6 +1,5 @@
 "use client";
 
-import AnimatedGradient from "@/components/common/animated-gradient";
 import ScrollReveal from "@/components/common/scroll-reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,8 +28,6 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
       data-testid="project-page"
       className="min-h-screen bg-navy relative pt-20 pb-16"
     >
-      <AnimatedGradient className="opacity-80" />
-
       <div className="container px-4 md:px-6 relative z-10">
         <div className="mb-8">
           <Button
@@ -73,7 +70,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
 
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
-            <ScrollReveal>
+            {/* <ScrollReveal>
               <div
                 data-testid="project-gallery"
                 className="relative aspect-video overflow-hidden rounded-xl border mb-8"
@@ -85,7 +82,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                   className="object-cover"
                 />
               </div>
-            </ScrollReveal>
+            </ScrollReveal> */}
 
             <ScrollReveal delay={0.1}>
               <div className="space-y-6">
@@ -144,10 +141,22 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                     <h2 className="text-2xl font-semibold mb-4 text-slate-200">
                       Challenges & Solutions
                     </h2>
-                    <p
-                      className="text-slate-300 whitespace-pre-wrap"
-                      dangerouslySetInnerHTML={{ __html: project.challenges }}
-                    />
+
+                    {project.challenges && (
+                      <div className="mt-4 text-slate-300">
+                        {typeof project.challenges === "string" ? (
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: project.challenges,
+                            }}
+                          />
+                        ) : (
+                          <RichText
+                            data={project.challenges as SerializedEditorState}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

@@ -177,7 +177,21 @@ export interface Project {
   /**
    * Challenges faced and how they were solved
    */
-  challenges?: string | null;
+  challenges?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Main project image
    */

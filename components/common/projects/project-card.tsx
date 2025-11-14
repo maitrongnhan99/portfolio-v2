@@ -1,8 +1,8 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRightIcon, StarIcon } from "@phosphor-icons/react";
 import { Project } from "@/lib/data-service";
+import { ArrowUpRightIcon, StarIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface ProjectCardProps {
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   const [imageError, setImageError] = useState(false);
-  
+
   return (
     <motion.div
       className="group relative"
@@ -25,18 +25,21 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       <div className="flex flex-col md:flex-row gap-6 md:gap-10">
         <Link
           href={`/project/${project.slug}`}
-          className="block md:w-2/5 relative overflow-hidden rounded-lg border border-navy-lighter"
+          className="block md:w-2/5 relative overflow-hidden"
         >
-          <div className="aspect-video relative overflow-hidden">
+          <div className="aspect-video h-full relative overflow-hidden">
             <Image
-              src={imageError ? "/placeholder.svg" : (project.image || "/placeholder.svg")}
+              src={
+                imageError
+                  ? "/placeholder.svg"
+                  : project.image || "/placeholder.svg"
+              }
               alt={project.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-contain transition-transform duration-500 group-hover:scale-105"
               onError={() => setImageError(true)}
               onLoad={() => setImageError(false)}
             />
-            <div className="absolute inset-0 bg-navy/80 opacity-40 group-hover:opacity-20 transition-opacity duration-300"></div>
           </div>
         </Link>
 
@@ -67,7 +70,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
               <Badge
                 key={tech}
                 variant="outline"
-                className="bg-navy-light border-navy-lighter text-slate-light px-3 py-1"
+                className="bg-navy-light border-primary/20 text-slate-light px-3 py-1"
               >
                 {tech}
               </Badge>

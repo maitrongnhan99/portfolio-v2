@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DownloadIcon, GithubLogoIcon, LinkIcon } from "@phosphor-icons/react";
 import { sanitizeUrl } from "@/lib/validation";
+import { DownloadIcon, GithubLogoIcon, LinkIcon } from "@phosphor-icons/react";
 import NextLink from "next/link";
 import { FC } from "react";
 
@@ -24,11 +24,11 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary p-0"
+          className="text-slate-light hover:text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(liveUrl)} target="_blank">
             <LinkIcon className="h-4 w-4 mr-2" />
-            Demo
+            View website
           </NextLink>
         </Button>
       )}
@@ -38,7 +38,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary p-0"
+          className="text-slate-light hover:text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(githubUrl)} target="_blank">
             <GithubLogoIcon className="h-4 w-4 mr-2" />
@@ -52,7 +52,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary p-0"
+          className="text-slate-light hover:text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(liveUrl || "#")} target="_blank">
             <DownloadIcon className="h-4 w-4 mr-2" />
