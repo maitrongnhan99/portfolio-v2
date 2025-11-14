@@ -139,24 +139,44 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                 {project.challenges && (
                   <div data-testid="project-challenges">
                     <h2 className="text-2xl font-semibold mb-4 text-slate-200">
-                      Challenges & Solutions
+                      Challenges
                     </h2>
 
-                    {project.challenges && (
-                      <div className="mt-4 text-slate-300">
-                        {typeof project.challenges === "string" ? (
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: project.challenges,
-                            }}
-                          />
-                        ) : (
-                          <RichText
-                            data={project.challenges as SerializedEditorState}
-                          />
-                        )}
-                      </div>
-                    )}
+                    <div className="mt-4 text-slate-300">
+                      {typeof project.challenges === "string" ? (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: project.challenges,
+                          }}
+                        />
+                      ) : (
+                        <RichText
+                          data={project.challenges as SerializedEditorState}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {project.solutions && (
+                  <div data-testid="project-solutions">
+                    <h2 className="text-2xl font-semibold mb-4 text-slate-200">
+                      Solutions
+                    </h2>
+
+                    <div className="mt-4 text-slate-300">
+                      {typeof project.solutions === "string" ? (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: project.solutions,
+                          }}
+                        />
+                      ) : (
+                        <RichText
+                          data={project.solutions as SerializedEditorState}
+                        />
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

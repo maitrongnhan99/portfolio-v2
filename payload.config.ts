@@ -155,6 +155,13 @@ export default buildConfig({
           },
         },
         {
+          name: "solutions",
+          type: "richText",
+          admin: {
+            description: "Solutions implemented and technical approaches taken",
+          },
+        },
+        {
           name: "image",
           type: "upload",
           relationTo: "media",
