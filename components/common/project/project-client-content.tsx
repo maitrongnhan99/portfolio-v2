@@ -5,6 +5,8 @@ import ScrollReveal from "@/components/common/scroll-reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { sanitizeUrl } from "@/lib/validation";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 import {
   ArrowLeftIcon,
   CalendarIcon,
@@ -16,8 +18,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-import { RichText } from "@payloadcms/richtext-lexical/react";
-import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 interface ProjectClientContentProps {
   project: any;
@@ -105,7 +105,9 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                           />
                         ) : (
                           <RichText
-                            data={project.longDescription as SerializedEditorState}
+                            data={
+                              project.longDescription as SerializedEditorState
+                            }
                           />
                         )}
                       </div>
@@ -142,7 +144,10 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                     <h2 className="text-2xl font-semibold mb-4 text-slate-200">
                       Challenges & Solutions
                     </h2>
-                    <p className="text-slate-300">{project.challenges}</p>
+                    <p
+                      className="text-slate-300 whitespace-pre-wrap"
+                      dangerouslySetInnerHTML={{ __html: project.challenges }}
+                    />
                   </div>
                 )}
               </div>
