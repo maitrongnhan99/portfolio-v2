@@ -62,7 +62,7 @@ export default function AnimatedShapes({
             height: shape.size,
             backgroundColor: "transparent",
             borderRadius:
-              shape.type === 0 ? "50%" : shape.type === 1 ? "0%" : "30%",
+              shape.type === 0 ? "50%" : shape.type === 1 ? "10%" : "30%",
             border: `2px solid ${shape.color}`,
             opacity: 0.7,
           }}

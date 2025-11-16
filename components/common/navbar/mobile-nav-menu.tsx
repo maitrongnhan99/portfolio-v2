@@ -70,7 +70,8 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
             </ol>
           </When>
           <div className="flex flex-col space-y-4">
-            <motion.div
+            {/* TODO: Uncomment when resume feature is implemented */}
+            {/* <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.3 }}
@@ -84,7 +85,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
                   Resume
                 </Link>
               </Button>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </motion.div>

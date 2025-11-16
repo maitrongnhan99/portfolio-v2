@@ -36,12 +36,27 @@ export default function About() {
                 backend development, I create seamless, responsive, and
                 user-friendly applications.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-6">
                 My journey in web development started 5 years ago, and since
                 then, I&apos;ve worked on various projects ranging from small
                 business websites to complex enterprise applications. I&apos;m
                 constantly learning and adapting to new technologies to deliver
                 the best solutions.
+              </p>
+              <p className="text-muted-foreground mb-6">
+                I&apos;m particularly passionate about integrating AI technologies 
+                into modern applications. I integrate LLMs and SDKs like OpenAI SDK, 
+                Claude SDK, and other cutting-edge AI tools to provide intelligent 
+                features for projects. From implementing chatbot functions to building 
+                RAG systems and AI-powered user experiences, I bridge the gap between 
+                traditional web development and the exciting world of artificial intelligence.
+              </p>
+              <p className="text-muted-foreground">
+                My approach to AI integration focuses on creating practical, 
+                user-centric solutions that enhance functionality while maintaining 
+                performance and reliability. I stay at the forefront of AI developments, 
+                continuously exploring new models, APIs, and techniques to deliver 
+                innovative digital experiences that truly make a difference.
               </p>
             </ScrollReveal>
 

@@ -1,20 +1,16 @@
 "use client";
 
+import { ProjectGallery } from "@/components/common/project/project-gallery";
+import { ProjectSidebar } from "@/components/common/project/project-sidebar";
 import ScrollReveal from "@/components/common/scroll-reveal";
-import { Badge } from "@/components/ui/badge";
+import { TechnologyBadges } from "@/components/common/technology-badges";
 import { Button } from "@/components/ui/button";
-import { sanitizeUrl } from "@/lib/validation";
+import { ShootingStars } from "@/components/ui/shooting-stars";
+import { StarsBackground } from "@/components/ui/stars-background";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import {
-  ArrowLeftIcon,
-  CalendarIcon,
-  GithubLogoIcon as Github,
-  LinkIcon,
-  TagIcon,
-} from "@phosphor-icons/react";
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 
@@ -27,6 +23,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
     <main
       data-testid="project-page"
       className="min-h-screen bg-navy relative pt-20 pb-16"
+      style={{ backgroundColor: "#0b192f" }}
     >
       <div className="container px-4 md:px-6 relative z-10">
         <div className="mb-8">
@@ -56,34 +53,17 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             {project.title}
           </motion.h1>
 
-          <div
-            data-testid="project-tech-badges"
-            className="flex flex-wrap gap-3 mb-6"
-          >
-            {project.technologies.map((tech: string) => (
-              <Badge key={tech} variant="secondary">
-                {tech}
-              </Badge>
-            ))}
-          </div>
+          <TechnologyBadges
+            technologies={project.technologies}
+            variant="secondary"
+            className="mb-6"
+            animated
+            testId="project-tech-badges"
+          />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
-            {/* <ScrollReveal>
-              <div
-                data-testid="project-gallery"
-                className="relative aspect-video overflow-hidden rounded-xl border mb-8"
-              >
-                <Image
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </ScrollReveal> */}
-
             <ScrollReveal delay={0.1}>
               <div className="space-y-6">
                 <div>
@@ -93,7 +73,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                   <div className="prose dark:prose-invert max-w-none text-slate-300">
                     <p>{project.description}</p>
                     {project.longDescription && (
-                      <div className="mt-4">
+                      <div className="mt-4 whitespace-pre-wrap">
                         {typeof project.longDescription === "string" ? (
                           <p
                             dangerouslySetInnerHTML={{
@@ -101,16 +81,23 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                             }}
                           />
                         ) : (
-                          <RichText
-                            data={
-                              project.longDescription as SerializedEditorState
-                            }
-                          />
+                          <div className="[&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6 [&_li]:my-1 [&_li]:text-slate-300 [&_p]:text-slate-300 [&_p]:mb-4 [&_h1]:text-slate-200 [&_h2]:text-slate-200 [&_h3]:text-slate-200 [&_h4]:text-slate-200 [&_h5]:text-slate-200 [&_h6]:text-slate-200">
+                            <RichText
+                              data={
+                                project.longDescription as SerializedEditorState
+                              }
+                            />
+                          </div>
                         )}
                       </div>
                     )}
                   </div>
                 </div>
+
+                <ProjectGallery
+                  gallery={project.gallery}
+                  projectTitle={project.title}
+                />
 
                 {project.features && (
                   <div data-testid="project-features">
@@ -127,7 +114,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.1 * index, duration: 0.5 }}
                           >
-                            <span className="text-primary mt-1">•</span>
+                            <span className="text-primary">•</span>
                             <span className="text-slate-300">{feature}</span>
                           </motion.li>
                         )
@@ -142,7 +129,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                       Challenges
                     </h2>
 
-                    <div className="mt-4 text-slate-300">
+                    <div className="mt-4 text-slate-300 whitespace-pre-wrap">
                       {typeof project.challenges === "string" ? (
                         <p
                           dangerouslySetInnerHTML={{
@@ -150,9 +137,11 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                           }}
                         />
                       ) : (
-                        <RichText
-                          data={project.challenges as SerializedEditorState}
-                        />
+                        <div className="[&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6 [&_li]:my-1 [&_li]:text-slate-300 [&_p]:text-slate-300 [&_p]:mb-4 [&_h1]:text-slate-200 [&_h2]:text-slate-200 [&_h3]:text-slate-200 [&_h4]:text-slate-200 [&_h5]:text-slate-200 [&_h6]:text-slate-200">
+                          <RichText
+                            data={project.challenges as SerializedEditorState}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
@@ -172,154 +161,27 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                           }}
                         />
                       ) : (
-                        <RichText
-                          data={project.solutions as SerializedEditorState}
-                        />
+                        <div className="[&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6 [&_li]:my-1 [&_li]:text-slate-300 [&_p]:text-slate-300 [&_p]:mb-4 [&_h1]:text-slate-200 [&_h2]:text-slate-200 [&_h3]:text-slate-200 [&_h4]:text-slate-200 [&_h5]:text-slate-200 [&_h6]:text-slate-200">
+                          <RichText
+                            data={project.solutions as SerializedEditorState}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
                 )}
               </div>
             </ScrollReveal>
-
-            {project.gallery && project.gallery.length > 0 && (
-              <ScrollReveal delay={0.2}>
-                <div className="mt-12">
-                  <h2 className="text-2xl font-semibold mb-6 text-slate-200">
-                    Gallery
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {project.gallery.map((image: string, index: number) => (
-                      <motion.div
-                        key={index}
-                        className="relative aspect-video rounded-lg overflow-hidden border"
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Image
-                          src={image || "/placeholder.svg"}
-                          alt={`${project.title} screenshot ${index + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            )}
           </div>
 
-          <div>
-            <div className="sticky top-24">
-              <ScrollReveal direction="right">
-                <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-4 text-slate-200">
-                    Project Details
-                  </h3>
-
-                  <div className="space-y-4">
-                    {project.date && (
-                      <div className="flex items-center gap-2">
-                        <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-slate-300">
-                          {project.date}
-                        </span>
-                      </div>
-                    )}
-
-                    {project.category && (
-                      <div className="flex items-center gap-2">
-                        <TagIcon className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-slate-300">
-                          {project.category}
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="pt-4 space-y-3">
-                      {project.liveUrl && (
-                        <Button
-                          asChild
-                          className="w-full"
-                          data-testid="project-demo-link"
-                        >
-                          <Link
-                            href={sanitizeUrl(project.liveUrl)}
-                            target="_blank"
-                          >
-                            <LinkIcon className="mr-2 h-4 w-4" />
-                            View Live Demo
-                          </Link>
-                        </Button>
-                      )}
-
-                      {project.githubUrl && (
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="w-full"
-                          data-testid="project-github-link"
-                        >
-                          <Link
-                            href={sanitizeUrl(project.githubUrl)}
-                            target="_blank"
-                          >
-                            <Github className="mr-2 h-4 w-4" />
-                            View Source Code
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              {project.relatedProjects &&
-                project.relatedProjects.length > 0 && (
-                  <ScrollReveal direction="right" delay={0.1}>
-                    <div
-                      data-testid="related-projects"
-                      className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6 shadow-sm mt-6"
-                    >
-                      <h3 className="text-lg font-semibold mb-4 text-slate-200">
-                        Related Projects
-                      </h3>
-                      <div className="space-y-3">
-                        {project.relatedProjects.map((related: any) => (
-                          <Link
-                            key={related.slug}
-                            href={`/project/${related.slug}`}
-                            className="block"
-                          >
-                            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-slate-700/50 transition-colors">
-                              <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
-                                <Image
-                                  src={related.image || "/placeholder.svg"}
-                                  alt={related.title}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                              <div>
-                                <h4 className="text-sm font-medium text-slate-200">
-                                  {related.title}
-                                </h4>
-                                <p className="text-xs text-slate-400">
-                                  {related.category}
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </ScrollReveal>
-                )}
-            </div>
+          <div className="relative">
+            <ProjectSidebar project={project} />
           </div>
         </div>
       </div>
+
+      <ShootingStars />
+      <StarsBackground />
     </main>
   );
 };

@@ -1,8 +1,8 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import { TechnologyBadges } from "@/components/common/technology-badges";
 import { Project } from "@/lib/data-service";
-import { ArrowUpRightIcon, StarIcon } from "@phosphor-icons/react";
+import { StarIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +51,6 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
                 className="flex items-center gap-2"
               >
                 {project.title}
-                <ArrowUpRightIcon className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
             </h3>
 
@@ -65,17 +64,11 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
           <p className="text-slate mb-4">{project.description}</p>
 
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.technologies.map((tech) => (
-              <Badge
-                key={tech}
-                variant="outline"
-                className="bg-navy-light border-primary/20 text-slate-light px-3 py-1"
-              >
-                {tech}
-              </Badge>
-            ))}
-          </div>
+          <TechnologyBadges
+            technologies={project.technologies}
+            variant="outline"
+            className="mb-4"
+          />
 
           <ProjectLinks
             liveUrl={project.liveUrl}
