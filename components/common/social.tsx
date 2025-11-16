@@ -1,6 +1,7 @@
 "use client";
 
 import { DEFAULT_DURATION } from "@/constants/animation-configs";
+import { PROFILE } from "@/constants/profile";
 import { cn } from "@/lib/utils";
 import {
   FacebookLogoIcon,
@@ -19,22 +20,22 @@ interface SocialProps {
 const socialLinks = [
   {
     icon: <GithubLogoIcon className="w-5 h-5" />,
-    href: "https://github.com/maitrongnhan99",
+    href: PROFILE.github.url,
     label: "GitHub",
   },
   {
     icon: <LinkedinLogoIcon className="w-5 h-5" />,
-    href: "https://www.linkedin.com/in/maitrongnhan/",
+    href: PROFILE.linkedin.url,
     label: "LinkedIn",
   },
   {
     icon: <InstagramLogoIcon className="w-5 h-5" />,
-    href: "https://instagram.com/maitrongnhan.007",
+    href: PROFILE.instagram.url,
     label: "Instagram",
   },
   {
     icon: <FacebookLogoIcon className="w-5 h-5" />,
-    href: "https://www.facebook.com/maitrongnhan07",
+    href: PROFILE.facebook.url,
     label: "Facebook",
   },
 ];

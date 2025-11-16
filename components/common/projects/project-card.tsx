@@ -25,9 +25,9 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       <div className="flex flex-col md:flex-row gap-6 md:gap-10">
         <Link
           href={`/project/${project.slug}`}
-          className="block md:w-2/5 relative overflow-hidden"
+          className="md:w-2/5 relative overflow-hidden flex items-center justify-center"
         >
-          <div className="aspect-video h-full relative overflow-hidden">
+          <div className="aspect-square h-[300px] relative overflow-hidden">
             <Image
               src={
                 imageError
