@@ -32,7 +32,7 @@ export default buildConfig({
   serverURL:
     process.env.NEXT_PUBLIC_SERVER_URL ||
     process.env.SERVER_URL ||
-    "http://localhost:3000",
+    "https://maitrongnhan.dev",
 
   // Secret for JWT tokens and general encryption
   secret: (() => {
@@ -527,14 +527,20 @@ export default buildConfig({
   sharp,
 
   // CORS configuration for Next.js
-  cors: [process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"].filter(
-    Boolean
-  ),
+  cors: [
+    process.env.NEXT_PUBLIC_SERVER_URL,
+    "https://maitrongnhan.dev",
+    "https://www.maitrongnhan.dev",
+    "http://localhost:3000"
+  ].filter(Boolean),
 
   // CSRF configuration
-  csrf: [process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"].filter(
-    Boolean
-  ),
+  csrf: [
+    process.env.NEXT_PUBLIC_SERVER_URL,
+    "https://maitrongnhan.dev",
+    "https://www.maitrongnhan.dev",
+    "http://localhost:3000"
+  ].filter(Boolean),
 
   // Note: Global hooks removed - collection-specific hooks should be used instead
 

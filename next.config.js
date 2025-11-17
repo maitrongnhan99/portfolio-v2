@@ -117,6 +117,24 @@ const nextConfig = {
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
   },
 
+  // Redirects to ensure consistent domain usage
+  async redirects() {
+    return [
+      // Redirect www to non-www to prevent CORS issues
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.maitrongnhan.dev',
+          },
+        ],
+        destination: 'https://maitrongnhan.dev/:path*',
+        permanent: true,
+      },
+    ];
+  },
+
   // Security Headers
   async headers() {
     return [
@@ -147,11 +165,11 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
               "style-src 'self' 'unsafe-inline' blob: data:", // Allow PayloadCMS styles
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https: wss:",
+              "connect-src 'self' https: wss: https://maitrongnhan.dev https://www.maitrongnhan.dev",
               "frame-ancestors 'none'",
               "worker-src 'self' blob:",
               "object-src 'none'",
