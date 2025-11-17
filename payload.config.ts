@@ -528,18 +528,18 @@ export default buildConfig({
 
   // CORS configuration for Next.js
   cors: [
-    process.env.NEXT_PUBLIC_SERVER_URL,
+    process.env.NEXT_PUBLIC_SERVER_URL || "https://maitrongnhan.dev",
     "https://maitrongnhan.dev",
     "https://www.maitrongnhan.dev",
-    "http://localhost:3000"
+    "http://localhost:3000",
   ].filter(Boolean),
 
   // CSRF configuration
   csrf: [
-    process.env.NEXT_PUBLIC_SERVER_URL,
+    process.env.NEXT_PUBLIC_SERVER_URL || "https://maitrongnhan.dev",
     "https://maitrongnhan.dev",
     "https://www.maitrongnhan.dev",
-    "http://localhost:3000"
+    "http://localhost:3000",
   ].filter(Boolean),
 
   // Note: Global hooks removed - collection-specific hooks should be used instead
