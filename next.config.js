@@ -117,24 +117,6 @@ const nextConfig = {
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
   },
 
-  // Redirects to ensure consistent domain usage
-  async redirects() {
-    return [
-      // Redirect www to non-www for non-API routes to prevent CORS issues
-      {
-        source: '/((?!api).*)',
-        has: [
-          {
-            type: 'host',
-            value: 'www.maitrongnhan.dev',
-          },
-        ],
-        destination: 'https://maitrongnhan.dev/$1',
-        permanent: true,
-      },
-    ];
-  },
-
   // Security Headers
   async headers() {
     return [
