@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import OgImage from "@/public/images/og_image.webp";
 import "@/styles/globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Fira_Code, Inter } from "next/font/google";
 import React from "react";
@@ -100,6 +101,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Toaster />
           </ErrorBoundary>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
