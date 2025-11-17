@@ -4,6 +4,7 @@ import { Navbar } from "@/components/common/navbar/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import { QueryProvider } from "@/providers/query-provider";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import OgImage from "@/public/images/og_image.webp";
 import "@/styles/globals.css";
@@ -94,12 +95,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           enableSystem={true}
           disableTransitionOnChange
         >
-          <ErrorBoundary>
-            <EnhancedGlowEffect />
-            <Navbar />
-            {children}
-            <Toaster />
-          </ErrorBoundary>
+          <QueryProvider>
+            <ErrorBoundary>
+              <EnhancedGlowEffect />
+              <Navbar />
+              {children}
+              <Toaster />
+            </ErrorBoundary>
+          </QueryProvider>
         </ThemeProvider>
         <SpeedInsights />
       </body>

@@ -1,21 +1,118 @@
 "use client";
 
-import { projectsData } from "@/lib/projects-data";
-import { ArrowUpRightIcon, FolderNotchIcon, SparkleIcon } from "@phosphor-icons/react";
+import { useFeaturedProjects } from "@/hooks/use-featured-projects";
+import {
+  ArrowUpRightIcon,
+  FolderNotchIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { FC } from "react";
 
 interface ProjectShowcaseProps {
   onSendMessage: (message: string) => void;
   isVisible: boolean;
 }
 
-export const ProjectShowcase = ({ onSendMessage, isVisible }: ProjectShowcaseProps) => {
-  const featuredProjects = useMemo(() => projectsData.slice(0, 3), []);
+export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
+  onSendMessage,
+  isVisible,
+}) => {
+  const {
+    data: featuredProjects = [],
+    isLoading,
+    error,
+  } = useFeaturedProjects({
+    limit: 3,
+    enabled: isVisible,
+  });
 
-  if (!isVisible || featuredProjects.length === 0) {
+  // Don't render if not visible
+  if (!isVisible) {
+    return null;
+  }
+
+  // Show loading skeleton while fetching
+  if (isLoading) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="mb-6 flex gap-3"
+      >
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+          <FolderNotchIcon className="w-4 h-4 text-primary" />
+        </div>
+        <div className="flex-1">
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <SparkleIcon className="w-4 h-4 text-primary" />
+              <h3 className="text-sm font-medium text-slate-lighter">
+                Featured Projects
+              </h3>
+            </div>
+            <p className="text-xs text-slate/70">
+              Loading featured projects...
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-navy-lighter/60 bg-navy/40 backdrop-blur-sm overflow-hidden animate-pulse"
+              >
+                <div className="aspect-video bg-slate/20"></div>
+                <div className="p-3 space-y-2">
+                  <div className="h-4 bg-slate/20 rounded"></div>
+                  <div className="h-10 bg-slate/20 rounded"></div>
+                  <div className="flex gap-1">
+                    <div className="h-6 w-12 bg-slate/20 rounded-full"></div>
+                    <div className="h-6 w-16 bg-slate/20 rounded-full"></div>
+                    <div className="h-6 w-14 bg-slate/20 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="mb-6 flex gap-3"
+      >
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+          <FolderNotchIcon className="w-4 h-4 text-red-500" />
+        </div>
+        <div className="flex-1">
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <SparkleIcon className="w-4 h-4 text-red-500" />
+              <h3 className="text-sm font-medium text-slate-lighter">
+                Featured Projects
+              </h3>
+            </div>
+            <p className="text-xs text-slate/70">
+              Failed to load projects. Please try again later.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Don't render if no projects
+  if (featuredProjects.length === 0) {
     return null;
   }
 
@@ -34,10 +131,13 @@ export const ProjectShowcase = ({ onSendMessage, isVisible }: ProjectShowcasePro
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <SparkleIcon className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-medium text-slate-lighter">Featured Projects</h3>
+            <h3 className="text-sm font-medium text-slate-lighter">
+              Featured Projects
+            </h3>
           </div>
           <p className="text-xs text-slate/70">
-            Explore Mai&apos;s previous work. Ask about a project or jump straight to the full case study.
+            Explore Mai&apos;s previous work. Ask about a project or jump
+            straight to the full case study.
           </p>
         </div>
 
@@ -48,14 +148,16 @@ export const ProjectShowcase = ({ onSendMessage, isVisible }: ProjectShowcasePro
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: index * 0.08 }}
-              className="group rounded-xl border border-navy-lighter/60 bg-navy/40 backdrop-blur-sm overflow-hidden"
+              className="group rounded-xl border border-navy-lighter/60 bg-navy/40 backdrop-blur-sm overflow-hidden flex flex-col"
             >
               <button
                 type="button"
                 onClick={() =>
-                  onSendMessage(`Tell me more about the ${project.title} project and the problems it solves.`)
+                  onSendMessage(
+                    `Tell me more about the ${project.title} project and the problems it solves.`
+                  )
                 }
-                className="w-full text-left focus:outline-none"
+                className="w-full text-left focus:outline-none flex-1"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
