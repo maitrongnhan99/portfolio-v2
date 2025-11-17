@@ -120,16 +120,16 @@ const nextConfig = {
   // Redirects to ensure consistent domain usage
   async redirects() {
     return [
-      // Redirect www to non-www to prevent CORS issues
+      // Redirect www to non-www for non-API routes to prevent CORS issues
       {
-        source: '/:path*',
+        source: '/((?!api).*)',
         has: [
           {
             type: 'host',
             value: 'www.maitrongnhan.dev',
           },
         ],
-        destination: 'https://maitrongnhan.dev/:path*',
+        destination: 'https://maitrongnhan.dev/$1',
         permanent: true,
       },
     ];
@@ -189,15 +189,37 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
               "style-src 'self' 'unsafe-inline' blob: data: *", // Very permissive for admin
               "img-src 'self' data: https: blob: *",
               "font-src 'self' data: https: *",
-              "connect-src 'self' https: wss: *",
+              "connect-src 'self' https: wss: https://maitrongnhan.dev https://www.maitrongnhan.dev https://vercel.live *",
               "frame-ancestors 'self'",
               "worker-src 'self' blob:",
               "object-src 'self'",
             ].join("; "),
+          },
+        ],
+      },
+      // API routes with CORS headers for both domains
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*", // Allow all origins for API routes
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization, X-Requested-With",
+          },
+          {
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
           },
         ],
       },
