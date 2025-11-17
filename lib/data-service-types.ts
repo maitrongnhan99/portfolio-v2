@@ -10,6 +10,7 @@ export interface Project {
   technologies: string[];
   features?: string[];
   challenges?: string;
+  solutions?: string;
   date: string;
   liveUrl?: string;
   githubUrl?: string;

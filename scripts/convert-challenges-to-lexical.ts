@@ -1,8 +1,4 @@
 import { sql } from '@vercel/postgres';
-import dotenv from 'dotenv';
-
-// Load environment variables
-dotenv.config({ path: '.env.local' });
 
 interface LexicalTextNode {
   detail: number;

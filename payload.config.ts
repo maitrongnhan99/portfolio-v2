@@ -1,7 +1,6 @@
 import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
-import dotenv from "dotenv";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -10,9 +9,6 @@ import {
   createPasswordResetEmail,
   createVerificationEmail,
 } from "./lib/email-templates";
-
-// Load environment variables
-dotenv.config({ path: ".env.local" });
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

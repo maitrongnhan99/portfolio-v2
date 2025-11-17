@@ -1,11 +1,6 @@
 import { vi, beforeAll, afterAll, afterEach, expect } from 'vitest';
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
-import dotenv from 'dotenv';
-import path from 'path';
-
-// Load test environment variables
-dotenv.config({ path: path.join(process.cwd(), '.env.test') });
 
 // Set test environment variables
 // Ensure Object.defineProperty works consistently with NODE_ENV in Node 22+

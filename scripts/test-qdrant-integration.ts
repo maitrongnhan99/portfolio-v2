@@ -1,11 +1,5 @@
 #!/usr/bin/env tsx
 
-import { config } from 'dotenv';
-import { join } from 'path';
-
-// Load environment variables
-config({ path: join(process.cwd(), '.env.local') });
-
 import { getQdrantVectorStore } from '../services/qdrant-vector-store';
 import { getLangChainRAGService } from '../services/langchain-rag-service';
 
