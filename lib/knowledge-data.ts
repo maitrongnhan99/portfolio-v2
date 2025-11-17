@@ -8,11 +8,19 @@ export interface KnowledgeChunkData {
     | "skills"
     | "experience"
     | "projects"
+    | "project-technologies"
+    | "project-challenges"
+    | "project-solutions"
     | "education"
     | "contact";
   priority: 1 | 2 | 3;
   tags: string[];
   source: string;
+  // Enhanced metadata for project-specific knowledge
+  projectSlug?: string;
+  projectCategory?: string;
+  dataSource?: "static" | "payload-cms";
+  lastUpdated?: string;
 }
 
 export const knowledgeBase: KnowledgeChunkData[] = [
