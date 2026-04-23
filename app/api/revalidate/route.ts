@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
         )
       }
 
-      tags.forEach(tag => revalidateTag(tag))
+      tags.forEach(tag => revalidateTag(tag, 'max'))
       revalidated.tags = tags
     }
 

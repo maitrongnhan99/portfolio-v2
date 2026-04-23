@@ -1,0 +1,23 @@
+---
+description: Enforce project design system usage for all UI design and redesign tasks
+alwaysApply: true
+---
+
+# Use Project Design System for UI Work
+
+When creating a new UI or redesigning any existing UI in this project, always follow `DESIGN.md` as the single source of truth.
+
+## Required
+
+- Read and apply the typography, color palette, spacing, component styling, and responsive rules from `DESIGN.md`.
+- Keep visual choices aligned with the design system's do and don't guidelines.
+- Match existing project UI decisions to avoid introducing a parallel style language.
+
+## Not Allowed
+
+- Do not introduce new visual styles that conflict with `DESIGN.md`.
+- Do not invent ad-hoc color, typography, spacing, or component patterns when a system pattern already exists.
+
+## Example
+
+- For a new button or CTA, reuse the button styles and hierarchy defined in `DESIGN.md` instead of creating a new visual variant.
