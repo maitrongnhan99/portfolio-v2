@@ -20,7 +20,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
       <>
         {/* Backdrop overlay */}
         <motion.div
-          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          className="md:hidden fixed inset-0 bg-black/15 backdrop-blur-sm z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -30,7 +30,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
         
         {/* Mobile menu panel */}
         <motion.div
-          className="md:hidden bg-navy-light fixed right-0 top-0 bottom-0 w-3/4 shadow-xl z-50"
+          className="md:hidden bg-canvas-white fixed right-0 top-0 bottom-0 w-3/4 shadow-card border-l border-borderSubtle z-50"
           initial={{ x: "100%" }}
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
@@ -42,7 +42,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
             size="icon"
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
-            className="text-slate-lighter hover:text-primary"
+            className="text-text-primary hover:text-text-muted"
           >
             <XIcon className="h-5 w-5" />
           </Button>
@@ -59,10 +59,10 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
                 >
                   <Link
                     href={link.href}
-                    className="text-lg font-mono text-slate-light hover:text-primary transition-colors"
+                    className="text-lg font-mono text-text-secondary hover:text-text-primary transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-primary">0{i + 1}.</span>{" "}
+                    <span className="text-text-muted">0{i + 1}.</span>{" "}
                     {link.name}
                   </Link>
                 </motion.li>

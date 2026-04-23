@@ -61,7 +61,7 @@ const Social: FC<SocialProps> = ({ className = "" }) => {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate hover:text-primary transition-colors"
+            className="text-text-secondary hover:text-text-primary transition-colors"
             aria-label={social.label}
           >
             {social.icon}

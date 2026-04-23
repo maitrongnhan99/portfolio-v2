@@ -2,16 +2,13 @@
 
 import { motion } from "framer-motion";
 import { FlipWords } from "../ui/flip-words";
-import { ShootingStars } from "../ui/shooting-stars";
-import { StarsBackground } from "../ui/stars-background";
 import { Social } from "./social";
 
 export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center bg-navy z-20 relative"
-      style={{ backgroundColor: "#0b192f" }}
+      className="min-h-screen flex items-center bg-canvas-white z-20 relative border-b border-borderSubtle"
     >
       {/* 
       <Spotlight
@@ -19,13 +16,13 @@ export default function Hero() {
         fill="white"
       />
       */}
-      <div className="container px-4 md:px-6 lg:px-8 max-w-5xl mx-auto z-10">
+      <div className="container px-4 md:px-6 lg:px-8 max-w-5xl mx-auto z-10 py-28">
         <div className="flex flex-col items-start relative">
           <motion.p
             initial={{ opacity: 0.8, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="font-mono text-primary mb-5 text-sm md:text-base"
+            className="font-mono text-text-muted mb-5 text-sm md:text-base"
           >
             Hi, my name is
           </motion.p>
@@ -34,7 +31,7 @@ export default function Hero() {
             initial={{ opacity: 0.8, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-lighter mb-4"
+            className="text-display-hero md:text-6xl lg:text-7xl text-text-primary mb-4"
           >
             Mai Trọng Nhân
           </motion.h1>
@@ -43,11 +40,11 @@ export default function Hero() {
             initial={{ opacity: 0.8, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className="flex flex-col md:flex-row md:items-center gap-2 text-3xl md:text-4xl lg:text-5xl font-bold text-slate mb-6"
+            className="flex flex-col md:flex-row md:items-center gap-2 text-3xl md:text-4xl lg:text-5xl font-light text-text-secondary mb-6"
           >
             I build things for{" "}
             <FlipWords
-              className="px-0 md:px-2 text-slate"
+              className="px-0 md:px-2 text-text-secondary"
               words={["the web", "mobile apps"]}
             />
           </motion.h2>
@@ -55,7 +52,7 @@ export default function Hero() {
             initial={{ opacity: 0.8, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
-            className="text-slate max-w-lg mb-12 text-lg text-left leading-8"
+            className="text-text-secondary max-w-lg mb-12 text-lg text-left leading-8 tracking-body-relaxed"
           >
             I&apos;m a FullStack developer specializing in building exceptional
             digital experiences. Currently, I&apos;m focused on building
@@ -66,9 +63,6 @@ export default function Hero() {
           <Social />
         </div>
       </div>
-
-      <ShootingStars />
-      <StarsBackground />
     </section>
   );
 }

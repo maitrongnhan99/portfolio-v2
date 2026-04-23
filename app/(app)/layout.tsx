@@ -91,8 +91,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <body className={cn(inter.variable, firaCode.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <QueryProvider>

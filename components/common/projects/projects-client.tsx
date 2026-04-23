@@ -2,7 +2,6 @@
 
 import { Project } from "@/lib/data-service";
 import { FC, useState } from "react";
-import { Spotlight } from "../../ui/spotlight-new";
 import ScrollReveal from "../scroll-reveal";
 import { ProjectCard } from "./project-card";
 import { ProjectCategories } from "./project-categories";
@@ -22,9 +21,10 @@ const ProjectsClient: FC<ProjectsClientProps> = ({ projects }) => {
       : projects.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="relative py-32 bg-navy overflow-hidden">
-      <Spotlight />
-
+    <section
+      id="projects"
+      className="relative py-24 bg-canvas-light overflow-hidden border-b border-borderSubtle"
+    >
       <div className="container px-4 md:px-6 max-w-5xl mx-auto">
         <ProjectHeader />
 

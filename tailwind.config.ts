@@ -20,10 +20,23 @@ const config = {
     extend: {
       colors: {
         border: "hsl(var(--border))",
+        borderLight: "#e5e5e5",
+        borderSubtle: "rgba(0, 0, 0, 0.05)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        canvas: {
+          white: "#ffffff",
+          light: "#f5f5f5",
+          near: "#f6f6f6",
+          warm: "#f5f2ef",
+        },
+        text: {
+          primary: "#000000",
+          secondary: "#4e4e4e",
+          muted: "#777169",
+        },
 
         navy: {
           DEFAULT: "#0b192f",
@@ -68,9 +81,26 @@ const config = {
         },
       },
       borderRadius: {
+        xs: "2px",
+        nav: "4px",
+        base: "8px",
+        comfortable: "12px",
+        card: "16px",
+        featured: "20px",
+        section: "24px",
+        warm: "30px",
+        pill: "9999px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        "inset-border": "inset 0 0 0 0.5px rgba(0, 0, 0, 0.075)",
+        "inset-dark": "inset 0 0 0 0.5px rgba(0, 0, 0, 0.1)",
+        "outline-ring":
+          "0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04)",
+        card: "0 0 1px rgba(0, 0, 0, 0.4), 0 4px 4px rgba(0, 0, 0, 0.04)",
+        "warm-lift": "0 6px 16px rgba(78, 50, 23, 0.04)",
       },
       keyframes: {
         "accordion-down": {
@@ -107,7 +137,23 @@ const config = {
         "meteor-effect": "meteor 5s linear infinite",
       },
       fontFamily: {
+        display: ["var(--font-inter)", "Inter", "sans-serif"],
+        body: ["var(--font-inter)", "Inter", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+      },
+      fontSize: {
+        "display-hero": [
+          "3rem",
+          { lineHeight: "1.08", letterSpacing: "-0.96px", fontWeight: "300" },
+        ],
+        "display-section": ["2.25rem", { lineHeight: "1.17", fontWeight: "300" }],
+        "display-card": ["2rem", { lineHeight: "1.13", fontWeight: "300" }],
+        "body-lg": ["1.25rem", { lineHeight: "1.35" }],
+      },
+      letterSpacing: {
+        body: "0.16px",
+        "body-relaxed": "0.18px",
+        caption: "0.14px",
       },
     },
   },

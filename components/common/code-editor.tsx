@@ -24,7 +24,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
       initial={{ opacity: 0.8, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`relative rounded-lg bg-[#1e1e2e] p-4 font-mono text-sm shadow-xl ${className}`}
+      className={`relative rounded-card bg-canvas-white p-4 font-mono text-sm border border-borderLight shadow-outline-ring ${className}`}
     >
       {/* Editor Header */}
       <div className="mb-4 flex items-center">
@@ -33,7 +33,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
           <div className="h-3 w-3 rounded-full bg-yellow-500" />
           <div className="h-3 w-3 rounded-full bg-green-500" />
         </div>
-        <p className="ml-4 text-gray-400">maitrongnhan.developer.js</p>
+        <p className="ml-4 text-text-muted">maitrongnhan.developer.js</p>
       </div>
 
       {/* Code Content */}

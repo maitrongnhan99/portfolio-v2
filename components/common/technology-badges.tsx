@@ -38,7 +38,7 @@ const TechnologyBadges: FC<TechnologyBadgesProps> = ({
             <Badge
               variant={variant}
               className={cn(
-                "bg-navy-light border-primary/20 text-slate-light px-3 py-1",
+                "bg-canvas-white border-borderLight text-text-secondary px-3 py-1",
                 badgeClassName
               )}
             >
@@ -64,7 +64,7 @@ const TechnologyBadges: FC<TechnologyBadgesProps> = ({
           key={tech}
           variant={variant}
           className={cn(
-            "bg-navy-light border-primary/20 text-slate-light px-3 py-1",
+            "bg-canvas-white border-borderLight text-text-secondary px-3 py-1",
             badgeClassName
           )}
         >

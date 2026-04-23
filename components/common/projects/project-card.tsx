@@ -45,7 +45,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
         <div className="md:w-3/5">
           <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-xl md:text-2xl font-bold text-slate-lighter group-hover:text-primary transition-colors">
+            <h3 className="text-xl md:text-2xl font-light text-text-primary group-hover:text-text-muted transition-colors">
               <Link
                 href={`/project/${project.slug}`}
                 className="flex items-center gap-2"
@@ -55,14 +55,14 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
             </h3>
 
             {project.stars && (
-              <div className="flex items-center text-slate text-sm">
-                <StarIcon className="h-3.5 w-3.5 mr-1 fill-slate text-slate" />
+              <div className="flex items-center text-text-secondary text-sm">
+                <StarIcon className="h-3.5 w-3.5 mr-1 fill-text-secondary text-text-secondary" />
                 {project.stars.toLocaleString()}
               </div>
             )}
           </div>
 
-          <p className="text-slate mb-4">{project.description}</p>
+          <p className="text-text-secondary mb-4">{project.description}</p>
 
           <TechnologyBadges
             technologies={project.technologies}

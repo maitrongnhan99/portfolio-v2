@@ -1,12 +1,15 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 
-export default function EnhancedGlowEffect() {
+const EnhancedGlowEffect: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
 
   // Mouse position values
   const mouseX = useMotionValue(0);
@@ -33,16 +36,33 @@ export default function EnhancedGlowEffect() {
     [0, dimensions.height]
   );
 
+  const glowBackground = useMemo(() => {
+    if (resolvedTheme === "dark") {
+      return "radial-gradient(circle at center, rgba(245, 242, 239, 0.32) 0%, rgba(245, 242, 239, 0.14) 42%, rgba(245, 242, 239, 0.04) 62%, transparent 78%)";
+    }
+
+    return "radial-gradient(circle at center, rgba(214, 184, 150, 0.5) 0%, rgba(245, 242, 239, 0.78) 38%, rgba(245, 242, 239, 0.42) 58%, transparent 80%)";
+  }, [resolvedTheme]);
+
   useEffect(() => {
+    setIsMounted(true);
+
     // Only show the effect after a short delay to prevent flash on page load
     const timer = setTimeout(() => setIsVisible(true), 500);
 
     const updateDimensions = () => {
       if (containerRef.current) {
+        const nextWidth = window.innerWidth;
+        const nextHeight = window.innerHeight;
+
         setDimensions({
-          width: window.innerWidth,
-          height: window.innerHeight,
+          width: nextWidth,
+          height: nextHeight,
         });
+
+        // Keep the glow visible immediately by defaulting to viewport center.
+        mouseX.set(nextWidth / 2);
+        mouseY.set(nextHeight / 2);
       }
     };
 
@@ -61,7 +81,7 @@ export default function EnhancedGlowEffect() {
       window.removeEventListener("mousemove", handleMouseMove);
       clearTimeout(timer);
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mouseX, mouseY]);
 
   // Don't render on mobile/touch devices
   if (
@@ -71,7 +91,7 @@ export default function EnhancedGlowEffect() {
     return null;
   }
 
-  if (!isVisible) return null;
+  if (!isMounted || !isVisible) return null;
 
   return (
     <div
@@ -81,11 +101,12 @@ export default function EnhancedGlowEffect() {
       <motion.div
         className="absolute"
         style={{
-          width: 600,
-          height: 600,
+          width: resolvedTheme === "dark" ? 640 : 760,
+          height: resolvedTheme === "dark" ? 640 : 760,
           borderRadius: "50%",
-          background:
-            "radial-gradient(circle at center, rgba(100, 255, 218, 0.12) 0%, rgba(100, 255, 218, 0.03) 40%, transparent 70%)",
+          filter: "blur(32px)",
+          opacity: resolvedTheme === "dark" ? 0.78 : 0.92,
+          background: glowBackground,
           x: glowX,
           y: glowY,
           translateX: "-50%",
@@ -94,4 +115,7 @@ export default function EnhancedGlowEffect() {
       />
     </div>
   );
-}
+};
+
+export { EnhancedGlowEffect };
+export default EnhancedGlowEffect;

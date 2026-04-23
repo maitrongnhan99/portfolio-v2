@@ -33,8 +33,8 @@ const ProjectCategories: FC<ProjectCategoriesProps> = ({
               className={cn(
                 "rounded-full",
                 activeCategory === category
-                  ? "bg-primary/20 text-primary hover:bg-primary/30 border-primary"
-                  : "border-slate text-slate hover:border-primary hover:text-primary bg-navy/10 hover:bg-navy/20"
+                  ? "bg-canvas-warm text-text-primary hover:bg-canvas-warm border-borderLight shadow-card"
+                  : "border-borderLight text-text-secondary hover:border-text-muted hover:text-text-primary bg-canvas-white hover:bg-canvas-light"
               )}
             >
               {category}

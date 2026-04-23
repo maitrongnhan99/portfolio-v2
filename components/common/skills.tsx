@@ -41,7 +41,6 @@ import {
 } from "react-icons/si";
 import { TbApi, TbBrandVscode, TbVectorTriangle } from "react-icons/tb";
 import { GlowingEffect } from "../ui/glowing-effect";
-import { Meteors } from "../ui/meteors";
 import ScrollReveal from "./scroll-reveal";
 
 interface Skill {
@@ -129,37 +128,38 @@ const skillsData: SkillCategory[] = [
 
 const Skills: FC = () => {
   return (
-    <section id="skills" className="relative py-32 bg-gray-900 overflow-hidden">
-      <div className="container px-4 md:px-6 mx-auto my-4 p-12 space-y-4 text-white rounded-2xl">
+    <section
+      id="skills"
+      className="relative py-24 bg-canvas-white overflow-hidden border-b border-borderSubtle"
+    >
+      <div className="container px-4 md:px-6 mx-auto my-4 p-12 space-y-4 rounded-section bg-canvas-light shadow-inset-border">
         <ScrollReveal>
           <div className="flex flex-col items-center text-center mb-16">
-            <p className="font-mono text-primary mb-2 text-sm">02. My Skills</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-lighter mb-6">
+            <p className="font-mono text-text-muted mb-2 text-sm">02. My Skills</p>
+            <h2 className="text-3xl md:text-4xl font-light text-text-primary mb-6">
               Technologies I&apos;ve Used
             </h2>
           </div>
         </ScrollReveal>
-
-        <Meteors />
 
         <ScrollReveal delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {skillsData.map((category, index) => (
               <div
                 key={index}
-                className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-gray-700/50 relative"
+                className="bg-canvas-white p-6 rounded-card shadow-outline-ring border border-borderLight relative"
               >
                 <div className="flex items-center mb-4">
-                  <category.icon className="text-2xl text-blue-400 mr-3" />
-                  <h3 className="text-xl font-semibold">{category.title}</h3>
+                  <category.icon className="text-2xl text-text-muted mr-3" />
+                  <h3 className="text-xl font-medium text-text-primary">{category.title}</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, skillIndex) => (
                     <div
                       key={skillIndex}
-                      className="flex items-center bg-gray-700/60 text-gray-300 px-3 py-1 rounded-full text-sm border border-gray-600/80"
+                      className="flex items-center bg-canvas-light text-text-secondary px-3 py-1 rounded-pill text-sm border border-borderSubtle"
                     >
-                      <skill.icon className="mr-1.5 text-teal-400" />
+                      <skill.icon className="mr-1.5 text-text-muted" />
                       <span>{skill.name}</span>
                     </div>
                   ))}
