@@ -41,10 +41,10 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
       )}
     >
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
           <RobotIcon
             className={cn(
-              "w-4 h-4 text-primary",
+              "w-4 h-4 text-foreground",
               isStreaming && "animate-pulse"
             )}
           />
@@ -53,14 +53,14 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
 
       <div
         className={cn(
-          "max-w-[70%] rounded-lg px-4 py-3",
+          "max-w-[70%] rounded-2xl px-5 py-4 font-body tracking-body",
           isUser
-            ? "bg-primary/10 border border-primary/20 text-slate-lighter"
-            : "bg-navy-light border border-navy-lighter text-slate-lighter",
-          isStreaming && "border-primary/40"
+            ? "bg-secondary border border-border text-foreground shadow-sm rounded-tr-sm"
+            : "bg-card border border-border text-foreground shadow-outline-ring rounded-tl-sm",
+          isStreaming && "border-foreground/40"
         )}
       >
-        <div className="prose prose-sm max-w-none">
+        <div className="text-[15px] leading-[1.6]">
           {message.split("\n").map((line, index) => {
             // Handle bold text with **text**
             if (line.includes("**")) {
@@ -72,7 +72,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
                       return (
                         <span
                           key={partIndex}
-                          className="font-mono text-primary font-semibold"
+                          className="font-display font-medium text-foreground"
                         >
                           {part.slice(2, -2)}
                         </span>
@@ -88,7 +88,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
             if (line.startsWith("• ")) {
               return (
                 <p key={index} className="mb-1 pl-4 relative">
-                  <span className="absolute left-0 text-primary">•</span>
+                  <span className="absolute left-0 text-text-muted">•</span>
                   {line.slice(2)}
                 </p>
               );
@@ -107,7 +107,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
           {/* Streaming cursor effect */}
           {isStreaming && (
             <span
-              className="inline-block w-0.5 h-5 bg-primary animate-pulse ml-1"
+              className="inline-block w-0.5 h-5 bg-foreground animate-pulse ml-1"
               style={{ verticalAlign: "text-bottom" }}
             />
           )}
@@ -115,18 +115,18 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
 
         {/* Sources display */}
         {sources.length > 0 && streamingComplete && (
-          <div className="mt-3 pt-3 border-t border-navy-lighter/50">
-            <p className="text-xs text-slate/60 mb-2">Sources:</p>
-            <div className="space-y-1">
+          <div className="mt-4 pt-3 border-t border-border">
+            <p className="text-xs text-text-muted mb-2 font-medium">Sources:</p>
+            <div className="space-y-1.5">
               {sources.map((source, index) => (
                 <div
                   key={index}
-                  className="text-xs text-slate/50 bg-navy/30 rounded px-2 py-1"
+                  className="text-xs text-text-secondary bg-secondary/50 border border-border rounded px-2.5 py-1.5"
                 >
-                  <span className="font-mono text-primary">
+                  <span className="font-mono text-foreground">
                     {source.category}
                   </span>
-                  <span className="ml-2 text-slate/40">
+                  <span className="ml-2 text-text-muted">
                     ({(source.score * 100).toFixed(0)}%)
                   </span>
                 </div>
@@ -137,8 +137,8 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
 
         <div
           className={cn(
-            "text-xs mt-2 opacity-60 flex items-center gap-2",
-            isUser ? "text-slate" : "text-slate-light"
+            "text-xs mt-3 opacity-60 flex items-center gap-2",
+            isUser ? "text-text-secondary" : "text-text-secondary"
           )}
         >
           <NoSSR>
@@ -150,17 +150,17 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
             </span>
           </NoSSR>
           {!isUser && isStreaming && (
-            <span className="text-primary/60">• Streaming...</span>
+            <span className="text-text-muted">• Streaming...</span>
           )}
           {!isUser && streamingComplete && (
-            <span className="text-green-400/60">• Complete</span>
+            <span className="text-text-muted">• Complete</span>
           )}
         </div>
       </div>
 
       {isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate/10 border border-slate/20 flex items-center justify-center">
-          <UserIcon className="w-4 h-4 text-slate-light" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center shadow-sm">
+          <UserIcon className="w-4 h-4 text-foreground" />
         </div>
       )}
     </motion.div>

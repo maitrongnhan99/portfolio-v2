@@ -31,12 +31,12 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
 }) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="bg-navy-light border-navy-lighter">
+      <AlertDialogContent className="bg-card border-border shadow-card rounded-section">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-slate-light font-mono">
+          <AlertDialogTitle className="text-foreground font-display font-light text-2xl">
             Delete Conversation
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-slate/70">
+          <AlertDialogDescription className="text-text-secondary font-body tracking-body">
             Are you sure you want to delete &ldquo;{conversationTitle || 'this conversation'}&rdquo;? 
             This action cannot be undone.
           </AlertDialogDescription>
@@ -44,14 +44,14 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
         <AlertDialogFooter>
           <AlertDialogCancel 
             onClick={onCancel}
-            className="bg-transparent border-slate/30 text-slate-light hover:bg-slate/10 hover:border-slate/50 hover:text-slate-lighter"
+            className="bg-transparent border-border text-text-secondary hover:bg-secondary hover:text-foreground rounded-pill transition-all"
           >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction 
             onClick={onConfirm}
             disabled={isDeleting}
-            className="bg-red-600 hover:bg-red-700 text-white border-0 disabled:opacity-50"
+            className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-0 disabled:opacity-50 rounded-pill transition-all"
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </AlertDialogAction>

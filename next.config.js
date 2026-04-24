@@ -147,7 +147,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' blob: data:", // Allow PayloadCMS styles
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
@@ -172,7 +172,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' blob: data: *", // Very permissive for admin
               "img-src 'self' data: https: blob: *",
               "font-src 'self' data: https: *",

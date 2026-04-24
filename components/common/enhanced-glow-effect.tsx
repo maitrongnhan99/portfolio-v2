@@ -6,7 +6,7 @@ import { FC, useEffect, useMemo, useRef, useState } from "react";
 
 const EnhancedGlowEffect: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted] = useState(() => typeof window !== "undefined");
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -41,12 +41,10 @@ const EnhancedGlowEffect: FC = () => {
       return "radial-gradient(circle at center, rgba(245, 242, 239, 0.32) 0%, rgba(245, 242, 239, 0.14) 42%, rgba(245, 242, 239, 0.04) 62%, transparent 78%)";
     }
 
-    return "radial-gradient(circle at center, rgba(214, 184, 150, 0.5) 0%, rgba(245, 242, 239, 0.78) 38%, rgba(245, 242, 239, 0.42) 58%, transparent 80%)";
+    return "radial-gradient(circle at center, rgba(120, 91, 63, 0.18) 0%, rgba(245, 242, 239, 0.34) 34%, rgba(78, 50, 23, 0.08) 58%, transparent 78%)";
   }, [resolvedTheme]);
 
   useEffect(() => {
-    setIsMounted(true);
-
     // Only show the effect after a short delay to prevent flash on page load
     const timer = setTimeout(() => setIsVisible(true), 500);
 
@@ -104,9 +102,10 @@ const EnhancedGlowEffect: FC = () => {
           width: resolvedTheme === "dark" ? 640 : 760,
           height: resolvedTheme === "dark" ? 640 : 760,
           borderRadius: "50%",
-          filter: "blur(32px)",
-          opacity: resolvedTheme === "dark" ? 0.78 : 0.92,
+          filter: resolvedTheme === "dark" ? "blur(32px)" : "blur(40px)",
+          opacity: resolvedTheme === "dark" ? 0.78 : 0.72,
           background: glowBackground,
+          mixBlendMode: resolvedTheme === "dark" ? "screen" : "multiply",
           x: glowX,
           y: glowY,
           translateX: "-50%",

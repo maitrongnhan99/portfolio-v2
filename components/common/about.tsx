@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CodeEditor } from "./code-editor";
 import ScrollReveal from "./scroll-reveal";
 
@@ -12,17 +11,11 @@ export default function About() {
     >
       <div className="container px-4 md:px-6 relative z-10">
           <ScrollReveal>
-            <div className="flex flex-col gap-4 items-center text-center mb-12">
-              <h2 className="text-display-section tracking-tighter text-text-primary">
+            <div className="flex flex-col items-center text-center mb-16">
+              <p className="font-mono text-text-muted mb-2 text-sm">01. About</p>
+              <h2 className="text-3xl md:text-4xl font-light text-text-primary mb-6">
                 About Me
               </h2>
-              <motion.div
-                className="w-20 h-1 bg-canvas-warm rounded-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: 80 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
             </div>
           </ScrollReveal>
 

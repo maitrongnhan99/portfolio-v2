@@ -54,7 +54,7 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
               {project.liveUrl && (
                 <Button
                   asChild
-                  className="w-full rounded-pill flex items-center gap-2 bg-black text-white hover:bg-black shadow-card"
+                  className="w-full rounded-pill flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card"
                   data-testid="project-demo-link"
                 >
                   <Link href={sanitizeUrl(project.liveUrl)} target="_blank">

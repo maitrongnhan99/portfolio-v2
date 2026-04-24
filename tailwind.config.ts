@@ -20,22 +20,22 @@ const config = {
     extend: {
       colors: {
         border: "hsl(var(--border))",
-        borderLight: "#e5e5e5",
-        borderSubtle: "rgba(0, 0, 0, 0.05)",
+        borderLight: "var(--border-light)",
+        borderSubtle: "var(--border-subtle)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         canvas: {
-          white: "#ffffff",
-          light: "#f5f5f5",
-          near: "#f6f6f6",
-          warm: "#f5f2ef",
+          white: "hsl(var(--canvas-white))",
+          light: "hsl(var(--canvas-light))",
+          near: "hsl(var(--canvas-near))",
+          warm: "hsl(var(--canvas-warm))",
         },
         text: {
-          primary: "#000000",
-          secondary: "#4e4e4e",
-          muted: "#777169",
+          primary: "hsl(var(--text-primary))",
+          secondary: "hsl(var(--text-secondary))",
+          muted: "hsl(var(--text-muted))",
         },
 
         navy: {
@@ -95,12 +95,11 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        "inset-border": "inset 0 0 0 0.5px rgba(0, 0, 0, 0.075)",
-        "inset-dark": "inset 0 0 0 0.5px rgba(0, 0, 0, 0.1)",
-        "outline-ring":
-          "0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04)",
-        card: "0 0 1px rgba(0, 0, 0, 0.4), 0 4px 4px rgba(0, 0, 0, 0.04)",
-        "warm-lift": "0 6px 16px rgba(78, 50, 23, 0.04)",
+        "inset-border": "var(--shadow-inset-border)",
+        "inset-dark": "var(--shadow-inset-border)",
+        "outline-ring": "var(--shadow-outline-ring)",
+        card: "var(--shadow-card)",
+        "warm-lift": "var(--shadow-warm-lift)",
       },
       keyframes: {
         "accordion-down": {
@@ -137,9 +136,9 @@ const config = {
         "meteor-effect": "meteor 5s linear infinite",
       },
       fontFamily: {
-        display: ["var(--font-inter)", "Inter", "sans-serif"],
+        display: ["var(--font-waldenburg)", "var(--font-inter)", "sans-serif"],
         body: ["var(--font-inter)", "Inter", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        mono: ["var(--font-geist-mono)", "var(--font-mono)", "monospace"],
       },
       fontSize: {
         "display-hero": [

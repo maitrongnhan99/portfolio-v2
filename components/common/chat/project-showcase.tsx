@@ -43,18 +43,18 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
         transition={{ duration: 0.35 }}
         className="mb-6 flex gap-3"
       >
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-          <FolderNotchIcon className="w-4 h-4 text-primary" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+          <FolderNotchIcon className="w-4 h-4 text-text-muted" />
         </div>
         <div className="flex-1">
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-2">
-              <SparkleIcon className="w-4 h-4 text-primary" />
-              <h3 className="text-sm font-medium text-slate-lighter">
+              <SparkleIcon className="w-4 h-4 text-text-muted" />
+              <h3 className="text-sm font-medium text-text-primary">
                 Featured Projects
               </h3>
             </div>
-            <p className="text-xs text-slate/70">
+            <p className="text-xs text-text-secondary">
               Loading featured projects...
             </p>
           </div>
@@ -62,16 +62,16 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="rounded-xl border border-navy-lighter/60 bg-navy/40 backdrop-blur-sm overflow-hidden animate-pulse"
+                className="rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-sm overflow-hidden animate-pulse"
               >
-                <div className="aspect-video bg-slate/20"></div>
+                <div className="aspect-video bg-secondary"></div>
                 <div className="p-3 space-y-2">
-                  <div className="h-4 bg-slate/20 rounded"></div>
-                  <div className="h-10 bg-slate/20 rounded"></div>
+                  <div className="h-4 bg-secondary rounded"></div>
+                  <div className="h-10 bg-secondary rounded"></div>
                   <div className="flex gap-1">
-                    <div className="h-6 w-12 bg-slate/20 rounded-full"></div>
-                    <div className="h-6 w-16 bg-slate/20 rounded-full"></div>
-                    <div className="h-6 w-14 bg-slate/20 rounded-full"></div>
+                    <div className="h-6 w-12 bg-secondary rounded-full"></div>
+                    <div className="h-6 w-16 bg-secondary rounded-full"></div>
+                    <div className="h-6 w-14 bg-secondary rounded-full"></div>
                   </div>
                 </div>
               </div>
@@ -91,18 +91,18 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
         transition={{ duration: 0.35 }}
         className="mb-6 flex gap-3"
       >
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-          <FolderNotchIcon className="w-4 h-4 text-red-500" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+          <FolderNotchIcon className="w-4 h-4 text-text-muted" />
         </div>
         <div className="flex-1">
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-2">
-              <SparkleIcon className="w-4 h-4 text-red-500" />
-              <h3 className="text-sm font-medium text-slate-lighter">
+              <SparkleIcon className="w-4 h-4 text-text-muted" />
+              <h3 className="text-sm font-medium text-text-primary">
                 Featured Projects
               </h3>
             </div>
-            <p className="text-xs text-slate/70">
+            <p className="text-xs text-text-secondary">
               Failed to load projects. Please try again later.
             </p>
           </div>
@@ -123,19 +123,19 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
       transition={{ duration: 0.35 }}
       className="mb-6 flex gap-3"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <FolderNotchIcon className="w-4 h-4 text-primary" />
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+        <FolderNotchIcon className="w-4 h-4 text-text-muted" />
       </div>
 
       <div className="flex-1">
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <SparkleIcon className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-medium text-slate-lighter">
+            <SparkleIcon className="w-4 h-4 text-text-muted" />
+            <h3 className="text-sm font-medium text-text-primary">
               Featured Projects
             </h3>
           </div>
-          <p className="text-xs text-slate/70">
+          <p className="text-xs text-text-secondary">
             Explore Mai&apos;s previous work. Ask about a project or jump
             straight to the full case study.
           </p>
@@ -148,7 +148,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: index * 0.08 }}
-              className="group rounded-xl border border-navy-lighter/60 bg-navy/40 backdrop-blur-sm overflow-hidden flex flex-col"
+              className="group rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-sm overflow-hidden flex flex-col shadow-outline-ring"
             >
               <button
                 type="button"
@@ -167,26 +167,26 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
-                  <div className="absolute bottom-3 left-3 text-[10px] uppercase tracking-wide text-slate/80">
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent" />
+                  <div className="absolute bottom-3 left-3 text-[10px] uppercase tracking-wide text-text-muted">
                     Ask about this project →
                   </div>
                 </div>
                 <div className="p-3 space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h4 className="text-sm font-semibold text-slate-lighter group-hover:text-primary transition-colors">
+                    <h4 className="text-sm font-semibold text-text-primary transition-colors">
                       {project.title}
                     </h4>
-                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-slate/50 group-hover:text-primary transition-colors" />
+                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-text-muted group-hover:text-text-primary transition-colors" />
                   </div>
-                  <p className="text-xs text-slate/70 leading-relaxed min-h-[3rem]">
+                  <p className="text-xs text-text-secondary leading-relaxed min-h-[3rem]">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {project.technologies.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="text-[10px] uppercase tracking-wide text-slate/60 bg-navy-light/60 border border-navy-lighter/60 rounded-full px-2 py-1"
+                        className="text-[10px] uppercase tracking-wide text-text-muted bg-canvas-warm border border-borderSubtle rounded-full px-2 py-1"
                       >
                         {tech}
                       </span>
@@ -195,11 +195,11 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
                 </div>
               </button>
 
-              <div className="flex items-center justify-between border-t border-navy-lighter/50 bg-navy/60 px-3 py-2 text-[11px] text-slate/70">
+              <div className="flex items-center justify-between border-t border-borderSubtle bg-canvas-light px-3 py-2 text-[11px] text-text-secondary">
                 <span>View the full breakdown</span>
                 <Link
                   href={`/project/${project.slug}`}
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  className="inline-flex items-center gap-1 text-text-primary hover:text-text-muted transition-colors"
                 >
                   View
                   <ArrowUpRightIcon className="w-3 h-3" />

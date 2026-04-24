@@ -87,13 +87,13 @@ const SidebarButton = ({
 }: SidebarButtonProps) => {
   const variantStyles = {
     default:
-      "border-slate/30 text-slate-light hover:bg-slate/10 hover:border-slate/50",
+      "border-border text-text-secondary hover:bg-secondary hover:text-foreground",
     danger:
-      "border-red-500/30 text-red-500 hover:bg-red-500/10 hover:border-red-500/50",
+      "border-destructive/30 text-destructive hover:bg-destructive/10 hover:border-destructive/50",
     success:
       "border-green-500/30 text-green-500 hover:bg-green-500/10 hover:border-green-500/50",
     primary:
-      "border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50",
+      "border-border text-foreground hover:bg-secondary",
   };
 
   return (
@@ -130,7 +130,7 @@ const SidebarButton = ({
 
 const SectionDivider = ({ title }: { title: string }) => (
   <div className="px-4 py-2">
-    <h3 className="text-xs font-mono text-slate/50 uppercase tracking-wider">
+    <h3 className="text-xs font-mono text-text-muted uppercase tracking-wider">
       {title}
     </h3>
   </div>
@@ -158,19 +158,19 @@ const ConversationHistoryItem = ({
       onHoverEnd={() => setShowDelete(false)}
       className={cn(
         "group relative px-3 py-2 rounded-md cursor-pointer transition-all",
-        isActive ? "bg-primary/10 border border-primary/30" : "hover:bg-slate/5"
+        isActive ? "bg-secondary border border-border" : "hover:bg-secondary/50"
       )}
       onClick={onClick}
       whileHover={!isActive ? { x: 4 } : {}}
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatTextIcon className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-mono text-slate-light truncate">
+          <p className="text-sm font-mono text-foreground truncate">
             {conversation.title}
           </p>
-          <div className="flex items-center gap-2 text-xs text-slate/50">
+          <div className="flex items-center gap-2 text-xs text-text-muted">
             <span>{conversation.messages.length} messages</span>
             <span>•</span>
             <span>{formatRelativeTime(conversation.updatedAt)}</span>
@@ -181,7 +181,7 @@ const ConversationHistoryItem = ({
                 {conversation.topicsExplored.slice(0, 3).map((topic, index) => (
                   <span
                     key={index}
-                    className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded text-slate/70"
+                    className="text-xs px-1.5 py-0.5 bg-background border border-border rounded text-text-secondary"
                   >
                     {topic}
                   </span>
@@ -262,7 +262,7 @@ export const ChatControlsSidebar = ({
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="right"
-          className="w-full sm:w-[380px] bg-navy-light border-navy-lighter flex flex-col p-0"
+          className="w-full sm:w-[380px] bg-card border-border flex flex-col p-0 shadow-card"
         >
           {isSearchMode ? (
             <div className="flex flex-col h-full">
@@ -278,7 +278,7 @@ export const ChatControlsSidebar = ({
           ) : (
             <>
               <SheetHeader className="flex-shrink-0 p-6 pb-0">
-                <SheetTitle className="text-slate-light font-mono">
+                <SheetTitle className="text-foreground font-display font-light text-xl">
                   Chat Controls
                 </SheetTitle>
               </SheetHeader>
@@ -347,11 +347,11 @@ export const ChatControlsSidebar = ({
                   <div className="space-y-2 overflow-y-auto custom-scrollbar">
                     {conversations.length === 0 ? (
                       <div className="px-4 py-8 text-center">
-                        <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-slate/30" />
-                        <p className="text-sm text-slate/60">
+                        <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-text-muted/50" />
+                        <p className="text-sm text-text-muted">
                           No conversations yet
                         </p>
-                        <p className="text-xs text-slate/40 mt-1">
+                        <p className="text-xs text-text-muted/70 mt-1">
                           Start chatting to build your history
                         </p>
                       </div>
@@ -384,8 +384,8 @@ export const ChatControlsSidebar = ({
               </div>
 
               {/* Status Section - Fixed at bottom */}
-              <div className="flex-shrink-0 mt-auto py-4 px-6 border-t border-navy-lighter bg-navy/50">
-                <div className="flex items-center justify-between text-xs text-slate/60">
+              <div className="flex-shrink-0 mt-auto py-4 px-6 border-t border-border bg-background/50">
+                <div className="flex items-center justify-between text-xs text-text-muted">
                   <span>Connection Status</span>
                   <div className="flex items-center gap-2">
                     <div
@@ -398,7 +398,7 @@ export const ChatControlsSidebar = ({
                   </div>
                 </div>
                 {chatSettings && (
-                  <div className="mt-2 flex items-center justify-between text-xs text-slate/60">
+                  <div className="mt-2 flex items-center justify-between text-xs text-text-muted">
                     <span>Streaming</span>
                     <span>
                       {chatSettings.useStreaming ? "Enabled" : "Disabled"}

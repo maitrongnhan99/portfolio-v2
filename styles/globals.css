@@ -31,6 +31,8 @@ body {
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
+    --border-light: #e5e5e5;
+    --border-subtle: rgba(0, 0, 0, 0.05);
     --input: 0 0% 89.8%;
     --ring: 213 93% 78%;
     --chart-1: 12 76% 61%;
@@ -50,7 +52,13 @@ body {
     --surface-secondary: 0 0% 96.1%;
     --surface-near-white: 0 0% 96.5%;
     --surface-warm-stone: 30 20% 95%;
+    --canvas-white: 0 0% 100%;
+    --canvas-light: 0 0% 96%;
+    --canvas-near: 0 0% 96.5%;
+    --canvas-warm: 30 20% 95%;
+    --text-primary: 0 0% 0%;
     --text-secondary: 0 0% 30.6%;
+    --text-muted: 35 7% 44%;
     --text-muted-warm: 35 7% 44%;
     --shadow-inset-border: inset 0 0 0 0.5px rgba(0, 0, 0, 0.075);
     --shadow-outline-ring:
@@ -83,8 +91,10 @@ body {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
+    --border: 30 6% 18%;
+    --border-light: rgba(245, 242, 239, 0.14);
+    --border-subtle: rgba(245, 242, 239, 0.07);
+    --input: 30 6% 18%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -99,6 +109,26 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --surface-secondary: 0 0% 10%;
+    --surface-near-white: 0 0% 9%;
+    --surface-warm-stone: 30 15% 12%;
+    --canvas-white: 0 0% 7%;
+    --canvas-light: 0 0% 10%;
+    --canvas-near: 0 0% 9%;
+    --canvas-warm: 30 15% 12%;
+    --text-primary: 0 0% 98%;
+    --text-secondary: 0 0% 75%;
+    --text-muted: 35 7% 65%;
+    --text-muted-warm: 35 7% 65%;
+    --shadow-inset-border: inset 0 0 0 0.5px rgba(245, 242, 239, 0.1);
+    --shadow-outline-ring:
+      0 0 0 1px rgba(245, 242, 239, 0.08),
+      0 1px 2px rgba(0, 0, 0, 0.18),
+      0 8px 24px rgba(0, 0, 0, 0.16);
+    --shadow-card:
+      0 0 0 1px rgba(245, 242, 239, 0.1),
+      0 8px 20px rgba(0, 0, 0, 0.22);
+    --shadow-warm-lift: 0 6px 16px rgba(78, 50, 23, 0.18);
   }
 }
 

@@ -40,261 +40,261 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
       <pre className="overflow-x-auto">
         <code className="language-javascript">
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               1
             </span>
             <span className="code-line">
-              <span className="text-purple-400">const </span>
-              <span className="text-gray-300">dev_profile </span>
-              <span className="text-gray-300">= </span>
-              <span className="text-gray-300">{"{"}</span>
+              <span className="text-blue-600 dark:text-purple-400">const </span>
+              <span className="text-slate-700 dark:text-gray-300">dev_profile </span>
+              <span className="text-slate-700 dark:text-gray-300">= </span>
+              <span className="text-slate-700 dark:text-gray-300">{"{"}</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               2
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}name: </span>
-              <span className="text-green-400">&apos;{profile.name}&apos;</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}name: </span>
+              <span className="text-red-700 dark:text-green-400">&apos;{profile.name}&apos;</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               3
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}title: </span>
-              <span className="text-green-400">&apos;{profile.title}&apos;</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}title: </span>
+              <span className="text-red-700 dark:text-green-400">&apos;{profile.title}&apos;</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               4
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}skills: [</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}skills: [</span>
             </span>
           </div>
           {profile.skills.map((skill, index) => (
             <div key={skill} className="line">
-              <span className="mr-4 inline-block w-8 text-right text-gray-500">
+              <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
                 {index + 5}
               </span>
               <span className="code-line">
-                <span className="text-gray-300">{"    "}</span>
-                <span className="text-green-400">&apos;{skill}&apos;</span>
-                <span className="text-gray-300">
+                <span className="text-slate-700 dark:text-gray-300">{"    "}</span>
+                <span className="text-red-700 dark:text-green-400">&apos;{skill}&apos;</span>
+                <span className="text-slate-700 dark:text-gray-300">
                   {index < profile.skills.length - 1 ? "," : ""}
                 </span>
               </span>
             </div>
           ))}
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 5}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}],</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}],</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 6}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}hardWorker: </span>
-              <span className="text-orange-400">
+              <span className="text-slate-700 dark:text-gray-300">{"  "}hardWorker: </span>
+              <span className="text-blue-600 dark:text-orange-400">
                 {profile.hardWorker.toString()}
               </span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 7}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}quickLearner: </span>
-              <span className="text-orange-400">
+              <span className="text-slate-700 dark:text-gray-300">{"  "}quickLearner: </span>
+              <span className="text-blue-600 dark:text-orange-400">
                 {profile.quickLearner.toString()}
               </span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 8}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}problemSolver: </span>
-              <span className="text-orange-400">
+              <span className="text-slate-700 dark:text-gray-300">{"  "}problemSolver: </span>
+              <span className="text-blue-600 dark:text-orange-400">
                 {profile.problemSolver.toString()}
               </span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 9}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}aiDrivenDeveloper: </span>
-              <span className="text-orange-400">true</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}aiDrivenDeveloper: </span>
+              <span className="text-blue-600 dark:text-orange-400">true</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 10}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {"  "}automationEnthusiast:{" "}
               </span>
-              <span className="text-orange-400">true</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-blue-600 dark:text-orange-400">true</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 11}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}efficiencyOptimizer: </span>
-              <span className="text-orange-400">true</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}efficiencyOptimizer: </span>
+              <span className="text-blue-600 dark:text-orange-400">true</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 12}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}continuousLearner: </span>
-              <span className="text-orange-400">true</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}continuousLearner: </span>
+              <span className="text-blue-600 dark:text-orange-400">true</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 13}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}scalabilityFocused: </span>
-              <span className="text-orange-400">true</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}scalabilityFocused: </span>
+              <span className="text-blue-600 dark:text-orange-400">true</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 9}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}yearsOfExperience: </span>
-              <span className="text-blue-400">{profile.yearsOfExperience}</span>
-              <span className="text-gray-300">,</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}yearsOfExperience: </span>
+              <span className="text-emerald-700 dark:text-blue-400">{profile.yearsOfExperience}</span>
+              <span className="text-slate-700 dark:text-gray-300">,</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 10}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"  "}</span>
-              <span className="text-purple-400">hireable: function</span>
-              <span className="text-gray-300">() {"{"}</span>
+              <span className="text-slate-700 dark:text-gray-300">{"  "}</span>
+              <span className="text-blue-600 dark:text-purple-400">hireable: function</span>
+              <span className="text-slate-700 dark:text-gray-300">() {"{"}</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 11}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"    "}</span>
-              <span className="text-purple-400">return</span>
-              <span className="text-gray-300">{" ("}</span>
+              <span className="text-slate-700 dark:text-gray-300">{"    "}</span>
+              <span className="text-blue-600 dark:text-purple-400">return</span>
+              <span className="text-slate-700 dark:text-gray-300">{" ("}</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 12}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"      "}this.hardWorker </span>
-              <span className="text-purple-400">&&</span>
+              <span className="text-slate-700 dark:text-gray-300">{"      "}this.hardWorker </span>
+              <span className="text-blue-600 dark:text-purple-400">&&</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 13}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {"      "}this.problemSolver{" "}
               </span>
-              <span className="text-purple-400">&&</span>
+              <span className="text-blue-600 dark:text-purple-400">&&</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 14}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {"      "}this.skills.length{" "}
               </span>
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {">="}
                 {"  "}
               </span>
-              <span className="text-blue-400">5</span>
-              <span className="text-purple-400"> &&</span>
+              <span className="text-emerald-700 dark:text-blue-400">5</span>
+              <span className="text-blue-600 dark:text-purple-400"> &&</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 15}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {"      "}this.yearsOfExperience{" "}
               </span>
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {">="}
                 {"  "}
               </span>
-              <span className="text-blue-400">5</span>
+              <span className="text-emerald-700 dark:text-blue-400">5</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 16}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"    "});</span>
+              <span className="text-slate-700 dark:text-gray-300">{"    "});</span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 17}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">
+              <span className="text-slate-700 dark:text-gray-300">
                 {"  "}
                 {"}"}
               </span>
             </span>
           </div>
           <div className="line">
-            <span className="mr-4 inline-block w-8 text-right text-gray-500">
+            <span className="mr-4 inline-block w-8 text-right text-slate-400 dark:text-gray-500">
               {profile.skills.length + 18}
             </span>
             <span className="code-line">
-              <span className="text-gray-300">{"}"}</span>
-              <span className="text-gray-300">;</span>
+              <span className="text-slate-700 dark:text-gray-300">{"}"}</span>
+              <span className="text-slate-700 dark:text-gray-300">;</span>
             </span>
           </div>
         </code>

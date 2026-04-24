@@ -14,7 +14,6 @@ import {
   WifiSlashIcon,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 interface ConnectionStatusProps {
   className?: string;
@@ -28,16 +27,10 @@ export const ConnectionStatus = ({
   defaultShowStatusBar = true,
 }: ConnectionStatusProps) => {
   const { status, retry, isRetrying } = useConnectionStatus();
-  const [showStatusBar, setShowStatusBar] = useState(false);
-
-  // Show status bar when offline or having connection issues
-  useEffect(() => {
-    const shouldShow =
-      !status.isOnline ||
-      !status.isConnected ||
-      status.connectionQuality === "poor";
-    setShowStatusBar(shouldShow);
-  }, [status.isOnline, status.isConnected, status.connectionQuality]);
+  const showStatusBar =
+    !status.isOnline ||
+    !status.isConnected ||
+    status.connectionQuality === "poor";
 
   const getStatusIcon = () => {
     if (!status.isOnline) return <WifiSlashIcon className="w-4 h-4" />;
@@ -56,17 +49,17 @@ export const ConnectionStatus = ({
   };
 
   const getStatusColor = () => {
-    if (!status.isOnline || !status.isConnected) return "text-red-400";
+    if (!status.isOnline || !status.isConnected) return "text-text-muted";
 
     switch (status.connectionQuality) {
       case "excellent":
-        return "text-green-400";
+        return "text-text-primary";
       case "good":
-        return "text-yellow-400";
+        return "text-text-secondary";
       case "poor":
-        return "text-orange-400";
+        return "text-text-muted";
       default:
-        return "text-red-400";
+        return "text-text-muted";
     }
   };
 
@@ -103,10 +96,10 @@ export const ConnectionStatus = ({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
             className={cn(
-              "flex items-center justify-between p-3 border-b border-navy-lighter",
+              "flex items-center justify-between border-b border-borderSubtle p-3",
               !status.isOnline || !status.isConnected
-                ? "bg-red-500/10 text-red-400 border-red-500/30"
-                : "bg-yellow-500/10 text-yellow-400 border-yellow-500/30"
+                ? "bg-canvas-warm text-text-secondary"
+                : "bg-canvas-near text-text-primary"
             )}
           >
             <div className="flex items-center gap-2">
@@ -144,7 +137,7 @@ export const ConnectionStatus = ({
 
       {/* Compact Status Indicator */}
       {showDetails && (
-        <div className="flex items-center gap-2 text-xs text-slate/70">
+        <div className="flex items-center gap-2 text-xs text-text-muted">
           <div className={cn("flex items-center gap-1", getStatusColor())}>
             {getStatusIcon()}
             <span>{getStatusText()}</span>
@@ -152,7 +145,7 @@ export const ConnectionStatus = ({
 
           {status.lastConnectionTime && (
             <NoSSR>
-              <span className="text-slate/50">
+              <span className="text-text-muted">
                 • Last connected:{" "}
                 {status.lastConnectionTime.toLocaleTimeString()}
               </span>

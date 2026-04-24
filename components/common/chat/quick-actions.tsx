@@ -7,7 +7,6 @@ import {
   FolderOpenIcon, 
   PhoneIcon, 
   DownloadIcon, 
-  LinkedinLogoIcon,
   ArrowRightIcon,
   SparkleIcon,
   UserIcon,
@@ -24,8 +23,6 @@ interface QuickAction {
   title: string;
   description: string;
   icon: any;
-  color: string;
-  bgColor: string;
   message: string;
   category: 'info' | 'action' | 'contact';
 }
@@ -37,8 +34,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Skills Overview",
       description: "Get a comprehensive overview of technical skills",
       icon: CodeIcon,
-      color: "text-blue-400",
-      bgColor: "bg-blue-400/10 border-blue-400/20 hover:bg-blue-400/20",
       message: "Give me a comprehensive overview of your technical skills and expertise",
       category: "info"
     },
@@ -47,8 +42,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Recent Projects",
       description: "Show latest projects and achievements",
       icon: FolderOpenIcon,
-      color: "text-purple-400",
-      bgColor: "bg-purple-400/10 border-purple-400/20 hover:bg-purple-400/20", 
       message: "Show me your most recent and notable projects",
       category: "info"
     },
@@ -57,8 +50,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Experience Summary",
       description: "Professional background and career journey",
       icon: BriefcaseIcon,
-      color: "text-green-400",
-      bgColor: "bg-green-400/10 border-green-400/20 hover:bg-green-400/20",
       message: "Tell me about your professional experience and career journey",
       category: "info"
     },
@@ -67,8 +58,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Personal Story",
       description: "Learn about background and interests",
       icon: UserIcon,
-      color: "text-orange-400",
-      bgColor: "bg-orange-400/10 border-orange-400/20 hover:bg-orange-400/20",
       message: "Tell me about yourself, your background, and what drives you",
       category: "info"
     },
@@ -77,8 +66,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Get in Touch",
       description: "Contact information and availability",
       icon: PhoneIcon,
-      color: "text-pink-400",
-      bgColor: "bg-pink-400/10 border-pink-400/20 hover:bg-pink-400/20",
       message: "How can I contact you and what's the best way to reach out?",
       category: "contact"
     },
@@ -87,8 +74,6 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       title: "Resume & CV",
       description: "Download resume or get career summary",
       icon: DownloadIcon,
-      color: "text-cyan-400",
-      bgColor: "bg-cyan-400/10 border-cyan-400/20 hover:bg-cyan-400/20",
       message: "Can I get a copy of your resume or a detailed career summary?",
       category: "action"
     }
@@ -111,18 +96,18 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       className="mb-6 flex gap-3"
     >
       {/* Robot Avatar - matching ChatMessage style */}
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <RobotIcon className="w-4 h-4 text-primary" />
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+        <RobotIcon className="w-4 h-4 text-text-muted" />
       </div>
       
       {/* Content Container */}
       <div className="flex-1">
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <ArrowRightIcon className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-medium text-slate-lighter">Quick Actions</h3>
+            <ArrowRightIcon className="w-4 h-4 text-text-muted" />
+            <h3 className="text-sm font-medium text-text-primary">Quick Actions</h3>
           </div>
-          <p className="text-xs text-slate/70">
+          <p className="text-xs text-text-secondary">
             Get instant answers to common questions
           </p>
         </div>
@@ -137,9 +122,9 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
               <div className="flex items-center gap-2 mb-3">
                 {(() => {
                   const IconComponent = category.icon;
-                  return <IconComponent className="w-4 h-4 text-slate/70" />;
+                  return <IconComponent className="w-4 h-4 text-text-muted" />;
                 })()}
-                <h4 className="text-xs font-medium text-slate/70 uppercase tracking-wide">
+                <h4 className="text-xs font-medium text-text-muted uppercase tracking-wide">
                   {category.title}
                 </h4>
               </div>
@@ -152,24 +137,24 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
                     onClick={() => onSendMessage(action.message)}
-                    className={`p-3 rounded-lg border text-left transition-all duration-200 group ${action.bgColor}`}
+                    className="p-3 rounded-comfortable border border-borderSubtle bg-canvas-near text-left transition-all duration-200 group hover:bg-canvas-light hover:border-borderLight hover:shadow-outline-ring"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-navy/50 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-base bg-canvas-warm border border-borderSubtle flex items-center justify-center shadow-inset-border">
                         {(() => {
                           const IconComponent = action.icon;
-                          return <IconComponent className={`w-4 h-4 ${action.color}`} />;
+                          return <IconComponent className="w-4 h-4 text-text-muted group-hover:text-text-primary transition-colors" />;
                         })()}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h5 className="text-sm font-medium text-slate-lighter mb-1 group-hover:text-white transition-colors">
+                        <h5 className="text-sm font-medium text-text-primary mb-1 transition-colors">
                           {action.title}
                         </h5>
-                        <p className="text-xs text-slate/70 group-hover:text-slate/90 transition-colors">
+                        <p className="text-xs text-text-secondary group-hover:text-text-primary transition-colors">
                           {action.description}
                         </p>
                       </div>
-                      <ArrowRightIcon className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
+                      <ArrowRightIcon className="w-3 h-3 text-text-muted opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
                     </div>
                   </motion.button>
                 ))}
@@ -178,12 +163,12 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
           );
         })}
 
-        <div className="mt-4 p-3 bg-navy/20 border border-navy-lighter/50 rounded-lg">
+        <div className="mt-4 p-3 bg-canvas-near border border-borderSubtle rounded-comfortable shadow-inset-border">
           <div className="flex items-center gap-2 mb-1">
-            <SparkleIcon className="w-3 h-3 text-primary" />
-            <span className="text-xs font-medium text-slate-lighter">Pro Tip</span>
+            <SparkleIcon className="w-3 h-3 text-text-muted" />
+            <span className="text-xs font-medium text-text-primary">Pro Tip</span>
           </div>
-          <p className="text-xs text-slate/70">
+          <p className="text-xs text-text-secondary">
             You can also ask me anything specific about Mai&apos;s background, skills, or experience in your own words.
           </p>
         </div>

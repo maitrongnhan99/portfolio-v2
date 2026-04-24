@@ -1,4 +1,5 @@
 import EnhancedGlowEffect from "@/components/common/enhanced-glow-effect";
+import { AskMeStructuredData } from "@/components/common/seo/ask-me-structured-data";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import Favicon from "@/public/favicon_io/favicon-32x32.png";
 import type { Metadata } from "next";
@@ -65,6 +66,7 @@ export default function AIAssistantLayout({
 }) {
   return (
     <>
+      <AskMeStructuredData />
       <ThemeProvider
         attribute="class"
         defaultTheme="light"

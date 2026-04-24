@@ -10,11 +10,13 @@ import OgImage from "@/public/images/og_image.webp";
 import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Fira_Code, Inter } from "next/font/google";
+import { Fira_Code, Inter, Outfit, Geist_Mono } from "next/font/google";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-mono" });
+const waldenburgFallback = Outfit({ subsets: ["latin"], variable: "--font-waldenburg" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -88,10 +90,10 @@ export const metadata: Metadata = {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.variable, firaCode.variable)}>
+      <body className={cn(inter.variable, firaCode.variable, waldenburgFallback.variable, geistMono.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >

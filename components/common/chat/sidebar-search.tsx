@@ -86,7 +86,7 @@ export const SidebarSearch: React.FC<SidebarSearchProps> = ({
           >
             <ArrowLeftIcon className="w-5 h-5 text-slate-light" />
           </button>
-          <h2 className="text-slate-light font-mono text-lg">
+          <h2 className="text-foreground font-display font-light text-xl">
             Search Conversations
           </h2>
         </div>
@@ -126,12 +126,12 @@ const SearchInput: React.FC<{
   onClear: () => void;
 }> = ({ value, onChange, onClear }) => (
   <div className="relative mb-4">
-    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate/50" />
+    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
     <Input
       placeholder="Search messages, titles, or topics..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="pl-10 pr-10 bg-navy border-navy-lighter text-slate-light placeholder:text-slate/50"
+      className="pl-10 pr-10 bg-background border-border text-foreground placeholder:text-text-muted rounded-pill"
       autoFocus
     />
     {value && (
@@ -140,7 +140,7 @@ const SearchInput: React.FC<{
         className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate/10 rounded transition-colors"
         aria-label="Clear search"
       >
-        <XIcon className="w-4 h-4 text-slate/50" />
+        <XIcon className="w-4 h-4 text-text-muted" />
       </button>
     )}
   </div>
@@ -166,9 +166,9 @@ const SearchResults: React.FC<{
     return (
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
-          <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-3 text-slate/30" />
-          <p className="text-sm text-slate/60">Start typing to search</p>
-          <p className="text-xs text-slate/40 mt-2">
+          <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-3 text-text-muted/50" />
+          <p className="text-sm text-text-muted">Start typing to search</p>
+          <p className="text-xs text-text-muted/70 mt-2">
             Search in titles, messages, and topics
           </p>
         </div>
@@ -180,10 +180,10 @@ const SearchResults: React.FC<{
     return (
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-sm text-slate/60">
+          <p className="text-sm text-text-muted">
             No results found for &ldquo;{query}&rdquo;
           </p>
-          <p className="text-xs text-slate/40 mt-2">Try different keywords</p>
+          <p className="text-xs text-text-muted/70 mt-2">Try different keywords</p>
         </div>
       </div>
     );
@@ -191,7 +191,7 @@ const SearchResults: React.FC<{
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      <p className="text-xs text-slate/50 mb-3 flex-shrink-0">
+      <p className="text-xs text-text-muted mb-3 flex-shrink-0">
         {results.length} result{results.length !== 1 ? "s" : ""}
       </p>
       <div className="flex-1 overflow-y-auto custom-scrollbar space-y-2 pr-2">
@@ -233,7 +233,7 @@ const SearchResultItem: React.FC<{
       part.toLowerCase() === query.toLowerCase() ? (
         <mark
           key={i}
-          className="bg-yellow-500/30 text-slate-light rounded px-0.5"
+          className="bg-foreground text-background rounded px-0.5"
         >
           {part}
         </mark>
@@ -260,23 +260,23 @@ const SearchResultItem: React.FC<{
       onHoverEnd={() => setShowDelete(false)}
       className={cn(
         "relative px-3 py-3 rounded-md cursor-pointer transition-all",
-        isActive && "bg-primary/10 border border-primary/30",
-        isSelected && "ring-2 ring-primary/50",
-        !isActive && "hover:bg-slate/5"
+        isActive && "bg-secondary border border-border",
+        isSelected && "ring-2 ring-ring",
+        !isActive && "hover:bg-secondary/50"
       )}
       onClick={onClick}
       whileHover={{ x: 4 }}
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatTextIcon className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-mono text-slate-light">
+          <p className="text-sm font-mono text-foreground">
             {highlightText(result.conversation.title)}
           </p>
 
           {result.matchType === "message" && result.matchingMessages[0] && (
-            <p className="text-xs text-slate/60 mt-1 line-clamp-2">
+            <p className="text-xs text-text-muted mt-1 line-clamp-2">
               &ldquo;{highlightText(result.matchingMessages[0].text)}&rdquo;
             </p>
           )}
@@ -289,7 +289,7 @@ const SearchResultItem: React.FC<{
                   .map((topic, idx) => (
                     <span
                       key={idx}
-                      className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded"
+                      className="text-xs px-1.5 py-0.5 bg-background border border-border text-text-secondary rounded"
                     >
                       {highlightText(topic)}
                     </span>
@@ -297,7 +297,7 @@ const SearchResultItem: React.FC<{
               </div>
             )}
 
-          <div className="flex items-center gap-2 text-xs text-slate/50 mt-1">
+          <div className="flex items-center gap-2 text-xs text-text-muted mt-1">
             <span>Found {formatMatchType(result.matchType)}</span>
             <span>•</span>
             <span>{result.conversation.messages.length} messages</span>

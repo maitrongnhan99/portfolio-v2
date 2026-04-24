@@ -20,10 +20,10 @@ export interface UseConnectionStatusReturn {
 
 export const useConnectionStatus = (): UseConnectionStatusReturn => {
   const [status, setStatus] = useState<ConnectionStatus>({
-    isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
-    isConnected: true,
-    lastConnectionTime: new Date(),
-    connectionQuality: 'excellent',
+    isOnline: true,
+    isConnected: false,
+    lastConnectionTime: null,
+    connectionQuality: 'offline',
     retryCount: 0,
     error: null,
   });
@@ -114,6 +114,14 @@ export const useConnectionStatus = (): UseConnectionStatusReturn => {
 
   // Handle online/offline events
   useEffect(() => {
+    setStatus(prev => ({
+      ...prev,
+      isOnline: navigator.onLine,
+      isConnected: navigator.onLine ? prev.isConnected : false,
+      connectionQuality: navigator.onLine ? prev.connectionQuality : 'offline',
+      error: navigator.onLine ? prev.error : 'Device is offline',
+    }));
+
     const handleOnline = () => {
       setStatus(prev => ({ ...prev, isOnline: true }));
       checkConnection();
@@ -151,7 +159,9 @@ export const useConnectionStatus = (): UseConnectionStatusReturn => {
 
   // Initial connection check
   useEffect(() => {
-    checkConnection();
+    if (navigator.onLine) {
+      checkConnection();
+    }
   }, [checkConnection]);
 
   return {
