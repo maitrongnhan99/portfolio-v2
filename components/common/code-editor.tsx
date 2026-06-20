@@ -48,7 +48,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
               <span className="text-[#001080] dark:text-gray-300">dev_profile </span>
               <span className="text-[#24292f] dark:text-gray-300">= </span>
               <span className="text-[#24292f] dark:text-gray-300">{"{"}</span>
-              <span className="text-[#008000] dark:text-green-400"> // TypeScript profile</span>
+              <span className="text-[#008000] dark:text-green-400">{" // TypeScript profile"}</span>
             </span>
           </div>
           <div className="line">
@@ -78,7 +78,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
             <span className="code-line">
               <span className="text-[#001080] dark:text-gray-300">{"  "}skills: </span>
               <span className="text-[#24292f] dark:text-gray-300">[</span>
-              <span className="text-[#008000] dark:text-green-400"> // core stack</span>
+              <span className="text-[#008000] dark:text-green-400">{" // core stack"}</span>
             </span>
           </div>
           {profile.skills.map((skill, index) => (
@@ -199,7 +199,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
               <span className="text-[#001080] dark:text-gray-300">{"  "}yearsOfExperience: </span>
               <span className="text-[#098658] dark:text-blue-400">{profile.yearsOfExperience}</span>
               <span className="text-[#24292f] dark:text-gray-300">,</span>
-              <span className="text-[#008000] dark:text-green-400"> // production experience</span>
+              <span className="text-[#008000] dark:text-green-400">{" // production experience"}</span>
             </span>
           </div>
           <div className="line">

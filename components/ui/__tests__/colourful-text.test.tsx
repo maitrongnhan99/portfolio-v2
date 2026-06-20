@@ -129,7 +129,7 @@ describe('ColourfulText Component', () => {
           'inline-block',
           'whitespace-pre',
           'font-sans',
-          'tracking-tight'
+          'tracking-body'
         );
       });
     });

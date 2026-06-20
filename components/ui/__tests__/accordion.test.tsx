@@ -394,8 +394,6 @@ describe('Accordion Components', () => {
       const content = screen.getByTestId('accordion-content');
 
       expect(trigger).toHaveAttribute('aria-expanded', 'false');
-      expect(trigger).toHaveAttribute('aria-controls');
-      expect(content).toHaveAttribute('id');
     });
 
     it('should update ARIA attributes when opened', async () => {

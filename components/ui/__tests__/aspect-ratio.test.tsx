@@ -163,14 +163,14 @@ describe('AspectRatio Component', () => {
 
     it('should support style prop', () => {
       render(
-        <AspectRatio style={{ border: '1px solid red', margin: '10px' }}>
+        <AspectRatio style={{ margin: '10px', opacity: 0.5 }}>
           <div>Styled content</div>
         </AspectRatio>
       );
-      
+
       const aspectRatio = screen.getByTestId('aspect-ratio');
-      expect(aspectRatio).toHaveStyle('border: 1px solid red');
       expect(aspectRatio).toHaveStyle('margin: 10px');
+      expect(aspectRatio).toHaveStyle('opacity: 0.5');
     });
 
     it('should support event handlers', () => {

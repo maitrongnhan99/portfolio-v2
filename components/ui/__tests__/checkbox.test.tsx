@@ -4,13 +4,13 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Checkbox } from '../checkbox';
 
-// Mock ResizeObserver
+// Mock ResizeObserver - must be a proper class constructor, not an arrow function
 beforeAll(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver;
 });
 
 describe('Checkbox Component', () => {
@@ -272,11 +272,11 @@ describe('Checkbox Component', () => {
     });
 
     it('should support style prop', () => {
-      render(<Checkbox style={{ border: '2px solid red', margin: '10px' }} />);
-      
+      render(<Checkbox style={{ margin: '10px', opacity: 0.5 }} />);
+
       const checkbox = screen.getByTestId('checkbox');
-      expect(checkbox).toHaveStyle('border: 2px solid red');
       expect(checkbox).toHaveStyle('margin: 10px');
+      expect(checkbox).toHaveStyle('opacity: 0.5');
     });
   });
 

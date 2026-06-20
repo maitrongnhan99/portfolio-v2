@@ -98,6 +98,7 @@ export const useConversationSearch = (
     score += messageMatches * 2;
     
     // Recency bonus
+    // eslint-disable-next-line react-hooks/purity
     const daysSinceUpdate = (Date.now() - conversation.updatedAt.getTime()) / (1000 * 60 * 60 * 24);
     if (daysSinceUpdate < 7) score += 3;
     else if (daysSinceUpdate < 30) score += 1;
@@ -179,6 +180,7 @@ export const useConversationSearch = (
     if (filters.filterBy !== 'all') {
       switch (filters.filterBy) {
         case 'recent':
+          // eslint-disable-next-line react-hooks/purity
           const recentDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
           filtered = filtered.filter(conv => conv.updatedAt >= recentDate);
           break;
@@ -253,10 +255,10 @@ export const useConversationSearch = (
   // Debounced search effect
   useEffect(() => {
     if (filters.query.trim()) {
-      setIsSearching(true);
       const timer = setTimeout(() => {
-        setIsSearching(false);
-      }, 300);
+        setIsSearching(true);
+        setTimeout(() => setIsSearching(false), 300);
+      }, 0);
       return () => clearTimeout(timer);
     }
   }, [filters.query]);

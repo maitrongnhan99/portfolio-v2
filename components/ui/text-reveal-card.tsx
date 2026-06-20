@@ -147,30 +147,38 @@ export const TextRevealCardDescription = ({
   );
 };
 
+const STAR_DATA = Array.from({ length: 80 }, () => ({
+  initTop: Math.random() * 100,
+  initLeft: Math.random() * 100,
+  animTop: Math.random() * 100,
+  animLeft: Math.random() * 100,
+  moveTop: Math.random() * 4 - 2,
+  moveLeft: Math.random() * 4 - 2,
+  opacity: Math.random(),
+  duration: Math.random() * 10 + 20,
+}));
+
 const Stars = () => {
-  const randomMove = () => Math.random() * 4 - 2;
-  const randomOpacity = () => Math.random();
-  const random = () => Math.random();
   return (
     <div className="absolute inset-0">
-      {[...Array(80)].map((_, i) => (
+      {STAR_DATA.map((s, i) => (
         <motion.span
           key={`star-${i}`}
           animate={{
-            top: `calc(${random() * 100}% + ${randomMove()}px)`,
-            left: `calc(${random() * 100}% + ${randomMove()}px)`,
-            opacity: randomOpacity(),
+            top: `calc(${s.animTop}% + ${s.moveTop}px)`,
+            left: `calc(${s.animLeft}% + ${s.moveLeft}px)`,
+            opacity: s.opacity,
             scale: [1, 1.2, 0],
           }}
           transition={{
-            duration: random() * 10 + 20,
+            duration: s.duration,
             repeat: Infinity,
             ease: "linear",
           }}
           style={{
             position: "absolute",
-            top: `${random() * 100}%`,
-            left: `${random() * 100}%`,
+            top: `${s.initTop}%`,
+            left: `${s.initLeft}%`,
             width: `2px`,
             height: `2px`,
             backgroundColor: "white",

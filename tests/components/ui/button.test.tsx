@@ -21,10 +21,10 @@ describe('Button Component', () => {
     expect(screen.getByRole('button')).toHaveClass('border');
 
     rerender(<Button variant="secondary">Secondary</Button>);
-    expect(screen.getByRole('button')).toHaveClass('bg-secondary');
+    expect(screen.getByRole('button')).toHaveClass('bg-canvas-warm');
 
     rerender(<Button variant="ghost">Ghost</Button>);
-    expect(screen.getByRole('button')).toHaveClass('hover:bg-accent');
+    expect(screen.getByRole('button')).toHaveClass('hover:bg-canvas-warm');
 
     rerender(<Button variant="link">Link</Button>);
     expect(screen.getByRole('button')).toHaveClass('underline-offset-4');

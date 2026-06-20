@@ -11,6 +11,15 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
+const PARTICLES = Array.from({ length: 6 }, () => ({
+  x: Math.random() * 100 - 50,
+  y: Math.random() * 100 - 50,
+  duration: 3 + Math.random() * 2,
+  delay: Math.random() * 2,
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+}));
+
 interface AnimatedWelcomeProps {
   onComplete?: () => void;
 }
@@ -68,12 +77,13 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
   useEffect(() => {
     if (currentPhase < phases.length) {
       const text = phases[currentPhase].text;
-      setDisplayedText("");
+
+      const resetTimer = setTimeout(() => setDisplayedText(""), 0);
 
       const timer = setTimeout(() => {
         // Set the full text immediately, let the animation handle the reveal
         setDisplayedText(text);
-        
+
         // Wait for the animation to complete before moving to next phase
         const animationDuration = text.length * 30 + 200; // 30ms per character + 200ms buffer
         setTimeout(() => {
@@ -81,11 +91,16 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
         }, animationDuration + 800);
       }, phases[currentPhase].delay);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(resetTimer);
+        clearTimeout(timer);
+      };
     } else {
       // Start topic rotation
-      setIsComplete(true);
-      onComplete?.();
+      setTimeout(() => {
+        setIsComplete(true);
+        onComplete?.();
+      }, 0);
     }
   }, [currentPhase, onComplete, phases]);
 
@@ -275,25 +290,25 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
 
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {PARTICLES.map((p, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-text-muted/30 rounded-full"
             animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
+              x: [0, p.x],
+              y: [0, p.y],
               opacity: [0, 1, 0],
               scale: [0, 1, 0],
             }}
             transition={{
               repeat: Infinity,
-              duration: 3 + Math.random() * 2,
-              delay: Math.random() * 2,
+              duration: p.duration,
+              delay: p.delay,
               ease: "easeInOut",
             }}
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: p.left,
+              top: p.top,
             }}
           />
         ))}

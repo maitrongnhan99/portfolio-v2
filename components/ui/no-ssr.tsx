@@ -11,7 +11,8 @@ export function NoSSR({ children, fallback = null }: NoSSRProps) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    const timeout = setTimeout(() => setIsClient(true), 0);
+    return () => clearTimeout(timeout);
   }, []);
 
   return isClient ? <>{children}</> : <>{fallback}</>;
