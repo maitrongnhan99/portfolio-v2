@@ -14,14 +14,14 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
           <div key={index} className="space-y-2">
             <div className="flex items-center gap-2">
               {project.emoji && <span className="text-lg" aria-hidden="true">{project.emoji}</span>}
-              <h3 className="font-semibold text-gray-900">{project.name}</h3>
+              <h3 className="font-semibold text-text-primary">{project.name}</h3>
               <div className="flex gap-2">
                 {project.links.github && (
                   <Link
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} on GitHub`}
                   >
                     [GitHub]
@@ -32,7 +32,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} live demo`}
                   >
                     [Live Demo]
@@ -43,7 +43,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.npm}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} on NPM`}
                   >
                     [NPM]
@@ -52,7 +52,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
               </div>
             </div>
             
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-text-secondary leading-relaxed">
               {project.description}
             </p>
             
@@ -60,7 +60,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
               {project.technologies.map((tech, techIndex) => (
                 <span
                   key={techIndex}
-                  className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                  className="px-2 py-1 bg-canvas-warm text-text-secondary text-xs rounded border border-borderSubtle"
                 >
                   {tech}
                 </span>

@@ -81,12 +81,12 @@ export const SidebarSearch: React.FC<SidebarSearchProps> = ({
               resetSearch();
               onBack();
             }}
-            className="p-1 hover:bg-slate/10 rounded transition-colors"
+            className="p-1 hover:bg-canvas-warm rounded transition-colors"
             aria-label="Back to controls"
           >
-            <ArrowLeftIcon className="w-5 h-5 text-slate-light" />
+            <ArrowLeftIcon className="w-5 h-5 text-text-muted" />
           </button>
-          <h2 className="text-foreground font-display font-light text-xl">
+          <h2 className="text-text-primary font-display font-light text-xl">
             Search Conversations
           </h2>
         </div>
@@ -131,13 +131,13 @@ const SearchInput: React.FC<{
       placeholder="Search messages, titles, or topics..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="pl-10 pr-10 bg-background border-border text-foreground placeholder:text-text-muted rounded-pill"
+      className="pl-10 pr-10 bg-canvas-white border-borderLight text-text-primary placeholder:text-text-muted rounded-pill shadow-inset-border"
       autoFocus
     />
     {value && (
       <button
         onClick={onClear}
-        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate/10 rounded transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-canvas-warm rounded transition-colors"
         aria-label="Clear search"
       >
         <XIcon className="w-4 h-4 text-text-muted" />
@@ -233,7 +233,7 @@ const SearchResultItem: React.FC<{
       part.toLowerCase() === query.toLowerCase() ? (
         <mark
           key={i}
-          className="bg-foreground text-background rounded px-0.5"
+          className="bg-canvas-warm text-text-primary rounded px-0.5"
         >
           {part}
         </mark>
@@ -260,9 +260,9 @@ const SearchResultItem: React.FC<{
       onHoverEnd={() => setShowDelete(false)}
       className={cn(
         "relative px-3 py-3 rounded-md cursor-pointer transition-all",
-        isActive && "bg-secondary border border-border",
+        isActive && "bg-canvas-warm border border-borderSubtle",
         isSelected && "ring-2 ring-ring",
-        !isActive && "hover:bg-secondary/50"
+        !isActive && "hover:bg-canvas-light"
       )}
       onClick={onClick}
       whileHover={{ x: 4 }}
@@ -271,7 +271,7 @@ const SearchResultItem: React.FC<{
       <div className="flex items-start gap-2">
         <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-mono text-foreground">
+          <p className="text-sm font-mono text-text-primary">
             {highlightText(result.conversation.title)}
           </p>
 
@@ -289,7 +289,7 @@ const SearchResultItem: React.FC<{
                   .map((topic, idx) => (
                     <span
                       key={idx}
-                      className="text-xs px-1.5 py-0.5 bg-background border border-border text-text-secondary rounded"
+                      className="text-xs px-1.5 py-0.5 bg-canvas-warm border border-borderSubtle text-text-secondary rounded"
                     >
                       {highlightText(topic)}
                     </span>
@@ -321,10 +321,10 @@ const SearchResultItem: React.FC<{
                 e.stopPropagation();
                 onDelete();
               }}
-              className="absolute right-2 top-2 p-1 rounded hover:bg-red-500/10 transition-colors"
+              className="absolute right-2 top-2 p-1 rounded hover:bg-canvas-warm transition-colors"
               aria-label="Delete conversation"
             >
-              <TrashIcon className="w-3.5 h-3.5 text-red-500" />
+              <TrashIcon className="w-3.5 h-3.5 text-text-muted" />
             </motion.button>
           )}
         </AnimatePresence>

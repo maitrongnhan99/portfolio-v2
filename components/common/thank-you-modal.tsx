@@ -37,7 +37,7 @@ const ThankYouModal: FC<ThankYouModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-navy-light/95 backdrop-blur-md border-navy-lighter text-slate-lighter overflow-hidden">
+      <DialogContent className="sm:max-w-[500px] bg-canvas-white/95 backdrop-blur-md border-borderLight text-text-primary shadow-outline-ring overflow-hidden">
         <Fireflies
           count={15}
           minSize={1}
@@ -60,7 +60,7 @@ const ThankYouModal: FC<ThankYouModalProps> = ({
               className="mx-auto"
             >
               <CheckCircleIcon
-                className="w-16 h-16 text-primary mx-auto"
+                className="w-16 h-16 text-text-muted mx-auto"
                 weight="duotone"
               />
             </motion.div>
@@ -70,10 +70,10 @@ const ThankYouModal: FC<ThankYouModalProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <DialogTitle className="text-2xl font-bold text-slate-lighter">
+              <DialogTitle className="text-2xl font-bold text-text-primary">
                 Thank You!
               </DialogTitle>
-              <DialogDescription className="text-slate mt-2">
+              <DialogDescription className="text-text-secondary mt-2">
                 Your message has been sent successfully. I&apos;ll get back to you as
                 soon as possible.
               </DialogDescription>
@@ -86,7 +86,7 @@ const ThankYouModal: FC<ThankYouModalProps> = ({
             transition={{ delay: 0.4 }}
             className="mt-6 text-center"
           >
-            <p className="text-sm text-slate-light">
+            <p className="text-sm text-text-muted">
               This window will close automatically in {autoCloseDelay / 1000}{" "}
               seconds
             </p>

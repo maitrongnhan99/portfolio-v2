@@ -21,13 +21,13 @@ export const ChatSettings = React.memo(
               onClick={onToggleStreaming}
               className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
                 settings.useStreaming
-                  ? "bg-primary/20 text-primary border border-primary/30"
-                  : "bg-slate/10 text-slate border border-slate/20"
+                  ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                  : "bg-canvas-near text-text-secondary border border-borderSubtle"
               }`}
             >
               {settings.useStreaming ? "Streaming ON" : "Streaming OFF"}
             </button>
-            <span className="text-xs text-slate/50">
+            <span className="text-xs text-text-muted">
               {settings.useStreaming
                 ? "Real-time responses"
                 : "Complete responses"}
@@ -40,13 +40,13 @@ export const ChatSettings = React.memo(
               onClick={onToggleAutoSave}
               className={`px-3 py-1 rounded-full text-xs font-mono transition-all ${
                 settings.autoSave
-                  ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                  : "bg-slate/10 text-slate border border-slate/20"
+                  ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                  : "bg-canvas-near text-text-secondary border border-borderSubtle"
               }`}
             >
               {settings.autoSave ? "Auto-save ON" : "Auto-save OFF"}
             </button>
-            <span className="text-xs text-slate/50">
+            <span className="text-xs text-text-muted">
               {settings.autoSave ? "Saves automatically" : "Manual save only"}
             </span>
           </div>

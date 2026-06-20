@@ -176,8 +176,9 @@ export default function ContactFormModal({
             </Button>
             <Button
               type="submit"
+              variant="warm"
               disabled={isSubmitting}
-              className="bg-canvas-warm text-text-primary hover:opacity-90 rounded-pill shadow-warm-lift border border-borderSubtle tracking-body font-medium transition-all hover:scale-105 active:scale-95 px-6"
+              className="bg-canvas-warm text-text-primary hover:bg-[#ede7e1] hover:text-text-primary rounded-pill shadow-warm-lift border border-borderSubtle tracking-body font-medium transition-all hover:scale-105 active:scale-95 px-6"
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">

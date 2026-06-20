@@ -1,0 +1,9 @@
+allowBuilds:
+  bufferutil: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  utf-8-validate: true
+
+overrides:
+  "@eslint/plugin-kit": "^0.3.3"

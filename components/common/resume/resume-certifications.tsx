@@ -14,14 +14,14 @@ export const ResumeCertifications = ({ data }: ResumeCertificationsProps) => {
       <ul className="space-y-2">
         {data.map((cert, index) => (
           <li key={index} className="flex items-center gap-2">
-            <span className="font-semibold text-gray-900">{cert.name}</span>
-            <span className="text-gray-600">— {cert.issuer}, {cert.date}</span>
+            <span className="font-semibold text-text-primary">{cert.name}</span>
+            <span className="text-text-muted">— {cert.issuer}, {cert.date}</span>
             {cert.link && (
               <Link
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+                className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                 aria-label={`Verify ${cert.name} certification`}
               >
                 [Verify]

@@ -36,6 +36,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
               }
               alt={project.title}
               fill
+              sizes="(max-width: 768px) 100vw, 300px"
               className="object-contain transition-transform duration-500 group-hover:scale-105"
               onError={() => setImageError(true)}
               onLoad={() => setImageError(false)}

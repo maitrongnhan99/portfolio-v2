@@ -61,11 +61,11 @@ export function ExportButton({
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent align="end" className="w-48 bg-navy-light border-navy-lighter">
+      <DropdownMenuContent align="end" className="w-48 bg-canvas-white border-borderLight shadow-outline-ring">
         <DropdownMenuItem
           onClick={() => handleQuickExport('markdown')}
           disabled={isExporting === 'markdown'}
-          className="text-slate-lighter hover:bg-navy cursor-pointer"
+          className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" />
@@ -76,7 +76,7 @@ export function ExportButton({
         <DropdownMenuItem
           onClick={() => handleQuickExport('txt')}
           disabled={isExporting === 'txt'}
-          className="text-slate-lighter hover:bg-navy cursor-pointer"
+          className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" />
@@ -87,7 +87,7 @@ export function ExportButton({
         <DropdownMenuItem
           onClick={() => handleQuickExport('json')}
           disabled={isExporting === 'json'}
-          className="text-slate-lighter hover:bg-navy cursor-pointer"
+          className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" />
@@ -98,7 +98,7 @@ export function ExportButton({
         <DropdownMenuItem
           onClick={() => handleQuickExport('csv')}
           disabled={isExporting === 'csv'}
-          className="text-slate-lighter hover:bg-navy cursor-pointer"
+          className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <DownloadIcon className="w-4 h-4" />
@@ -106,12 +106,12 @@ export function ExportButton({
           </div>
         </DropdownMenuItem>
         
-        <DropdownMenuSeparator className="bg-navy-lighter" />
+        <DropdownMenuSeparator className="bg-borderSubtle" />
         
         <ExportDialog conversation={conversation} disabled={disabled}>
           <DropdownMenuItem
             onSelect={(e) => e.preventDefault()}
-            className="text-slate-lighter hover:bg-navy cursor-pointer"
+            className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <DownloadIcon className="w-4 h-4" />
@@ -123,4 +123,3 @@ export function ExportButton({
     </DropdownMenu>
   );
 }
-

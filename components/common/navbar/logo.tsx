@@ -13,7 +13,7 @@ const NavLogo: FC = () => {
         alt="Mai Trọng Nhân Portfolio Logo"
         width={48}
         height={48}
-        className="rounded-full"
+        className="rounded-full brightness-0 transition dark:invert"
       />
     </Link>
   );

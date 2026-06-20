@@ -10,6 +10,12 @@ interface AIChatbotWidgetProps {
   showDelay?: number;
 }
 
+const floatingParticles = [
+  { x: 8, y: -6, duration: 2.2, delay: 0.1, left: 24, top: 24 },
+  { x: -7, y: 9, duration: 2.7, delay: 0.8, left: 68, top: 36 },
+  { x: 5, y: 8, duration: 2.4, delay: 1.3, left: 44, top: 70 },
+];
+
 export const AIChatbotWidget = ({
   autoShow = true,
   showDelay = 2000,
@@ -89,7 +95,7 @@ export const AIChatbotWidget = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.8 }}
                 transition={{ duration: 0.3 }}
-                className="relative max-w-xs"
+                className="relative max-w-xs mb-2"
               >
                 <div className="bg-card/95 backdrop-blur-md border border-border rounded-2xl p-4 shadow-md">
                   <div className="flex items-start gap-3">
@@ -107,12 +113,15 @@ export const AIChatbotWidget = ({
                       >
                         {tips[currentTipIndex]}
                       </motion.p>
-                      <div className="flex items-center gap-1 mt-2">
+                      <button
+                        onClick={handleClick}
+                        className="flex items-center gap-1 mt-4 hover:opacity-80 transition-opacity cursor-pointer text-left"
+                      >
                         <SparkleIcon className="w-3 h-3 text-text-muted" />
                         <span className="text-xs text-text-muted font-mono">
                           Click to start chatting
                         </span>
-                      </div>
+                      </button>
                     </div>
                     <button
                       onClick={handleDismiss}
@@ -124,7 +133,7 @@ export const AIChatbotWidget = ({
                   </div>
                 </div>
                 {/* Arrow pointing to widget */}
-                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-card border-r border-b border-border transform rotate-45" />
+                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-card border-r border-b border-border transform rotate-45" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -176,31 +185,31 @@ export const AIChatbotWidget = ({
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"
+                className="absolute -top-1 -right-1 w-4 h-4 bg-text-muted rounded-full border-2 border-background"
               />
             </div>
 
             {/* Floating particles */}
             <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
-              {[...Array(3)].map((_, i) => (
+              {floatingParticles.map((particle, i) => (
                 <motion.div
                   key={i}
                   className="absolute w-1 h-1 bg-foreground/20 rounded-full"
                   animate={{
-                    x: [0, Math.random() * 20 - 10],
-                    y: [0, Math.random() * 20 - 10],
+                    x: [0, particle.x],
+                    y: [0, particle.y],
                     opacity: [0, 1, 0],
                     scale: [0, 1, 0],
                   }}
                   transition={{
                     repeat: Infinity,
-                    duration: 2 + Math.random(),
-                    delay: Math.random() * 2,
+                    duration: particle.duration,
+                    delay: particle.delay,
                     ease: "easeInOut",
                   }}
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
+                    left: `${particle.left}%`,
+                    top: `${particle.top}%`,
                   }}
                 />
               ))}

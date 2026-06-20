@@ -3,17 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { MoonStarsIcon, SunDimIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
+import { useMountedState } from "react-use";
 
 const ThemeToggle: FC = () => {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMountedState();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!mounted()) {
     return <div className="h-8 w-16" />;
   }
 
@@ -26,16 +23,16 @@ const ThemeToggle: FC = () => {
       size="icon"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      className="relative h-8 w-16 rounded-full p-0 transition-all duration-300 ease-out ring-1 data-[state=light]:ring-[rgba(0,0,0,0.06)] data-[state=dark]:ring-[rgba(255,255,255,0.15)] shadow-[rgba(0,0,0,0.04)_0px_4px_4px] data-[state=light]:bg-[rgba(245,242,239,0.8)] data-[state=dark]:bg-[rgba(255,255,255,0.08)] hover:opacity-95"
+      className="relative h-8 w-16 rounded-full p-0 transition-all duration-300 ease-out ring-1 ring-borderSubtle shadow-warm-lift data-[state=light]:bg-canvas-warm data-[state=dark]:bg-[rgba(255,255,255,0.08)] hover:opacity-95"
       data-state={isDark ? "dark" : "light"}
     >
       <div className="absolute inset-0 flex items-center justify-between px-[9px] pointer-events-none">
-        <MoonStarsIcon className={`h-3.5 w-3.5 transition-colors ${isDark ? 'text-white/40' : 'text-black/40'}`} />
-        <SunDimIcon className={`h-3.5 w-3.5 transition-colors ${isDark ? 'text-white/40' : 'text-black/40'}`} />
+        <MoonStarsIcon className="h-3.5 w-3.5 text-text-muted transition-colors" />
+        <SunDimIcon className="h-3.5 w-3.5 text-text-muted transition-colors" />
       </div>
       <span
         className={`absolute top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full shadow-[rgba(0,0,0,0.4)_0px_0px_1px,rgba(0,0,0,0.04)_0px_4px_4px] transition-all duration-300 ${
-          isDark ? "left-1 bg-white text-black" : "left-[calc(100%-1.75rem)] bg-black text-white"
+          isDark ? "left-1 bg-white text-black" : "left-[calc(100%-1.75rem)] bg-canvas-white text-text-primary"
         }`}
       >
         {isDark ? <MoonStarsIcon className="h-3.5 w-3.5" /> : <SunDimIcon className="h-3.5 w-3.5" />}

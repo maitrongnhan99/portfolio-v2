@@ -184,10 +184,10 @@ export function ExportDialog({
   if (isControlled) {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[500px] bg-navy-light border-navy-lighter">
+        <DialogContent className="sm:max-w-[500px] bg-canvas-white border-borderLight shadow-outline-ring">
           <DialogHeader>
-            <DialogTitle className="text-slate-lighter flex items-center gap-2">
-              <DownloadIcon className="w-5 h-5 text-primary" />
+            <DialogTitle className="text-text-primary flex items-center gap-2">
+              <DownloadIcon className="w-5 h-5 text-text-muted" />
               Export Conversation
             </DialogTitle>
           </DialogHeader>
@@ -195,7 +195,7 @@ export function ExportDialog({
           <div className="space-y-6">
             {/* Format Selection */}
             <div className="space-y-3">
-              <Label className="text-slate-lighter font-medium">
+              <Label className="text-text-primary font-medium">
                 Export Format
               </Label>
               <Select
@@ -204,21 +204,21 @@ export function ExportDialog({
                   setSelectedFormat(value as ExportFormat)
                 }
               >
-                <SelectTrigger className="bg-navy border-navy-lighter text-slate-lighter">
+                <SelectTrigger className="bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                   <SelectValue placeholder="Select format" />
                 </SelectTrigger>
-                <SelectContent className="bg-navy-light border-navy-lighter">
+                <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
                   {formatOptions.map((format) => (
                     <SelectItem
                       key={format.value}
                       value={format.value}
-                      className="text-slate-lighter hover:bg-navy"
+                      className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
                     >
                       <div className="flex items-center gap-3">
                         <format.icon className="w-6 h-6" />
                         <div className="text-left">
                           <div className="font-medium">{format.label}</div>
-                          <div className="text-xs text-slate/60">
+                          <div className="text-xs text-text-muted">
                             {format.description}
                           </div>
                         </div>
@@ -231,7 +231,7 @@ export function ExportDialog({
 
             {/* Export Options */}
             <div className="space-y-3">
-              <Label className="text-slate-lighter font-medium">
+              <Label className="text-text-primary font-medium">
                 Export Options
               </Label>
               <div className="grid grid-cols-2 gap-3">
@@ -242,11 +242,11 @@ export function ExportDialog({
                     onCheckedChange={(checked) =>
                       updateExportOption("includeMetadata", checked as boolean)
                     }
-                    className="border-navy-lighter"
+                    className="border-borderLight"
                   />
                   <Label
                     htmlFor="metadata"
-                    className="text-sm text-slate-lighter"
+                    className="text-sm text-text-secondary"
                   >
                     Include metadata
                   </Label>
@@ -259,11 +259,11 @@ export function ExportDialog({
                     onCheckedChange={(checked) =>
                       updateExportOption("includeSources", checked as boolean)
                     }
-                    className="border-navy-lighter"
+                    className="border-borderLight"
                   />
                   <Label
                     htmlFor="sources"
-                    className="text-sm text-slate-lighter"
+                    className="text-sm text-text-secondary"
                   >
                     Include sources
                   </Label>
@@ -279,11 +279,11 @@ export function ExportDialog({
                         checked as boolean
                       )
                     }
-                    className="border-navy-lighter"
+                    className="border-borderLight"
                   />
                   <Label
                     htmlFor="timestamps"
-                    className="text-sm text-slate-lighter"
+                    className="text-sm text-text-secondary"
                   >
                     Include timestamps
                   </Label>
@@ -296,11 +296,11 @@ export function ExportDialog({
                     onCheckedChange={(checked) =>
                       updateExportOption("compressOutput", checked as boolean)
                     }
-                    className="border-navy-lighter"
+                    className="border-borderLight"
                   />
                   <Label
                     htmlFor="compress"
-                    className="text-sm text-slate-lighter"
+                    className="text-sm text-text-secondary"
                   >
                     Compress output
                   </Label>
@@ -309,16 +309,16 @@ export function ExportDialog({
             </div>
 
             {/* Preview Info */}
-            <div className="bg-navy/50 rounded-lg p-4 border border-navy-lighter">
+            <div className="bg-canvas-warm rounded-card p-4 border border-borderSubtle shadow-warm-lift">
               <div className="flex items-center gap-2 mb-2">
                 {selectedFormatInfo && (
-                  <selectedFormatInfo.icon className="w-4 h-4 text-primary" />
+                  <selectedFormatInfo.icon className="w-4 h-4 text-text-muted" />
                 )}
-                <span className="text-sm font-medium text-slate-lighter">
+                <span className="text-sm font-medium text-text-primary">
                   Export Preview
                 </span>
               </div>
-              <div className="space-y-1 text-xs text-slate/70">
+              <div className="space-y-1 text-xs text-text-secondary">
                 {conversation ? (
                   <>
                     <div>Conversation: {conversation.title}</div>
@@ -357,14 +357,14 @@ export function ExportDialog({
                 variant="outline"
                 onClick={() => setIsOpen(false)}
                 disabled={isExporting}
-                className="border-navy-lighter text-slate-lighter hover:bg-navy-light"
+                className="border-borderLight text-text-secondary hover:bg-canvas-light hover:text-text-primary"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleExport}
                 disabled={isExporting}
-                className="bg-primary text-white hover:bg-primary/90"
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 {isExporting ? (
                   <>
@@ -375,7 +375,7 @@ export function ExportDialog({
                         repeat: Infinity,
                         ease: "linear",
                       }}
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
+                      className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full mr-2"
                     />
                     Exporting...
                   </>
@@ -400,10 +400,10 @@ export function ExportDialog({
         {children}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[500px] bg-navy-light border-navy-lighter">
+      <DialogContent className="sm:max-w-[500px] bg-canvas-white border-borderLight shadow-outline-ring">
         <DialogHeader>
-          <DialogTitle className="text-slate-lighter flex items-center gap-2">
-            <DownloadIcon className="w-5 h-5 text-primary" />
+          <DialogTitle className="text-text-primary flex items-center gap-2">
+            <DownloadIcon className="w-5 h-5 text-text-muted" />
             Export Conversation
           </DialogTitle>
         </DialogHeader>
@@ -411,7 +411,7 @@ export function ExportDialog({
         <div className="space-y-6">
           {/* Format Selection */}
           <div className="space-y-3">
-            <Label className="text-slate-lighter font-medium">
+            <Label className="text-text-primary font-medium">
               Export Format
             </Label>
             <Select
@@ -420,21 +420,21 @@ export function ExportDialog({
                 setSelectedFormat(value as ExportFormat)
               }
             >
-              <SelectTrigger className="bg-navy border-navy-lighter text-slate-lighter">
+              <SelectTrigger className="bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                 <SelectValue placeholder="Select format" />
               </SelectTrigger>
-              <SelectContent className="bg-navy-light border-navy-lighter">
+              <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
                 {formatOptions.map((format) => (
                   <SelectItem
                     key={format.value}
                     value={format.value}
-                    className="text-slate-lighter hover:bg-navy"
+                    className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
                   >
                     <div className="flex items-center gap-2">
                       <format.icon className="w-4 h-4" />
                       <div>
                         <div className="font-medium">{format.label}</div>
-                        <div className="text-xs text-slate/60">
+                        <div className="text-xs text-text-muted">
                           {format.description}
                         </div>
                       </div>
@@ -447,7 +447,7 @@ export function ExportDialog({
 
           {/* Export Options */}
           <div className="space-y-3">
-            <Label className="text-slate-lighter font-medium">
+            <Label className="text-text-primary font-medium">
               Export Options
             </Label>
             <div className="grid grid-cols-2 gap-3">
@@ -458,11 +458,11 @@ export function ExportDialog({
                   onCheckedChange={(checked) =>
                     updateExportOption("includeMetadata", checked as boolean)
                   }
-                  className="border-navy-lighter"
+                  className="border-borderLight"
                 />
                 <Label
                   htmlFor="metadata"
-                  className="text-sm text-slate-lighter"
+                  className="text-sm text-text-secondary"
                 >
                   Include metadata
                 </Label>
@@ -475,9 +475,9 @@ export function ExportDialog({
                   onCheckedChange={(checked) =>
                     updateExportOption("includeSources", checked as boolean)
                   }
-                  className="border-navy-lighter"
+                  className="border-borderLight"
                 />
-                <Label htmlFor="sources" className="text-sm text-slate-lighter">
+                <Label htmlFor="sources" className="text-sm text-text-secondary">
                   Include sources
                 </Label>
               </div>
@@ -489,11 +489,11 @@ export function ExportDialog({
                   onCheckedChange={(checked) =>
                     updateExportOption("includeTimestamps", checked as boolean)
                   }
-                  className="border-navy-lighter"
+                  className="border-borderLight"
                 />
                 <Label
                   htmlFor="timestamps"
-                  className="text-sm text-slate-lighter"
+                  className="text-sm text-text-secondary"
                 >
                   Include timestamps
                 </Label>
@@ -506,11 +506,11 @@ export function ExportDialog({
                   onCheckedChange={(checked) =>
                     updateExportOption("compressOutput", checked as boolean)
                   }
-                  className="border-navy-lighter"
+                  className="border-borderLight"
                 />
                 <Label
                   htmlFor="compress"
-                  className="text-sm text-slate-lighter"
+                  className="text-sm text-text-secondary"
                 >
                   Compress output
                 </Label>
@@ -519,16 +519,16 @@ export function ExportDialog({
           </div>
 
           {/* Preview Info */}
-          <div className="bg-navy/50 rounded-lg p-4 border border-navy-lighter">
+          <div className="bg-canvas-warm rounded-card p-4 border border-borderSubtle shadow-warm-lift">
             <div className="flex items-center gap-2 mb-2">
               {selectedFormatInfo && (
-                <selectedFormatInfo.icon className="w-4 h-4 text-primary" />
+                <selectedFormatInfo.icon className="w-4 h-4 text-text-muted" />
               )}
-              <span className="text-sm font-medium text-slate-lighter">
+              <span className="text-sm font-medium text-text-primary">
                 Export Preview
               </span>
             </div>
-            <div className="space-y-1 text-xs text-slate/70">
+            <div className="space-y-1 text-xs text-text-secondary">
               {conversation ? (
                 <>
                   <div>Conversation: {conversation.title}</div>
@@ -566,14 +566,14 @@ export function ExportDialog({
               variant="outline"
               onClick={() => setIsOpen(false)}
               disabled={isExporting}
-              className="border-navy-lighter text-slate-lighter hover:bg-navy-light"
+              className="border-borderLight text-text-secondary hover:bg-canvas-light hover:text-text-primary"
             >
               Cancel
             </Button>
             <Button
               onClick={handleExport}
               disabled={isExporting}
-              className="bg-primary text-white hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {isExporting ? (
                 <>
@@ -584,7 +584,7 @@ export function ExportDialog({
                       repeat: Infinity,
                       ease: "linear",
                     }}
-                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full"
                   />
                   Exporting...
                 </>
@@ -601,4 +601,3 @@ export function ExportDialog({
     </Dialog>
   );
 }
-

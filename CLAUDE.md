@@ -20,12 +20,15 @@ pnpm install
 pnpm dev
 
 # Production build / start
-pnpm build
+pnpm build   # runs `next build --webpack` — this repo opts OUT of Turbopack for builds
 pnpm start
 
 # Lint and type-check
-pnpm lint
-pnpm type-check
+pnpm lint          # flat config: eslint.config.js, runs `eslint .`
+pnpm type-check    # tsc --noEmit
+
+# Release (semantic-release, runs in CI on main)
+pnpm release:dry-run
 
 # Run all tests
 pnpm test
@@ -138,9 +141,13 @@ Do not assume all APIs share the same runtime path or implementation style.
 
 ### Styling and UI System
 
-The site uses Tailwind CSS with shared styles in `styles/` plus UI primitives in `components/ui/`. Public feature components live mostly in `components/common/`.
+The site uses Tailwind CSS (config in `tailwind.config.ts`) with UI primitives in `components/ui/` (shadcn-style, Radix-based). Public feature components live mostly in `components/common/`.
 
-Animations use Framer Motion / Motion. Theme switching is handled centrally through the public app layout.
+There are two global stylesheets — keep this in mind when editing tokens:
+- `app/(app)/globals.css` is the stylesheet actually imported by the public app layout (Tailwind layers + semantic CSS variables / theme tokens).
+- `styles/globals.css` also exists; confirm which one a given import points at before editing color/shadow primitives.
+
+The design token system (semantic colors, unified card shadows) was recently overhauled — the visual language is ElevenLabs-inspired and codified in `DESIGN.md`. Animations use Framer Motion / Motion. Theme switching is handled centrally through the public app layout.
 
 ### Testing Shape
 
@@ -160,6 +167,17 @@ Useful conventions:
 - Read `DESIGN.md` before implementing meaningful UI changes, and use it as the source of truth for visual language, typography, colors, spacing, shadows, component styling, and responsive behavior.
 - Do not ship default-looking Tailwind/shadcn UI when `DESIGN.md` specifies a more intentional treatment.
 - If a requested UI change conflicts with `DESIGN.md`, ask before proceeding rather than improvising a different design direction.
+- A Cursor rule (`.cursor/rules/ui-design-system-enforcement.mdc`, `alwaysApply: true`) enforces the same: never introduce a parallel style language or ad-hoc color/spacing/typography when a `DESIGN.md` pattern exists.
+
+## Versioning & CI
+
+- Releases are automated with **semantic-release** (`.releaserc.json`), driven by Conventional Commits on `main`. Note the non-default rule: `change:` and `refactor:` commit types both bump a **patch**. `@semantic-release/npm` is configured with `npmPublish: false` (versioning + GitHub release + CHANGELOG only).
+- Commit messages must follow Conventional Commits, or the release tooling will mis-categorize them.
+- GitHub Actions workflows live in `.github/workflows/`: `ci.yml`, `test.yml`, `codeql.yml`, and `release.yml`.
+
+## Sibling Instruction Files
+
+`AGENTS.md` (Codex) and `GEMINI.md` mirror this file's intent for other agents. When you change architecture/commands here, keep `AGENTS.md` in sync — it is a near-verbatim copy. (`GEMINI.md` is currently more out of date — e.g. it still says Next.js 15.)
 
 ## Configuration Notes
 
@@ -181,13 +199,3 @@ Important variables referenced directly by the app include:
 - `OPENAI_API_KEY`
 
 Some features degrade gracefully when Payload is disabled, but others (Payload admin, media, AI embeddings/chat, Telegram notifications) require their backing env vars to be present.
-
-## Suggested Improvements To The Previous CLAUDE.md
-
-The previous file had useful high-level intent, but several details were stale or too broad for current work:
-- it described the repo as Next.js 15, while `package.json` is now on Next.js 16
-- it referenced `next.config.mjs`, but the active config is `next.config.js`
-- it omitted the Vitest workflow and single-test commands
-- it did not explain the split between `app/(app)`, `app/(payload)`, and top-level API routes
-- it did not document the dual project-data path (static fallback vs Payload)
-- it did not capture the AI assistant / LangChain / Qdrant architecture, which is one of the main non-obvious systems in this repo

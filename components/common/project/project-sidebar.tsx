@@ -104,6 +104,7 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
                         src={related.image || "/placeholder.svg"}
                         alt={related.title}
                         fill
+                        sizes="48px"
                         className="object-cover"
                       />
                     </div>

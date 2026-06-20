@@ -51,9 +51,9 @@ describe('Badge Component', () => {
       
       const badge = screen.getByTestId('badge');
       expect(badge).toHaveClass(
-        'border-transparent',
-        'bg-secondary',
-        'text-secondary-foreground'
+        'border-borderSubtle',
+        'bg-canvas-warm',
+        'text-text-secondary'
       );
     });
 
@@ -209,8 +209,8 @@ describe('Badge Component', () => {
 
     it('should generate correct classes for secondary variant', () => {
       const classes = badgeVariants({ variant: 'secondary' });
-      expect(classes).toContain('bg-secondary');
-      expect(classes).toContain('text-secondary-foreground');
+      expect(classes).toContain('bg-canvas-warm');
+      expect(classes).toContain('text-text-secondary');
     });
 
     it('should generate correct classes for destructive variant', () => {
@@ -237,7 +237,7 @@ describe('Badge Component', () => {
       render(<Badge variant="secondary">Hover Badge</Badge>);
       
       const badge = screen.getByTestId('badge');
-      expect(badge).toHaveClass('hover:bg-secondary/80');
+      expect(badge).toHaveClass('hover:text-text-primary');
     });
 
     it('should apply hover styles for destructive variant', () => {

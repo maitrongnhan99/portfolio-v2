@@ -41,10 +41,10 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
       )}
     >
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
           <RobotIcon
             className={cn(
-              "w-4 h-4 text-foreground",
+              "w-4 h-4 text-text-muted",
               isStreaming && "animate-pulse"
             )}
           />
@@ -55,9 +55,9 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
         className={cn(
           "max-w-[70%] rounded-2xl px-5 py-4 font-body tracking-body",
           isUser
-            ? "bg-secondary border border-border text-foreground shadow-sm rounded-tr-sm"
-            : "bg-card border border-border text-foreground shadow-outline-ring rounded-tl-sm",
-          isStreaming && "border-foreground/40"
+            ? "bg-canvas-warm border border-borderSubtle text-text-primary shadow-warm-lift rounded-tr-sm"
+            : "bg-canvas-white border border-borderSubtle text-text-primary shadow-outline-ring rounded-tl-sm",
+          isStreaming && "border-text-muted/40"
         )}
       >
         <div className="text-[15px] leading-[1.6]">
@@ -72,7 +72,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
                       return (
                         <span
                           key={partIndex}
-                          className="font-display font-medium text-foreground"
+                          className="font-display font-medium text-text-primary"
                         >
                           {part.slice(2, -2)}
                         </span>
@@ -107,7 +107,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
           {/* Streaming cursor effect */}
           {isStreaming && (
             <span
-              className="inline-block w-0.5 h-5 bg-foreground animate-pulse ml-1"
+              className="inline-block w-0.5 h-5 bg-text-muted animate-pulse ml-1"
               style={{ verticalAlign: "text-bottom" }}
             />
           )}
@@ -123,7 +123,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
                   key={index}
                   className="text-xs text-text-secondary bg-secondary/50 border border-border rounded px-2.5 py-1.5"
                 >
-                  <span className="font-mono text-foreground">
+                  <span className="font-mono text-text-primary">
                     {source.category}
                   </span>
                   <span className="ml-2 text-text-muted">
@@ -159,8 +159,8 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
       </div>
 
       {isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center shadow-sm">
-          <UserIcon className="w-4 h-4 text-foreground" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center shadow-sm">
+          <UserIcon className="w-4 h-4 text-text-muted" />
         </div>
       )}
     </motion.div>

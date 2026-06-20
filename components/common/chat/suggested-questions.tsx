@@ -25,13 +25,13 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
       transition={{ duration: 0.3 }}
       className="flex gap-3 mb-6"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <RobotIcon className="w-4 h-4 text-primary" />
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
+        <RobotIcon className="w-4 h-4 text-text-muted" />
       </div>
       
-      <div className="max-w-[70%] rounded-lg px-4 py-3 bg-navy-light border border-navy-lighter text-slate-lighter">
+      <div className="max-w-[70%] rounded-card px-4 py-3 bg-canvas-white border border-borderSubtle text-text-primary shadow-outline-ring">
         <div className="mb-3">
-          <p className="text-sm text-slate-light">
+          <p className="text-sm text-text-secondary">
             Here are some questions you can ask me:
           </p>
         </div>
@@ -44,14 +44,14 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.2, delay: index * 0.1 }}
               onClick={() => onSendMessage(suggestion)}
-              className="px-3 py-2 text-xs bg-navy/50 border border-navy-lighter text-slate-light hover:text-slate-lighter hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 rounded-full"
+              className="px-3 py-2 text-xs bg-canvas-warm border border-borderSubtle text-text-secondary hover:text-text-primary hover:border-text-muted transition-all duration-200 rounded-pill"
             >
               {suggestion}
             </motion.button>
           ))}
         </div>
         
-        <div className="text-xs mt-3 opacity-60 text-slate">
+        <div className="text-xs mt-3 opacity-70 text-text-muted">
           <NoSSR>
             {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </NoSSR>

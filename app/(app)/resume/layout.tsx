@@ -6,7 +6,7 @@ interface ResumeLayoutProps {
 
 export default function ResumeLayout({ children }: ResumeLayoutProps) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-canvas-white">
       {children}
     </div>
   );

@@ -48,8 +48,8 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                     onClick={toggleStreaming}
                     className={`px-3 sm:px-4 py-1.5 rounded-pill text-xs font-mono transition-all ${
                       chatSettings.useStreaming
-                        ? "bg-foreground text-background shadow-card"
-                        : "bg-secondary text-text-secondary border border-border"
+                        ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                        : "bg-canvas-near text-text-secondary border border-borderSubtle"
                     }`}
                   >
                     <span className="sm:hidden">
@@ -77,8 +77,8 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                     onClick={toggleAutoSave}
                     className={`px-3 sm:px-4 py-1.5 rounded-pill text-xs font-mono transition-all ${
                       chatSettings.autoSave
-                        ? "bg-foreground text-background shadow-card"
-                        : "bg-secondary text-text-secondary border border-border"
+                        ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                        : "bg-canvas-near text-text-secondary border border-borderSubtle"
                     }`}
                   >
                     <span className="sm:hidden">

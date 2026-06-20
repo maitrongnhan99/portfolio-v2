@@ -42,7 +42,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
             size="icon"
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
-            className="text-text-primary hover:text-text-muted"
+            className="text-text-secondary hover:text-text-primary"
           >
             <XIcon className="h-5 w-5" />
           </Button>
@@ -79,7 +79,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
               <Button
                 asChild
                 variant="outline"
-                className="w-full font-mono border-primary text-primary hover:bg-primary/10"
+                className="w-full font-mono border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
               >
                 <Link href="/resume" onClick={() => setIsOpen(false)}>
                   Resume

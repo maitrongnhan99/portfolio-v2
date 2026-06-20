@@ -68,23 +68,23 @@ export function DefaultErrorFallback({ error, reset }: ErrorFallbackProps) {
     <div className="min-h-[400px] flex items-center justify-center p-4">
       <div className="text-center max-w-md">
         <div className="mb-6">
-          <div className="w-16 h-16 bg-red-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">!</span>
+          <div className="w-16 h-16 bg-canvas-warm border border-borderSubtle rounded-full mx-auto mb-4 flex items-center justify-center">
+            <span className="text-text-muted text-2xl font-bold">!</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-lighter mb-2">
+          <h2 className="text-2xl font-bold text-text-primary mb-2">
             Something went wrong
           </h2>
-          <p className="text-slate text-sm mb-4">
+          <p className="text-text-secondary text-sm mb-4">
             We encountered an unexpected error. This has been logged and
             we&apos;ll look into it.
           </p>
 
           {process.env.NODE_ENV === "development" && (
-            <details className="text-left bg-red-50 dark:bg-red-900/20 p-3 rounded-md mb-4">
-              <summary className="cursor-pointer text-sm font-medium text-red-700 dark:text-red-300">
+            <details className="text-left bg-canvas-warm dark:bg-red-900/20 p-3 rounded-md mb-4">
+              <summary className="cursor-pointer text-sm font-medium text-text-primary dark:text-red-300">
                 Error Details (Development)
               </summary>
-              <pre className="mt-2 text-xs text-red-600 dark:text-red-400 overflow-auto">
+              <pre className="mt-2 text-xs text-text-secondary dark:text-red-400 overflow-auto">
                 {error.message}
                 {error.stack && (
                   <>
@@ -128,16 +128,16 @@ export function ChatErrorBoundary({ children }: { children: React.ReactNode }) {
 
 function ChatErrorFallback({ error, reset }: ErrorFallbackProps) {
   return (
-    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+    <div className="p-4 bg-canvas-white dark:bg-red-900/20 border border-borderLight dark:border-red-800 rounded-card shadow-outline-ring">
       <div className="flex items-start gap-3">
-        <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-          <span className="text-white text-xs font-bold">!</span>
+        <div className="w-5 h-5 bg-canvas-warm border border-borderSubtle rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+          <span className="text-text-muted text-xs font-bold">!</span>
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
+          <h3 className="text-sm font-medium text-text-primary dark:text-red-200">
             Chat Error
           </h3>
-          <p className="text-sm text-red-700 dark:text-red-300 mt-1">
+          <p className="text-sm text-text-secondary dark:text-red-300 mt-1">
             There was an issue with the chat interface. Please try refreshing or
             contact support if the problem persists.
           </p>
@@ -145,7 +145,7 @@ function ChatErrorFallback({ error, reset }: ErrorFallbackProps) {
             onClick={reset}
             variant="outline"
             size="sm"
-            className="mt-3 text-red-700 border-red-300 hover:bg-red-100"
+            className="mt-3 text-text-secondary border-borderLight hover:bg-canvas-warm hover:text-text-primary"
           >
             🔄 Retry
           </Button>
@@ -174,14 +174,14 @@ export function ProjectErrorBoundary({
 
 function ProjectErrorFallback({ error, reset }: ErrorFallbackProps) {
   return (
-    <div className="p-6 text-center border border-slate-200 dark:border-slate-700 rounded-lg">
-      <div className="w-8 h-8 bg-slate-400 rounded-full mx-auto mb-3 flex items-center justify-center">
-        <span className="text-white text-sm font-bold">!</span>
+    <div className="p-6 text-center border border-borderLight dark:border-slate-700 rounded-card shadow-outline-ring">
+      <div className="w-8 h-8 bg-canvas-warm border border-borderSubtle rounded-full mx-auto mb-3 flex items-center justify-center">
+        <span className="text-text-muted text-sm font-bold">!</span>
       </div>
-      <h3 className="text-lg font-medium text-slate-lighter mb-2">
+      <h3 className="text-lg font-medium text-text-primary mb-2">
         Unable to load project
       </h3>
-      <p className="text-slate text-sm mb-4">
+      <p className="text-text-secondary text-sm mb-4">
         There was an issue loading this project. Please try again.
       </p>
       <Button onClick={reset} variant="outline" size="sm">

@@ -62,6 +62,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
               src={image || "/placeholder.svg"}
               alt={`${projectTitle} screenshot ${index + 1}`}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
             />
             <div className="absolute inset-0 bg-canvas-warm/0 hover:bg-canvas-warm/30 transition-colors duration-200" />
@@ -129,6 +130,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
                           src={image || "/placeholder.svg"}
                           alt={`${projectTitle} screenshot ${index + 1}`}
                           fill
+                          sizes="(max-width: 896px) 100vw, 896px"
                           className="object-contain"
                         />
                       </div>

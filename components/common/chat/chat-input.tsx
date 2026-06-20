@@ -89,7 +89,7 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
           disabled={!message.trim() || disabled}
           className={cn(
             "absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2",
-            "bg-foreground text-background hover:bg-foreground/90 rounded-full",
+            "bg-canvas-warm text-text-primary border border-borderSubtle hover:bg-canvas-warm hover:opacity-90 rounded-full shadow-warm-lift",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "h-7 w-7 sm:h-8 sm:w-8 p-0",
             "transition-all duration-200"
