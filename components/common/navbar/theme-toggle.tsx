@@ -3,14 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { MoonStarsIcon, SunDimIcon } from "@phosphor-icons/react";
 import { useTheme } from "next-themes";
-import { FC } from "react";
-import { useMountedState } from "react-use";
+import { FC, useEffect, useState } from "react";
 
 const ThemeToggle: FC = () => {
   const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useMountedState();
+  const [mounted, setMounted] = useState(false);
 
-  if (!mounted()) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
     return <div className="h-8 w-16" />;
   }
 
