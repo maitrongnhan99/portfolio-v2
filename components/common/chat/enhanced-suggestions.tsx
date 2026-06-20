@@ -109,7 +109,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       transition={{ duration: 0.3 }}
       className="flex gap-3 mb-6"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-transparent border border-border flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-full bg-transparent border border-border flex items-center justify-center">
         <RobotIcon className="w-4 h-4 text-text-secondary" />
       </div>
       
@@ -146,7 +146,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                     className={`p-3 rounded-comfortable border border-borderSubtle bg-canvas-near hover:bg-canvas-light hover:border-borderLight hover:shadow-outline-ring transition-all duration-200 text-left group`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {(() => {
                           const IconComponent = category.icon;
                           return <IconComponent className="w-5 h-5 text-text-muted group-hover:text-text-primary transition-colors" />;

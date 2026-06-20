@@ -21,7 +21,7 @@ export const ResumeCertifications = ({ data }: ResumeCertificationsProps) => {
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+                className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                 aria-label={`Verify ${cert.name} certification`}
               >
                 [Verify]

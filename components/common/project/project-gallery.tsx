@@ -90,7 +90,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
             onClick={closeModal}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-xs" />
 
             {/* Modal Content */}
             <motion.div

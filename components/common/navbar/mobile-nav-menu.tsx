@@ -20,7 +20,7 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
       <>
         {/* Backdrop overlay */}
         <motion.div
-          className="md:hidden fixed inset-0 bg-black/15 backdrop-blur-sm z-40"
+          className="md:hidden fixed inset-0 bg-black/15 backdrop-blur-xs z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

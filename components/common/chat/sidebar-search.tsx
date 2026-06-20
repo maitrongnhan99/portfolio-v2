@@ -191,7 +191,7 @@ const SearchResults: React.FC<{
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      <p className="text-xs text-text-muted mb-3 flex-shrink-0">
+      <p className="text-xs text-text-muted mb-3 shrink-0">
         {results.length} result{results.length !== 1 ? "s" : ""}
       </p>
       <div className="flex-1 overflow-y-auto custom-scrollbar space-y-2 pr-2">
@@ -269,7 +269,7 @@ const SearchResultItem: React.FC<{
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-mono text-text-primary">
             {highlightText(result.conversation.title)}

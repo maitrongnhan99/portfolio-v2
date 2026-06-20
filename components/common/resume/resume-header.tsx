@@ -14,7 +14,7 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           href={data.links.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="LinkedIn profile"
         >
           LinkedIn
@@ -24,7 +24,7 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           href={data.links.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="GitHub profile"
         >
           GitHub
@@ -34,7 +34,7 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           href={data.links.portfolio}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="Portfolio website"
         >
           Portfolio
@@ -45,7 +45,7 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           <span>📧</span>
           <a 
             href={`mailto:${data.contacts.email}`}
-            className="hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+            className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
             aria-label={`Send email to ${data.contacts.email}`}
           >
             {data.contacts.email}

@@ -96,7 +96,7 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
       className="mb-6 flex gap-3"
     >
       {/* Robot Avatar - matching ChatMessage style */}
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
         <RobotIcon className="w-4 h-4 text-text-muted" />
       </div>
       
@@ -140,7 +140,7 @@ export const QuickActions = ({ onSendMessage, isVisible }: QuickActionsProps) =>
                     className="p-3 rounded-comfortable border border-borderSubtle bg-canvas-near text-left transition-all duration-200 group hover:bg-canvas-light hover:border-borderLight hover:shadow-outline-ring"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-base bg-canvas-warm border border-borderSubtle flex items-center justify-center shadow-inset-border">
+                      <div className="shrink-0 w-8 h-8 rounded-base bg-canvas-warm border border-borderSubtle flex items-center justify-center shadow-inset-border">
                         {(() => {
                           const IconComponent = action.icon;
                           return <IconComponent className="w-4 h-4 text-text-muted group-hover:text-text-primary transition-colors" />;

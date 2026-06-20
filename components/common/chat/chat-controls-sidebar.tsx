@@ -109,7 +109,7 @@ const SidebarButton = ({
       whileHover={!disabled ? { x: 4 } : {}}
       whileTap={!disabled ? { scale: 0.98 } : {}}
     >
-      <div className="flex-shrink-0 mt-0.5">{icon}</div>
+      <div className="shrink-0 mt-0.5">{icon}</div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <span className="font-mono text-sm font-medium">{label}</span>
@@ -165,7 +165,7 @@ const ConversationHistoryItem = ({
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-mono text-text-primary truncate">
             {conversation.title}
@@ -278,7 +278,7 @@ export const ChatControlsSidebar = ({
             </div>
           ) : (
             <>
-              <SheetHeader className="flex-shrink-0 p-6 pb-0">
+              <SheetHeader className="shrink-0 p-6 pb-0">
                 <SheetTitle className="text-text-primary font-display font-light text-xl">
                   Chat Controls
                 </SheetTitle>
@@ -385,7 +385,7 @@ export const ChatControlsSidebar = ({
               </div>
 
               {/* Status Section - Fixed at bottom */}
-              <div className="flex-shrink-0 mt-auto py-4 px-6 border-t border-borderSubtle bg-canvas-light/70">
+              <div className="shrink-0 mt-auto py-4 px-6 border-t border-borderSubtle bg-canvas-light/70">
                 <div className="flex items-center justify-between text-xs text-text-muted">
                   <span>Connection Status</span>
                   <div className="flex items-center gap-2">

@@ -130,7 +130,7 @@ function ChatErrorFallback({ error, reset }: ErrorFallbackProps) {
   return (
     <div className="p-4 bg-canvas-white dark:bg-red-900/20 border border-borderLight dark:border-red-800 rounded-card shadow-outline-ring">
       <div className="flex items-start gap-3">
-        <div className="w-5 h-5 bg-canvas-warm border border-borderSubtle rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+        <div className="w-5 h-5 bg-canvas-warm border border-borderSubtle rounded-full flex items-center justify-center shrink-0 mt-0.5">
           <span className="text-text-muted text-xs font-bold">!</span>
         </div>
         <div className="flex-1">

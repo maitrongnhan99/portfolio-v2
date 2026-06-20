@@ -316,7 +316,7 @@ describe('DropdownMenu Components', () => {
       expect(content).toBeInTheDocument();
       expect(content).toHaveClass(
         'z-50',
-        'min-w-[8rem]',
+        'min-w-32',
         'overflow-hidden',
         'rounded-md',
         'border',
@@ -396,7 +396,7 @@ describe('DropdownMenu Components', () => {
         'px-2',
         'py-1.5',
         'text-sm',
-        'outline-none'
+        'outline-hidden'
       );
     });
 
@@ -508,7 +508,7 @@ describe('DropdownMenu Components', () => {
         'pl-8',
         'pr-2',
         'text-sm',
-        'outline-none'
+        'outline-hidden'
       );
     });
 

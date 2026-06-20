@@ -228,7 +228,7 @@ describe('Chart Components', () => {
       expect(tooltipContent).toBeInTheDocument();
       expect(tooltipContent).toHaveClass(
         'grid',
-        'min-w-[8rem]',
+        'min-w-32',
         'items-start',
         'gap-1.5',
         'rounded-lg',

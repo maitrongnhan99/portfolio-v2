@@ -39,7 +39,7 @@ const TechnologyBadges: FC<TechnologyBadgesProps> = ({
               variant={variant}
               className={cn(
                 "bg-card border-border text-text-secondary px-3 py-1",
-                "hover:scale-105 hover:-translate-y-0.5 hover:border-text-muted hover:text-foreground hover:shadow-sm transition-all duration-300 ease-out cursor-default",
+                "hover:scale-105 hover:-translate-y-0.5 hover:border-text-muted hover:text-foreground hover:shadow-xs transition-all duration-300 ease-out cursor-default",
                 badgeClassName
               )}
             >
@@ -66,7 +66,7 @@ const TechnologyBadges: FC<TechnologyBadgesProps> = ({
           variant={variant}
           className={cn(
             "bg-card border-border text-text-secondary px-3 py-1",
-            "hover:scale-105 hover:-translate-y-0.5 hover:border-text-muted hover:text-foreground hover:shadow-sm transition-all duration-300 ease-out cursor-default",
+            "hover:scale-105 hover:-translate-y-0.5 hover:border-text-muted hover:text-foreground hover:shadow-xs transition-all duration-300 ease-out cursor-default",
             badgeClassName
           )}
         >

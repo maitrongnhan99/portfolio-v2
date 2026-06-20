@@ -69,7 +69,7 @@ const Social: FC<SocialProps> = ({ className = "" }) => {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--social-light)] hover:text-[var(--social-light-hover)] dark:!text-text-secondary dark:hover:!text-text-primary transition-colors"
+            className="text-(--social-light) hover:text-(--social-light-hover) dark:text-text-secondary! dark:hover:text-text-primary! transition-colors"
             style={
               {
                 "--social-light": social.lightColor,

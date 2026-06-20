@@ -220,7 +220,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                 initial={{ opacity: 0, x: index === 0 ? -20 : 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center gap-2 px-4 py-2 bg-canvas-near border border-borderSubtle rounded-pill backdrop-blur-sm shadow-inset-border"
+                className="flex items-center gap-2 px-4 py-2 bg-canvas-near border border-borderSubtle rounded-pill backdrop-blur-xs shadow-inset-border"
               >
                 {(() => {
                   const IconComponent = topic.icon;

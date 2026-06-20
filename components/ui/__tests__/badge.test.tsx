@@ -99,7 +99,7 @@ describe('Badge Component', () => {
       
       const badge = screen.getByTestId('badge');
       expect(badge).toHaveClass(
-        'focus:outline-none',
+        'focus:outline-hidden',
         'focus:ring-2',
         'focus:ring-ring',
         'focus:ring-offset-2'

@@ -32,7 +32,7 @@ describe('Checkbox Component', () => {
         'border',
         'border-primary',
         'ring-offset-background',
-        'focus-visible:outline-none',
+        'focus-visible:outline-hidden',
         'focus-visible:ring-2',
         'focus-visible:ring-ring',
         'focus-visible:ring-offset-2',
@@ -351,7 +351,7 @@ describe('Checkbox Component', () => {
       expect(checkbox).toHaveFocus();
       
       // Should have focus styles
-      expect(checkbox).toHaveClass('focus-visible:outline-none', 'focus-visible:ring-2');
+      expect(checkbox).toHaveClass('focus-visible:outline-hidden', 'focus-visible:ring-2');
     });
 
     it('should support screen reader announcements', () => {

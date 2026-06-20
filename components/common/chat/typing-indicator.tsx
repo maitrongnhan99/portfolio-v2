@@ -12,7 +12,7 @@ export const TypingIndicator = () => {
       transition={{ duration: 0.2, ease: "easeOut" }}
       className="flex gap-3 mb-6"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
         <RobotIcon className="w-4 h-4 text-text-muted" />
       </div>
       

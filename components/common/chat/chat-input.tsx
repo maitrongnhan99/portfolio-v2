@@ -80,7 +80,7 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
             "scrollbar-none",
             "[&::-webkit-scrollbar]:hidden",
             "[-ms-overflow-style:none]",
-            "[scrollbar-width:none]",
+            "scrollbar-none",
             "text-sm sm:text-base"
           )}
         />

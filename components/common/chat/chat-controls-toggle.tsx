@@ -24,7 +24,7 @@ export const ChatControlsToggle = ({
         "bg-transparent border border-border text-text-secondary",
         "hover:text-foreground hover:bg-secondary hover:border-foreground/20",
         "transition-all duration-200",
-        "focus:outline-none focus:ring-2 focus:ring-ring",
+        "focus:outline-hidden focus:ring-2 focus:ring-ring",
         className
       )}
       whileHover={{ scale: 1.05 }}

@@ -225,7 +225,7 @@ describe('Command Components', () => {
         'bg-transparent',
         'py-3',
         'text-sm',
-        'outline-none',
+        'outline-hidden',
         'placeholder:text-muted-foreground',
         'disabled:cursor-not-allowed',
         'disabled:opacity-50'
@@ -463,7 +463,7 @@ describe('Command Components', () => {
         'px-2',
         'py-1.5',
         'text-sm',
-        'outline-none'
+        'outline-hidden'
       );
     });
 

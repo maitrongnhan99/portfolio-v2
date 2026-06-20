@@ -1,6 +1,173 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@source '../../*.{js,ts,jsx,tsx,mdx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-borderLight: var(--border-light);
+  --color-borderSubtle: var(--border-subtle);
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-canvas-white: hsl(var(--canvas-white));
+  --color-canvas-light: hsl(var(--canvas-light));
+  --color-canvas-near: hsl(var(--canvas-near));
+  --color-canvas-warm: hsl(var(--canvas-warm));
+
+  --color-text-primary: hsl(var(--text-primary));
+  --color-text-secondary: hsl(var(--text-secondary));
+  --color-text-muted: hsl(var(--text-muted));
+
+  --color-navy: #0b192f;
+  --color-navy-light: #112240;
+  --color-navy-lighter: #233554;
+
+  --color-slate: #8892b0;
+  --color-slate-light: #a8b2d1;
+  --color-slate-lighter: #ccd6f6;
+
+  --color-aqua: #64ffda;
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-xs: 2px;
+  --radius-nav: 4px;
+  --radius-base: 8px;
+  --radius-comfortable: 12px;
+  --radius-card: 16px;
+  --radius-featured: 20px;
+  --radius-section: 24px;
+  --radius-warm: 30px;
+  --radius-pill: 9999px;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-inset-border: var(--shadow-inset-border);
+  --shadow-inset-dark: var(--shadow-inset-border);
+  --shadow-outline-ring: var(--shadow-outline-ring);
+  --shadow-card: var(--shadow-card);
+  --shadow-warm-lift: var(--shadow-warm-lift);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+  --animate-meteor-effect: meteor 5s linear infinite;
+
+  --font-display: var(--font-waldenburg), var(--font-inter), sans-serif;
+  --font-body: var(--font-inter), Inter, sans-serif;
+  --font-mono: var(--font-geist-mono), var(--font-mono), monospace;
+
+  --text-display-hero: 3rem;
+  --text-display-hero--line-height: 1.08;
+  --text-display-hero--letter-spacing: -0.96px;
+  --text-display-hero--font-weight: 300;
+  --text-display-section: 2.25rem;
+  --text-display-section--line-height: 1.17;
+  --text-display-section--font-weight: 300;
+  --text-display-card: 2rem;
+  --text-display-card--line-height: 1.13;
+  --text-display-card--font-weight: 300;
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.35;
+
+  --tracking-body: 0.16px;
+  --tracking-body-relaxed: 0.18px;
+  --tracking-caption: 0.14px;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes spotlight {
+    0% {
+      opacity: 0;
+      transform: translate(-72%, -62%) scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(10%, 20%) scale(1);
+    }
+  }
+  @keyframes meteor {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   :root {

@@ -25,7 +25,7 @@ export const SuggestedQuestions = ({ onSendMessage, timestamp }: SuggestedQuesti
       transition={{ duration: 0.3 }}
       className="flex gap-3 mb-6"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle flex items-center justify-center">
         <RobotIcon className="w-4 h-4 text-text-muted" />
       </div>
       

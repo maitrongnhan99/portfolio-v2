@@ -99,7 +99,7 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
                   className="block"
                 >
                   <div className="flex items-center gap-3 p-2 rounded-comfortable hover:bg-canvas-light transition-colors">
-                    <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
+                    <div className="relative w-12 h-12 rounded overflow-hidden shrink-0">
                       <Image
                         src={related.image || "/placeholder.svg"}
                         alt={related.title}

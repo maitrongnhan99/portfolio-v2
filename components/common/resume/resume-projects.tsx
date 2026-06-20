@@ -21,7 +21,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} on GitHub`}
                   >
                     [GitHub]
@@ -32,7 +32,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} live demo`}
                   >
                     [Live Demo]
@@ -43,7 +43,7 @@ export const ResumeProjects = ({ data }: ResumeProjectsProps) => {
                     href={project.links.npm}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
+                    className="text-text-muted hover:text-text-primary text-sm transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
                     aria-label={`View ${project.name} on NPM`}
                   >
                     [NPM]

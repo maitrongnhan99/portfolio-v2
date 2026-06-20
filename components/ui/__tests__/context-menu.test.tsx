@@ -234,7 +234,7 @@ describe('ContextMenu Components', () => {
       expect(content).toBeInTheDocument();
       expect(content).toHaveClass(
         'z-50',
-        'min-w-[8rem]',
+        'min-w-32',
         'overflow-hidden',
         'rounded-md',
         'border',
@@ -299,7 +299,7 @@ describe('ContextMenu Components', () => {
         'px-2',
         'py-1.5',
         'text-sm',
-        'outline-none'
+        'outline-hidden'
       );
     });
 
@@ -411,7 +411,7 @@ describe('ContextMenu Components', () => {
         'pl-8',
         'pr-2',
         'text-sm',
-        'outline-none'
+        'outline-hidden'
       );
     });
 

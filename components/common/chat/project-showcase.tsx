@@ -43,7 +43,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
         transition={{ duration: 0.35 }}
         className="mb-6 flex gap-3"
       >
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+        <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
           <FolderNotchIcon className="w-4 h-4 text-text-muted" />
         </div>
         <div className="flex-1">
@@ -62,7 +62,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-sm overflow-hidden animate-pulse"
+                className="rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-xs overflow-hidden animate-pulse"
               >
                 <div className="aspect-video bg-secondary"></div>
                 <div className="p-3 space-y-2">
@@ -91,7 +91,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
         transition={{ duration: 0.35 }}
         className="mb-6 flex gap-3"
       >
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+        <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
           <FolderNotchIcon className="w-4 h-4 text-text-muted" />
         </div>
         <div className="flex-1">
@@ -123,7 +123,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
       transition={{ duration: 0.35 }}
       className="mb-6 flex gap-3"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center">
         <FolderNotchIcon className="w-4 h-4 text-text-muted" />
       </div>
 
@@ -148,7 +148,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: index * 0.08 }}
-              className="group rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-sm overflow-hidden flex flex-col shadow-outline-ring"
+              className="group rounded-card border border-borderSubtle bg-canvas-near backdrop-blur-xs overflow-hidden flex flex-col shadow-outline-ring"
             >
               <button
                 type="button"
@@ -157,7 +157,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
                     `Tell me more about the ${project.title} project and the problems it solves.`
                   )
                 }
-                className="w-full text-left focus:outline-none flex-1"
+                className="w-full text-left focus:outline-hidden flex-1"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -167,7 +167,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-background via-background/35 to-transparent" />
                   <div className="absolute bottom-3 left-3 text-[10px] uppercase tracking-wide text-text-muted">
                     Ask about this project →
                   </div>
@@ -179,7 +179,7 @@ export const ProjectShowcase: FC<ProjectShowcaseProps> = ({
                     </h4>
                     <ArrowUpRightIcon className="w-3.5 h-3.5 text-text-muted group-hover:text-text-primary transition-colors" />
                   </div>
-                  <p className="text-xs text-text-secondary leading-relaxed min-h-[3rem]">
+                  <p className="text-xs text-text-secondary leading-relaxed min-h-12">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-1">

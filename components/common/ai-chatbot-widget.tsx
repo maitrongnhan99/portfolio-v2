@@ -99,7 +99,7 @@ export const AIChatbotWidget = ({
               >
                 <div className="bg-card/95 backdrop-blur-md border border-border rounded-2xl p-4 shadow-md">
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
+                    <div className="shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
                       <RobotIcon className="w-4 h-4 text-foreground" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -125,7 +125,7 @@ export const AIChatbotWidget = ({
                     </div>
                     <button
                       onClick={handleDismiss}
-                      className="flex-shrink-0 w-5 h-5 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
+                      className="shrink-0 w-5 h-5 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
                       aria-label="Dismiss"
                     >
                       <XIcon className="w-3 h-3 text-text-muted hover:text-foreground" />

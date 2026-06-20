@@ -153,7 +153,7 @@ describe('Button Component', () => {
       render(<Button>Focusable</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('focus-visible:outline-none', 'focus-visible:ring-2');
+      expect(button).toHaveClass('focus-visible:outline-hidden', 'focus-visible:ring-2');
     });
 
     it('should support aria attributes', () => {

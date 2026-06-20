@@ -12,7 +12,7 @@ export default function Hero() {
     >
       {/* 
       <Spotlight
-        className="-top-40 left-0 md:-top-[1000px] md:-left-[500px]"
+        className="-top-40 left-0 md:top-[-1000px] md:left-[-500px]"
         fill="white"
       />
       */}

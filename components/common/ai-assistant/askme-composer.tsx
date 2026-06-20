@@ -37,7 +37,7 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
   toggleAutoSave,
 }) => {
   return (
-    <div className="border-t border-border bg-background/80 backdrop-blur-sm p-3 sm:p-4">
+    <div className="border-t border-border bg-background/80 backdrop-blur-xs p-3 sm:p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 mb-3">
           <TooltipProvider>

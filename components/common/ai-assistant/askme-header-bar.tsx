@@ -27,7 +27,7 @@ const AskMeHeaderBar: FC<AskMeHeaderBarProps> = ({
           <ThemeToggle />
           <Link
             href="/"
-            className="relative p-2.5 rounded-pill bg-transparent border border-borderLight text-text-secondary hover:text-text-primary hover:bg-canvas-warm hover:border-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring"
+            className="relative p-2.5 rounded-pill bg-transparent border border-borderLight text-text-secondary hover:text-text-primary hover:bg-canvas-warm hover:border-text-muted transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-ring"
             aria-label="Back to Portfolio"
           >
             <ArrowLeftIcon className="w-5 h-5" />
