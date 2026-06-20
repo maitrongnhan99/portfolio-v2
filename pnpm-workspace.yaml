@@ -5,5 +5,9 @@ allowBuilds:
   unrs-resolver: true
   utf-8-validate: true
 
+catalog:
+  sharp: ^0.34.5
+
 overrides:
   "@eslint/plugin-kit": "^0.3.3"
+  sharp: "catalog:"
