@@ -56,7 +56,7 @@ export const ResumeDownload = () => {
           onClick={handlePreview}
           variant="outline"
           disabled={isPreviewing}
-          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          className="bg-canvas-white border-borderLight hover:bg-canvas-light text-text-secondary hover:text-text-primary shadow-card text-sm sm:text-base px-3 sm:px-4 py-2"
           aria-label="Preview PDF"
         >
           <Eye className="w-4 h-4 sm:mr-2" />
@@ -65,7 +65,7 @@ export const ResumeDownload = () => {
         <Button
           onClick={handlePrint}
           variant="outline"
-          className="bg-white border-gray-300 hover:bg-gray-50 text-gray-700 shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          className="bg-canvas-white border-borderLight hover:bg-canvas-light text-text-secondary hover:text-text-primary shadow-card text-sm sm:text-base px-3 sm:px-4 py-2"
           aria-label="Print resume"
         >
           <Printer className="w-4 h-4 sm:mr-2" />
@@ -74,7 +74,7 @@ export const ResumeDownload = () => {
         <Button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg text-sm sm:text-base px-3 sm:px-4 py-2"
+          className="bg-canvas-warm hover:bg-canvas-warm text-text-primary shadow-warm-lift border border-borderSubtle text-sm sm:text-base px-3 sm:px-4 py-2"
           aria-label="Download resume as PDF"
         >
           <Download className="w-4 h-4 sm:mr-2" />

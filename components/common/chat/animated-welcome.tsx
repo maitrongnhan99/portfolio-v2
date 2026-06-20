@@ -11,6 +11,15 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
+const PARTICLES = Array.from({ length: 6 }, () => ({
+  x: Math.random() * 100 - 50,
+  y: Math.random() * 100 - 50,
+  duration: 3 + Math.random() * 2,
+  delay: Math.random() * 2,
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+}));
+
 interface AnimatedWelcomeProps {
   onComplete?: () => void;
 }
@@ -40,22 +49,18 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
     {
       text: "Technical Skills & Expertise",
       icon: CodeIcon,
-      color: "text-blue-400",
     },
     {
       text: "Professional Experience",
       icon: BriefcaseIcon,
-      color: "text-green-400",
     },
     {
       text: "Projects & Portfolio",
       icon: FolderOpenIcon,
-      color: "text-purple-400",
     },
     {
       text: "Background & Interests",
       icon: ChatCircleIcon,
-      color: "text-pink-400",
     },
   ];
 
@@ -72,12 +77,13 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
   useEffect(() => {
     if (currentPhase < phases.length) {
       const text = phases[currentPhase].text;
-      setDisplayedText("");
+
+      const resetTimer = setTimeout(() => setDisplayedText(""), 0);
 
       const timer = setTimeout(() => {
         // Set the full text immediately, let the animation handle the reveal
         setDisplayedText(text);
-        
+
         // Wait for the animation to complete before moving to next phase
         const animationDuration = text.length * 30 + 200; // 30ms per character + 200ms buffer
         setTimeout(() => {
@@ -85,11 +91,16 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
         }, animationDuration + 800);
       }, phases[currentPhase].delay);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(resetTimer);
+        clearTimeout(timer);
+      };
     } else {
       // Start topic rotation
-      setIsComplete(true);
-      onComplete?.();
+      setTimeout(() => {
+        setIsComplete(true);
+        onComplete?.();
+      }, 0);
     }
   }, [currentPhase, onComplete, phases]);
 
@@ -116,7 +127,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 flex items-center justify-center"
+          className="w-16 h-16 mx-auto mb-4 rounded-full bg-canvas-warm border border-borderSubtle shadow-inset-border flex items-center justify-center"
         >
           <AnimatePresence mode="wait">
             {currentPhase < phases.length && (
@@ -130,7 +141,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                 {phases[currentPhase] &&
                   (() => {
                     const IconComponent = phases[currentPhase].icon;
-                    return <IconComponent className="w-8 h-8 text-primary" />;
+                    return <IconComponent className="w-8 h-8 text-text-muted" />;
                   })()}
               </motion.div>
             )}
@@ -140,7 +151,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                 animate={{ scale: 1 }}
                 className="relative"
               >
-                <RobotIcon className="w-8 h-8 text-primary" />
+                <RobotIcon className="w-8 h-8 text-text-muted" />
                 <motion.div
                   animate={{
                     scale: [1, 1.2, 1],
@@ -151,7 +162,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                     duration: 2,
                     ease: "easeInOut",
                   }}
-                  className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full"
+                  className="absolute -top-1 -right-1 w-3 h-3 bg-text-muted rounded-full"
                 />
               </motion.div>
             )}
@@ -162,7 +173,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
         <div className="h-16 flex items-center justify-center px-4">
           {currentPhase < phases.length ? (
             <motion.h1
-              className="text-2xl md:text-3xl font-bold text-slate-lighter flex items-center justify-center min-w-[320px] md:min-w-[500px]"
+              className="text-2xl md:text-3xl font-bold text-text-primary flex items-center justify-center min-w-[320px] md:min-w-[500px]"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
             >
@@ -189,7 +200,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                   duration: 1,
                   delay: displayedText.length * 0.03 + 0.2
                 }}
-                className="bg-primary inline-block w-0.5 h-7 ml-0.5"
+                className="bg-text-muted inline-block w-0.5 h-7 ml-0.5"
                 style={{ verticalAlign: 'text-bottom' }}
               />
             </motion.h1>
@@ -199,7 +210,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
               animate={{ opacity: 1, y: 0 }}
               className="text-center"
             >
-              <h1 className="text-2xl md:text-3xl font-bold text-slate-lighter mb-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-2">
                 Ask me about...
               </h1>
             </motion.div>
@@ -224,13 +235,13 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                 initial={{ opacity: 0, x: index === 0 ? -20 : 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center gap-2 px-4 py-2 bg-navy-light/50 border border-navy-lighter rounded-full backdrop-blur-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-canvas-near border border-borderSubtle rounded-pill backdrop-blur-xs shadow-inset-border"
               >
                 {(() => {
                   const IconComponent = topic.icon;
-                  return <IconComponent className={`w-4 h-4 ${topic.color}`} />;
+                  return <IconComponent className="w-4 h-4 text-text-muted" />;
                 })()}
-                <span className="text-slate-lighter font-medium text-sm">
+                <span className="text-text-primary font-medium text-sm">
                   {topic.text}
                 </span>
                 {index === 0 && (
@@ -242,7 +253,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
                       ease: "linear",
                     }}
                   >
-                    <SparkleIcon className="w-3 h-3 text-primary" />
+                    <SparkleIcon className="w-3 h-3 text-text-muted" />
                   </motion.div>
                 )}
               </motion.div>
@@ -261,7 +272,7 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
             className="mt-6"
           >
             <motion.p
-              className="text-slate/80 text-sm md:text-base"
+              className="text-text-secondary text-sm md:text-base"
               animate={{
                 opacity: [0.7, 1, 0.7],
               }}
@@ -279,25 +290,25 @@ export const AnimatedWelcome = ({ onComplete }: AnimatedWelcomeProps) => {
 
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {PARTICLES.map((p, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full"
+            className="absolute w-1 h-1 bg-text-muted/30 rounded-full"
             animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
+              x: [0, p.x],
+              y: [0, p.y],
               opacity: [0, 1, 0],
               scale: [0, 1, 0],
             }}
             transition={{
               repeat: Infinity,
-              duration: 3 + Math.random() * 2,
-              delay: Math.random() * 2,
+              duration: p.duration,
+              delay: p.delay,
               ease: "easeInOut",
             }}
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: p.left,
+              top: p.top,
             }}
           />
         ))}

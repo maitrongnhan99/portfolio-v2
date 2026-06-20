@@ -156,7 +156,7 @@ export const useConversationHistory = (): UseConversationHistoryReturn => {
       setError('Failed to save conversation');
       throw err;
     }
-  }, [currentConversation?.id]);
+  }, [currentConversation]);
 
   // Delete a conversation
   const deleteConversation = useCallback(async (id: string): Promise<void> => {
@@ -176,7 +176,7 @@ export const useConversationHistory = (): UseConversationHistoryReturn => {
       setError('Failed to delete conversation');
       throw err;
     }
-  }, [currentConversation?.id]);
+  }, [currentConversation]);
 
   // Update conversation title
   const updateConversationTitle = useCallback(async (id: string, title: string): Promise<void> => {

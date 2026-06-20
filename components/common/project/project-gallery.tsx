@@ -53,7 +53,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
         {displayImages.map((image: string, index: number) => (
           <motion.div
             key={index}
-            className="relative aspect-video rounded-2xl overflow-hidden border border-white/20 cursor-pointer"
+            className="relative aspect-video rounded-card overflow-hidden border border-borderLight bg-canvas-white cursor-pointer shadow-outline-ring"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
             onClick={() => openModal(index)}
@@ -62,13 +62,14 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
               src={image || "/placeholder.svg"}
               alt={`${projectTitle} screenshot ${index + 1}`}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-contain"
             />
-            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-200" />
+            <div className="absolute inset-0 bg-canvas-warm/0 hover:bg-canvas-warm/30 transition-colors duration-200" />
 
             {/* Show overlay on last image if there are more than 4 images */}
             {index === 3 && remainingCount > 0 && (
-              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                 <div className="text-white text-3xl font-medium">
                   +{remainingCount}
                 </div>
@@ -89,11 +90,11 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
             onClick={closeModal}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-xs" />
 
             {/* Modal Content */}
             <motion.div
-              className="relative z-10 w-full h-full max-w-6xl max-h-[90vh] mx-4"
+              className="relative z-10 w-full h-full max-w-6xl max-h-[90vh] mx-4 rounded-card border border-borderSubtle bg-canvas-white/95"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -102,7 +103,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
               {/* Close Button */}
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                className="absolute top-4 right-4 z-20 p-2 rounded-pill bg-canvas-white text-text-primary border border-borderSubtle hover:bg-canvas-light transition-colors"
               >
                 <XIcon className="h-6 w-6" />
               </button>
@@ -129,6 +130,7 @@ export const ProjectGallery: FC<ProjectGalleryProps> = ({
                           src={image || "/placeholder.svg"}
                           alt={`${projectTitle} screenshot ${index + 1}`}
                           fill
+                          sizes="(max-width: 896px) 100vw, 896px"
                           className="object-contain"
                         />
                       </div>

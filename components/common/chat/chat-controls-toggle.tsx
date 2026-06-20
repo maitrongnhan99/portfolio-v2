@@ -20,11 +20,11 @@ export const ChatControlsToggle = ({
     <motion.button
       onClick={onClick}
       className={cn(
-        "relative p-2.5 rounded-lg",
-        "bg-transparent border border-primary/30 text-primary",
-        "hover:bg-primary/10 hover:border-primary/50",
+        "relative p-2.5 rounded-pill",
+        "bg-transparent border border-border text-text-secondary",
+        "hover:text-foreground hover:bg-secondary hover:border-foreground/20",
         "transition-all duration-200",
-        "focus:outline-none focus:ring-2 focus:ring-primary/50",
+        "focus:outline-hidden focus:ring-2 focus:ring-ring",
         className
       )}
       whileHover={{ scale: 1.05 }}
@@ -39,14 +39,14 @@ export const ChatControlsToggle = ({
         >
           <ListIcon 
             className={cn(
-              "w-5 h-5 text-primary absolute",
+              "w-5 h-5 absolute",
               "transition-opacity duration-200",
               isOpen ? "opacity-0" : "opacity-100"
             )}
           />
           <XIcon 
             className={cn(
-              "w-5 h-5 text-primary absolute",
+              "w-5 h-5 absolute",
               "transition-opacity duration-200",
               isOpen ? "opacity-100" : "opacity-0"
             )}

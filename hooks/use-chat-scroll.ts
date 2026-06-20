@@ -55,9 +55,6 @@ export function useChatScroll(messages: Message[], isTyping: boolean) {
     }));
   }, [checkIfAtBottom, messages.length]);
 
-  // Debounced version of handleScroll for better performance
-  const debouncedHandleScroll = useRef(debounce(handleScroll, 50)).current;
-
   const scrollToBottom = useCallback(() => {
     const scrollElement = scrollableElementRef.current;
     if (!scrollElement) {
@@ -85,12 +82,13 @@ export function useChatScroll(messages: Message[], isTyping: boolean) {
     // Store the scrollable element ref for use in other functions
     scrollableElementRef.current = scrollElement as HTMLElement;
 
+    const debouncedHandleScroll = debounce(handleScroll, 50);
     scrollElement.addEventListener("scroll", debouncedHandleScroll);
     return () => {
       scrollElement.removeEventListener("scroll", debouncedHandleScroll);
       scrollableElementRef.current = null;
     };
-  }, [debouncedHandleScroll]);
+  }, [handleScroll]);
 
   // Auto-scroll to bottom when appropriate
   useEffect(() => {

@@ -582,7 +582,7 @@ describe("AlertDialog Components", () => {
       const cancel = screen.getByTestId("alert-dialog-cancel");
       expect(cancel).toBeInTheDocument();
       expect(cancel).toHaveTextContent("Cancel");
-      expect(cancel).toHaveClass("border", "border-input", "bg-background");
+      expect(cancel).toHaveClass("border", "border-borderLight", "bg-canvas-white");
     });
 
     it("should render with responsive margin classes", () => {

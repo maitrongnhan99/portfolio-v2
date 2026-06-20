@@ -18,7 +18,7 @@ const MobileNavToggle: FC<MobileNavToggleProps> = ({ isOpen, setIsOpen }) => {
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
-        className="text-slate-lighter hover:text-primary"
+        className="text-text-secondary hover:text-text-primary"
       >
         <If condition={isOpen}>
           <Then>

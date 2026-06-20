@@ -80,24 +80,24 @@ export default function ContactFormModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-navy-light border-navy-lighter text-slate-lighter">
+      <DialogContent className="sm:max-w-[500px] bg-canvas-white border border-borderLight text-text-primary shadow-outline-ring rounded-section p-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-slate-lighter">
-            <span className="text-primary font-mono text-sm mr-2">04.</span>
+          <DialogTitle className="text-2xl font-light font-display text-text-primary tracking-body">
+            <span className="text-text-muted font-mono text-sm mr-2">04.</span>
             Get In Touch
           </DialogTitle>
-          <DialogDescription className="text-slate">
+          <DialogDescription className="text-text-secondary tracking-body">
             Fill out the form below and I&apos;ll get back to you as soon as
             possible.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4 font-body">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label
                 htmlFor="name"
-                className="text-sm font-mono text-slate-light"
+                className="text-sm font-medium text-text-primary tracking-body"
               >
                 Name
               </label>
@@ -108,13 +108,13 @@ export default function ContactFormModal({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="bg-navy border-navy-lighter focus:ring-primary text-slate-lighter"
+                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
               />
             </div>
             <div className="space-y-2">
               <label
                 htmlFor="email"
-                className="text-sm font-mono text-slate-light"
+                className="text-sm font-medium text-text-primary tracking-body"
               >
                 Email
               </label>
@@ -126,14 +126,14 @@ export default function ContactFormModal({
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="bg-navy border-navy-lighter focus:ring-primary text-slate-lighter"
+                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
               />
             </div>
           </div>
           <div className="space-y-2">
             <label
               htmlFor="subject"
-              className="text-sm font-mono text-slate-light"
+              className="text-sm font-medium text-text-primary tracking-body"
             >
               Subject
             </label>
@@ -144,13 +144,13 @@ export default function ContactFormModal({
               value={formData.subject}
               onChange={handleChange}
               required
-              className="bg-navy border-navy-lighter focus:ring-primary text-slate-lighter"
+              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
             />
           </div>
           <div className="space-y-2">
             <label
               htmlFor="message"
-              className="text-sm font-mono text-slate-light"
+              className="text-sm font-medium text-text-primary tracking-body"
             >
               Message
             </label>
@@ -162,7 +162,7 @@ export default function ContactFormModal({
               onChange={handleChange}
               rows={5}
               required
-              className="bg-navy border-navy-lighter focus:ring-primary text-slate-lighter resize-none"
+              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow resize-none"
             />
           </div>
           <div className="flex justify-end pt-4">
@@ -170,14 +170,15 @@ export default function ContactFormModal({
               type="button"
               variant="ghost"
               onClick={onClose}
-              className="mr-2 text-slate hover:text-slate-lighter hover:bg-navy-lighter"
+              className="mr-2 text-text-secondary hover:text-text-primary hover:bg-canvas-light rounded-pill tracking-body font-medium"
             >
               Cancel
             </Button>
             <Button
               type="submit"
+              variant="warm"
               disabled={isSubmitting}
-              className="bg-transparent border border-primary text-primary hover:bg-primary/10 font-mono"
+              className="bg-canvas-warm text-text-primary hover:bg-[#ede7e1] hover:text-text-primary rounded-pill shadow-warm-lift border border-borderSubtle tracking-body font-medium transition-all hover:scale-105 active:scale-95 px-6"
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">

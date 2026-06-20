@@ -11,6 +11,11 @@ interface AnimatedShapesProps {
   className?: string;
 }
 
+const seededValue = (seed: number) => {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+};
+
 export default function AnimatedShapes({
   count = 6,
   className = "",
@@ -24,18 +29,19 @@ export default function AnimatedShapes({
   const shapes = useMemo(
     () =>
       Array.from({ length: count }).map((_, i) => {
-        const size = Math.floor(Math.random() * 100) + 50;
-        const type = Math.floor(Math.random() * 3);
-        const delay = Math.random() * 5;
-        const duration = Math.random() * 15 + 20;
-        const opacity = Math.random() * 0.3 + 0.3;
+        const seed = i + count * 17;
+        const size = Math.floor(seededValue(seed) * 100) + 50;
+        const type = Math.floor(seededValue(seed + 1) * 3);
+        const delay = seededValue(seed + 2) * 5;
+        const duration = seededValue(seed + 3) * 15 + 20;
+        const opacity = seededValue(seed + 4) * 0.3 + 0.3;
 
         const color = isDark
-          ? `rgba(35, 53, 84, ${opacity})`
-          : `rgba(35, 53, 84, ${opacity})`;
+          ? `rgba(245, 242, 239, ${opacity * 0.32})`
+          : `rgba(119, 113, 105, ${opacity * 0.42})`;
 
-        const xPos = Math.random() * 100;
-        const yPos = Math.random() * 100;
+        const xPos = seededValue(seed + 5) * 100;
+        const yPos = seededValue(seed + 6) * 100;
 
         return { id: i, size, type, delay, duration, color, xPos, yPos };
       }),

@@ -8,7 +8,7 @@ interface ResumeSummaryProps {
 export const ResumeSummary = ({ data }: ResumeSummaryProps) => {
   return (
     <ResumeSection emoji="🧑‍💻" title="Summary">
-      <p className="text-gray-700 leading-relaxed">
+      <p className="text-text-secondary leading-relaxed">
         {data.content}
       </p>
     </ResumeSection>

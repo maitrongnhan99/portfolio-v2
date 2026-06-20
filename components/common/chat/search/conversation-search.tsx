@@ -21,6 +21,8 @@ type SortBy = 'date' | 'title' | 'messageCount';
 type SortOrder = 'asc' | 'desc';
 type FilterBy = 'all' | 'recent' | 'long' | 'short';
 
+const RECENT_FILTER_CUTOFF = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
 export function ConversationSearch({
   conversations,
   onSelectConversation,
@@ -84,8 +86,7 @@ export function ConversationSearch({
     if (filterBy !== 'all') {
       switch (filterBy) {
         case 'recent':
-          const recentDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-          filtered = filtered.filter(conv => conv.updatedAt >= recentDate);
+          filtered = filtered.filter(conv => conv.updatedAt >= RECENT_FILTER_CUTOFF);
           break;
         case 'long':
           filtered = filtered.filter(conv => conv.messageCount >= 10);
@@ -147,10 +148,10 @@ export function ConversationSearch({
   };
 
   return (
-    <div className={`bg-navy-light border border-navy-lighter rounded-lg ${className}`}>
-      <div className="p-4 border-b border-navy-lighter">
+    <div className={`bg-canvas-white border border-borderLight rounded-card shadow-outline-ring ${className}`}>
+      <div className="p-4 border-b border-borderSubtle">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-slate-lighter">Conversation History</h3>
+          <h3 className="text-lg font-semibold text-text-primary">Conversation History</h3>
           <div className="flex items-center gap-2">
             {activeFilterCount > 0 && (
               <Badge variant="secondary" className="text-xs">
@@ -161,7 +162,7 @@ export function ConversationSearch({
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-slate-lighter hover:bg-navy"
+              className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
             >
               {isExpanded ? 'Less' : 'More'} Filters
             </Button>
@@ -170,17 +171,17 @@ export function ConversationSearch({
 
         {/* Search Input */}
         <div className="relative mb-3">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate/50" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-muted" />
           <Input
             placeholder="Search conversations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-navy border-navy-lighter text-slate-lighter placeholder:text-slate/50"
+            className="pl-10 bg-canvas-white border-borderLight text-text-primary placeholder:text-text-muted shadow-inset-border"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate/50 hover:text-slate-lighter"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted hover:text-text-primary"
             >
               <XIcon className="w-4 h-4" />
             </button>
@@ -200,13 +201,13 @@ export function ConversationSearch({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {/* Topic Filter */}
                 <Select value={selectedTopic} onValueChange={setSelectedTopic}>
-                  <SelectTrigger className="bg-navy border-navy-lighter text-slate-lighter">
+                  <SelectTrigger className="bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                     <SelectValue placeholder="Filter by topic" />
                   </SelectTrigger>
-                  <SelectContent className="bg-navy-light border-navy-lighter">
+                  <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
                     <SelectItem value="">All topics</SelectItem>
                     {allTopics.map(topic => (
-                      <SelectItem key={topic} value={topic} className="text-slate-lighter hover:bg-navy">
+                      <SelectItem key={topic} value={topic} className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">
                         {topic}
                       </SelectItem>
                     ))}
@@ -215,50 +216,50 @@ export function ConversationSearch({
 
                 {/* Date Range Filter */}
                 <Select value={dateRange} onValueChange={setDateRange}>
-                  <SelectTrigger className="bg-navy border-navy-lighter text-slate-lighter">
+                  <SelectTrigger className="bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                     <SelectValue placeholder="Filter by date" />
                   </SelectTrigger>
-                  <SelectContent className="bg-navy-light border-navy-lighter">
+                  <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
                     <SelectItem value="">All dates</SelectItem>
-                    <SelectItem value="today" className="text-slate-lighter hover:bg-navy">Today</SelectItem>
-                    <SelectItem value="week" className="text-slate-lighter hover:bg-navy">This week</SelectItem>
-                    <SelectItem value="month" className="text-slate-lighter hover:bg-navy">This month</SelectItem>
-                    <SelectItem value="year" className="text-slate-lighter hover:bg-navy">This year</SelectItem>
+                    <SelectItem value="today" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Today</SelectItem>
+                    <SelectItem value="week" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">This week</SelectItem>
+                    <SelectItem value="month" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">This month</SelectItem>
+                    <SelectItem value="year" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">This year</SelectItem>
                   </SelectContent>
                 </Select>
 
                 {/* Additional Filter */}
                 <Select value={filterBy} onValueChange={(value) => setFilterBy(value as FilterBy)}>
-                  <SelectTrigger className="bg-navy border-navy-lighter text-slate-lighter">
+                  <SelectTrigger className="bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                     <SelectValue placeholder="Filter by type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-navy-light border-navy-lighter">
-                    <SelectItem value="all" className="text-slate-lighter hover:bg-navy">All conversations</SelectItem>
-                    <SelectItem value="recent" className="text-slate-lighter hover:bg-navy">Recent (7 days)</SelectItem>
-                    <SelectItem value="long" className="text-slate-lighter hover:bg-navy">Long (10+ messages)</SelectItem>
-                    <SelectItem value="short" className="text-slate-lighter hover:bg-navy">Short (&lt;5 messages)</SelectItem>
+                  <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
+                    <SelectItem value="all" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">All conversations</SelectItem>
+                    <SelectItem value="recent" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Recent (7 days)</SelectItem>
+                    <SelectItem value="long" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Long (10+ messages)</SelectItem>
+                    <SelectItem value="short" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Short (&lt;5 messages)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Sort Controls */}
               <div className="flex items-center gap-2">
-                <span className="text-sm text-slate/70">Sort by:</span>
+                <span className="text-sm text-text-secondary">Sort by:</span>
                 <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortBy)}>
-                  <SelectTrigger className="w-32 bg-navy border-navy-lighter text-slate-lighter">
+                  <SelectTrigger className="w-32 bg-canvas-white border-borderLight text-text-primary shadow-inset-border">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-navy-light border-navy-lighter">
-                    <SelectItem value="date" className="text-slate-lighter hover:bg-navy">Date</SelectItem>
-                    <SelectItem value="title" className="text-slate-lighter hover:bg-navy">Title</SelectItem>
-                    <SelectItem value="messageCount" className="text-slate-lighter hover:bg-navy">Messages</SelectItem>
+                  <SelectContent className="bg-canvas-white border-borderLight shadow-outline-ring">
+                    <SelectItem value="date" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Date</SelectItem>
+                    <SelectItem value="title" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Title</SelectItem>
+                    <SelectItem value="messageCount" className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary">Messages</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                  className="text-slate-lighter hover:bg-navy"
+                  className="text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
                 >
                   {sortOrder === 'asc' ? <SortAscendingIcon className="w-4 h-4" /> : <SortDescendingIcon className="w-4 h-4" />}
                 </Button>
@@ -268,7 +269,7 @@ export function ConversationSearch({
                     variant="ghost"
                     size="sm"
                     onClick={clearFilters}
-                    className="text-red-400 hover:bg-red-500/10"
+                    className="text-text-muted hover:bg-canvas-warm hover:text-text-primary"
                   >
                     Clear Filters
                   </Button>
@@ -282,7 +283,7 @@ export function ConversationSearch({
       {/* Results */}
       <div className="max-h-96 overflow-y-auto">
         {filteredConversations.length === 0 ? (
-          <div className="p-6 text-center text-slate/50">
+          <div className="p-6 text-center text-text-muted">
             <MagnifyingGlassIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
             <p>No conversations found</p>
             {activeFilterCount > 0 && (
@@ -290,7 +291,7 @@ export function ConversationSearch({
                 variant="ghost"
                 size="sm"
                 onClick={clearFilters}
-                className="mt-2 text-primary hover:bg-primary/10"
+                className="mt-2 text-text-secondary hover:bg-canvas-warm hover:text-text-primary"
               >
                 Clear filters to see all
               </Button>
@@ -306,26 +307,26 @@ export function ConversationSearch({
                 transition={{ duration: 0.2 }}
                 className={`p-3 cursor-pointer transition-colors ${
                   conversation.id === currentConversationId
-                    ? 'bg-primary/10 border-l-2 border-primary'
-                    : 'hover:bg-navy/50'
+                    ? 'bg-canvas-warm border-l-2 border-text-muted'
+                    : 'hover:bg-canvas-light'
                 }`}
                 onClick={() => onSelectConversation(conversation)}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-slate-lighter truncate">{conversation.title}</h4>
-                    <p className="text-sm text-slate/70 mt-1">
+                    <h4 className="font-medium text-text-primary truncate">{conversation.title}</h4>
+                    <p className="text-sm text-text-secondary mt-1">
                       {conversation.messageCount} messages • {formatDate(conversation.updatedAt)}
                     </p>
                     {conversation.topicsExplored.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {conversation.topicsExplored.slice(0, 3).map(topic => (
-                          <Badge key={topic} variant="secondary" className="text-xs bg-navy/50 text-slate/70">
+                          <Badge key={topic} variant="secondary" className="text-xs bg-canvas-warm text-text-secondary border border-borderSubtle">
                             {topic}
                           </Badge>
                         ))}
                         {conversation.topicsExplored.length > 3 && (
-                          <Badge variant="secondary" className="text-xs bg-navy/50 text-slate/70">
+                          <Badge variant="secondary" className="text-xs bg-canvas-warm text-text-secondary border border-borderSubtle">
                             +{conversation.topicsExplored.length - 3}
                           </Badge>
                         )}
@@ -333,7 +334,7 @@ export function ConversationSearch({
                     )}
                   </div>
                   {conversation.id === currentConversationId && (
-                    <div className="w-2 h-2 bg-primary rounded-full ml-2 mt-2"></div>
+                    <div className="w-2 h-2 bg-text-muted rounded-full ml-2 mt-2"></div>
                   )}
                 </div>
               </motion.div>
@@ -344,4 +345,3 @@ export function ConversationSearch({
     </div>
   );
 }
-

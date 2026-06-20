@@ -26,16 +26,16 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
   return (
     <div className={`sticky top-24 ${className}`}>
       <ScrollReveal direction="right">
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700 p-6 shadow-sm">
-          <h3 className="text-xl font-semibold mb-4 text-slate-200">
+        <div className="bg-canvas-white rounded-card border border-borderLight p-6 shadow-outline-ring">
+          <h3 className="text-xl font-light mb-4 text-text-primary">
             Project Details
           </h3>
 
           <div className="space-y-4">
             {project.date && (
               <div className="flex items-center gap-2">
-                <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-slate-300">
+                <CalendarIcon className="h-4 w-4 text-text-muted" />
+                <span className="text-sm text-text-secondary">
                   {dayjs(project.date).format("DD-MM-YYYY")}
                 </span>
               </div>
@@ -43,8 +43,8 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
 
             {project.category && (
               <div className="flex items-center gap-2">
-                <TagIcon className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-slate-300">
+                <TagIcon className="h-4 w-4 text-text-muted" />
+                <span className="text-sm text-text-secondary">
                   {project.category}
                 </span>
               </div>
@@ -54,7 +54,7 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
               {project.liveUrl && (
                 <Button
                   asChild
-                  className="w-full rounded-lg flex items-center gap-2 text-white"
+                  className="w-full rounded-pill flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card"
                   data-testid="project-demo-link"
                 >
                   <Link href={sanitizeUrl(project.liveUrl)} target="_blank">
@@ -68,7 +68,7 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full rounded-lg flex items-center gap-2 text-white"
+                  className="w-full rounded-pill flex items-center gap-2 border-borderLight bg-canvas-white text-text-primary hover:bg-canvas-light"
                   data-testid="project-github-link"
                 >
                   <Link href={sanitizeUrl(project.githubUrl)} target="_blank">
@@ -86,9 +86,9 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
         <ScrollReveal direction="right" delay={0.1}>
           <div
             data-testid="related-projects"
-            className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6 shadow-sm mt-6"
+            className="bg-canvas-white rounded-card border border-borderLight p-6 shadow-outline-ring mt-6"
           >
-            <h3 className="text-lg font-semibold mb-4 text-slate-200">
+            <h3 className="text-lg font-light mb-4 text-text-primary">
               Related Projects
             </h3>
             <div className="space-y-3">
@@ -98,20 +98,21 @@ export const ProjectSidebar: FC<ProjectSidebarProps> = ({
                   href={`/project/${related.slug}`}
                   className="block"
                 >
-                  <div className="flex items-center gap-3 p-2 rounded-md hover:bg-slate-700/50 transition-colors">
-                    <div className="relative w-12 h-12 rounded overflow-hidden flex-shrink-0">
+                  <div className="flex items-center gap-3 p-2 rounded-comfortable hover:bg-canvas-light transition-colors">
+                    <div className="relative w-12 h-12 rounded overflow-hidden shrink-0">
                       <Image
                         src={related.image || "/placeholder.svg"}
                         alt={related.title}
                         fill
+                        sizes="48px"
                         className="object-cover"
                       />
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-slate-200">
+                      <h4 className="text-sm font-medium text-text-primary">
                         {related.title}
                       </h4>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-text-muted">
                         {related.category}
                       </p>
                     </div>

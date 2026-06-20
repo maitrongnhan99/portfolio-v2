@@ -74,13 +74,13 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
           rows={1}
           className={cn(
             "min-h-[45px] sm:min-h-[50px] max-h-32 resize-none pr-12 sm:pr-14",
-            "bg-navy-light border-navy-lighter focus:ring-primary text-slate-lighter",
-            "placeholder:text-slate/50",
+            "bg-background border-border focus:ring-ring text-foreground rounded-2xl",
+            "placeholder:text-text-muted",
             "transition-all duration-200",
             "scrollbar-none",
             "[&::-webkit-scrollbar]:hidden",
             "[-ms-overflow-style:none]",
-            "[scrollbar-width:none]",
+            "scrollbar-none",
             "text-sm sm:text-base"
           )}
         />
@@ -89,7 +89,7 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
           disabled={!message.trim() || disabled}
           className={cn(
             "absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2",
-            "bg-transparent border border-primary text-primary hover:bg-primary/10",
+            "bg-canvas-warm text-text-primary border border-borderSubtle hover:bg-canvas-warm hover:opacity-90 rounded-full shadow-warm-lift",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "h-7 w-7 sm:h-8 sm:w-8 p-0",
             "transition-all duration-200"
@@ -98,7 +98,7 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
           <PaperPlaneTiltIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </Button>
       </div>
-      <div className="text-[10px] sm:text-xs text-slate/50 mt-1 px-2">
+      <div className="text-[10px] sm:text-xs text-text-muted mt-1 px-2 font-body tracking-body">
         <span className="hidden sm:inline">Press Enter to send, Shift+Enter for new line</span>
         <span className="sm:hidden">Enter to send • Shift+Enter for new line</span>
       </div>

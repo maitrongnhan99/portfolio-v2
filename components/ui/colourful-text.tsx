@@ -4,16 +4,12 @@ import React, { useMemo } from "react";
 
 export function ColourfulText({ text }: { text: string }) {
   const colors = useMemo(() => [
-    "rgb(131, 179, 32)",
-    "rgb(47, 195, 106)",
-    "rgb(42, 169, 210)",
-    "rgb(4, 112, 202)",
-    "rgb(107, 10, 255)",
-    "rgb(183, 0, 218)",
-    "rgb(218, 0, 171)",
-    "rgb(230, 64, 92)",
-    "rgb(232, 98, 63)",
-    "rgb(249, 129, 47)",
+    "rgb(0, 0, 0)",
+    "rgb(78, 78, 78)",
+    "rgb(119, 113, 105)",
+    "rgb(78, 50, 23)",
+    "rgb(119, 113, 105)",
+    "rgb(78, 78, 78)",
   ], []);
 
   const [currentColors, setCurrentColors] = React.useState(colors);
@@ -49,7 +45,7 @@ export function ColourfulText({ text }: { text: string }) {
             duration: 0.5,
             delay: index * 0.05,
           }}
-          className="inline-block whitespace-pre font-sans tracking-tight"
+          className="inline-block whitespace-pre font-sans tracking-body"
         >
           {char}
         </motion.span>

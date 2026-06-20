@@ -5,6 +5,12 @@ import { useMountedState } from "react-use";
 
 const DELAY = 10;
 const DURATION = 20;
+const MAX_METEORS = 20;
+const METEOR_TIMINGS = Array.from({ length: MAX_METEORS }, () => ({
+  delay: Math.random() * DELAY,
+  duration: Math.floor(Math.random() * (DURATION - DELAY) + DELAY),
+}));
+
 export const Meteors = ({
   number,
   className,
@@ -15,7 +21,8 @@ export const Meteors = ({
   const mounted = useMountedState();
   const isMounted = mounted();
 
-  const meteors = new Array(number || 20).fill(true);
+  const meteorCount = number || 20;
+  const meteors = new Array(meteorCount).fill(true);
 
   if (!isMounted) return null;
   return (
@@ -25,24 +32,23 @@ export const Meteors = ({
       transition={{ duration: 0.5 }}
     >
       {meteors.map((el, idx) => {
-        const meteorCount = number || 20;
         // Calculate position to evenly distribute meteors across container width
-        const position = idx * (800 / meteorCount) - 400; // Spread across 800px range, centered
+        const position = idx * (800 / meteorCount) - 400;
+        const timing = METEOR_TIMINGS[idx % METEOR_TIMINGS.length];
 
         return (
           <span
             key={"meteor" + idx}
             className={cn(
-              "animate-meteor-effect absolute h-0.5 w-0.5 rotate-[45deg] rounded-[9999px] bg-slate-500 shadow-[0_0_0_1px_#ffffff10]",
-              "before:absolute before:top-1/2 before:h-[1px] before:w-[50px] before:-translate-y-[50%] before:transform before:bg-gradient-to-r before:from-[#64748b] before:to-transparent before:content-['']",
+              "animate-meteor-effect absolute h-0.5 w-0.5 rotate-45 rounded-pill bg-slate-500 shadow-[0_0_0_1px_#ffffff10]",
+              "before:absolute before:top-1/2 before:h-px before:w-[50px] before:translate-y-[-50%] before:transform before:bg-linear-to-r before:from-[#64748b] before:to-transparent before:content-['']",
               className
             )}
             style={{
-              top: "-40px", // Start above the container
+              top: "-40px",
               left: position + "px",
-              animationDelay: Math.random() * DELAY + "s", // Random delay between 0-5s
-              animationDuration:
-                Math.floor(Math.random() * (DURATION - DELAY) + DELAY) + "s", // Keep some randomness in duration
+              animationDelay: timing.delay + "s",
+              animationDuration: timing.duration + "s",
             }}
           ></span>
         );

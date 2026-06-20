@@ -11,7 +11,10 @@ import { getProjects } from "@/lib/data-service-server";
 export default async function Home() {
   const projects = await getProjects();
   return (
-    <main data-testid="home-page" className="min-h-screen bg-navy relative">
+    <main
+      data-testid="home-page"
+      className="min-h-screen bg-canvas-white text-text-primary relative"
+    >
       <HomeStructuredData />
       <Hero />
       <About />

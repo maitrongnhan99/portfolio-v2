@@ -133,8 +133,8 @@ const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
 
           {isTyping && <TypingIndicator />}
           {streamingState.isStreaming && !isTyping && (
-            <div className="flex items-center gap-2 text-sm text-slate/70 mb-4">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+            <div className="flex items-center gap-2 text-sm text-text-muted mb-4">
+              <div className="w-2 h-2 bg-foreground rounded-full animate-pulse"></div>
               Streaming response...
             </div>
           )}
@@ -149,10 +149,10 @@ const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToBottom}
-          className="absolute bottom-4 right-4 w-10 h-10 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg"
+          className="absolute bottom-4 right-4 w-10 h-10 bg-background/80 hover:bg-secondary border border-border rounded-full flex items-center justify-center transition-all duration-200 shadow-card"
           title="Scroll to bottom"
         >
-          <ArrowDownIcon className="w-5 h-5 text-primary" />
+          <ArrowDownIcon className="w-5 h-5 text-foreground" />
         </motion.button>
       )}
     </div>

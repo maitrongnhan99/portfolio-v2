@@ -5,12 +5,12 @@ import { NoSSR } from "@/components/ui/no-ssr";
 export default function Footer() {
 
   return (
-    <footer className="bg-navy border-t border-navy-lighter py-6">
+    <footer className="bg-canvas-light border-t border-borderSubtle py-6">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center gap-4 text-center">
           <Social />
 
-          <div className="font-mono text-xs text-slate">
+          <div className="font-mono text-xs text-text-muted">
             <p>
               Designed & Built by{" "}
               <Link

@@ -101,7 +101,7 @@ describe('Breadcrumb Components', () => {
         'flex-wrap',
         'items-center',
         'gap-1.5',
-        'break-words',
+        'wrap-break-word',
         'text-sm',
         'text-muted-foreground',
         'sm:gap-2.5'

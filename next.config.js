@@ -14,7 +14,7 @@ const nextConfig = {
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 60 * 60 * 24 * 31, // 31 days — optimized images are content-addressed and rarely change
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -147,7 +147,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' blob: data:", // Allow PayloadCMS styles
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
@@ -172,7 +172,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline' blob: data: *", // Very permissive for admin
               "img-src 'self' data: https: blob: *",
               "font-src 'self' data: https: *",

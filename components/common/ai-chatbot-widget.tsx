@@ -10,6 +10,12 @@ interface AIChatbotWidgetProps {
   showDelay?: number;
 }
 
+const floatingParticles = [
+  { x: 8, y: -6, duration: 2.2, delay: 0.1, left: 24, top: 24 },
+  { x: -7, y: 9, duration: 2.7, delay: 0.8, left: 68, top: 36 },
+  { x: 5, y: 8, duration: 2.4, delay: 1.3, left: 44, top: 70 },
+];
+
 export const AIChatbotWidget = ({
   autoShow = true,
   showDelay = 2000,
@@ -89,12 +95,12 @@ export const AIChatbotWidget = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.8 }}
                 transition={{ duration: 0.3 }}
-                className="relative max-w-xs"
+                className="relative max-w-xs mb-2"
               >
-                <div className="bg-navy-light/95 backdrop-blur-md border border-primary/20 rounded-lg p-4 shadow-xl">
+                <div className="bg-card/95 backdrop-blur-md border border-border rounded-2xl p-4 shadow-md">
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                      <RobotIcon className="w-4 h-4 text-primary" />
+                    <div className="shrink-0 w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
+                      <RobotIcon className="w-4 h-4 text-foreground" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <motion.p
@@ -103,28 +109,31 @@ export const AIChatbotWidget = ({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.3 }}
-                        className="text-sm text-slate-lighter leading-relaxed"
+                        className="text-sm text-card-foreground leading-relaxed font-medium"
                       >
                         {tips[currentTipIndex]}
                       </motion.p>
-                      <div className="flex items-center gap-1 mt-2">
-                        <SparkleIcon className="w-3 h-3 text-primary" />
-                        <span className="text-xs text-primary font-mono">
+                      <button
+                        onClick={handleClick}
+                        className="flex items-center gap-1 mt-4 hover:opacity-80 transition-opacity cursor-pointer text-left"
+                      >
+                        <SparkleIcon className="w-3 h-3 text-text-muted" />
+                        <span className="text-xs text-text-muted font-mono">
                           Click to start chatting
                         </span>
-                      </div>
+                      </button>
                     </div>
                     <button
                       onClick={handleDismiss}
-                      className="flex-shrink-0 w-5 h-5 rounded-full bg-slate/10 hover:bg-slate/20 flex items-center justify-center transition-colors"
+                      className="shrink-0 w-5 h-5 rounded-full hover:bg-secondary flex items-center justify-center transition-colors"
                       aria-label="Dismiss"
                     >
-                      <XIcon className="w-3 h-3 text-slate" />
+                      <XIcon className="w-3 h-3 text-text-muted hover:text-foreground" />
                     </button>
                   </div>
                 </div>
                 {/* Arrow pointing to widget */}
-                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-navy-light/95 border-r border-b border-primary/20 transform rotate-45" />
+                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-card border-r border-b border-border transform rotate-45" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -132,7 +141,7 @@ export const AIChatbotWidget = ({
           {/* Main Widget Button */}
           <motion.button
             onClick={handleClick}
-            className="relative w-14 h-14 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="relative w-14 h-14 rounded-full bg-card border border-border shadow-warm-lift hover:shadow-card transition-all duration-300 group"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             animate={{
@@ -148,7 +157,7 @@ export const AIChatbotWidget = ({
             aria-label="Open AI Assistant Chat"
           >
             {/* Glow effect */}
-            <div className="absolute inset-0 rounded-full bg-primary/20 blur-md group-hover:bg-primary/30 transition-colors" />
+            <div className="absolute inset-0 rounded-full bg-secondary/50 blur-md group-hover:bg-secondary/80 transition-colors" />
 
             {/* Icon container */}
             <div className="relative w-full h-full flex items-center justify-center">
@@ -162,7 +171,7 @@ export const AIChatbotWidget = ({
                   ease: "easeInOut",
                 }}
               >
-                <RobotIcon className="w-7 h-7 text-primary" />
+                <RobotIcon className="w-7 h-7 text-foreground" />
               </motion.div>
 
               {/* Online indicator */}
@@ -176,31 +185,31 @@ export const AIChatbotWidget = ({
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-navy"
+                className="absolute -top-1 -right-1 w-4 h-4 bg-text-muted rounded-full border-2 border-background"
               />
             </div>
 
             {/* Floating particles */}
             <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
-              {[...Array(3)].map((_, i) => (
+              {floatingParticles.map((particle, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-1 h-1 bg-primary/40 rounded-full"
+                  className="absolute w-1 h-1 bg-foreground/20 rounded-full"
                   animate={{
-                    x: [0, Math.random() * 20 - 10],
-                    y: [0, Math.random() * 20 - 10],
+                    x: [0, particle.x],
+                    y: [0, particle.y],
                     opacity: [0, 1, 0],
                     scale: [0, 1, 0],
                   }}
                   transition={{
                     repeat: Infinity,
-                    duration: 2 + Math.random(),
-                    delay: Math.random() * 2,
+                    duration: particle.duration,
+                    delay: particle.delay,
                     ease: "easeInOut",
                   }}
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
+                    left: `${particle.left}%`,
+                    top: `${particle.top}%`,
                   }}
                 />
               ))}

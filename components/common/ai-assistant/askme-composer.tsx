@@ -37,7 +37,7 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
   toggleAutoSave,
 }) => {
   return (
-    <div className="border-t border-navy-lighter bg-navy/50 backdrop-blur-sm p-3 sm:p-4">
+    <div className="border-t border-border bg-background/80 backdrop-blur-xs p-3 sm:p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 mb-3">
           <TooltipProvider>
@@ -46,10 +46,10 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                 <TooltipTrigger asChild>
                   <button
                     onClick={toggleStreaming}
-                    className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                    className={`px-3 sm:px-4 py-1.5 rounded-pill text-xs font-mono transition-all ${
                       chatSettings.useStreaming
-                        ? "bg-primary/20 text-primary border border-primary/30"
-                        : "bg-slate/10 text-slate border border-slate/20"
+                        ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                        : "bg-canvas-near text-text-secondary border border-borderSubtle"
                     }`}
                   >
                     <span className="sm:hidden">
@@ -62,8 +62,8 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                     </span>
                   </button>
                 </TooltipTrigger>
-                <TooltipContent className="bg-navy-light border-navy-lighter">
-                  <p className="text-xs text-slate-light">
+                <TooltipContent className="bg-popover border-border shadow-outline-ring rounded-lg">
+                  <p className="text-xs text-text-muted">
                     {chatSettings.useStreaming
                       ? "Real-time responses"
                       : "Complete responses"}
@@ -75,10 +75,10 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                 <TooltipTrigger asChild>
                   <button
                     onClick={toggleAutoSave}
-                    className={`px-2 sm:px-3 py-1 rounded-full text-xs font-mono transition-all ${
+                    className={`px-3 sm:px-4 py-1.5 rounded-pill text-xs font-mono transition-all ${
                       chatSettings.autoSave
-                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                        : "bg-slate/10 text-slate border border-slate/20"
+                        ? "bg-canvas-warm text-text-primary border border-borderSubtle shadow-warm-lift"
+                        : "bg-canvas-near text-text-secondary border border-borderSubtle"
                     }`}
                   >
                     <span className="sm:hidden">
@@ -89,8 +89,8 @@ const AskMeComposer: FC<AskMeComposerProps> = ({
                     </span>
                   </button>
                 </TooltipTrigger>
-                <TooltipContent className="bg-navy-light border-navy-lighter">
-                  <p className="text-xs text-slate-light">
+                <TooltipContent className="bg-popover border-border shadow-outline-ring rounded-lg">
+                  <p className="text-xs text-text-muted">
                     {chatSettings.autoSave
                       ? "Saves automatically"
                       : "Manual save only"}

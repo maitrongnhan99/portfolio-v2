@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { ChatMessage } from '@/components/common/chat/chat-message';
 
@@ -23,16 +23,15 @@ describe('ChatMessage', () => {
     expect(screen.getByText('Hello, this is a test message')).toBeInTheDocument();
   });
 
-  it('displays timestamp', () => {
+  it('displays timestamp', async () => {
     render(<ChatMessage {...defaultProps} />);
-    
-    // Check if timestamp is formatted and displayed
-    // The timestamp should be formatted as hour:minute
-    const formattedTime = defaultProps.timestamp.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+
+    // Timestamp is wrapped in NoSSR which uses setTimeout(fn,0) — wait for it
+    const formattedTime = defaultProps.timestamp.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
     });
-    expect(screen.getByText(formattedTime)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(formattedTime)).toBeInTheDocument());
   });
 
   it('shows streaming indicator when streaming', () => {
@@ -80,7 +79,7 @@ describe('ChatMessage', () => {
     
     // The component handles bold text specially
     expect(screen.getByText('Bold text')).toBeInTheDocument();
-    expect(screen.getByText('Bold text')).toHaveClass('font-mono', 'text-primary', 'font-semibold');
+    expect(screen.getByText('Bold text')).toHaveClass('font-display', 'font-medium', 'text-text-primary');
   });
 
   it('handles code blocks', () => {
@@ -94,22 +93,22 @@ describe('ChatMessage', () => {
   it('applies correct styling for user vs assistant messages', () => {
     const { rerender } = render(<ChatMessage {...defaultProps} isUser={false} />);
     
-    // Check assistant message has correct container classes - need to go up two levels
-    let messageContainer = screen.getByText('Hello, this is a test message').closest('.prose')?.parentElement;
-    expect(messageContainer).toHaveClass('bg-navy-light');
-    
+    // Check assistant message has correct container classes
+    let messageContainer = screen.getByText('Hello, this is a test message').closest('div.rounded-2xl');
+    expect(messageContainer).toHaveClass('bg-canvas-white');
+
     rerender(<ChatMessage {...defaultProps} isUser={true} />);
-    
+
     // Check user message has correct container classes
-    messageContainer = screen.getByText('Hello, this is a test message').closest('.prose')?.parentElement;
-    expect(messageContainer).toHaveClass('bg-primary/10');
+    messageContainer = screen.getByText('Hello, this is a test message').closest('div.rounded-2xl');
+    expect(messageContainer).toHaveClass('bg-canvas-warm');
   });
 
   it('handles empty message gracefully', () => {
     render(<ChatMessage {...defaultProps} message="" isStreaming={true} />);
     
-    // Should show streaming dots for empty message
-    const container = document.querySelector('.animate-bounce');
+    // Should show streaming cursor for empty message
+    const container = document.querySelector('.animate-pulse');
     expect(container).toBeInTheDocument();
   });
 
@@ -121,16 +120,16 @@ describe('ChatMessage', () => {
     expect(screen.getByText(longMessage)).toBeInTheDocument();
   });
 
-  it('has proper accessibility attributes', () => {
+  it('has proper accessibility attributes', async () => {
     render(<ChatMessage {...defaultProps} />);
-    
+
     // Check that the message content is accessible
     const message = screen.getByText('Hello, this is a test message');
     expect(message).toBeInTheDocument();
-    
-    // Check that timestamp is rendered
+
+    // Timestamp is wrapped in NoSSR — wait for async render
     const timestamp = defaultProps.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    expect(screen.getByText(timestamp)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(timestamp)).toBeInTheDocument());
   });
 
   it('memoizes correctly to prevent unnecessary re-renders', () => {

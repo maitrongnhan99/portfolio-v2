@@ -15,13 +15,13 @@ import { ArrowLeft, House } from "@phosphor-icons/react";
 
 export const ResumeView = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-canvas-white text-text-primary">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 print:hidden">
+      <nav className="bg-canvas-white border-b border-borderSubtle print:hidden">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <Link 
             href="/"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
+            className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-2 py-1"
             aria-label="Back to Portfolio"
           >
             <House className="w-4 h-4" aria-hidden="true" />
@@ -35,7 +35,7 @@ export const ResumeView = () => {
 
       {/* Resume Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 print:px-0 print:py-0">
-        <div className="bg-white print:shadow-none">
+        <div className="bg-canvas-white print:shadow-none">
           <ResumeHeader data={resumeData.personalInfo} />
           
           <div className="space-y-8">
@@ -112,23 +112,19 @@ export const ResumeView = () => {
             text-decoration: underline !important;
           }
           
-          .bg-gray-100 {
+          .bg-canvas-warm {
             background: #f5f5f5 !important;
             border: 1px solid #ddd !important;
           }
           
-          .border-gray-200 {
+          .border-borderSubtle {
             border-color: #ddd !important;
           }
           
-          .text-gray-900,
-          .text-gray-700,
-          .text-gray-600 {
+          .text-text-primary,
+          .text-text-secondary,
+          .text-text-muted {
             color: #000 !important;
-          }
-          
-          .text-blue-600 {
-            color: #0066cc !important;
           }
           
           @page {

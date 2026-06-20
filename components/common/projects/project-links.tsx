@@ -24,7 +24,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary rounded-full"
+          className="text-text-muted hover:text-text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(liveUrl)} target="_blank">
             <LinkIcon className="h-4 w-4 mr-2" />
@@ -38,7 +38,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary rounded-full"
+          className="text-text-muted hover:text-text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(githubUrl)} target="_blank">
             <GithubLogoIcon className="h-4 w-4 mr-2" />
@@ -52,7 +52,7 @@ const ProjectLinks: FC<ProjectLinksProps> = ({
           asChild
           size="sm"
           variant="ghost"
-          className="text-slate-light hover:text-primary rounded-full"
+          className="text-text-muted hover:text-text-primary rounded-full"
         >
           <NextLink href={sanitizeUrl(liveUrl || "#")} target="_blank">
             <DownloadIcon className="h-4 w-4 mr-2" />

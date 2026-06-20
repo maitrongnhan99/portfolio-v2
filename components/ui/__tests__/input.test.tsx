@@ -62,7 +62,7 @@ describe('Input Component', () => {
       
       const input = screen.getByTestId('input');
       expect(input).toHaveClass(
-        'focus-visible:outline-none',
+        'focus-visible:outline-hidden',
         'focus-visible:ring-2',
         'focus-visible:ring-ring',
         'focus-visible:ring-offset-2'

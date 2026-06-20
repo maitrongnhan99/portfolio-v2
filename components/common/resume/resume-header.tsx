@@ -8,13 +8,13 @@ interface ResumeHeaderProps {
 export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
   return (
     <header className="text-center mb-8">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">{data.name}</h1>
-      <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-gray-600 mb-4">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-2">{data.name}</h1>
+      <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-text-secondary mb-4">
         <Link 
           href={data.links.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="LinkedIn profile"
         >
           LinkedIn
@@ -24,7 +24,7 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           href={data.links.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="GitHub profile"
         >
           GitHub
@@ -34,18 +34,18 @@ export const ResumeHeader = ({ data }: ResumeHeaderProps) => {
           href={data.links.portfolio}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+          className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
           aria-label="Portfolio website"
         >
           Portfolio
         </Link>
       </div>
-      <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-600">
+      <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-text-secondary">
         <div className="flex items-center gap-1">
           <span>📧</span>
           <a 
             href={`mailto:${data.contacts.email}`}
-            className="hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1"
+            className="hover:text-text-primary transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-1"
             aria-label={`Send email to ${data.contacts.email}`}
           >
             {data.contacts.email}

@@ -20,10 +20,10 @@ export const ResumeTechStack = ({ data }: ResumeTechStackProps) => {
       <div className="space-y-2">
         {techCategories.map((category) => (
           <div key={category.label} className="flex flex-wrap items-start gap-2">
-            <span className="font-semibold text-gray-900 min-w-[80px]">
+            <span className="font-semibold text-text-primary min-w-[80px]">
               {category.label}:
             </span>
-            <span className="text-gray-700">
+            <span className="text-text-secondary">
               {category.items.join(", ")}
             </span>
           </div>

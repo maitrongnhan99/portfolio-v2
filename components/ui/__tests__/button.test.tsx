@@ -55,21 +55,21 @@ describe('Button Component', () => {
       render(<Button variant="outline">Outline</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('border', 'border-input', 'bg-background');
+      expect(button).toHaveClass('border', 'border-borderLight', 'bg-canvas-white');
     });
 
     it('should render secondary variant', () => {
       render(<Button variant="secondary">Secondary</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('bg-secondary', 'text-secondary-foreground');
+      expect(button).toHaveClass('bg-canvas-warm', 'text-text-primary');
     });
 
     it('should render ghost variant', () => {
       render(<Button variant="ghost">Ghost</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('hover:bg-accent', 'hover:text-accent-foreground');
+      expect(button).toHaveClass('hover:bg-canvas-warm', 'hover:text-text-primary');
     });
 
     it('should render link variant', () => {
@@ -153,7 +153,7 @@ describe('Button Component', () => {
       render(<Button>Focusable</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('focus-visible:outline-none', 'focus-visible:ring-2');
+      expect(button).toHaveClass('focus-visible:outline-hidden', 'focus-visible:ring-2');
     });
 
     it('should support aria attributes', () => {
@@ -232,7 +232,7 @@ describe('Button Component', () => {
       render(<Button variant="outline" size="lg">Large Outline</Button>);
       
       const button = screen.getByTestId('button');
-      expect(button).toHaveClass('border', 'border-input', 'h-11', 'px-8');
+      expect(button).toHaveClass('border', 'border-borderLight', 'h-11', 'px-8');
     });
   });
 

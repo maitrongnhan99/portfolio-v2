@@ -7,7 +7,6 @@ import { AskMeKeyboardShortcuts } from "@/components/common/ai-assistant/askme-k
 import { AskMeMessagesView } from "@/components/common/ai-assistant/askme-messages-view";
 import { type ChatInputRef } from "@/components/common/chat";
 import { ChatControlsSidebar } from "@/components/common/chat/chat-controls-sidebar";
-import { AskMeStructuredData } from "@/components/common/seo/ask-me-structured-data";
 import { ChatProvider, useChatContext } from "@/contexts/chat-context";
 import { useChatMessages } from "@/hooks/use-chat-messages";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
@@ -51,12 +50,9 @@ const ProjectShowcase = lazy(() =>
 
 export default function AskMePage() {
   return (
-    <>
-      <AskMeStructuredData />
-      <ChatProvider>
-        <AskMePageContent />
-      </ChatProvider>
-    </>
+    <ChatProvider>
+      <AskMePageContent />
+    </ChatProvider>
   );
 }
 
@@ -441,10 +437,7 @@ function AskMePageContent() {
   ]);
 
   return (
-    <main
-      className="h-screen bg-navy flex flex-col"
-      style={{ backgroundColor: "#0b192f" }}
-    >
+    <main className="h-screen bg-background flex flex-col">
       <AskMeHeaderBar
         currentConversation={currentConversation}
         isSidebarOpen={showControlsSidebar}

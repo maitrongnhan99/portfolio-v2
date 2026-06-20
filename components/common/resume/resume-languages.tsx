@@ -11,10 +11,10 @@ export const ResumeLanguages = ({ data }: ResumeLanguagesProps) => {
       <ul className="space-y-1">
         {data.map((lang, index) => (
           <li key={index} className="flex items-center gap-2">
-            <span className="font-medium text-gray-900">{lang.language}:</span>
-            <span className="text-gray-700">{lang.proficiency}</span>
+            <span className="font-medium text-text-primary">{lang.language}:</span>
+            <span className="text-text-secondary">{lang.proficiency}</span>
             {lang.certification && (
-              <span className="text-gray-600">({lang.certification})</span>
+              <span className="text-text-muted">({lang.certification})</span>
             )}
           </li>
         ))}

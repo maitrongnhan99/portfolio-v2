@@ -7,6 +7,7 @@ import { DesktopNav } from "./desktop-nav";
 import { NavLogo } from "./logo";
 import { MobileNavMenu } from "./mobile-nav-menu";
 import { MobileNavToggle } from "./mobile-nav-toggle";
+import { ThemeToggle } from "./theme-toggle";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -31,13 +32,18 @@ const Navbar = () => {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        scrolled ? "bg-navy/90 backdrop-blur-md shadow-md" : "bg-transparent"
+        scrolled
+          ? "bg-canvas-white/90 backdrop-blur-md border-b border-borderSubtle shadow-outline-ring"
+          : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-4 h-12 lg:h-16 flex items-center justify-between">
         <NavLogo />
-        <DesktopNav isHome={isHome} />
-        <MobileNavToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="flex items-center gap-2">
+          <DesktopNav isHome={isHome} />
+          <ThemeToggle />
+          <MobileNavToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+        </div>
       </div>
       <MobileNavMenu isOpen={isOpen} setIsOpen={setIsOpen} isHome={isHome} />
     </header>

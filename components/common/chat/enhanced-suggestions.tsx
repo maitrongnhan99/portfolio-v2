@@ -14,8 +14,6 @@ interface QuestionCategory {
   id: string;
   title: string;
   icon: any;
-  color: string;
-  bgColor: string;
   questions: string[];
   description: string;
 }
@@ -29,8 +27,6 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       id: "skills",
       title: "Technical Skills",
       icon: CodeIcon,
-      color: "text-blue-400",
-      bgColor: "bg-blue-400/10 border-blue-400/20 hover:bg-blue-400/20",
       description: "Explore my technical expertise and programming skills",
       questions: [
         "What programming languages do you know?",
@@ -44,8 +40,6 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       id: "experience",
       title: "Work Experience",
       icon: BriefcaseIcon,
-      color: "text-green-400",
-      bgColor: "bg-green-400/10 border-green-400/20 hover:bg-green-400/20",
       description: "Learn about my professional journey and achievements",
       questions: [
         "What's your work experience?",
@@ -59,8 +53,6 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       id: "projects",
       title: "Projects & Portfolio",
       icon: FolderOpenIcon,
-      color: "text-purple-400",
-      bgColor: "bg-purple-400/10 border-purple-400/20 hover:bg-purple-400/20",
       description: "Discover the projects I've built and technologies used",
       questions: [
         "What projects have you built?",
@@ -74,8 +66,6 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       id: "education",
       title: "Background & Learning",
       icon: GraduationCapIcon,
-      color: "text-orange-400",
-      bgColor: "bg-orange-400/10 border-orange-400/20 hover:bg-orange-400/20",
       description: "My educational background and continuous learning journey",
       questions: [
         "What's your educational background?",
@@ -89,8 +79,6 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       id: "contact",
       title: "Contact & Opportunities",
       icon: PhoneIcon,
-      color: "text-pink-400",
-      bgColor: "bg-pink-400/10 border-pink-400/20 hover:bg-pink-400/20",
       description: "Get in touch and explore collaboration opportunities",
       questions: [
         "How can I contact you?",
@@ -121,11 +109,11 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
       transition={{ duration: 0.3 }}
       className="flex gap-3 mb-6"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-        <RobotIcon className="w-4 h-4 text-primary" />
+      <div className="shrink-0 w-8 h-8 rounded-full bg-transparent border border-border flex items-center justify-center">
+        <RobotIcon className="w-4 h-4 text-text-secondary" />
       </div>
       
-      <div className="max-w-full flex-1 rounded-lg px-4 py-3 bg-navy-light border border-navy-lighter text-slate-lighter">
+      <div className="max-w-full flex-1 rounded-card px-4 py-4 bg-canvas-white border border-borderSubtle shadow-outline-ring text-text-primary">
         <AnimatePresence mode="wait">
           {showAllCategories ? (
             <motion.div
@@ -137,12 +125,12 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
             >
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <SparkleIcon className="w-4 h-4 text-primary" />
-                  <p className="text-sm text-slate-light font-medium">
+                  <SparkleIcon className="w-4 h-4 text-text-secondary" />
+                  <p className="text-sm text-text-primary font-medium">
                     What would you like to know about?
                   </p>
                 </div>
-                <p className="text-xs text-slate/70">
+                <p className="text-xs text-text-secondary">
                   Choose a category to explore specific topics
                 </p>
               </div>
@@ -155,32 +143,32 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
                     onClick={() => handleCategoryClick(category.id)}
-                    className={`p-3 rounded-lg border transition-all duration-200 text-left group ${category.bgColor}`}
+                    className={`p-3 rounded-comfortable border border-borderSubtle bg-canvas-near hover:bg-canvas-light hover:border-borderLight hover:shadow-outline-ring transition-all duration-200 text-left group`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {(() => {
                           const IconComponent = category.icon;
-                          return <IconComponent className={`w-5 h-5 ${category.color}`} />;
+                          return <IconComponent className="w-5 h-5 text-text-muted group-hover:text-text-primary transition-colors" />;
                         })()}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h4 className="text-sm font-medium text-slate-lighter mb-1 group-hover:text-white transition-colors">
+                        <h4 className="text-sm font-medium text-text-primary mb-1 group-hover:text-foreground transition-colors">
                           {category.title}
                         </h4>
-                        <p className="text-xs text-slate/70 group-hover:text-slate/90 transition-colors">
+                        <p className="text-xs text-text-secondary group-hover:text-text-primary transition-colors">
                           {category.description}
                         </p>
                       </div>
-                      <ArrowRightIcon className="w-3 h-3 text-slate/50 group-hover:text-slate-lighter transition-all transform group-hover:translate-x-1" />
+                      <ArrowRightIcon className="w-3 h-3 text-text-muted group-hover:text-text-primary transition-all transform group-hover:translate-x-1" />
                     </div>
                   </motion.button>
                 ))}
               </div>
 
               {/* Quick Start Options */}
-              <div className="mt-4 pt-4 border-t border-navy-lighter/50">
-                <p className="text-xs text-slate/60 mb-2">Or try these popular questions:</p>
+              <div className="mt-4 pt-4 border-t border-borderSubtle">
+                <p className="text-xs text-text-secondary mb-2">Or try these popular questions:</p>
                 <div className="flex flex-wrap gap-2">
                   {[
                     "Tell me about yourself",
@@ -193,7 +181,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.2, delay: 0.5 + index * 0.1 }}
                       onClick={() => onSendMessage(question)}
-                      className="px-3 py-1 text-xs bg-navy/50 border border-navy-lighter text-slate-light hover:text-slate-lighter hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 rounded-full"
+                      className="px-3 py-1.5 text-xs bg-canvas-near border border-borderSubtle text-text-secondary hover:text-text-primary hover:border-borderLight hover:bg-canvas-light transition-all duration-200 rounded-pill"
                     >
                       {question}
                     </motion.button>
@@ -213,7 +201,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                 <div className="flex items-center gap-2 mb-2">
                   <button
                     onClick={handleBackClick}
-                    className="text-slate/70 hover:text-slate-lighter transition-colors text-xs flex items-center gap-1"
+                    className="text-text-secondary hover:text-text-primary transition-colors text-xs flex items-center gap-1"
                   >
                     <ArrowRightIcon className="w-3 h-3 rotate-180" />
                     Back to categories
@@ -222,13 +210,13 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                 <div className="flex items-center gap-2 mb-2">
                   {(() => {
                     const IconComponent = selectedCategoryData.icon;
-                    return <IconComponent className={`w-5 h-5 ${selectedCategoryData.color}`} />;
+                    return <IconComponent className="w-5 h-5 text-text-muted" />;
                   })()}
-                  <h3 className="text-sm font-medium text-slate-lighter">
+                  <h3 className="text-sm font-medium text-text-primary">
                     {selectedCategoryData.title}
                   </h3>
                 </div>
-                <p className="text-xs text-slate/70">
+                <p className="text-xs text-text-secondary">
                   {selectedCategoryData.description}
                 </p>
               </div>
@@ -241,7 +229,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
                     onClick={() => onSendMessage(question)}
-                    className="w-full text-left px-3 py-2 text-sm bg-navy/30 border border-navy-lighter text-slate-light hover:text-slate-lighter hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 rounded-lg group"
+                    className="w-full text-left px-3 py-2.5 text-sm bg-canvas-near border border-borderSubtle text-text-secondary hover:text-text-primary hover:border-borderLight hover:bg-canvas-light transition-all duration-200 rounded-comfortable group"
                   >
                     <div className="flex items-center gap-2">
                       <span className="flex-1">{question}</span>
@@ -251,10 +239,10 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
                 ))}
               </div>
 
-              <div className="mt-4 pt-3 border-t border-navy-lighter/50">
+              <div className="mt-4 pt-3 border-t border-borderSubtle">
                 <button
                   onClick={handleBackClick}
-                  className="text-xs text-slate/60 hover:text-slate-lighter transition-colors"
+                  className="text-xs text-text-secondary hover:text-text-primary transition-colors"
                 >
                   ← Explore other categories
                 </button>
@@ -263,7 +251,7 @@ export const EnhancedSuggestions = ({ onSendMessage, timestamp }: EnhancedSugges
           )}
         </AnimatePresence>
         
-        <div className="text-xs mt-3 opacity-60 text-slate flex items-center justify-between">
+        <div className="text-xs mt-3 text-text-muted flex items-center justify-between">
           <NoSSR>
             <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </NoSSR>

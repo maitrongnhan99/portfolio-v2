@@ -167,10 +167,12 @@ function useKnowledgeData(): UseKnowledgeDataReturn {
   }, [fetchChunks, fetchStats]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchChunks();
   }, [fetchChunks]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchStats();
   }, [fetchStats]);
 

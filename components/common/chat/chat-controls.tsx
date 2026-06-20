@@ -46,16 +46,16 @@ export const ChatControls = React.memo(({
       >
         <DialogTrigger asChild>
           <button
-            className="flex items-center gap-2 px-3 py-2 bg-transparent border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/50 transition-all duration-200 rounded-lg font-mono text-sm"
+            className="flex items-center gap-2 px-3 py-2 bg-transparent border border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary hover:border-text-muted transition-all duration-200 rounded-pill font-mono text-sm"
             title="Search conversations"
           >
             <MagnifyingGlassIcon className="w-4 h-4" />
             <span className="hidden sm:inline">Search</span>
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[800px] max-h-[80vh] bg-navy-light border-navy-lighter p-0">
-          <DialogHeader className="px-6 py-4 border-b border-navy-lighter">
-            <DialogTitle className="text-slate-lighter">
+        <DialogContent className="sm:max-w-[800px] max-h-[80vh] bg-canvas-white border-borderLight shadow-outline-ring p-0">
+          <DialogHeader className="px-6 py-4 border-b border-borderSubtle">
+            <DialogTitle className="text-text-primary">
               Search Conversations
             </DialogTitle>
           </DialogHeader>
@@ -73,7 +73,7 @@ export const ChatControls = React.memo(({
       <button
         onClick={onSaveConversation}
         disabled={!currentConversation || messages.length === 0}
-        className="flex items-center gap-2 px-3 py-2 bg-transparent border border-slate/30 text-slate hover:bg-slate/10 hover:border-slate/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 rounded-lg font-mono text-sm"
+        className="flex items-center gap-2 px-3 py-2 bg-transparent border border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary hover:border-text-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 rounded-pill font-mono text-sm"
         title="Save conversation"
       >
         <FloppyDiskIcon className="w-4 h-4" />
@@ -84,8 +84,8 @@ export const ChatControls = React.memo(({
       {currentConversation && (
         <Suspense
           fallback={
-            <div className="flex items-center gap-2 px-3 py-2 bg-transparent border border-slate/30 text-slate rounded-lg font-mono text-sm animate-pulse">
-              <div className="w-4 h-4 bg-slate/30 rounded"></div>
+            <div className="flex items-center gap-2 px-3 py-2 bg-transparent border border-borderLight text-text-secondary rounded-pill font-mono text-sm animate-pulse">
+              <div className="w-4 h-4 bg-canvas-warm rounded"></div>
               <span className="hidden sm:inline">Export</span>
             </div>
           }
@@ -103,7 +103,7 @@ export const ChatControls = React.memo(({
       <button
         onClick={onClearConversation}
         disabled={!currentConversation || messages.length === 0}
-        className="flex items-center gap-2 px-3 py-2 bg-transparent border border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 rounded-lg font-mono text-sm"
+        className="flex items-center gap-2 px-3 py-2 bg-transparent border border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary hover:border-text-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 rounded-pill font-mono text-sm"
         title="Clear conversation"
       >
         <TrashSimpleIcon className="w-4 h-4" />
@@ -113,7 +113,7 @@ export const ChatControls = React.memo(({
       {/* New Conversation Button */}
       <button
         onClick={onNewConversation}
-        className="flex items-center gap-2 px-3 py-2 bg-transparent border border-green-500/30 text-green-400 hover:bg-green-500/10 hover:border-green-500/50 transition-all duration-200 rounded-lg font-mono text-sm"
+        className="flex items-center gap-2 px-3 py-2 bg-canvas-warm border border-borderSubtle text-text-primary shadow-warm-lift hover:opacity-90 transition-all duration-200 rounded-pill font-mono text-sm"
         title="Start new conversation"
       >
         <SparkleIcon className="w-4 h-4" />
@@ -123,7 +123,7 @@ export const ChatControls = React.memo(({
       {/* Back to Portfolio Button */}
       <Link
         href="/"
-        className="flex items-center gap-2 px-4 py-2 bg-transparent border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-200 rounded-lg font-mono text-sm"
+        className="flex items-center gap-2 px-4 py-2 bg-transparent border border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary hover:border-text-muted transition-all duration-200 rounded-pill font-mono text-sm"
       >
         <HouseIcon className="w-4 h-4" />
         <span className="hidden sm:inline">Back to Portfolio</span>

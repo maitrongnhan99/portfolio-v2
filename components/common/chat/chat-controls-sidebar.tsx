@@ -87,13 +87,13 @@ const SidebarButton = ({
 }: SidebarButtonProps) => {
   const variantStyles = {
     default:
-      "border-slate/30 text-slate-light hover:bg-slate/10 hover:border-slate/50",
+      "border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary",
     danger:
-      "border-red-500/30 text-red-500 hover:bg-red-500/10 hover:border-red-500/50",
+      "border-borderLight text-text-secondary hover:bg-canvas-warm hover:text-text-primary hover:border-text-muted",
     success:
-      "border-green-500/30 text-green-500 hover:bg-green-500/10 hover:border-green-500/50",
+      "border-borderSubtle bg-canvas-warm text-text-primary shadow-warm-lift hover:opacity-90",
     primary:
-      "border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50",
+      "border-borderLight text-text-primary hover:bg-canvas-warm",
   };
 
   return (
@@ -101,7 +101,7 @@ const SidebarButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full flex items-start gap-3 px-4 py-3 bg-transparent border rounded-lg",
+        "w-full flex items-start gap-3 px-4 py-3 bg-transparent border rounded-card",
         "transition-all duration-200 text-left group",
         variantStyles[variant],
         disabled && "opacity-50 cursor-not-allowed"
@@ -109,7 +109,7 @@ const SidebarButton = ({
       whileHover={!disabled ? { x: 4 } : {}}
       whileTap={!disabled ? { scale: 0.98 } : {}}
     >
-      <div className="flex-shrink-0 mt-0.5">{icon}</div>
+      <div className="shrink-0 mt-0.5">{icon}</div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <span className="font-mono text-sm font-medium">{label}</span>
@@ -130,7 +130,7 @@ const SidebarButton = ({
 
 const SectionDivider = ({ title }: { title: string }) => (
   <div className="px-4 py-2">
-    <h3 className="text-xs font-mono text-slate/50 uppercase tracking-wider">
+    <h3 className="text-xs font-mono text-text-muted uppercase tracking-wider">
       {title}
     </h3>
   </div>
@@ -158,19 +158,19 @@ const ConversationHistoryItem = ({
       onHoverEnd={() => setShowDelete(false)}
       className={cn(
         "group relative px-3 py-2 rounded-md cursor-pointer transition-all",
-        isActive ? "bg-primary/10 border border-primary/30" : "hover:bg-slate/5"
+        isActive ? "bg-canvas-warm border border-borderSubtle" : "hover:bg-canvas-light"
       )}
       onClick={onClick}
       whileHover={!isActive ? { x: 4 } : {}}
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-2">
-        <ChatTextIcon className="w-4 h-4 mt-0.5 text-slate/50 flex-shrink-0" />
+        <ChatTextIcon className="w-4 h-4 mt-0.5 text-text-muted shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-mono text-slate-light truncate">
+          <p className="text-sm font-mono text-text-primary truncate">
             {conversation.title}
           </p>
-          <div className="flex items-center gap-2 text-xs text-slate/50">
+          <div className="flex items-center gap-2 text-xs text-text-muted">
             <span>{conversation.messages.length} messages</span>
             <span>•</span>
             <span>{formatRelativeTime(conversation.updatedAt)}</span>
@@ -181,7 +181,7 @@ const ConversationHistoryItem = ({
                 {conversation.topicsExplored.slice(0, 3).map((topic, index) => (
                   <span
                     key={index}
-                    className="text-xs px-1.5 py-0.5 bg-navy-lighter rounded text-slate/70"
+                    className="text-xs px-1.5 py-0.5 bg-canvas-warm border border-borderSubtle rounded text-text-secondary"
                   >
                     {topic}
                   </span>
@@ -199,9 +199,9 @@ const ConversationHistoryItem = ({
                 e.stopPropagation();
                 onDelete();
               }}
-              className="absolute right-2 top-2 p-1 rounded hover:bg-red-500/10 transition-colors"
+              className="absolute right-2 top-2 p-1 rounded hover:bg-canvas-warm transition-colors"
             >
-              <TrashIcon className="w-3.5 h-3.5 text-red-500" />
+              <TrashIcon className="w-3.5 h-3.5 text-text-muted" />
             </motion.button>
           )}
         </AnimatePresence>
@@ -244,13 +244,6 @@ export const ChatControlsSidebar = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  // Reset search mode when sidebar closes
-  useEffect(() => {
-    if (!isOpen) {
-      setIsSearchMode(false);
-    }
-  }, [isOpen]);
-
   const handleAction = (action: () => void) => {
     action();
     // Auto-close sidebar after action (can be made configurable)
@@ -259,10 +252,18 @@ export const ChatControlsSidebar = ({
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <Sheet
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsSearchMode(false);
+          }
+          onOpenChange(open);
+        }}
+      >
         <SheetContent
           side="right"
-          className="w-full sm:w-[380px] bg-navy-light border-navy-lighter flex flex-col p-0"
+          className="w-full sm:w-[380px] bg-canvas-white border-borderLight flex flex-col p-0 shadow-card"
         >
           {isSearchMode ? (
             <div className="flex flex-col h-full">
@@ -277,8 +278,8 @@ export const ChatControlsSidebar = ({
             </div>
           ) : (
             <>
-              <SheetHeader className="flex-shrink-0 p-6 pb-0">
-                <SheetTitle className="text-slate-light font-mono">
+              <SheetHeader className="shrink-0 p-6 pb-0">
+                <SheetTitle className="text-text-primary font-display font-light text-xl">
                   Chat Controls
                 </SheetTitle>
               </SheetHeader>
@@ -347,11 +348,11 @@ export const ChatControlsSidebar = ({
                   <div className="space-y-2 overflow-y-auto custom-scrollbar">
                     {conversations.length === 0 ? (
                       <div className="px-4 py-8 text-center">
-                        <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-slate/30" />
-                        <p className="text-sm text-slate/60">
+                        <ChatsCircleIcon className="w-12 h-12 mx-auto mb-2 text-text-muted/50" />
+                        <p className="text-sm text-text-muted">
                           No conversations yet
                         </p>
-                        <p className="text-xs text-slate/40 mt-1">
+                        <p className="text-xs text-text-muted/70 mt-1">
                           Start chatting to build your history
                         </p>
                       </div>
@@ -372,7 +373,7 @@ export const ChatControlsSidebar = ({
                         {conversations.length > 10 && (
                           <button
                             onClick={() => setIsSearchMode(true)}
-                            className="w-full px-4 py-2 text-xs text-slate/60 hover:text-slate-light transition-colors"
+                            className="w-full px-4 py-2 text-xs text-text-muted hover:text-text-primary transition-colors"
                           >
                             View all {conversations.length} conversations
                           </button>
@@ -384,21 +385,21 @@ export const ChatControlsSidebar = ({
               </div>
 
               {/* Status Section - Fixed at bottom */}
-              <div className="flex-shrink-0 mt-auto py-4 px-6 border-t border-navy-lighter bg-navy/50">
-                <div className="flex items-center justify-between text-xs text-slate/60">
+              <div className="shrink-0 mt-auto py-4 px-6 border-t border-borderSubtle bg-canvas-light/70">
+                <div className="flex items-center justify-between text-xs text-text-muted">
                   <span>Connection Status</span>
                   <div className="flex items-center gap-2">
                     <div
                       className={cn(
                         "w-2 h-2 rounded-full",
-                        isOnline ? "bg-green-500" : "bg-red-500"
+                        isOnline ? "bg-text-muted" : "bg-border"
                       )}
                     />
                     <span>{isOnline ? "Online" : "Offline"}</span>
                   </div>
                 </div>
                 {chatSettings && (
-                  <div className="mt-2 flex items-center justify-between text-xs text-slate/60">
+                  <div className="mt-2 flex items-center justify-between text-xs text-text-muted">
                     <span>Streaming</span>
                     <span>
                       {chatSettings.useStreaming ? "Enabled" : "Disabled"}

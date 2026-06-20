@@ -238,7 +238,7 @@ describe('Dialog Components', () => {
         'inset-0',
         'z-50',
         'bg-black/80',
-        'backdrop-blur-sm'
+        'backdrop-blur-xs'
       );
       
       expect(content).toBeInTheDocument();
