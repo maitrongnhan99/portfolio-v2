@@ -19,34 +19,7 @@ import {
   createUpdatedConversation,
   getConversationHistory,
 } from "@/lib/chat-utils";
-import { lazy, useCallback, useEffect, useRef, useState } from "react";
-
-// Lazy load heavy components (kept for types/consumers still in this file)
-const AnimatedWelcome = lazy(() =>
-  import("@/components/common/chat/animated-welcome").then((module) => ({
-    default: module.AnimatedWelcome,
-  }))
-);
-const EnhancedSuggestions = lazy(() =>
-  import("@/components/common/chat/enhanced-suggestions").then((module) => ({
-    default: module.EnhancedSuggestions,
-  }))
-);
-const ConversationProgress = lazy(() =>
-  import("@/components/common/chat/conversation-progress").then((module) => ({
-    default: module.ConversationProgress,
-  }))
-);
-const QuickActions = lazy(() =>
-  import("@/components/common/chat/quick-actions").then((module) => ({
-    default: module.QuickActions,
-  }))
-);
-const ProjectShowcase = lazy(() =>
-  import("@/components/common/chat/project-showcase").then((module) => ({
-    default: module.ProjectShowcase,
-  }))
-);
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function AskMePage() {
   return (
@@ -394,50 +367,8 @@ function AskMePageContent() {
     }
   };
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Cmd/Ctrl + K - Search
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setShowSearchDialog(true);
-      }
-      // Cmd/Ctrl + S - Save
-      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
-        e.preventDefault();
-        if (messages.length > 0) {
-          handleSaveConversation();
-        }
-      }
-      // Cmd/Ctrl + N - New conversation
-      if ((e.metaKey || e.ctrlKey) && e.key === "n") {
-        e.preventDefault();
-        handleNewConversation();
-      }
-      // Cmd/Ctrl + / - Toggle sidebar
-      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
-        e.preventDefault();
-        setShowControlsSidebar(!showControlsSidebar);
-      }
-      // Escape - Close sidebar
-      if (e.key === "Escape" && showControlsSidebar) {
-        setShowControlsSidebar(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [
-    messages.length,
-    showControlsSidebar,
-    setShowSearchDialog,
-    setShowControlsSidebar,
-    handleSaveConversation,
-    handleNewConversation,
-  ]);
-
   return (
-    <main className="h-screen bg-background flex flex-col">
+    <main className="h-dvh bg-background flex flex-col">
       <AskMeHeaderBar
         currentConversation={currentConversation}
         isSidebarOpen={showControlsSidebar}
@@ -474,7 +405,6 @@ function AskMePageContent() {
       <AskMeMessagesView
         showWelcome={showWelcome}
         showEnhancedSuggestions={showEnhancedSuggestions}
-        conversationMetadata={conversationMetadata}
         messages={messages}
         isTyping={isTyping}
         streamingState={streamingState}
@@ -491,9 +421,6 @@ function AskMePageContent() {
         onSendMessage={handleSendMessage}
         isTyping={isTyping}
         streamingState={streamingState}
-        chatSettings={chatSettings}
-        toggleStreaming={toggleStreaming}
-        toggleAutoSave={toggleAutoSave}
       />
 
       {/* Delete Confirmation Modal */}

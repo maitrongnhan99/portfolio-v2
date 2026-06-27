@@ -1,11 +1,11 @@
 // Personal information database for AI assistant responses
 export const personalInfo = {
   name: "Mai Trọng Nhân",
-  role: "FullStack Developer",
+  role: "AI Applied Engineer",
   location: "Vietnam",
   email: "your.email@example.com", // Replace with actual email
 
-  bio: "I'm a FullStack developer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products using React, Next.js, NestJS, MongoDB and PostgreSQL.",
+  bio: "I'm an AI Applied Engineer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products that put LLMs and AI to practical use, using React, Next.js, NestJS, MongoDB and PostgreSQL.",
 
   skills: {
     frontend: [
@@ -25,14 +25,14 @@ export const personalInfo = {
 
   experience: [
     {
-      role: "FullStack Developer",
+      role: "AI Applied Engineer",
       company: "Current Position",
       period: "2023 - Present",
       description:
         "Building scalable web applications and mobile apps using modern technologies",
     },
     {
-      role: "Frontend Developer",
+      role: "Frontend Engineer",
       company: "Previous Company",
       period: "2022 - 2023",
       description:

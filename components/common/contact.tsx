@@ -7,6 +7,7 @@ import AnimatedShapes from "./animated-shapes";
 import ContactFormModal from "./contact-form-modal";
 import ScrollReveal from "./scroll-reveal";
 import { ThankYouModal } from "./thank-you-modal";
+import { Container } from "@/components/ui/container";
 
 export default function Contact() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,14 +16,14 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-24 bg-canvas-white border-b border-borderSubtle"
+      className="relative py-24 bg-canvas-white"
     >
-      <div className="container px-4 md:px-6 max-w-4xl mx-auto">
+      <Container>
         <AnimatedShapes count={5} className="opacity-25" />
         <ScrollReveal className="z-40">
           <div className="flex flex-col items-center text-center">
             <p className="font-mono text-text-muted mb-2 text-sm">
-              04. What&apos;s Next?
+              <span className="text-logo-blue">04. </span> What&apos;s Next?
             </p>
             <h2 className="text-3xl md:text-4xl font-light text-text-primary mb-6">
               Get In Touch
@@ -39,14 +40,14 @@ export default function Contact() {
                 onClick={() => setIsModalOpen(true)}
                 variant="outline"
                 size="lg"
-                className="font-mono border-borderLight text-text-primary bg-canvas-warm hover:bg-canvas-warm px-8 py-6 rounded-pill shadow-warm-lift"
+                className="font-mono !border-logo-blue !text-logo-blue !bg-transparent hover:!bg-logo-blue/10 hover:!text-logo-blue px-8 py-6 rounded-pill"
               >
                 Say Hello
               </Button>
             </motion.div>
           </div>
         </ScrollReveal>
-      </div>
+      </Container>
 
       <ContactFormModal
         isOpen={isModalOpen}

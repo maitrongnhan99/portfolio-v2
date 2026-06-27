@@ -20,7 +20,7 @@ pnpm install
 pnpm dev
 
 # Production build / start
-pnpm build   # runs `next build --webpack` — this repo opts OUT of Turbopack for builds
+pnpm build   # runs `next build --webpack` - this repo opts OUT of Turbopack for builds
 pnpm start
 
 # Lint and type-check
@@ -126,7 +126,9 @@ The portfolio chatbot is not just a UI widget; it has its own retrieval stack:
 - API entrypoint is `app/api/ai-assistant/chat/route.ts`
 - orchestration lives in `services/langchain-rag-service.ts`
 - vector-store support lives in `services/qdrant-vector-store.ts` and related embedding services
-- source knowledge and preparation scripts live under `lib/*knowledge*` and `scripts/seed-knowledge-qdrant.ts`
+- hand-authored static knowledge lives as Markdown in `content/knowledge/*.md` (one file per category; see that folder's README), loaded/parsed by `lib/knowledge/*` and synced by `scripts/seed-knowledge-qdrant.ts`
+- the seed script does an **incremental content-hash sync** for static knowledge (only new/changed chunks are re-embedded; removed chunks are pruned) — static vs. project points are kept separate via `metadata.kind`
+- dynamic project knowledge is still generated from the projects data source via `lib/project-knowledge-*.ts`
 
 The chat route supports both standard JSON responses and streaming SSE responses. If chat behavior is wrong, inspect the route, the LangChain service, and the Qdrant setup together.
 
@@ -143,11 +145,11 @@ Do not assume all APIs share the same runtime path or implementation style.
 
 The site uses Tailwind CSS (config in `tailwind.config.ts`) with UI primitives in `components/ui/` (shadcn-style, Radix-based). Public feature components live mostly in `components/common/`.
 
-There are two global stylesheets — keep this in mind when editing tokens:
+There are two global stylesheets - keep this in mind when editing tokens:
 - `app/(app)/globals.css` is the stylesheet actually imported by the public app layout (Tailwind layers + semantic CSS variables / theme tokens).
 - `styles/globals.css` also exists; confirm which one a given import points at before editing color/shadow primitives.
 
-The design token system (semantic colors, unified card shadows) was recently overhauled — the visual language is ElevenLabs-inspired and codified in `DESIGN.md`. Animations use Framer Motion / Motion. Theme switching is handled centrally through the public app layout.
+The design token system (semantic colors, unified card shadows) was recently overhauled - the visual language is ElevenLabs-inspired and codified in `DESIGN.md`. Animations use Framer Motion / Motion. Theme switching is handled centrally through the public app layout.
 
 ### Testing Shape
 
@@ -177,7 +179,7 @@ Useful conventions:
 
 ## Sibling Instruction Files
 
-`AGENTS.md` (Codex) and `GEMINI.md` mirror this file's intent for other agents. When you change architecture/commands here, keep `AGENTS.md` in sync — it is a near-verbatim copy. (`GEMINI.md` is currently more out of date — e.g. it still says Next.js 15.)
+`AGENTS.md` (Codex) and `GEMINI.md` mirror this file's intent for other agents. When you change architecture/commands here, keep `AGENTS.md` in sync - it is a near-verbatim copy. (`GEMINI.md` is currently more out of date - e.g. it still says Next.js 15.)
 
 ## Configuration Notes
 

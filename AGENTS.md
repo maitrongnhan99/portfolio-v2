@@ -123,7 +123,9 @@ The portfolio chatbot is not just a UI widget; it has its own retrieval stack:
 - API entrypoint is `app/api/ai-assistant/chat/route.ts`
 - orchestration lives in `services/langchain-rag-service.ts`
 - vector-store support lives in `services/qdrant-vector-store.ts` and related embedding services
-- source knowledge and preparation scripts live under `lib/*knowledge*` and `scripts/seed-knowledge-qdrant.ts`
+- hand-authored static knowledge lives as Markdown in `content/knowledge/*.md` (one file per category; see that folder's README), loaded/parsed by `lib/knowledge/*` and synced by `scripts/seed-knowledge-qdrant.ts`
+- the seed script does an **incremental content-hash sync** for static knowledge (only new/changed chunks are re-embedded; removed chunks are pruned) — static vs. project points are kept separate via `metadata.kind`
+- dynamic project knowledge is still generated from the projects data source via `lib/project-knowledge-*.ts`
 
 The chat route supports both standard JSON responses and streaming SSE responses. If chat behavior is wrong, inspect the route, the LangChain service, and the Qdrant setup together.
 

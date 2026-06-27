@@ -3,15 +3,10 @@
 import { DEFAULT_DURATION } from "@/constants/animation-configs";
 import { PROFILE } from "@/constants/profile";
 import { cn } from "@/lib/utils";
-import {
-  FacebookLogoIcon,
-  GithubLogoIcon,
-  InstagramLogoIcon,
-  LinkedinLogoIcon,
-} from "@phosphor-icons/react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
-import { CSSProperties, FC } from "react";
+import { FC } from "react";
 
 interface SocialProps {
   className?: string;
@@ -19,32 +14,26 @@ interface SocialProps {
 
 const socialLinks = [
   {
-    icon: <GithubLogoIcon className="w-5 h-5" />,
+    src: "/images/social/github.svg",
     href: PROFILE.github.url,
     label: "GitHub",
-    lightColor: "#6e5494",
-    lightHoverColor: "#4f3b78",
+    // GitHub mark is solid black; flip to white in dark mode so it stays visible.
+    iconClassName: "dark:invert",
   },
   {
-    icon: <LinkedinLogoIcon className="w-5 h-5" />,
+    src: "/images/social/linkedin.svg",
     href: PROFILE.linkedin.url,
     label: "LinkedIn",
-    lightColor: "#0a66c2",
-    lightHoverColor: "#004182",
   },
   {
-    icon: <InstagramLogoIcon className="w-5 h-5" />,
+    src: "/images/social/instagram.svg",
     href: PROFILE.instagram.url,
     label: "Instagram",
-    lightColor: "#c13584",
-    lightHoverColor: "#833ab4",
   },
   {
-    icon: <FacebookLogoIcon className="w-5 h-5" />,
+    src: "/images/social/facebook.svg",
     href: PROFILE.facebook.url,
     label: "Facebook",
-    lightColor: "#1877f2",
-    lightHoverColor: "#0d5db8",
   },
 ];
 
@@ -69,16 +58,18 @@ const Social: FC<SocialProps> = ({ className = "" }) => {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-(--social-light) hover:text-(--social-light-hover) dark:text-text-secondary! dark:hover:text-text-primary! transition-colors"
-            style={
-              {
-                "--social-light": social.lightColor,
-                "--social-light-hover": social.lightHoverColor,
-              } as CSSProperties
-            }
+            className="block transition-opacity hover:opacity-80"
             aria-label={social.label}
           >
-            {social.icon}
+            <Image
+              src={social.src}
+              alt=""
+              aria-hidden
+              width={20}
+              height={20}
+              unoptimized
+              className={cn("h-5 w-5 select-none", social.iconClassName)}
+            />
           </Link>
         </motion.div>
       ))}

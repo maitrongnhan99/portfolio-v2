@@ -53,7 +53,7 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
 
       <div
         className={cn(
-          "max-w-[70%] rounded-2xl px-5 py-4 font-body tracking-body",
+          "max-w-[85%] sm:max-w-[70%] rounded-2xl px-5 py-4 font-body tracking-body",
           isUser
             ? "bg-canvas-warm border border-borderSubtle text-text-primary shadow-warm-lift rounded-tr-sm"
             : "bg-canvas-white border border-borderSubtle text-text-primary shadow-outline-ring rounded-tl-sm",
@@ -151,9 +151,6 @@ const ChatMessageComponent: FC<ChatMessageProps> = ({
           </NoSSR>
           {!isUser && isStreaming && (
             <span className="text-text-muted">• Streaming...</span>
-          )}
-          {!isUser && streamingComplete && (
-            <span className="text-text-muted">• Complete</span>
           )}
         </div>
       </div>

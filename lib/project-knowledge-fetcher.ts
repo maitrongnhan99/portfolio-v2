@@ -1,6 +1,6 @@
 import { getProjects, checkPayloadHealth, getDataSource } from "./script-data-service";
 import { processProjectsToKnowledge } from "./project-knowledge-utils";
-import type { KnowledgeChunkData } from "./knowledge-data";
+import type { KnowledgeChunkData } from "./knowledge/types";
 import type { Project } from "./data-service-types";
 
 /**

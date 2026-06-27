@@ -177,7 +177,3 @@ export function getOpenAIRAGService(): OpenAIRAGService {
 
   return ragServiceInstance;
 }
-
-export function getLangChainRAGService(): OpenAIRAGService {
-  return getOpenAIRAGService();
-}

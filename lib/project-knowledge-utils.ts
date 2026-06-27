@@ -1,5 +1,5 @@
 import type { Project } from "./data-service-types";
-import type { KnowledgeChunkData } from "./knowledge-data";
+import type { KnowledgeChunkData } from "./knowledge/types";
 
 /**
  * Utility functions for processing project data into knowledge chunks

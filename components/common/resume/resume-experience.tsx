@@ -42,7 +42,7 @@ export const ResumeExperience = ({ data }: ResumeExperienceProps) => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="font-semibold text-text-primary">
-                  {job.position} — {job.company}
+                  {job.position} - {job.company}
                 </h3>
                 <p className="text-sm text-text-muted italic">
                   {job.location}

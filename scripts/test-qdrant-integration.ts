@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { getQdrantVectorStore } from '../services/qdrant-vector-store';
-import { getLangChainRAGService } from '../services/langchain-rag-service';
+import { getOpenAIRAGService } from '../services/langchain-rag-service';
 
 /**
  * Test script to verify Qdrant integration
@@ -15,7 +15,7 @@ async function testQdrantIntegration() {
     const vectorStore = getQdrantVectorStore();
     
     try {
-      await vectorStore.getVectorStore();
+      await vectorStore.initialize();
       console.log('✅ Vector store initialized successfully');
     } catch (error) {
       console.log('❌ Vector store initialization failed:');
@@ -53,7 +53,7 @@ async function testQdrantIntegration() {
     // Test 4: RAG Service
     console.log('\n4️⃣ Testing RAG service...');
     try {
-      const ragService = getLangChainRAGService();
+      const ragService = getOpenAIRAGService();
       console.log('✅ RAG service initialized successfully');
       
       // Only test query if we have documents

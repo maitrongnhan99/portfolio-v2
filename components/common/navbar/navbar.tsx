@@ -1,5 +1,6 @@
 "use client";
 
+import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,14 +38,14 @@ const Navbar = () => {
           : "bg-transparent"
       )}
     >
-      <div className="container mx-auto px-4 h-12 lg:h-16 flex items-center justify-between">
+      <Container className="h-12 lg:h-16 flex items-center justify-between">
         <NavLogo />
         <div className="flex items-center gap-2">
           <DesktopNav isHome={isHome} />
           <ThemeToggle />
           <MobileNavToggle isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-      </div>
+      </Container>
       <MobileNavMenu isOpen={isOpen} setIsOpen={setIsOpen} isHome={isHome} />
     </header>
   );

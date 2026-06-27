@@ -32,3 +32,5 @@ next-env.d.ts
 coverage/
 
 .env
+
+.playwright-mcp/

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Mai Trọng Nhân",
     "AI Assistant",
     "Portfolio",
-    "Full Stack Developer",
+    "AI Applied Engineer",
     "Chat",
     "Ask Me Anything",
     "React",

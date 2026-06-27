@@ -43,6 +43,7 @@
   --color-slate-lighter: #ccd6f6;
 
   --color-aqua: #64ffda;
+  --color-logo-blue: hsl(var(--logo-blue));
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
@@ -238,6 +239,7 @@
     --canvas-light: 0 0% 96%;
     --canvas-near: 0 0% 96.5%;
     --canvas-warm: 30 20% 95%;
+    --logo-blue: 201 79% 49%;
     --text-primary: 0 0% 0%;
     --text-secondary: 0 0% 30.6%;
     --text-muted: 35 7% 44%;
@@ -298,6 +300,7 @@
     --canvas-light: 0 0% 10%;
     --canvas-near: 0 0% 9%;
     --canvas-warm: 30 15% 12%;
+    --logo-blue: 201 85% 62%;
     --text-primary: 0 0% 98%;
     --text-secondary: 0 0% 75%;
     --text-muted: 35 7% 65%;

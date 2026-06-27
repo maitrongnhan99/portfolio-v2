@@ -3,6 +3,14 @@
 
 @source '../../*.{js,ts,jsx,tsx,mdx}';
 
+/*
+ * Design-system tokens for the /ask-me route group.
+ * Core :root / .dark semantic token values are kept in sync with
+ * styles/globals.css (the main public-site stylesheet).
+ * If you update shared tokens in one file, mirror them in the other.
+ * ask-me-specific additions (canvas-*, shadow-*, tracking-*) live here only.
+ */
+
 @custom-variant dark (&:is(.dark *));
 
 @utility container {
@@ -43,6 +51,7 @@
   --color-slate-lighter: #ccd6f6;
 
   --color-aqua: #64ffda;
+  --color-logo-blue: hsl(var(--logo-blue));
 
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
@@ -109,6 +118,7 @@
   --tracking-body: 0.16px;
   --tracking-body-relaxed: 0.18px;
   --tracking-caption: 0.14px;
+  --tracking-display-tight: -0.96px;
 
   @keyframes accordion-down {
     from {
@@ -169,6 +179,26 @@
   }
 }
 
+/* Typography utility helpers (keep in sync with styles/globals.css) */
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility text-display {
+  letter-spacing: var(--tracking-display-tight);
+  line-height: 1.08;
+  font-weight: 300;
+}
+
+@utility text-body-relaxed {
+  letter-spacing: var(--tracking-body-relaxed);
+  line-height: 1.6;
+}
+
+@utility text-caption-tracking {
+  letter-spacing: var(--tracking-caption);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -198,6 +228,7 @@
     --canvas-light: 0 0% 96%;
     --canvas-near: 0 0% 96.5%;
     --canvas-warm: 30 20% 95%;
+    --logo-blue: 201 79% 49%;
     --text-primary: 0 0% 0%;
     --text-secondary: 0 0% 30%;
     --text-muted: 33 6% 44%;
@@ -239,6 +270,7 @@
     --canvas-light: 0 0% 10%;
     --canvas-near: 0 0% 9%;
     --canvas-warm: 30 15% 12%;
+    --logo-blue: 201 85% 62%;
     --text-primary: 0 0% 100%;
     --text-secondary: 0 0% 85%;
     --text-muted: 35 7% 65%;
@@ -260,6 +292,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-body);
+    line-height: 1.5;
   }
 }
 

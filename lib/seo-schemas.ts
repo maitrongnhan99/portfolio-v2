@@ -170,7 +170,7 @@ export function generateHomePageSchema(): HomePageSchema {
     '@id': `${baseUrl}/#person`,
     name: 'Mai Trọng Nhân',
     url: baseUrl,
-    jobTitle: 'FullStack Developer',
+    jobTitle: 'AI Applied Engineer',
     image: `${baseUrl}/profile-photo.jpg`, // TODO: Add actual profile photo
     sameAs: [
       'https://github.com/maitrongnhan99',
@@ -224,8 +224,8 @@ export function generateHomePageSchema(): HomePageSchema {
     '@type': 'WebSite',
     '@id': `${baseUrl}/#website`,
     url: baseUrl,
-    name: 'Mai Trọng Nhân | FullStack Developer Portfolio',
-    description: 'Portfolio website showcasing my skills and projects as a FullStack developer',
+    name: 'Mai Trọng Nhân | AI Applied Engineer Portfolio',
+    description: 'Portfolio website showcasing my skills and projects as an AI Applied Engineer',
     publisher: {
       '@id': `${baseUrl}/#person`,
     },

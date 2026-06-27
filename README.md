@@ -1,14 +1,14 @@
 # Personal Portfolio
 
-A modern, responsive portfolio website built with **Next.js 16** and **React 19**. Beyond showcasing work, skills, and experience, it bundles two non-trivial systems: a headless **Payload CMS** for managing project content, and **"Ask Me"** — an AI assistant that answers questions about me using retrieval-augmented generation (LangChain + Qdrant) over a curated knowledge base.
+A modern, responsive portfolio website built with **Next.js 16** and **React 19**. Beyond showcasing work, skills, and experience, it bundles two non-trivial systems: a headless **Payload CMS** for managing project content, and **"Ask Me"** - an AI assistant that answers questions about me using retrieval-augmented generation (LangChain + Qdrant) over a curated knowledge base.
 
 ## ✨ What it does
 
-- **Project showcase** — projects served either from Payload CMS or from static data, with a graceful fallback when the CMS is disabled.
-- **Ask Me (AI assistant)** — a RAG chatbot grounded in a vector knowledge base, supporting both standard and streaming (SSE) responses.
-- **Resume** — dedicated resume pages with PDF rendering.
-- **Contact** — form submissions validated with Zod and delivered via Telegram and email (Resend).
-- **Design system** — an ElevenLabs-inspired visual language (see `DESIGN.md`), with light/dark theming and motion.
+- **Project showcase** - projects served either from Payload CMS or from static data, with a graceful fallback when the CMS is disabled.
+- **Ask Me (AI assistant)** - a RAG chatbot grounded in a vector knowledge base, supporting both standard and streaming (SSE) responses.
+- **Resume** - dedicated resume pages with PDF rendering.
+- **Contact** - form submissions validated with Zod and delivered via Telegram and email (Resend).
+- **Design system** - an ElevenLabs-inspired visual language (see `DESIGN.md`), with light/dark theming and motion.
 
 ## 🚀 Tech Stack
 
@@ -91,7 +91,7 @@ Contributions, issues, and feature requests are welcome! Commit messages follow 
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👤 Author
 

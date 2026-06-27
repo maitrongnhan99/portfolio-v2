@@ -7,6 +7,7 @@ import { ChatHeader } from "@/components/common/chat/chat-header";
 import { ChatControlsToggle } from "@/components/common/chat/chat-controls-toggle";
 import { ThemeToggle } from "@/components/common/navbar/theme-toggle";
 import { type Conversation } from "@/hooks/use-conversation-history";
+import { Container } from "@/components/ui/container";
 
 type AskMeHeaderBarProps = {
   currentConversation?: Conversation | null;
@@ -21,7 +22,7 @@ const AskMeHeaderBar: FC<AskMeHeaderBarProps> = ({
 }) => {
   return (
     <div className="sticky top-0 z-10 bg-canvas-white/90 backdrop-blur-md border-b border-borderSubtle shadow-outline-ring transition-all duration-300">
-      <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
+      <Container size="narrow" className="py-3 sm:py-4 flex items-center justify-between gap-2">
         <ChatHeader currentConversation={currentConversation ?? null} />
         <div className="flex items-center gap-1 sm:gap-2">
           <ThemeToggle />
@@ -34,7 +35,7 @@ const AskMeHeaderBar: FC<AskMeHeaderBarProps> = ({
           </Link>
           <ChatControlsToggle isOpen={isSidebarOpen} onClick={onToggleSidebar} />
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

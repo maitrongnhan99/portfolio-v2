@@ -59,10 +59,10 @@ const MobileNavMenu: FC<MobileNavMenuProps> = ({ isOpen, setIsOpen, isHome }) =>
                 >
                   <Link
                     href={link.href}
-                    className="text-lg font-mono text-text-secondary hover:text-text-primary transition-colors"
+                    className="text-lg font-mono text-text-secondary hover:text-cyan-500 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-text-muted">0{i + 1}.</span>{" "}
+                    <span className="text-cyan-500">0{i + 1}.</span>{" "}
                     {link.name}
                   </Link>
                 </motion.li>

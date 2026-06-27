@@ -15,7 +15,7 @@ export const ResumeCertifications = ({ data }: ResumeCertificationsProps) => {
         {data.map((cert, index) => (
           <li key={index} className="flex items-center gap-2">
             <span className="font-semibold text-text-primary">{cert.name}</span>
-            <span className="text-text-muted">— {cert.issuer}, {cert.date}</span>
+            <span className="text-text-muted">- {cert.issuer}, {cert.date}</span>
             {cert.link && (
               <Link
                 href={cert.link}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Container } from "@/components/ui/container";
 import { Project } from "@/lib/data-service";
 import { FC, useState } from "react";
 import ScrollReveal from "../scroll-reveal";
@@ -23,9 +24,9 @@ const ProjectsClient: FC<ProjectsClientProps> = ({ projects }) => {
   return (
     <section
       id="projects"
-      className="relative py-24 bg-canvas-light overflow-hidden border-b border-borderSubtle"
+      className="relative py-24 bg-canvas-white dark:bg-canvas-light overflow-hidden"
     >
-      <div className="container px-4 md:px-6 max-w-5xl mx-auto">
+      <Container>
         <ProjectHeader />
 
         <ProjectCategories
@@ -39,13 +40,13 @@ const ProjectsClient: FC<ProjectsClientProps> = ({ projects }) => {
             <ScrollReveal
               key={project.id}
               delay={0.1 * index}
-              direction={index % 2 === 0 ? "left" : "right"}
+              direction="up"
             >
-              <ProjectCard project={project} />
+              <ProjectCard project={project} reversed={index % 2 === 1} />
             </ScrollReveal>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

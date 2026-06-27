@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Social } from "./social";
 import { NoSSR } from "@/components/ui/no-ssr";
+import { Container } from "@/components/ui/container";
 
 export default function Footer() {
 
   return (
-    <footer className="bg-canvas-light border-t border-borderSubtle py-6">
-      <div className="container px-4 md:px-6">
+    <footer className="bg-canvas-white dark:bg-canvas-light border-t border-borderSubtle py-6">
+      <Container>
         <div className="flex flex-col items-center justify-center gap-4 text-center">
           <Social />
 
@@ -24,7 +25,7 @@ export default function Footer() {
             <p className="mt-1">© <NoSSR>{new Date().getFullYear()}</NoSSR> All Rights Reserved</p>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

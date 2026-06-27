@@ -38,9 +38,9 @@ const DesktopNav: FC<DesktopNavProps> = ({ isHome }) => {
             >
               <Link
                 href={link.href}
-                className="px-4 py-2 text-sm font-mono text-text-secondary hover:text-text-primary transition-colors"
+                className="px-4 py-2 text-sm font-mono text-text-secondary hover:text-cyan-500 transition-colors"
               >
-                <span className="text-text-muted">0{i + 1}.</span> {link.name}
+                <span className="text-cyan-500">0{i + 1}.</span> {link.name}
               </Link>
             </motion.li>
           ))}

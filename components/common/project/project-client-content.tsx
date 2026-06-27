@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { ArrowLeftIcon } from "@phosphor-icons/react";
+import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { FC } from "react";
@@ -22,7 +23,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
       data-testid="project-page"
       className="min-h-screen bg-canvas-white text-text-primary relative pt-20 pb-16"
     >
-      <div className="container px-4 md:px-6 relative z-10">
+      <Container className="relative z-10">
         <div className="mb-8">
           <Button
             data-testid="project-back-button"
@@ -184,7 +185,7 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
             <ProjectSidebar project={project} />
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 };

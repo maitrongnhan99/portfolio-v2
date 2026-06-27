@@ -292,7 +292,7 @@ export const PDFResume = ({ data }: PDFResumeProps) => (
           <View key={index} style={styles.experienceItem}>
             <View style={styles.experienceHeader}>
               <View>
-                <Text style={styles.jobTitle}>{job.position} — {job.company}</Text>
+                <Text style={styles.jobTitle}>{job.position} - {job.company}</Text>
                 <Text style={styles.company}>{job.location}</Text>
               </View>
               <Text style={styles.duration}>{job.duration}</Text>
@@ -349,7 +349,7 @@ export const PDFResume = ({ data }: PDFResumeProps) => (
             <View style={styles.educationHeader}>
               <View>
                 <Text style={styles.degree}>{edu.degree}</Text>
-                <Text style={styles.institution}>{edu.institution} — {edu.location}</Text>
+                <Text style={styles.institution}>{edu.institution} - {edu.location}</Text>
               </View>
               <Text style={styles.duration}>{edu.duration}</Text>
             </View>
@@ -369,7 +369,7 @@ export const PDFResume = ({ data }: PDFResumeProps) => (
           </View>
           {data.certifications.map((cert, index) => (
             <Text key={index} style={styles.certificationItem}>
-              • <Text style={styles.certificationName}>{cert.name}</Text> — {cert.issuer}, {cert.date}
+              • <Text style={styles.certificationName}>{cert.name}</Text> - {cert.issuer}, {cert.date}
             </Text>
           ))}
         </View>

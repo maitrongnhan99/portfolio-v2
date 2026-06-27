@@ -24,7 +24,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
       initial={{ opacity: 0.8, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`relative rounded-card bg-canvas-white p-4 font-mono text-sm border border-borderLight shadow-outline-ring ${className}`}
+      className={`relative w-full min-w-0 rounded-card bg-canvas-white p-6 font-mono text-sm border border-borderLight shadow-outline-ring ${className}`}
     >
       {/* Editor Header */}
       <div className="mb-4 flex items-center">
@@ -33,7 +33,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
           <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
           <div className="h-3 w-3 rounded-full bg-[#28c840]" />
         </div>
-        <p className="ml-4 text-text-muted">maitrongnhan.developer.ts</p>
+        <p className="ml-4 text-text-muted">maitrongnhan.engineer.ts</p>
       </div>
 
       {/* Code Content */}
@@ -45,7 +45,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
             </span>
             <span className="code-line">
               <span className="text-[#0000ff] dark:text-purple-400">const </span>
-              <span className="text-[#001080] dark:text-gray-300">dev_profile </span>
+              <span className="text-[#001080] dark:text-gray-300">engineer_profile </span>
               <span className="text-[#24292f] dark:text-gray-300">= </span>
               <span className="text-[#24292f] dark:text-gray-300">{"{"}</span>
               <span className="text-[#008000] dark:text-green-400">{" // TypeScript profile"}</span>
@@ -144,7 +144,7 @@ const CodeEditor: FC<CodeEditorProps> = ({ profile, className }) => {
               {profile.skills.length + 9}
             </span>
             <span className="code-line">
-              <span className="text-[#001080] dark:text-gray-300">{"  "}aiDrivenDeveloper: </span>
+              <span className="text-[#001080] dark:text-gray-300">{"  "}aiAppliedEngineer: </span>
               <span className="text-[#0000ff] dark:text-orange-400">true</span>
               <span className="text-[#24292f] dark:text-gray-300">,</span>
             </span>

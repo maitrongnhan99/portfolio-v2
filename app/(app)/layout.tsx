@@ -24,12 +24,13 @@ export const metadata: Metadata = {
   ),
   title: "Mai Trọng Nhân Portfolio",
   description:
-    "Portfolio website showcasing my skills and projects as a FullStack developer",
+    "Portfolio website showcasing my skills and projects as an AI Applied Engineer",
   keywords: [
     "Mai Trọng Nhân",
     "Portfolio",
-    "Full Stack Developer",
-    "Web Developer",
+    "AI Applied Engineer",
+    "AI Engineer",
+    "Full Stack Engineer",
     "Software Engineer",
     "React",
     "Next.js",
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     url: "https://maitrongnhan.com",
     title: "Mai Trọng Nhân Portfolio",
     description:
-      "Portfolio website showcasing my skills and projects as a FullStack developer",
+      "Portfolio website showcasing my skills and projects as an AI Applied Engineer",
     siteName: "Mai Trọng Nhân Portfolio",
     images: [
       {
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mai Trọng Nhân Portfolio",
     description:
-      "Portfolio website showcasing my skills and projects as a FullStack developer",
+      "Portfolio website showcasing my skills and projects as an AI Applied Engineer",
     creator: "@maitrongnhan",
   },
   icons: {

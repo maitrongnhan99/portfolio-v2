@@ -2,7 +2,6 @@
 
 import { ChatMessage, TypingIndicator } from "@/components/common/chat";
 import {
-  ProgressLoadingSkeleton,
   SuggestionsLoadingSkeleton,
   WelcomeLoadingSkeleton,
 } from "@/components/common/chat/loading-skeletons";
@@ -11,6 +10,7 @@ import { Message } from "@/types/chat";
 import { ArrowDownIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { FC, Suspense, lazy, useEffect } from "react";
+import { Container } from "@/components/ui/container";
 
 const AnimatedWelcome = lazy(() =>
   import("@/components/common/chat/animated-welcome").then((m) => ({
@@ -20,11 +20,6 @@ const AnimatedWelcome = lazy(() =>
 const EnhancedSuggestions = lazy(() =>
   import("@/components/common/chat/enhanced-suggestions").then((m) => ({
     default: m.EnhancedSuggestions,
-  }))
-);
-const ConversationProgress = lazy(() =>
-  import("@/components/common/chat/conversation-progress").then((m) => ({
-    default: m.ConversationProgress,
   }))
 );
 const QuickActions = lazy(() =>
@@ -40,12 +35,6 @@ const ProjectShowcase = lazy(() =>
 
 type StreamingState = { isStreaming: boolean };
 
-type ConversationMetadata = {
-  topicsExplored: string[];
-  userMessageCount: number;
-  conversationStartTime: Date | null;
-};
-
 type ScrollState = {
   showScrollButton: boolean;
 };
@@ -53,7 +42,6 @@ type ScrollState = {
 type AskMeMessagesViewProps = {
   showWelcome: boolean;
   showEnhancedSuggestions: boolean;
-  conversationMetadata: ConversationMetadata;
   messages: Message[];
   isTyping: boolean;
   streamingState: StreamingState;
@@ -68,7 +56,6 @@ type AskMeMessagesViewProps = {
 const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
   showWelcome,
   showEnhancedSuggestions,
-  conversationMetadata,
   messages,
   isTyping,
   streamingState,
@@ -87,7 +74,7 @@ const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden relative">
       <ScrollArea ref={scrollViewportRef} className="flex-1">
-        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-4xl">
+        <Container size="narrow" className="py-4 sm:py-6">
           {showWelcome && (
             <Suspense fallback={<WelcomeLoadingSkeleton />}>
               <AnimatedWelcome onComplete={onWelcomeComplete} />
@@ -105,20 +92,6 @@ const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
             </Suspense>
           )}
 
-          {conversationMetadata.conversationStartTime &&
-            conversationMetadata.userMessageCount > 0 && (
-              <Suspense fallback={<ProgressLoadingSkeleton />}>
-                <ConversationProgress
-                  messageCount={conversationMetadata.userMessageCount}
-                  conversationStartTime={
-                    conversationMetadata.conversationStartTime
-                  }
-                  topicsExplored={conversationMetadata.topicsExplored}
-                  isVisible={true}
-                />
-              </Suspense>
-            )}
-
           {messages.map((message) => (
             <ChatMessage
               key={message.id}
@@ -132,15 +105,9 @@ const AskMeMessagesView: FC<AskMeMessagesViewProps> = ({
           ))}
 
           {isTyping && <TypingIndicator />}
-          {streamingState.isStreaming && !isTyping && (
-            <div className="flex items-center gap-2 text-sm text-text-muted mb-4">
-              <div className="w-2 h-2 bg-foreground rounded-full animate-pulse"></div>
-              Streaming response...
-            </div>
-          )}
 
           <div ref={messagesEndRef} />
-        </div>
+        </Container>
       </ScrollArea>
 
       {scrollState.showScrollButton && (

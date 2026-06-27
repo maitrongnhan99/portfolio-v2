@@ -26,7 +26,7 @@ describe('ChatMessage', () => {
   it('displays timestamp', async () => {
     render(<ChatMessage {...defaultProps} />);
 
-    // Timestamp is wrapped in NoSSR which uses setTimeout(fn,0) — wait for it
+    // Timestamp is wrapped in NoSSR which uses setTimeout(fn,0) - wait for it
     const formattedTime = defaultProps.timestamp.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
@@ -127,7 +127,7 @@ describe('ChatMessage', () => {
     const message = screen.getByText('Hello, this is a test message');
     expect(message).toBeInTheDocument();
 
-    // Timestamp is wrapped in NoSSR — wait for async render
+    // Timestamp is wrapped in NoSSR - wait for async render
     const timestamp = defaultProps.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     await waitFor(() => expect(screen.getByText(timestamp)).toBeInTheDocument());
   });

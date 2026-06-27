@@ -17,7 +17,7 @@ export const ResumeEducation = ({ data }: ResumeEducationProps) => {
                   {education.degree}
                 </h3>
                 <p className="text-text-secondary">
-                  {education.institution} — {education.location}
+                  {education.institution} - {education.location}
                 </p>
               </div>
               <div className="text-sm font-medium text-text-secondary">

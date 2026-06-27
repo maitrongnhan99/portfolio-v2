@@ -40,6 +40,7 @@ import {
   SiWebpack,
 } from "react-icons/si";
 import { TbApi, TbBrandVscode, TbVectorTriangle } from "react-icons/tb";
+import { Container } from "@/components/ui/container";
 import { GlowingEffect } from "../ui/glowing-effect";
 import ScrollReveal from "./scroll-reveal";
 
@@ -138,12 +139,14 @@ const Skills: FC = () => {
   return (
     <section
       id="skills"
-      className="relative py-24 bg-canvas-white overflow-hidden border-b border-borderSubtle"
+      className="relative py-24 bg-canvas-white dark:bg-canvas-light overflow-hidden"
     >
-      <div className="container px-4 md:px-6 mx-auto my-4 p-12 space-y-4 rounded-section bg-canvas-light shadow-inset-border">
+      <Container className="my-4 space-y-4 rounded-section bg-[color-mix(in_srgb,hsl(var(--canvas-light))_25%,hsl(var(--canvas-white)))] p-4 sm:p-6 md:p-8 lg:p-12 shadow-inset-border dark:bg-canvas-light">
         <ScrollReveal>
           <div className="flex flex-col items-center text-center mb-16">
-            <p className="font-mono text-text-muted mb-2 text-sm">02. My Skills</p>
+            <p className="font-mono text-text-muted mb-2 text-sm">
+              <span className="text-logo-blue">02.</span> My Skills
+            </p>
             <h2 className="text-3xl md:text-4xl font-light text-text-primary mb-6">
               Technologies I&apos;ve Used
             </h2>
@@ -155,7 +158,7 @@ const Skills: FC = () => {
             {skillsData.map((category, index) => (
               <div
                 key={index}
-                className="bg-canvas-white p-6 rounded-card shadow-outline-ring border border-borderLight relative"
+                className="relative rounded-card border border-borderLight bg-canvas-white p-6 shadow-card transition-shadow duration-200 hover:shadow-warm-lift dark:bg-canvas-warm"
               >
                 <div className="flex items-center mb-4">
                   <category.icon className="text-2xl mr-3" style={{ color: category.iconColor }} />
@@ -165,7 +168,7 @@ const Skills: FC = () => {
                   {category.skills.map((skill, skillIndex) => (
                     <div
                       key={skillIndex}
-                      className="group flex items-center bg-canvas-light text-text-secondary px-3 py-1 rounded-pill text-sm border border-borderSubtle transition-colors duration-200 hover:border-borderLight hover:bg-canvas-warm"
+                      className="group flex items-center rounded-pill border border-borderSubtle bg-canvas-white px-3 py-1 text-sm text-text-secondary transition-colors duration-200 hover:border-borderLight hover:bg-canvas-warm dark:bg-canvas-light"
                     >
                       <skill.icon
                         className="mr-1.5 text-text-muted transition-opacity duration-200 group-hover:opacity-90"
@@ -186,7 +189,7 @@ const Skills: FC = () => {
             ))}
           </div>
         </ScrollReveal>
-      </div>
+      </Container>
     </section>
   );
 };

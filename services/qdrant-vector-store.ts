@@ -1,101 +1,111 @@
-import { QdrantVectorStore } from "@langchain/qdrant";
-import { OpenAIEmbeddings } from "@langchain/openai";
 import { QdrantClient } from "@qdrant/js-client-rest";
+import { randomUUID } from "crypto";
+import { EmbeddingService } from "./embeddingService";
 
 /**
  * Qdrant Vector Store Service
- * Provides integration between LangChain and Qdrant for vector search
+ *
+ * Talks to Qdrant directly via @qdrant/js-client-rest and generates embeddings
+ * with the OpenAI SDK (EmbeddingService). Payload schema is { content, metadata },
+ * matching the layout previously written by LangChain's QdrantVectorStore so existing
+ * collections remain readable without a re-seed.
  */
+
+const VECTOR_SIZE = 768; // text-embedding-3-small @ 768 dims (compatible with database)
+const DEFAULT_SEARCH_LIMIT = 3;
+const DEBUG = process.env.QDRANT_DEBUG === "true";
+
+function debugLog(...args: unknown[]): void {
+  if (DEBUG) {
+    console.log(...args);
+  }
+}
+
+interface DocumentMetadata {
+  category: string;
+  priority: number;
+  tags: string[];
+  source: string;
+  [key: string]: unknown;
+}
+
+interface SimilaritySearchResult {
+  content: string;
+  metadata: Record<string, unknown>;
+  score: number;
+}
+
+interface DocumentPayload {
+  content: string;
+  metadata: Record<string, unknown>;
+}
+
 export class QdrantVectorStoreService {
-  private embeddings: OpenAIEmbeddings;
-  private vectorStore: QdrantVectorStore | null = null;
+  private embeddings: EmbeddingService;
   private qdrantClient: QdrantClient | null = null;
   private collectionName = "portfolio_knowledge";
 
   constructor() {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      throw new Error("OPENAI_API_KEY environment variable is required");
-    }
-
-    // Initialize OpenAI embeddings with 768 dimensions (compatible with database)
-    this.embeddings = new OpenAIEmbeddings({
-      openAIApiKey: apiKey,
-      modelName: "text-embedding-3-small",
-      dimensions: 768,
-    });
+    // EmbeddingService validates OPENAI_API_KEY presence in its own constructor.
+    this.embeddings = new EmbeddingService();
   }
 
   /**
-   * Initialize the Qdrant vector store connection
+   * Initialize the Qdrant client connection and ensure the collection exists.
    */
-  private async initialize(): Promise<void> {
-    if (this.vectorStore && this.qdrantClient) {
+  async initialize(): Promise<void> {
+    if (this.qdrantClient) {
       return; // Already initialized
     }
 
     try {
-      console.log("🔄 Initializing Qdrant vector store...");
-      
-      // Get Qdrant configuration from environment
+      debugLog("🔄 Initializing Qdrant vector store...");
+
       const qdrantUrl = process.env.QDRANT_URL || "http://localhost:6333";
       const qdrantApiKey = process.env.QDRANT_API_KEY;
-      
-      console.log(`🔗 Connecting to Qdrant at: ${qdrantUrl}`);
 
-      // Create Qdrant client
+      debugLog(`🔗 Connecting to Qdrant at: ${qdrantUrl}`);
+
       this.qdrantClient = new QdrantClient({
         url: qdrantUrl,
         apiKey: qdrantApiKey,
       });
 
-      console.log("✅ Qdrant client connected");
-
-      // Check if collection exists, create if not
       await this.ensureCollection();
 
-      // Initialize LangChain Qdrant Vector Store
-      this.vectorStore = await QdrantVectorStore.fromExistingCollection(
-        this.embeddings,
-        {
-          client: this.qdrantClient,
-          collectionName: this.collectionName,
-        }
-      );
-
-      console.log("✅ Qdrant vector store initialized successfully");
+      debugLog("✅ Qdrant vector store initialized successfully");
     } catch (error) {
       console.error("❌ Error initializing Qdrant vector store:", error);
-      // Clean up on error
-      if (this.qdrantClient) {
-        this.qdrantClient = null;
-      }
+      this.qdrantClient = null;
       throw error;
     }
+  }
+
+  private getClient(): QdrantClient {
+    if (!this.qdrantClient) {
+      throw new Error("Qdrant client not initialized");
+    }
+    return this.qdrantClient;
   }
 
   /**
    * Ensure the collection exists with proper configuration
    */
   private async ensureCollection(): Promise<void> {
-    if (!this.qdrantClient) {
-      throw new Error("Qdrant client not initialized");
-    }
+    const client = this.getClient();
 
     try {
-      // Check if collection exists
-      const collections = await this.qdrantClient.getCollections();
+      const collections = await client.getCollections();
       const collectionExists = collections.collections?.some(
-        collection => collection.name === this.collectionName
+        (collection) => collection.name === this.collectionName
       );
 
       if (!collectionExists) {
-        console.log(`🏗️ Creating collection: ${this.collectionName}`);
-        
-        // Create collection with proper vector configuration
-        await this.qdrantClient.createCollection(this.collectionName, {
+        debugLog(`🏗️ Creating collection: ${this.collectionName}`);
+
+        await client.createCollection(this.collectionName, {
           vectors: {
-            size: 768, // text-embedding-3-small with 768 dimensions (compatible with database)
+            size: VECTOR_SIZE,
             distance: "Cosine",
           },
           optimizers_config: {
@@ -104,14 +114,15 @@ export class QdrantVectorStoreService {
           replication_factor: 1,
         });
 
-        console.log(`✅ Collection '${this.collectionName}' created successfully`);
+        debugLog(`✅ Collection '${this.collectionName}' created successfully`);
       } else {
-        console.log(`📍 Collection '${this.collectionName}' already exists`);
+        debugLog(`📍 Collection '${this.collectionName}' already exists`);
       }
 
-      // Verify the collection by getting its info
-      const collectionInfo = await this.qdrantClient.getCollection(this.collectionName);
-      console.log(`🔍 Collection verification: ${collectionInfo.points_count || 0} points found`);
+      const collectionInfo = await client.getCollection(this.collectionName);
+      debugLog(
+        `🔍 Collection verification: ${collectionInfo.points_count || 0} points found`
+      );
     } catch (error) {
       console.error("❌ Error ensuring collection:", error);
       throw error;
@@ -123,34 +134,10 @@ export class QdrantVectorStoreService {
    */
   async cleanup(): Promise<void> {
     if (this.qdrantClient) {
-      try {
-        // Qdrant client doesn't need explicit cleanup
-        console.log("🧹 Qdrant client connection cleaned up");
-      } catch (error) {
-        console.error("Error cleaning up Qdrant client:", error);
-      } finally {
-        this.qdrantClient = null;
-        this.vectorStore = null;
-      }
+      // Qdrant REST client holds no persistent connection to close.
+      this.qdrantClient = null;
+      debugLog("🧹 Qdrant client connection cleaned up");
     }
-  }
-
-  /**
-   * Get the initialized vector store
-   */
-  async getVectorStore(): Promise<QdrantVectorStore> {
-    await this.initialize();
-    if (!this.vectorStore) {
-      throw new Error("Vector store not initialized");
-    }
-    return this.vectorStore;
-  }
-
-  /**
-   * Get the embeddings instance
-   */
-  getEmbeddings(): OpenAIEmbeddings {
-    return this.embeddings;
   }
 
   /**
@@ -160,36 +147,181 @@ export class QdrantVectorStoreService {
   async addDocuments(
     documents: Array<{
       content: string;
-      metadata: {
-        category: string;
-        priority: number;
-        tags: string[];
-        source: string;
-      };
+      metadata: DocumentMetadata;
     }>
   ): Promise<void> {
     try {
       await this.initialize();
+      const client = this.getClient();
 
-      if (!this.vectorStore) {
-        throw new Error("Vector store not initialized");
+      if (documents.length === 0) {
+        return;
       }
 
-      // Convert to LangChain Document format
-      const langchainDocs = documents.map((doc) => ({
-        pageContent: doc.content,
-        metadata: {
-          ...doc.metadata,
-          lastUpdated: new Date().toISOString(),
-        },
+      const vectors = await this.embeddings.batchGenerateEmbeddings(
+        documents.map((doc) => doc.content)
+      );
+
+      const lastUpdated = new Date().toISOString();
+      const points = documents.map((doc, index) => ({
+        id: randomUUID(),
+        vector: vectors[index],
+        payload: {
+          content: doc.content,
+          metadata: {
+            ...doc.metadata,
+            lastUpdated,
+          },
+        } satisfies DocumentPayload,
       }));
 
-      // Add documents using LangChain's method
-      await this.vectorStore.addDocuments(langchainDocs);
+      await client.upsert(this.collectionName, {
+        wait: true,
+        points,
+      });
 
-      console.log(`✅ Added ${documents.length} documents to Qdrant vector store`);
+      debugLog(`✅ Added ${documents.length} documents to Qdrant vector store`);
     } catch (error) {
       console.error("❌ Error adding documents to Qdrant vector store:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Upsert documents with explicit, caller-provided point ids.
+   *
+   * Unlike addDocuments (which assigns a fresh random UUID per call), this lets
+   * the incremental sync pass deterministic ids so re-syncing a chunk overwrites
+   * the same point in place instead of creating duplicates.
+   */
+  async upsertDocuments(
+    documents: Array<{
+      id: string;
+      content: string;
+      metadata: Record<string, unknown>;
+    }>
+  ): Promise<void> {
+    try {
+      await this.initialize();
+      const client = this.getClient();
+
+      if (documents.length === 0) {
+        return;
+      }
+
+      const vectors = await this.embeddings.batchGenerateEmbeddings(
+        documents.map((doc) => doc.content)
+      );
+
+      const lastUpdated = new Date().toISOString();
+      const points = documents.map((doc, index) => ({
+        id: doc.id,
+        vector: vectors[index],
+        payload: {
+          content: doc.content,
+          metadata: {
+            ...doc.metadata,
+            lastUpdated,
+          },
+        } satisfies DocumentPayload,
+      }));
+
+      await client.upsert(this.collectionName, {
+        wait: true,
+        points,
+      });
+
+      debugLog(`✅ Upserted ${documents.length} documents to Qdrant vector store`);
+    } catch (error) {
+      console.error("❌ Error upserting documents to Qdrant vector store:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * List all points (optionally filtered), paginating via scroll. Returns ids
+   * and payloads so the sync can diff stored content hashes. Vectors are omitted.
+   */
+  async listAll(
+    filter?: Record<string, unknown>
+  ): Promise<Array<{ id: string | number; payload: Record<string, unknown> | null }>> {
+    try {
+      await this.initialize();
+      const client = this.getClient();
+
+      const results: Array<{
+        id: string | number;
+        payload: Record<string, unknown> | null;
+      }> = [];
+      let offset: string | number | undefined | null = undefined;
+
+      do {
+        const page = await client.scroll(this.collectionName, {
+          filter: filter as any,
+          with_payload: true,
+          with_vector: false,
+          limit: 100,
+          offset: offset ?? undefined,
+        });
+
+        for (const point of page.points) {
+          results.push({
+            id: point.id,
+            payload: (point.payload ?? null) as Record<string, unknown> | null,
+          });
+        }
+
+        offset = page.next_page_offset as string | number | null | undefined;
+      } while (offset !== null && offset !== undefined);
+
+      debugLog(`✅ Listed ${results.length} points from Qdrant vector store`);
+      return results;
+    } catch (error) {
+      console.error("❌ Error listing points from Qdrant vector store:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete points by explicit ids.
+   */
+  async deleteByIds(ids: Array<string | number>): Promise<void> {
+    try {
+      if (ids.length === 0) {
+        return;
+      }
+      await this.initialize();
+      const client = this.getClient();
+
+      await client.delete(this.collectionName, {
+        wait: true,
+        points: ids,
+      });
+
+      debugLog(`🗑️ Deleted ${ids.length} points from Qdrant vector store`);
+    } catch (error) {
+      console.error("❌ Error deleting points from Qdrant vector store:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete all points matching a payload filter. Used to refresh a single class
+   * of points (e.g. project chunks) without wiping the whole collection.
+   */
+  async deleteByFilter(filter: Record<string, unknown>): Promise<void> {
+    try {
+      await this.initialize();
+      const client = this.getClient();
+
+      await client.delete(this.collectionName, {
+        wait: true,
+        filter: filter as any,
+      });
+
+      debugLog("🗑️ Deleted points matching filter from Qdrant vector store");
+    } catch (error) {
+      console.error("❌ Error deleting points by filter from Qdrant vector store:", error);
       throw error;
     }
   }
@@ -198,63 +330,40 @@ export class QdrantVectorStoreService {
    * Perform similarity search
    * @param query - Search query
    * @param k - Number of results to return
-   * @param filter - Optional metadata filter
+   * @param filter - Optional Qdrant payload filter
    */
   async similaritySearch(
     query: string,
-    k: number = 3,
+    k: number = DEFAULT_SEARCH_LIMIT,
     filter?: Record<string, any>
-  ) {
+  ): Promise<SimilaritySearchResult[]> {
     try {
       await this.initialize();
+      const client = this.getClient();
 
-      if (!this.vectorStore) {
-        throw new Error("Vector store not initialized");
-      }
+      const queryVector = await this.embeddings.generateEmbedding(query);
 
-      // Perform similarity search with optional filter
-      const results = await this.vectorStore.similaritySearchWithScore(
-        query,
-        k,
-        filter
-      );
+      const results = await client.search(this.collectionName, {
+        vector: queryVector,
+        limit: k,
+        filter: filter as any,
+        with_payload: true,
+      });
 
-      console.log(`✅ Found ${results.length} similar documents`);
+      debugLog(`✅ Found ${results.length} similar documents`);
 
-      // Transform results to match existing interface
-      return results.map(([doc, score]) => ({
-        content: doc.pageContent,
-        metadata: doc.metadata as any,
-        score: score,
-      }));
+      return results.map((point) => {
+        const payload = (point.payload ?? {}) as Partial<DocumentPayload>;
+        return {
+          content: payload.content ?? "",
+          metadata: payload.metadata ?? {},
+          score: point.score ?? 0,
+        };
+      });
     } catch (error) {
       console.error("❌ Error performing similarity search:", error);
       throw error;
     }
-  }
-
-  /**
-   * Create a retriever for use in LangChain chains
-   * @param options - Retriever options
-   */
-  async asRetriever(options?: {
-    k?: number;
-    filter?: Record<string, any>;
-    searchType?: "similarity" | "mmr";
-    searchKwargs?: Record<string, any>;
-  }) {
-    await this.initialize();
-
-    if (!this.vectorStore) {
-      throw new Error("Vector store not initialized");
-    }
-
-    return this.vectorStore.asRetriever({
-      k: options?.k ?? 3,
-      filter: options?.filter,
-      searchType: options?.searchType ?? "similarity",
-      ...options?.searchKwargs,
-    });
   }
 
   /**
@@ -263,21 +372,18 @@ export class QdrantVectorStoreService {
   async clearAll(): Promise<number> {
     try {
       await this.initialize();
+      const client = this.getClient();
 
-      if (!this.qdrantClient) {
-        throw new Error("Qdrant client not initialized");
-      }
-
-      // Get current point count
-      const collectionInfo = await this.qdrantClient.getCollection(this.collectionName);
+      const collectionInfo = await client.getCollection(this.collectionName);
       const pointCount = collectionInfo.points_count || 0;
 
-      // Delete all points in the collection
-      await this.qdrantClient.delete(this.collectionName, {
+      // Delete all points by recreating the collection's data via an empty filter match.
+      await client.delete(this.collectionName, {
+        wait: true,
         filter: {},
       });
 
-      console.log(`🗑️ Cleared ${pointCount} documents from Qdrant vector store`);
+      debugLog(`🗑️ Cleared ${pointCount} documents from Qdrant vector store`);
       return pointCount;
     } catch (error) {
       console.error("❌ Error clearing Qdrant vector store:", error);
@@ -291,12 +397,9 @@ export class QdrantVectorStoreService {
   async getDocumentCount(): Promise<number> {
     try {
       await this.initialize();
+      const client = this.getClient();
 
-      if (!this.qdrantClient) {
-        throw new Error("Qdrant client not initialized");
-      }
-
-      const collectionInfo = await this.qdrantClient.getCollection(this.collectionName);
+      const collectionInfo = await client.getCollection(this.collectionName);
       return collectionInfo.points_count || 0;
     } catch (error) {
       console.error("❌ Error getting document count:", error);
@@ -308,18 +411,10 @@ export class QdrantVectorStoreService {
    * Get collection info for debugging
    */
   async getCollectionInfo() {
-    try {
-      await this.initialize();
+    await this.initialize();
+    const client = this.getClient();
 
-      if (!this.qdrantClient) {
-        throw new Error("Qdrant client not initialized");
-      }
-
-      return await this.qdrantClient.getCollection(this.collectionName);
-    } catch (error) {
-      console.error("❌ Error getting collection info:", error);
-      throw error;
-    }
+    return client.getCollection(this.collectionName);
   }
 }
 

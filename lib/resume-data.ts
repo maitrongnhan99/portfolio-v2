@@ -90,7 +90,7 @@ export interface ResumeData {
 export const resumeData: ResumeData = {
   personalInfo: {
     name: "Mai Trọng Nhân",
-    title: "Fullstack Developer",
+    title: "AI Applied Engineer",
     contacts: {
       email: "maitrongnhan.dev@gmail.com",
       location: "HCMC, Vietnam"
@@ -103,7 +103,7 @@ export const resumeData: ResumeData = {
   },
   
   summary: {
-    content: "Fullstack Developer with 3+ years of experience building scalable web applications using React, Next.js, and Node.js. Proven ability to deliver high-quality, maintainable code in fast-paced environments. Seeking to contribute to impactful projects in innovative tech companies.",
+    content: "AI Applied Engineer with 3+ years of experience building scalable web and mobile applications using React, Next.js, and Node.js, and integrating LLMs and AI into production products. Proven ability to deliver high-quality, maintainable code in fast-paced environments. Seeking to contribute to impactful projects in innovative tech companies.",
     yearsOfExperience: 3,
     coreSkills: ["React", "Next.js", "Node.js", "TypeScript"],
     goal: "Contributing to impactful projects in innovative tech companies"
@@ -120,7 +120,7 @@ export const resumeData: ResumeData = {
   
   experience: [
     {
-      position: "Frontend Developer",
+      position: "Frontend Engineer",
       company: "Freelance",
       location: "HCMC, Vietnam",
       duration: "Jan 2022 – Present",
@@ -145,7 +145,7 @@ export const resumeData: ResumeData = {
       ]
     },
     {
-      position: "Junior Developer",
+      position: "Junior Engineer",
       company: "Local Tech Company",
       location: "HCMC, Vietnam",
       duration: "Jun 2021 – Dec 2021",

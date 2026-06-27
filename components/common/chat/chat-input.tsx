@@ -24,7 +24,6 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
   const [message, setMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Expose focus method to parent components
   useImperativeHandle(ref, () => ({
     focus: () => {
       textareaRef.current?.focus();
@@ -36,7 +35,6 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
     if (message.trim() && !disabled) {
       onSendMessage(message.trim());
       setMessage("");
-      // Reset textarea height
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
       }
@@ -50,7 +48,6 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
     }
   };
 
-  // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -59,11 +56,11 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
   }, [message]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full"
-    >
-      <div className="relative">
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className={cn(
+        "rounded-2xl border border-border bg-card transition-colors duration-200",
+        "focus-within:border-border/80",
+      )}>
         <Textarea
           ref={textareaRef}
           value={message}
@@ -71,36 +68,38 @@ export const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          rows={1}
+          rows={2}
           className={cn(
-            "min-h-[45px] sm:min-h-[50px] max-h-32 resize-none pr-12 sm:pr-14",
-            "bg-background border-border focus:ring-ring text-foreground rounded-2xl",
-            "placeholder:text-text-muted",
-            "transition-all duration-200",
-            "scrollbar-none",
-            "[&::-webkit-scrollbar]:hidden",
-            "[-ms-overflow-style:none]",
-            "scrollbar-none",
-            "text-sm sm:text-base"
+            "min-h-[56px] max-h-40 resize-none",
+            "bg-transparent border-none shadow-none ring-0 outline-none",
+            "focus-visible:ring-0 focus-visible:ring-offset-0",
+            "px-4 pt-4 pb-2",
+            "placeholder:text-text-muted text-foreground",
+            "text-sm sm:text-base leading-relaxed",
+            "scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]",
           )}
         />
-        <Button
-          type="submit"
-          disabled={!message.trim() || disabled}
-          className={cn(
-            "absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2",
-            "bg-canvas-warm text-text-primary border border-borderSubtle hover:bg-canvas-warm hover:opacity-90 rounded-full shadow-warm-lift",
-            "disabled:opacity-50 disabled:cursor-not-allowed",
-            "h-7 w-7 sm:h-8 sm:w-8 p-0",
-            "transition-all duration-200"
-          )}
-        >
-          <PaperPlaneTiltIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-        </Button>
-      </div>
-      <div className="text-[10px] sm:text-xs text-text-muted mt-1 px-2 font-body tracking-body">
-        <span className="hidden sm:inline">Press Enter to send, Shift+Enter for new line</span>
-        <span className="sm:hidden">Enter to send • Shift+Enter for new line</span>
+
+        <div className="flex items-center justify-between px-3 pb-3 pt-1">
+          <span className="hidden sm:block text-[11px] text-text-muted font-mono select-none">
+            Enter to send · Shift+Enter for new line
+          </span>
+          <span className="sm:hidden" />
+
+          <Button
+            type="submit"
+            disabled={!message.trim() || disabled}
+            className={cn(
+              "rounded-full h-8 w-8 p-0 shrink-0",
+              "bg-foreground text-background",
+              "hover:opacity-85 transition-opacity",
+              "disabled:opacity-30 disabled:cursor-not-allowed",
+              "shadow-none border-none",
+            )}
+          >
+            <PaperPlaneTiltIcon weight="fill" className="w-3.5 h-3.5" />
+          </Button>
+        </div>
       </div>
     </form>
   );

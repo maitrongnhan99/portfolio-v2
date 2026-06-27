@@ -11,9 +11,10 @@ import { ProjectLinks } from "./project-links";
 
 interface ProjectCardProps {
   project: Project;
+  reversed?: boolean;
 }
 
-const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: FC<ProjectCardProps> = ({ project, reversed = false }) => {
   const [imageError, setImageError] = useState(false);
 
   return (
@@ -22,12 +23,16 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="flex flex-col md:flex-row gap-6 md:gap-10">
+      <div
+        className={`flex flex-col gap-6 md:gap-10 ${
+          reversed ? "md:flex-row-reverse" : "md:flex-row"
+        }`}
+      >
         <Link
           href={`/project/${project.slug}`}
-          className="md:w-2/5 relative overflow-hidden flex items-center justify-center"
+          className="md:w-2/5 relative"
         >
-          <div className="aspect-square h-[300px] relative overflow-hidden">
+          <div className="aspect-[4/3] relative overflow-hidden rounded-2xl">
             <Image
               src={
                 imageError
@@ -36,8 +41,8 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
               }
               alt={project.title}
               fill
-              sizes="(max-width: 768px) 100vw, 300px"
-              className="object-contain transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
               onError={() => setImageError(true)}
               onLoad={() => setImageError(false)}
             />

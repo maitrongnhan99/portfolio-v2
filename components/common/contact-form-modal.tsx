@@ -80,10 +80,9 @@ export default function ContactFormModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-canvas-white border border-borderLight text-text-primary shadow-outline-ring rounded-section p-6">
+      <DialogContent className="sm:max-w-[500px] bg-canvas-white border border-borderLight text-text-primary shadow-outline-ring rounded-[var(--radius-section)] sm:rounded-[var(--radius-section)] p-6 [--tw-enter-translate-x:0px]! [--tw-enter-translate-y:0px]! [--tw-exit-translate-x:0px]! [--tw-exit-translate-y:0px]!">
         <DialogHeader>
           <DialogTitle className="text-2xl font-light font-display text-text-primary tracking-body">
-            <span className="text-text-muted font-mono text-sm mr-2">04.</span>
             Get In Touch
           </DialogTitle>
           <DialogDescription className="text-text-secondary tracking-body">
@@ -108,7 +107,7 @@ export default function ContactFormModal({
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
+                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-[var(--radius-comfortable)] placeholder:text-text-muted shadow-inset-border transition-shadow"
               />
             </div>
             <div className="space-y-2">
@@ -126,7 +125,7 @@ export default function ContactFormModal({
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
+                className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-[var(--radius-comfortable)] placeholder:text-text-muted shadow-inset-border transition-shadow"
               />
             </div>
           </div>
@@ -144,7 +143,7 @@ export default function ContactFormModal({
               value={formData.subject}
               onChange={handleChange}
               required
-              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow"
+              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-[var(--radius-comfortable)] placeholder:text-text-muted shadow-inset-border transition-shadow"
             />
           </div>
           <div className="space-y-2">
@@ -162,7 +161,7 @@ export default function ContactFormModal({
               onChange={handleChange}
               rows={5}
               required
-              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-base placeholder:text-text-muted shadow-inset-border transition-shadow resize-none"
+              className="bg-canvas-white border border-borderLight focus:ring-2 focus:ring-ring focus:border-transparent text-text-primary rounded-[var(--radius-comfortable)] placeholder:text-text-muted shadow-inset-border transition-shadow resize-none"
             />
           </div>
           <div className="flex justify-end pt-4">
@@ -176,9 +175,9 @@ export default function ContactFormModal({
             </Button>
             <Button
               type="submit"
-              variant="warm"
+              variant="default"
               disabled={isSubmitting}
-              className="bg-canvas-warm text-text-primary hover:bg-[#ede7e1] hover:text-text-primary rounded-pill shadow-warm-lift border border-borderSubtle tracking-body font-medium transition-all hover:scale-105 active:scale-95 px-6"
+              className="bg-logo-blue text-white hover:bg-logo-blue/90 hover:text-white rounded-pill shadow-card border-0 tracking-body font-medium transition-all hover:scale-105 active:scale-95 px-6"
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 import About from "@/components/common/about";
-import { AIChatbotWidget } from "@/components/common/ai-chatbot-widget";
+// Temporarily disabled: Ask Me / AI assistant feature hidden from the home page.
+// import { AIChatbotWidget } from "@/components/common/ai-chatbot-widget";
 import Contact from "@/components/common/contact";
 import Footer from "@/components/common/footer";
 import Hero from "@/components/common/hero";
@@ -22,7 +23,8 @@ export default async function Home() {
       <ProjectsServer projects={projects} />
       <Contact />
       <Footer />
-      <AIChatbotWidget autoShow={true} showDelay={3000} />
+      {/* Temporarily disabled: Ask Me / AI assistant feature.
+      <AIChatbotWidget autoShow={true} showDelay={3000} /> */}
     </main>
   );
 }
