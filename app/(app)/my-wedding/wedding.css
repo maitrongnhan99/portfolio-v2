@@ -1,0 +1,16 @@
+.wed-root {
+  --wed-green: #1f3a25;
+  --wed-green-deep: #142a1b;
+  --wed-cream: #f7efe0;
+  --wed-cream-text: #e8f0e4;
+  --wed-ink: #1f3a25;
+  --wed-red: #b91c1c;
+  --wed-gold: #c9a227;
+
+  background: var(--wed-cream);
+  color: var(--wed-ink);
+}
+
+.wed-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}

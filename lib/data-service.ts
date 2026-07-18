@@ -1,4 +1,8 @@
-import type { Project } from "./data-service-types";
+import {
+  normalizeGallery,
+  type GalleryImage,
+  type Project,
+} from "./data-service-types";
 import { projectsData } from "./projects-data";
 
 // Client-safe data service that only uses static data
@@ -9,6 +13,7 @@ export const getProjects = async (): Promise<Project[]> => {
   return Promise.resolve(
     projectsData.map((project) => ({
       ...project,
+      gallery: normalizeGallery(project.gallery),
       technologies: project.technologies || [],
       featured: false,
       status: "published" as const,
@@ -56,4 +61,4 @@ export const getDataSource = (): string => {
 };
 
 // Export types for use elsewhere
-export type { Project };
+export type { GalleryImage, Project };

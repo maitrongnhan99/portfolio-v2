@@ -147,6 +147,25 @@ export function sanitizeEmail(email: string): string {
   return email.toLowerCase().trim();
 }
 
+// Wedding RSVP validation schema
+export const rsvpSchema = z.object({
+  name: z.string().trim().min(1).max(80),
+  attending: z.enum(['yes', 'no']),
+  guests: z.number().int().min(1).max(20).default(1),
+  message: z.string().trim().max(500).optional(),
+});
+
+export type RsvpInput = z.infer<typeof rsvpSchema>;
+
+// Wedding guest wish validation schema
+export const wishSchema = z.object({
+  name: z.string().trim().min(1).max(80),
+  message: z.string().trim().min(1).max(500),
+  avatar: z.string().max(8).optional(),
+});
+
+export type WishInput = z.infer<typeof wishSchema>;
+
 // Input length limits
 export const INPUT_LIMITS = {
   MESSAGE_MIN: 1,

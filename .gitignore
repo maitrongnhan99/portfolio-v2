@@ -34,3 +34,6 @@ coverage/
 .env
 
 .playwright-mcp/
+
+# wedding photo originals (preserved locally, not committed)
+public/wedding/_originals/

@@ -276,6 +276,95 @@ export default buildConfig({
       ],
     },
 
+    // RSVPs Collection for Wedding Card
+    {
+      slug: "rsvps",
+      admin: {
+        group: "Wedding",
+        useAsTitle: "name",
+        defaultColumns: ["name", "attending", "guests", "createdAt"],
+      },
+      access: {
+        create: () => true, // Public guests can submit
+        read: ({ req: { user } }) => !!user, // Only authenticated admins can read
+        update: ({ req: { user } }) => user?.role === "admin",
+        delete: ({ req: { user } }) => user?.role === "admin",
+      },
+      fields: [
+        {
+          name: "name",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "attending",
+          type: "select",
+          required: true,
+          options: [
+            { label: "Sẽ tham dự", value: "yes" },
+            { label: "Không thể tham dự", value: "no" },
+          ],
+        },
+        {
+          name: "guests",
+          type: "number",
+          defaultValue: 1,
+          admin: {
+            description: "Số lượng khách đi cùng",
+          },
+        },
+        {
+          name: "message",
+          type: "textarea",
+        },
+      ],
+    },
+
+    // Wishes Collection for Wedding Card
+    {
+      slug: "wishes",
+      admin: {
+        group: "Wedding",
+        useAsTitle: "name",
+        defaultColumns: ["name", "approved", "createdAt"],
+      },
+      access: {
+        create: () => true, // Public guests can submit
+        read: ({ req: { user } }) =>
+          user ? true : { approved: { equals: true } }, // Public sees ONLY approved; admins see all
+        update: ({ req: { user } }) => user?.role === "admin",
+        delete: ({ req: { user } }) => user?.role === "admin",
+      },
+      fields: [
+        {
+          name: "name",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "message",
+          type: "textarea",
+          required: true,
+        },
+        {
+          name: "avatar",
+          type: "text",
+          admin: {
+            description: "Emoji hoặc ký tự đại diện (tùy chọn)",
+          },
+        },
+        {
+          name: "approved",
+          type: "checkbox",
+          defaultValue: false,
+          admin: {
+            position: "sidebar",
+            description: "Chỉ lời chúc đã duyệt mới hiển thị công khai",
+          },
+        },
+      ],
+    },
+
     // Media Collection with Cloud Storage
     {
       slug: "media",

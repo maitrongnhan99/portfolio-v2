@@ -68,6 +68,8 @@ export interface Config {
   blocks: {};
   collections: {
     projects: Project;
+    rsvps: Rsvp;
+    wishes: Wish;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    rsvps: RsvpsSelect<false> | RsvpsSelect<true>;
+    wishes: WishesSelect<false> | WishesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -371,6 +375,41 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rsvps".
+ */
+export interface Rsvp {
+  id: number;
+  name: string;
+  attending: 'yes' | 'no';
+  /**
+   * Số lượng khách đi cùng
+   */
+  guests?: number | null;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishes".
+ */
+export interface Wish {
+  id: number;
+  name: string;
+  message: string;
+  /**
+   * Emoji hoặc ký tự đại diện (tùy chọn)
+   */
+  avatar?: string | null;
+  /**
+   * Chỉ lời chúc đã duyệt mới hiển thị công khai
+   */
+  approved?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -396,6 +435,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'rsvps';
+        value: number | Rsvp;
+      } | null)
+    | ({
+        relationTo: 'wishes';
+        value: number | Wish;
       } | null)
     | ({
         relationTo: 'media';
@@ -492,6 +539,30 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rsvps_select".
+ */
+export interface RsvpsSelect<T extends boolean = true> {
+  name?: T;
+  attending?: T;
+  guests?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishes_select".
+ */
+export interface WishesSelect<T extends boolean = true> {
+  name?: T;
+  message?: T;
+  avatar?: T;
+  approved?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
