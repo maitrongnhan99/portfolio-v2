@@ -10,7 +10,7 @@ interface CountdownCellProps {
 
 function CountdownCell({ value, label }: CountdownCellProps) {
   return (
-    <div className="flex min-w-[64px] flex-col items-center gap-1 border border-[var(--wed-gold)]/50 bg-[var(--wed-cream)] px-3 py-3 sm:min-w-[80px] sm:px-4 sm:py-4">
+    <div className="flex min-w-[64px] flex-col items-center gap-1 rounded-2xl border border-[var(--wed-gold)]/50 bg-[var(--wed-cream)] px-3 py-3 sm:min-w-[80px] sm:px-4 sm:py-4">
       <span className="wed-display text-3xl leading-none text-[var(--wed-ink)] sm:text-4xl">
         {String(value).padStart(2, "0")}
       </span>

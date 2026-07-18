@@ -10,13 +10,15 @@
 
 ## Context
 
-`/my-wedding` is a **portfolio showcase piece** (design/front-end craft demo), not a live wedding card. It clones the *design language* of `chungdoi.com/vi/mau-thiep/song-hy-xanh/demo` — deep-green + cream palette, double-happiness (囍) motif, arch-framed hero, editorial serif type, section-by-section reveal — using the couple's own photos already dropped in `/public/wedding/`. Content is Vietnamese, stored as placeholder data in `data.ts`. RSVP and guestbook are self-contained (seeded + in-memory; reset on reload). Approved design spec: `docs/superpowers/specs/2026-07-15-my-wedding-design.md`.
+`/my-wedding` is the couple's **real wedding invitation** that real guests will use. It clones the *design language* of `chungdoi.com/vi/mau-thiep/song-hy-xanh/demo` — deep-green + cream palette, double-happiness (囍) motif, arch-framed hero, editorial serif type, section-by-section reveal — using the couple's own photos in `/public/wedding/`. Content is Vietnamese, stored in `data.ts` (real details supplied by the user; placeholders remain editable). RSVP + guestbook **persist** via Payload CMS + Vercel Postgres. Approved design spec: `docs/superpowers/specs/2026-07-15-my-wedding-design.md`.
+
+> **REVISION (2026-07-15):** Originally scoped as a demo with in-memory RSVP/guestbook. Reclassified mid-build (after Task 11) as a real card. Tasks 1–11 are unaffected. This adds backend Tasks B1–B2 (Payload collections + API routes) and revises Tasks 12 & 14 to persist. See the "Plan Revision" section at the end.
 
 ## Global Constraints
 
 - **Route:** `app/(app)/my-wedding/` (inside the `(app)` route group). Private components in `_components/` (underscore = non-route). Pure utils in `app/(app)/my-wedding/lib/`.
 - **Language:** Vietnamese only, hard-coded in `data.ts`. No i18n framework.
-- **No backend:** no API routes, no Payload collections, no DB, no persistence. Guestbook/RSVP are in-memory (`useState`), guestbook seeds from `data.ts`.
+- **Persistence (revised):** RSVP + guestbook persist via Payload CMS + Vercel Postgres. Two collections in `payload.config.ts`: `rsvps` (public create, admin-only read) and `wishes` (public create; public read returns only `approved` records — moderation). Public API routes under `app/(app)/api/wedding/*` mediate access (zod-validated, graceful when `PAYLOAD_ENABLED` is off). No fake seeded wishes — the wall starts from real, approved submissions.
 - **Colors (route-scoped CSS vars, never the portfolio's theme tokens):** `--wed-green:#1F3A25`, `--wed-green-deep:#142A1B`, `--wed-cream:#F7EFE0`, `--wed-cream-text:#E8F0E4`, `--wed-ink:#1F3A25`, `--wed-red:#B91C1C`, `--wed-gold:#C9A227`. Do NOT rely on `next-themes` (page must look identical in light/dark).
 - **Fonts:** Cormorant Garamond (display/names/headings) via `next/font/google` → `--font-cormorant`; existing Inter for small-caps tracked labels/body.
 - **Motion:** animate only `transform`/`opacity`; every reveal/scroll animation respects `prefers-reduced-motion` (via framer-motion `useReducedMotion`).
@@ -964,3 +966,44 @@ git commit -m "chore: polish /my-wedding visuals and pass verification"
 
 - After approval, copy this plan to `docs/superpowers/plans/2026-07-15-my-wedding.md` and commit (plan-mode restricts edits to this file only during planning).
 - All placeholder content (names, parents, addresses, photos) lives in `data.ts` for easy later swap.
+
+---
+
+## Plan Revision (2026-07-15): Real card + Payload persistence
+
+Adds backend Tasks B1–B2 and revises Tasks 12 & 14. Patterns confirmed from the repo:
+- Payload instance: `import config from "@payload-config"; import { getPayload } from "payload";` then `const payload = await getPayload({ config });` (see `lib/data-service-server.ts`).
+- Gating: `process.env.PAYLOAD_ENABLED === "true"`. Writes have NO static fallback → return 503 when disabled.
+- Access returning a WHERE constraint is valid Payload (not yet used here): `read: ({ req: { user } }) => user ? true : { approved: { equals: true } }`.
+- Collections are inline in `payload.config.ts` (mirror the `projects`/`media` blocks). `users` has `role` select; admin check is `user?.role === "admin"`.
+- API routes under `app/(app)/api/*`; envelope `{ success: true, ... }` / `{ error }` with 400/500 (add 503). zod v4 available; add schemas to `lib/validation.ts` and `safeParse` the body.
+- Regenerate types: `pnpm payload generate:types` (may need `PAYLOAD_SECRET` env of ≥32 chars set inline; does not need a live DB for type-gen).
+
+### Task B1: Payload collections `rsvps` + `wishes`
+**Files:** Modify `payload.config.ts`; regenerate `payload-types.ts`.
+- `rsvps`: `admin: { group: "Wedding", useAsTitle: "name", defaultColumns: ["name","attending","guests","createdAt"] }`; fields: `name` text required, `attending` select required `[{label:"Sẽ tham dự",value:"yes"},{label:"Không thể tham dự",value:"no"}]`, `guests` number defaultValue 1, `message` textarea. Access: `create: () => true`, `read: ({req:{user}}) => !!user`, `update`/`delete`: `user?.role === "admin"` (or `!!user`). Payload adds `createdAt`/`updatedAt` automatically.
+- `wishes`: `admin: { group: "Wedding", useAsTitle: "name", defaultColumns: ["name","approved","createdAt"] }`; fields: `name` text required, `message` textarea required, `avatar` text (emoji, optional), `approved` checkbox defaultValue false (admin description: "Chỉ lời chúc đã duyệt mới hiển thị công khai"). Access: `create: () => true`, `read: ({req:{user}}) => user ? true : { approved: { equals: true } }`, `update`/`delete` admin.
+- **Verify:** `PAYLOAD_SECRET=<32+ dummy> pnpm payload generate:types` succeeds and `payload-types.ts` now contains `Rsvp`/`Wish` (or `Rsvps`/`Wishes`); `pnpm type-check` clean. No unit test for the collection config (consistent with `projects`, which has none).
+
+### Task B2: Validation schemas + wedding API routes
+**Files:** Modify `lib/validation.ts`; Create `app/(app)/api/wedding/rsvp/route.ts`, `app/(app)/api/wedding/wishes/route.ts`; Test `tests/my-wedding/wedding-api.test.ts` (or under `tests/api/`).
+- `lib/validation.ts`: `rsvpSchema = z.object({ name: z.string().trim().min(1).max(80), attending: z.enum(["yes","no"]), guests: z.number().int().min(1).max(20).default(1), message: z.string().trim().max(500).optional() })`; `wishSchema = z.object({ name: z.string().trim().min(1).max(80), message: z.string().trim().min(1).max(500), avatar: z.string().max(8).optional() })`. Export inferred types.
+- `rsvp/route.ts` `POST`: `safeParse` body → 400 on failure; if `PAYLOAD_ENABLED !== "true"` → 503 `{ error: "..." }`; else `getPayload({config})` → `payload.create({ collection: "rsvps", data })` → `{ success: true }`. try/catch → 500.
+- `wishes/route.ts`: `GET` → if disabled return `{ wishes: [] }`; else `payload.find({ collection: "wishes", where: { approved: { equals: true } }, sort: "-createdAt", limit: 100 })` → `{ wishes: [...] }` (map to `{id,name,message,avatar,createdAt}`). `POST` → validate → 503 if disabled → `payload.create({ collection: "wishes", data: { ...parsed, approved: false } })` → `{ success: true }`.
+- **Tests (mock Payload):** `vi.mock("payload", () => ({ getPayload: vi.fn() }))` and mock `@payload-config`; assert: POST rsvp 400 on invalid body; 503 when `PAYLOAD_ENABLED` unset; calls `payload.create` with parsed data when enabled; GET wishes returns approved list; POST wish forces `approved:false`. Toggle `process.env.PAYLOAD_ENABLED` per test.
+
+### Task 12R (revises Task 12): RSVP modal persists
+**Files:** Modify `app/(app)/my-wedding/_components/rsvp-modal.tsx`; update `tests/my-wedding/rsvp-modal.test.tsx`.
+- On submit: `setSubmitting(true)`, `POST /api/wedding/rsvp` with the form body; on `res.ok` → success toast ("Cảm ơn bạn đã xác nhận!") + `onOpenChange(false)`; on failure → error toast, keep open; always clear submitting. Disable submit while submitting or name empty.
+- Test: mock `fetch` (`global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({success:true}) })`); assert POST called with the entered data; success toast + close; and an error path (`ok:false`) shows error toast and does NOT close.
+
+### Task 14R (revises Task 14): Guestbook persists
+**Files:** Create `app/(app)/my-wedding/_components/guestbook.tsx`; update `data.ts` (remove fake seeded `wishes`); Test `tests/my-wedding/guestbook.test.tsx`.
+- Client component. On mount `GET /api/wedding/wishes` → render approved wishes (loading + empty states). Submit form (name, message, avatar/emoji) → `POST /api/wedding/wishes` → on success toast "Cảm ơn! Lời chúc của bạn đang chờ được duyệt." and clear the form (new wish does NOT appear until admin approves). Submit disabled until name+message non-empty.
+- `data.ts`: remove the seeded `wishes` array (real wall starts from approved submissions). Keep the `Wish` type. `lib/wishes.ts` `prependWish`/`makeWish` may be dropped if unused (check imports first).
+- Test: mock `fetch` for GET (return two approved wishes → both render) and POST (success → toast + form cleared). Add matchMedia mock if needed.
+
+### Tasks 13, 15, 16 (as originally planned, with these deltas)
+- **13** (Venue/DressCode/Timeline): unchanged.
+- **15** (composition): render `ReceptionInfo` and `Guestbook` inside the `"use client"` `WeddingContent` wrapper (both need client context — `ReceptionInfo` has an onClick, `Guestbook` fetches). Wire RSVP modal open state. Also fix the Task-6 minor: ensure the faded-out cover doesn't block clicks (add `pointer-events-none` once opened).
+- **16** (verification): additionally run the API tests; document required env (`PAYLOAD_ENABLED=true`, `POSTGRES_URL`, `PAYLOAD_SECRET`) for the RSVP/guestbook to work in production; and a final **content task** — swap the real wedding details into `data.ts` once the user provides them.

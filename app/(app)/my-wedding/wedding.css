@@ -7,7 +7,6 @@
   --wed-red: #b91c1c;
   --wed-gold: #c9a227;
 
-  min-height: 100vh;
   background: var(--wed-cream);
   color: var(--wed-ink);
 }

@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { weddingData } from "./data";
+import WeddingExperience from "./_components/wedding-experience";
+import { resolveWeddingSide } from "./lib/wedding-date";
 
 export const metadata: Metadata = {
-  title: "Hải Nam & Khánh Linh — Thiệp Cưới",
+  title: "Trọng Nhân & Yến Linh — Thiệp Cưới",
 };
 
-export default function WeddingPage() {
+export default async function WeddingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ at?: string | string[] }>;
+}) {
+  const { at } = await searchParams;
+  const side = resolveWeddingSide(at);
+
   return (
     <main data-testid="wedding-page">
-      {/* Temporary placeholder — later tasks replace this body with the
-          full section composition (CoverGate, hero, timeline, etc.). */}
-      <h1 className="wed-display">{weddingData.couple.combined}</h1>
+      <WeddingExperience side={side} />
     </main>
   );
 }

@@ -2,7 +2,11 @@ import config from "@payload-config";
 import { getPayload } from "payload";
 import { cache } from "react";
 import "server-only";
-import type { Project } from "./data-service-types";
+import {
+  normalizeGallery,
+  type GalleryImage,
+  type Project,
+} from "./data-service-types";
 import { projectsData } from "./projects-data";
 
 // Check if Payload CMS is enabled and available
@@ -76,7 +80,14 @@ const getProjectsFromPayload = async (): Promise<Project[]> => {
       date: doc.date,
       liveUrl: doc.liveUrl,
       githubUrl: doc.githubUrl,
-      gallery: doc.gallery?.map((item: any) => getImageUrl(item.image)) || [],
+      gallery:
+        doc.gallery?.map(
+          (item: any): GalleryImage => ({
+            src: getImageUrl(item.image),
+            caption: item.caption ?? undefined,
+            alt: item.caption ?? undefined,
+          })
+        ) ?? [],
       featured: doc.featured || false,
       status: doc.status,
     }));
@@ -90,6 +101,7 @@ const getProjectsFromStatic = (): Promise<Project[]> => {
   return Promise.resolve(
     projectsData.map((project) => ({
       ...project,
+      gallery: normalizeGallery(project.gallery),
       technologies: project.technologies || [],
       featured: false,
       status: "published" as const,
@@ -181,4 +193,4 @@ export const checkPayloadHealth = async (): Promise<{
   }
 };
 
-export type { Project };
+export type { GalleryImage, Project };

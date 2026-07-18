@@ -3,53 +3,53 @@ import type { WeddingData } from "./types";
 export const weddingData: WeddingData = {
   couple: {
     groom: {
-      name: "Võ Hải Nam",
+      name: "Mai Trọng Nhân",
       role: "Trưởng Nam",
     },
     bride: {
-      name: "Huỳnh Khánh Linh",
-      role: "Út Nữ",
+      name: "Trương Ngọc Yến Linh",
+      role: "Trưởng Nữ",
     },
-    combined: "Hải Nam & Khánh Linh",
+    combined: "Trọng Nhân & Yến Linh",
   },
   parents: {
     groom: {
       side: "Nhà Trai",
-      father: "Ông Võ Thành Trung",
-      mother: "Bà Nguyễn Thị Hạnh",
-      address: "142 Đường Trần Hưng Đạo, Phường Cẩm Phô, TP. Hội An, Quảng Nam",
+      father: "Mai Thanh Phong",
+      mother: "Lê Ngọc Bích Thuỷ",
+      address: "Ấp Bình Linh, xã Mỹ Hiệp, tỉnh Đồng Tháp",
     },
     bride: {
       side: "Nhà Gái",
-      father: "Ông Huỳnh Minh Đức",
-      mother: "Bà Lê Thị Ngọc Ánh",
-      address: "27 Đường Nguyễn Huệ, Phường Vĩnh Ninh, TP. Huế, Thừa Thiên Huế",
+      mother: "Nguyễn Thị Trúc Hương",
+      address: "Ấp 03, xã Mỹ Hiệp, tỉnh Đồng Tháp",
     },
   },
   cover: {
-    date: "30 . 07 . 2026",
+    date: "28 tháng 7, 2026",
     invite: "Trân trọng kính mời",
   },
   event: {
-    datetime: "2026-07-30T18:00:00+07:00",
-    timeLabel: "18:00, Thứ Năm",
+    datetime: "2026-07-28T09:00:00+07:00",
+    timeLabel: "09:00, Thứ Ba",
+    ceremonyTime: "09:00",
     dateBlock: {
-      weekday: "Thứ Năm",
-      day: "30",
+      weekday: "Thứ Ba",
+      day: "28",
       month: "07",
       year: "2026",
-      lunar: "Nhằm ngày 17 tháng 6 năm Bính Ngọ",
+      lunar: "Nhằm ngày 15 tháng 6 năm Bính Ngọ",
     },
-    ceremonyVenue: "Tư gia nhà trai, 142 Trần Hưng Đạo, Hội An",
+    ceremonyVenue: "Tư Gia",
   },
   reception: {
     venueName: "Gala Center",
-    address: "88 Đường Võ Nguyên Giáp, Phường Ngũ Hành Sơn, TP. Đà Nẵng",
-    mapQuery: "Gala Center 88 Vo Nguyen Giap Da Nang",
+    address: "415 Hoàng Văn Thụ, Phường 2, Tân Bình, Hồ Chí Minh",
+    mapQuery: "Gala Center 415 Hoang Van Thu Tan Binh Ho Chi Minh",
   },
   hero: {
-    src: "/wedding/gallery-3.jpg",
-    alt: "Cô dâu và chú rể cười rạng rỡ trong buổi chụp ảnh cưới ngoại cảnh",
+    src: "/wedding/hero.jpg",
+    alt: "Cô dâu và chú rể bên nhau trên bậc thang đá giữa vườn hoa giấy trắng",
   },
   portraits: {
     groom: {
@@ -63,8 +63,8 @@ export const weddingData: WeddingData = {
   },
   gallery: [
     {
-      src: "/wedding/gallery-1.jpg",
-      alt: "Cô dâu chú rể nắm tay nhau dạo bước trên bãi biển lúc hoàng hôn",
+      src: "/wedding/gallery-1-v2.jpg",
+      alt: "Cô dâu chú rể nắm tay nhau dạo bước trên thảm cỏ xanh trước bậc thềm đá",
       wide: true,
     },
     {
@@ -87,6 +87,10 @@ export const weddingData: WeddingData = {
       src: "/wedding/gallery-6.jpg",
       alt: "Cận cảnh nhẫn cưới và đôi tay cô dâu chú rể",
     },
+    {
+      src: "/wedding/gallery-7.png",
+      alt: "Cô dâu chú rể đeo kính râm tạo dáng bên tháp ly champagne trong tiệc cưới sang trọng",
+    },
   ],
   dressCode: {
     note: "Thân mời quý khách đồng hành cùng gam màu chủ đạo của buổi tiệc",
@@ -99,6 +103,23 @@ export const weddingData: WeddingData = {
     { time: "19:00", label: "Phục vụ món chính" },
     { time: "21:00", label: "Kết thúc tiệc" },
   ],
+  gift: {
+    note: "Sự hiện diện của quý khách là niềm vinh hạnh của gia đình chúng tôi!",
+    groom: {
+      bank: "Techcombank",
+      bankCode: "TCB",
+      accountNumber: "1903 6621 5390 14",
+      accountName: "MAI TRONG NHAN",
+      qrImage: "/wedding/qr-groom.png",
+    },
+    bride: {
+      bank: "Techcombank",
+      bankCode: "TCB",
+      accountNumber: "1903 6560 8440 13",
+      accountName: "TRUONG NGOC YEN LINH",
+      qrImage: "/wedding/qr-bride.png",
+    },
+  },
   wishes: [
     {
       id: "wish-001",

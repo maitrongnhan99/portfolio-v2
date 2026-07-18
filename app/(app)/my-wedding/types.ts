@@ -5,7 +5,7 @@ export interface Person {
 
 export interface Parents {
   side: string;
-  father: string;
+  father?: string;
   mother: string;
   address: string;
 }
@@ -29,6 +29,14 @@ export interface Wish {
   createdAt: string;
 }
 
+export interface GiftAccount {
+  bank: string; // display name, e.g. "Vietcombank"
+  bankCode: string; // VietQR bank code, e.g. "VCB"
+  accountNumber: string;
+  accountName: string; // unaccented uppercase holder name
+  qrImage?: string; // optional pre-generated QR image; overrides the VietQR URL
+}
+
 export interface WeddingData {
   couple: {
     groom: Person;
@@ -46,6 +54,7 @@ export interface WeddingData {
   event: {
     datetime: string;
     timeLabel: string;
+    ceremonyTime: string;
     dateBlock: {
       weekday: string;
       day: string;
@@ -75,4 +84,9 @@ export interface WeddingData {
   };
   timeline: TimelineItem[];
   wishes: Wish[];
+  gift: {
+    note: string;
+    groom: GiftAccount;
+    bride: GiftAccount;
+  };
 }

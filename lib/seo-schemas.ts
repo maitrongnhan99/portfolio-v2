@@ -282,9 +282,10 @@ function mapCategoryToApplicationCategory(category: string): string {
 export function generateProjectPageSchema(project: any): ProjectPageSchema {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://maitrongnhan.com';
   
-  const screenshots = project.gallery?.map((img: string) => 
-    img.startsWith('http') ? img : `${baseUrl}${img}`
-  ) || [];
+  const screenshots = project.gallery?.map((img: any) => {
+    const src = typeof img === "string" ? img : (img.src ?? "");
+    return src.startsWith("http") ? src : `${baseUrl}${src}`;
+  }) || [];
   
   // Add main image as first screenshot if not in gallery
   if (project.image && !screenshots.includes(`${baseUrl}${project.image}`)) {

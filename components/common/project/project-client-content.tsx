@@ -1,16 +1,13 @@
 "use client";
 
-import { ProjectGallery } from "@/components/common/project/project-gallery";
+import { ProjectHero } from "./project-hero";
+import { ProjectShowcaseGallery } from "./project-showcase-gallery";
 import { ProjectSidebar } from "@/components/common/project/project-sidebar";
 import ScrollReveal from "@/components/common/scroll-reveal";
-import { TechnologyBadges } from "@/components/common/technology-badges";
-import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { ArrowLeftIcon } from "@phosphor-icons/react";
-import { Container } from "@/components/ui/container";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import type { FC } from "react";
 
 interface ProjectClientContentProps {
@@ -21,45 +18,15 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
   return (
     <main
       data-testid="project-page"
-      className="min-h-screen bg-canvas-white text-text-primary relative pt-20 pb-16"
+      className="min-h-screen bg-canvas-white text-text-primary"
     >
-      <Container className="relative z-10">
-        <div className="mb-8">
-          <Button
-            data-testid="project-back-button"
-            variant="ghost"
-            size="sm"
-            asChild
-            className="mb-6 rounded-pill border border-borderLight bg-canvas-white hover:bg-canvas-light"
-          >
-            <Link
-              href="/#projects"
-              className="flex items-center gap-2 text-text-secondary hover:text-text-primary"
-            >
-              <ArrowLeftIcon className="h-4 w-4" />
-              Back to Projects
-            </Link>
-          </Button>
+      <ProjectHero project={project} />
+      <ProjectShowcaseGallery
+        gallery={project.gallery ?? []}
+        projectTitle={project.title}
+      />
 
-          <motion.h1
-            data-testid="project-title"
-            className="text-display-section md:text-4xl font-light mb-4 text-text-primary"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {project.title}
-          </motion.h1>
-
-          <TechnologyBadges
-            technologies={project.technologies}
-            variant="secondary"
-            className="mb-6"
-            animated
-            testId="project-tech-badges"
-          />
-        </div>
-
+      <Container className="relative z-10 py-10">
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
             <ScrollReveal delay={0.1}>
@@ -91,11 +58,6 @@ const ProjectClientContent: FC<ProjectClientContentProps> = ({ project }) => {
                     )}
                   </div>
                 </div>
-
-                <ProjectGallery
-                  gallery={project.gallery}
-                  projectTitle={project.title}
-                />
 
                 {project.features && (
                   <div

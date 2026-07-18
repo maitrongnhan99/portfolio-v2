@@ -26,10 +26,10 @@ export const projectsData = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/project",
     gallery: [
-      "/placeholder.svg?height=300&width=600&text=Course+Overview",
-      "/placeholder.svg?height=300&width=600&text=API+Integration",
-      "/placeholder.svg?height=300&width=600&text=Authentication+Flow",
-      "/placeholder.svg?height=300&width=600&text=Final+Application",
+      { src: "/placeholder.svg?height=300&width=600&text=Course+Overview",    caption: "Course overview — project goals and learning outcomes" },
+      { src: "/placeholder.svg?height=300&width=600&text=API+Integration",    caption: "Spotify API integration and data flow architecture" },
+      { src: "/placeholder.svg?height=300&width=600&text=Authentication+Flow", caption: "OAuth authentication and secure token exchange" },
+      { src: "/placeholder.svg?height=300&width=600&text=Final+Application",  caption: "Final application with full playlist and listening-history views" },
     ],
     relatedProjects: [
       {
@@ -66,10 +66,10 @@ export const projectsData = [
     githubUrl: "https://github.com/yourusername/project",
     stars: 676,
     gallery: [
-      "/placeholder.svg?height=300&width=600&text=Dashboard",
-      "/placeholder.svg?height=300&width=600&text=Artist+View",
-      "/placeholder.svg?height=300&width=600&text=Track+Analysis",
-      "/placeholder.svg?height=300&width=600&text=Playlist+Generator",
+      { src: "/placeholder.svg?height=300&width=600&text=Dashboard",           caption: "Personalized listening dashboard with key stats" },
+      { src: "/placeholder.svg?height=300&width=600&text=Artist+View",         caption: "Top artists breakdown across short, medium, and long terms" },
+      { src: "/placeholder.svg?height=300&width=600&text=Track+Analysis",      caption: "Audio-feature analysis — energy, danceability, valence" },
+      { src: "/placeholder.svg?height=300&width=600&text=Playlist+Generator",  caption: "AI-powered playlist generator from listening habits" },
     ],
     relatedProjects: [
       {
@@ -105,10 +105,10 @@ export const projectsData = [
     githubUrl: "https://github.com/yourusername/project",
     downloads: 100000,
     gallery: [
-      "/placeholder.svg?height=300&width=600&text=VS+Code+Preview",
-      "/placeholder.svg?height=300&width=600&text=Sublime+Text+Preview",
-      "/placeholder.svg?height=300&width=600&text=Atom+Preview",
-      "/placeholder.svg?height=300&width=600&text=iTerm+Preview",
+      { src: "/placeholder.svg?height=300&width=600&text=VS+Code+Preview",     caption: "Halcyon theme in VS Code with JavaScript syntax" },
+      { src: "/placeholder.svg?height=300&width=600&text=Sublime+Text+Preview", caption: "Halcyon theme in Sublime Text with Python syntax" },
+      { src: "/placeholder.svg?height=300&width=600&text=Atom+Preview",        caption: "Halcyon theme in Atom with CSS syntax" },
+      { src: "/placeholder.svg?height=300&width=600&text=iTerm+Preview",       caption: "iTerm2 color preset — dark blue, minimal contrast" },
     ],
   },
   {
@@ -136,10 +136,10 @@ export const projectsData = [
     githubUrl: "https://github.com/yourusername/project",
     stars: 7811,
     gallery: [
-      "/placeholder.svg?height=300&width=600&text=Home+Page",
-      "/placeholder.svg?height=300&width=600&text=Projects+Section",
-      "/placeholder.svg?height=300&width=600&text=About+Section",
-      "/placeholder.svg?height=300&width=600&text=Contact+Form",
+      { src: "/placeholder.svg?height=300&width=600&text=Home+Page",       caption: "Home page hero with animated introductions" },
+      { src: "/placeholder.svg?height=300&width=600&text=Projects+Section", caption: "Projects section with card grid and live/GitHub links" },
+      { src: "/placeholder.svg?height=300&width=600&text=About+Section",    caption: "About section with skills and experience timeline" },
+      { src: "/placeholder.svg?height=300&width=600&text=Contact+Form",     caption: "Contact section with validated form and social links" },
     ],
   },
 ]

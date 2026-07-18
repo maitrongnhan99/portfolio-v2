@@ -15,6 +15,8 @@ export default function WeddingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={cn(cormorant.variable, "wed-root")}>{children}</div>
+    <div className={cn(cormorant.variable, "wed-root", "min-h-screen")}>
+      {children}
+    </div>
   );
 }

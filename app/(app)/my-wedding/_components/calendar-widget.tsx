@@ -48,7 +48,7 @@ export function CalendarWidget({
   const weeks = buildWeeks(year, month);
 
   return (
-    <div className="w-full max-w-xs border border-[var(--wed-gold)]/40 bg-[var(--wed-cream)] p-4 sm:p-5">
+    <div className="w-full max-w-xs rounded-2xl border border-[var(--wed-gold)]/40 bg-[var(--wed-cream)] p-4 sm:p-5">
       <div className="mb-3 grid grid-cols-7 gap-1">
         {WEEKDAY_LABELS.map((label) => (
           <span
