@@ -37,7 +37,7 @@ export async function generateMetadata({
   }
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://maitrongnhan.com";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://maitrongnhan.dev";
 
   return {
     title: `${project.title} - Mai Trọng Nhân Portfolio`,

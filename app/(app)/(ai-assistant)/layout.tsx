@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://maitrongnhan.com/ask-me",
+    url: "https://maitrongnhan.dev/ask-me",
     title: "Ask Me Anything - Mai Trọng Nhân",
     description:
       "AI Assistant to learn about Mai Trọng Nhân's background, skills, and experience",

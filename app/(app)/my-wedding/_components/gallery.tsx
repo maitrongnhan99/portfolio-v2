@@ -43,7 +43,7 @@ export default function Gallery() {
             type="button"
             onClick={() => setActive(index)}
             className={`group relative aspect-square overflow-hidden rounded-2xl border border-[var(--wed-gold)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--wed-gold)] ${
-              photo.wide ? "md:col-span-2" : ""
+              photo.wide ? "col-span-2" : ""
             }`}
           >
             <Image
@@ -52,7 +52,11 @@ export default function Gallery() {
               width={600}
               height={600}
               loading="lazy"
-              sizes="(max-width: 768px) 50vw, 33vw"
+              sizes={
+                photo.wide
+                  ? "(max-width: 768px) 100vw, 768px"
+                  : "(max-width: 768px) 50vw, 33vw"
+              }
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </button>

@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://maitrongnhan.com"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://maitrongnhan.dev"
   ),
   title: "Mai Trọng Nhân Portfolio",
   description:
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://maitrongnhan.com",
+    url: "https://maitrongnhan.dev",
     title: "Mai Trọng Nhân Portfolio",
     description:
       "Portfolio website showcasing my skills and projects as an AI Applied Engineer",
